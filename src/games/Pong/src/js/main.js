@@ -1,38 +1,14 @@
-import Paddel from "./gameAssets/Paddle.js";
+import Game from "../../../static/Game.js";
+import Ball from "./gameAssets/Ball.js";
+import Paddle from "./gameAssets/Paddle.js";
 
-var lastTime;
+window.onload = () => {
+    let canvas = document.getElementById("game-screen");
+    var game = new Game(canvas);
 
-var canvas;
+    game.addObject( new Paddle(canvas.width * 0.05, canvas.height/2));
+    game.addObject( new Paddle(canvas.width * 0.95, canvas.height/2));
+    game.addObject( new Ball(canvas.width/2, canvas.height/2));
 
-var paddel;
-
-window.onload = function() {
-    canvas = document.getElementById('game-screen');
-    resizeCanvas();
-    paddel = new Paddel(canvas.width / 15, canvas.height / 2);
-    paddel.init(canvas);
-    canvas.addEventListener("mousemove", function(event) {paddel.setY(event.offsetY);});
-    lastTime = Date.now();
-
-    gameLoop();
-}
-
-window.onresize = resizeCanvas;
-
-function resizeCanvas() {
-    canvas.width = canvas.getBoundingClientRect().width;
-    canvas.height = canvas.getBoundingClientRect().height;
-}
-
-function gameLoop() {
-    let now = Date.now();
-    let dt = now - lastTime;
-    lastTime = now;
-
-    let ctx = canvas.getContext("2d");
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    paddel.render(ctx);
-    
-    window.requestAnimationFrame(gameLoop);
+    game.start();
 }
