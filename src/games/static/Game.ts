@@ -2,32 +2,35 @@ import GameElement from "./GameElement.js";
 import CanvasElement from "./CanvasElement.js";
 
 export default class Game {
-    gameObjects = new Array();
+    gameObjects: GameElement[] = new Array();
 
-    started = false;
-    paused = false;
-    lastTime;
+    started: boolean;
+    paused: boolean;
+    lastTime: number;
 
-    canvasElement;
+    canvasElement: CanvasElement;
 
-    constructor(canvas) {
+    constructor(canvas: HTMLCanvasElement) {
         if(!canvas) {
             console.log("no Canvas!");
             this.canvasElement = new CanvasElement(document.createElement("canvas"));
         } 
         else this.canvasElement = new CanvasElement(canvas);
+
+        this.started = false;
+        this.paused = false;
     }
 
-    addObject(obj) {
+    addObject(obj: GameElement) {
         if(!this.gameObjects.includes(obj) && obj instanceof GameElement) {
             this.gameObjects.push(obj);
-            obj.init(this.canvasElement.canvas);
+            obj.init(this.canvasElement.getCanvas());
         }
             
 
     }
 
-    removeObject(obj) {
+    removeObject(obj: GameElement) {
         if(this.gameObjects.includes(obj)) {
             let index = this.gameObjects.indexOf(obj);
             this.gameObjects.splice(index, index+1);
@@ -38,7 +41,7 @@ export default class Game {
         this.started = true;
         this.paused = false;
         this.lastTime = Date.now();
-        this.loop(this);
+        this.loop();
     }
 
     stop() {

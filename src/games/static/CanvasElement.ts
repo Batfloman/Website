@@ -1,13 +1,14 @@
 export default class CanvasElement {
-    canvas;
+    canvas: HTMLCanvasElement;
 
-    width;
-    height;
+    width: number;
+    height: number;
 
-    constructor(canvas) {
+    constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
 
-        window.addEventListener("resize", this.resize());
+        this.resize();
+        window.addEventListener("resize", this.resize);
     }
 
     resize() {
@@ -21,5 +22,5 @@ export default class CanvasElement {
         ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
     }
 
-    get canvas() { return this.canvas;}
+    getCanvas() { return this.canvas;}
 }
