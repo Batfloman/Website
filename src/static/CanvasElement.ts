@@ -1,9 +1,6 @@
 export default class CanvasElement {
     canvas: HTMLCanvasElement;
 
-    width: number;
-    height: number;
-
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
 
@@ -18,6 +15,8 @@ export default class CanvasElement {
 
     clear() {
         let ctx = this.canvas.getContext("2d");
+        
+        if(ctx == null) return;
 
         ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
     }

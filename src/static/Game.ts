@@ -17,6 +17,7 @@ export default class Game {
         } 
         else this.canvasElement = new CanvasElement(canvas);
 
+        this.lastTime = Date.now();
         this.started = false;
         this.paused = false;
     }
