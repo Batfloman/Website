@@ -7,7 +7,7 @@ window.onload = function() {
             gameDiv.setAttribute("class", "game");
 
             let gameA = document.createElement("a");
-            gameA.setAttribute("href", `./src/games/${game}/index.html`);
+            gameA.setAttribute("href", `../../games/${game}/index.html`);
 
             let gameImg = document.createElement("img");
             gameImg.setAttribute("src", "");

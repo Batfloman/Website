@@ -1,9 +1,13 @@
-import Color from "../../../../static/Color.js";
-import GameElement from "../../../../static/GameElement.js";
+import Color from "../../../../../templates/Color.js";
+import GameElement from "../../../../../templates/GameElement.js";
 
 export default class Ball extends GameElement {
-    rotation;
-    
+    x;
+    y;
+
+    speedX = 0;
+    speedY = 0;
+
     constructor(x, y) {
         super();
 
@@ -11,19 +15,24 @@ export default class Ball extends GameElement {
         this.y = y;
 
         this.color = new Color(255, 255, 255);
-        this.rotation = Math.floor(Math.random()*4) * 90 + 45;
+
+        this.speedX = Math.round(Math.random()) == 1 ? -Math.ceil( Math.random() * 4) : Math.ceil( Math.random() * 4);
+        this.speedY = Math.round(Math.random()) == 1 ? -Math.ceil( Math.random() * 2) : Math.ceil( Math.random() * 2);
     }
 
     update(dt) { 
-        let moveX = Math.sin(this.rotation * (Math.PI/180)) * dt * .5;
-        let moveY = -Math.cos(this.rotation * (Math.PI/180)) * dt * .5;
-
+        if(this.y < 0 || this.y > this.game.getCanvas().height) this.speedY = -this.speedY;
+        
+        let moveX = this.speedX / dt * 10;
+        let moveY = this.speedY / dt * 10;
+        
         this.x += moveX;
         this.y += moveY;
     }
 
     render() {
-        let ctx = this.canvas.getContext("2d");
+        let canvas = this.game.getCanvas();
+        let ctx = canvas.getContext("2d");
         
         ctx.fillStyle = this.color.getRGBValue();
         ctx.strokeStyle = this.color.getRGBValue();
@@ -33,4 +42,10 @@ export default class Ball extends GameElement {
         ctx.arc(this.x, this.y, 10, 0, Math.PI * 2);
         ctx.fill();
     }
+
+    get x() { return this.x;}
+    get y() { return this.y;}
+
+    set x(x) { this.x = x;}
+    set y(y) { this.y = y;}
 }

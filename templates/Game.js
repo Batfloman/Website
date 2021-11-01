@@ -21,10 +21,8 @@ export default class Game {
     addObject(obj) {
         if(!this.gameObjects.includes(obj) && obj instanceof GameElement) {
             this.gameObjects.push(obj);
-            obj.init(this.canvasElement.canvas);
+            obj.init(this);
         }
-            
-
     }
 
     removeObject(obj) {
@@ -66,11 +64,21 @@ export default class Game {
             this.canvasElement.clear();
             
             this.gameObjects.forEach(obj => {
-                obj.update(dt);
+                if(dt > 0) obj.update(dt);
                 obj.render();
             })
         }
         
         window.requestAnimationFrame(() => this.loop());
+    }
+
+    getCanvas() { return this.canvasElement.canvas;}
+
+    findObjects(clas) {
+        let objects = new Array();
+        this.gameObjects.forEach(obj => {
+            if(obj instanceof clas) objects.push(obj); 
+        })
+        return objects;
     }
 }

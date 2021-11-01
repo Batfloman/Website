@@ -1,19 +1,35 @@
-import Color from "../../../../static/Color.js";
-import GameElement from "../../../../static/GameElement.js";
+import Color from "../../../../../templates/Color.js";
+import GameElement from "../../../../../templates/GameElement.js";
+import Ball from "./Ball.js";
 
 export default class Paddle extends GameElement {
-    constructor(x, y) {
+    
+    constructor(x, y, isBot) {
         super();
 
         this.x = x;
         this.y = y;
-        this.h = 80; 
         this.w = 20;
+        this.h = 100;
+
+        this.isBot = isBot == true;
+
         this.color = new Color(255, 255, 255);
     }
 
+    update(dt) {
+        if(!this.isBot) return;
+
+        let balls = this.game.findObjects(Ball);
+        let closestBall = balls[0];
+        
+        // TODO welcher ist der näheste Ball mit richtung zu mir
+
+    }
+
     render() {
-        let ctx = this.canvas.getContext("2d");
+        let canvas = this.game.getCanvas();
+        let ctx = canvas.getContext("2d");
 
         ctx.fillStyle = this.color.getRGBValue();
 
