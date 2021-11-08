@@ -18,13 +18,14 @@ export default class Paddle extends GameElement {
     }
 
     update(dt) {
-        if(!this.isBot) return;
-
-        let balls = this.game.findObjects(Ball);
-        let closestBall = balls[0];
-        
-        // TODO welcher ist der näheste Ball mit richtung zu mir
-
+        if(!this.isBot) {
+            
+        } else {
+            let balls = this.game.findObjects(Ball);
+            let closestBall = balls[0];
+            
+            // TODO welcher ist der näheste Ball mit richtung zu mir
+        }
     }
 
     render() {

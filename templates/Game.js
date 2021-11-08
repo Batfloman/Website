@@ -1,5 +1,6 @@
 import GameElement from "./GameElement.js";
 import CanvasElement from "./CanvasElement.js";
+import Input from "./Input.js";
 
 export default class Game {
     gameObjects = new Array();
@@ -9,13 +10,11 @@ export default class Game {
     lastTime;
 
     canvasElement;
+    input;
 
-    constructor(canvas) {
-        if(!canvas) {
-            console.log("no Canvas!");
-            this.canvasElement = new CanvasElement(document.createElement("canvas"));
-        } 
-        else this.canvasElement = new CanvasElement(canvas);
+    constructor(canvasElement, inputElement) {
+        this.input = inputElement;
+        this.canvasElement = canvasElement;
     }
 
     addObject(obj) {

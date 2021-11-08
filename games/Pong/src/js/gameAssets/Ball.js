@@ -2,6 +2,9 @@ import Color from "../../../../../templates/Color.js";
 import GameElement from "../../../../../templates/GameElement.js";
 
 export default class Ball extends GameElement {
+    startX;
+    startY;
+    
     x;
     y;
 
@@ -11,17 +14,25 @@ export default class Ball extends GameElement {
     constructor(x, y) {
         super();
 
-        this.x = x;
-        this.y = y;
+        this.startX = x;
+        this.startY = y;
 
         this.color = new Color(255, 255, 255);
 
-        this.speedX = Math.round(Math.random()) == 1 ? -Math.ceil( Math.random() * 4) : Math.ceil( Math.random() * 4);
+        this.reset();
+    }
+
+    reset() {
+        this.x = this.startX;
+        this.y = this.startY;
+
+        this.speedX = Math.round(Math.random()) == 1 ? -Math.ceil( Math.random() * 2) - 2 : Math.ceil( Math.random() * 2) + 2;
         this.speedY = Math.round(Math.random()) == 1 ? -Math.ceil( Math.random() * 2) : Math.ceil( Math.random() * 2);
     }
 
     update(dt) { 
         if(this.y < 0 || this.y > this.game.getCanvas().height) this.speedY = -this.speedY;
+        if(this.x < 0 || this.x > this.game.getCanvas().width) this.reset();
         
         let moveX = this.speedX / dt * 10;
         let moveY = this.speedY / dt * 10;
