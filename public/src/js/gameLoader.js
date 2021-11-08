@@ -1,4 +1,4 @@
-const games = ["4Gewinnt", "Auralux", "LandingSim", "Pong", "Rechnen", "Snake", "Tetris", "TicTacToe"];
+const games = ["4Gewinnt", "Auralux", "LandingSim", "Pong", "Rechnen", "Snake", "Tetris", "TicTacToe", "Chess"];
 
 window.onload = function() {
     games.forEach(

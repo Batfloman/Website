@@ -8,10 +8,12 @@ body {
 }
 
 .flex-box-container-1 {
-    width: 65%;
+    width: 100vmin;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .game {
