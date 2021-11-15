@@ -1,4 +1,4 @@
-import GameElement from "./GameElement.js";
+import GameElement from "./GameObject.js";
 import CanvasElement from "./CanvasElement.js";
 import Input from "./Input.js";
 
@@ -10,17 +10,18 @@ export default class Game {
     lastTime;
 
     canvasElement;
-    input;
 
-    constructor(canvasElement, inputElement) {
-        this.input = inputElement;
+    constructor(canvasElement) {
         this.canvasElement = canvasElement;
+
+        window.onblur = () => {this.pause();};
+        window.onfocus = () => {this.continue();};
     }
 
     addObject(obj) {
         if(!this.gameObjects.includes(obj) && obj instanceof GameElement) {
             this.gameObjects.push(obj);
-            obj.init(this);
+            if(this.started) obj.init(this);
         }
     }
 
@@ -35,6 +36,7 @@ export default class Game {
         this.started = true;
         this.paused = false;
         this.lastTime = Date.now();
+        this.gameObjects.forEach(obj => obj.init(this));
         this.loop(this);
     }
 
@@ -58,17 +60,18 @@ export default class Game {
         if(!this.paused) {
             let now = Date.now()
             let dt = now - this.lastTime;
+            
             this.lastTime = now;
-
             this.canvasElement.clear();
             
             this.gameObjects.forEach(obj => {
-                if(dt > 0) obj.update(dt);
+                obj.update(dt);
                 obj.render();
             })
         }
         
         window.requestAnimationFrame(() => this.loop());
+        return;
     }
 
     getCanvas() { return this.canvasElement.canvas;}

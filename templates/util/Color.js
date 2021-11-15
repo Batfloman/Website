@@ -5,7 +5,7 @@ export default class Color {
         this.b = b;
     }
 
-    getRGBValue() {
+    getRGB() {
         return `rgb(${this.r}, ${this.g}, ${this.b})`;
     }
 
@@ -15,5 +15,9 @@ export default class Color {
             Math.floor(Math.random()*255),
             Math.floor(Math.random()*255)
         );
+    }
+
+    static predefinedColor = {
+        
     }
 }
