@@ -1,6 +1,5 @@
-import GameElement from "./GameObject.js";
-import CanvasElement from "./CanvasElement.js";
-import Input from "./Input.js";
+import GameObject from "./gameAssets/GameObject.js";
+import SceneObject from "./gameAssets/SceneObject.js";
 
 export default class Game {
     gameObjects = new Array();
@@ -19,7 +18,7 @@ export default class Game {
     }
 
     addObject(obj) {
-        if(!this.gameObjects.includes(obj) && obj instanceof GameElement) {
+        if(!this.gameObjects.includes(obj) && (obj instanceof SceneObject)) {
             this.gameObjects.push(obj);
             if(this.started) obj.init(this);
         }

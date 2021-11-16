@@ -9,6 +9,11 @@ export default class Color {
         return `rgb(${this.r}, ${this.g}, ${this.b})`;
     }
 
+    static get(name) {
+        if(!this.predefinedColor[name]) return Color.getRandom();
+        return this.predefinedColor[name];
+    }
+
     static getRandom() {
         return new Color(
             Math.floor(Math.random()*255),
@@ -18,6 +23,7 @@ export default class Color {
     }
 
     static predefinedColor = {
-        
+        "white": new Color(255, 255, 255),
+        "black": new Color(0, 0, 0,)
     }
 }

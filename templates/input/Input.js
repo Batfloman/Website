@@ -5,8 +5,6 @@ export default class Input {
 
     constructor(domObject) {
         if(!domObject) domObject = window;
-        console.log(domObject)
-
         mouseEvents.forEach(event => domObject.addEventListener(event, this.mouseInput));
     }
 
@@ -15,6 +13,6 @@ export default class Input {
     }
 
     mouseInput(event) {
-        console.log(event);
+        // console.log(event);
     }
 }

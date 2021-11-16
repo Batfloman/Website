@@ -1,8 +1,8 @@
-import Color from "../../../../../templates/Color.js";
-import GameElement from "../../../../../templates/GameElement.js";
+import Color from "../../../../../templates/util/Color.js";
+import GameObject from "../../../../../templates/gameAssets/GameObject.js";
 import Ball from "./Ball.js";
 
-export default class Paddle extends GameElement {
+export default class Paddle extends GameObject {
     
     constructor(x, y, isBot) {
         super();
@@ -32,7 +32,7 @@ export default class Paddle extends GameElement {
         let canvas = this.game.getCanvas();
         let ctx = canvas.getContext("2d");
 
-        ctx.fillStyle = this.color.getRGBValue();
+        ctx.fillStyle = this.color.getRGB();
 
         ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
     }
