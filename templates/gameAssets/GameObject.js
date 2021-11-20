@@ -6,6 +6,7 @@ export default class GameObject extends SceneObject {
     pos;
 
     overlapsPoint(point) { return false;}
+    touches(objClass) {return false};
     
     changeX(x) { this.pos.x += x;}
     changeY(y) { this.pox.y += y;}

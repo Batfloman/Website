@@ -6,7 +6,7 @@ import Paddle from "./gameAssets/Paddle.js";
 
 window.onload = () => {
     let canvas = document.getElementById("game-screen");
-    var game = new Game( new CanvasElement(canvas), new Input(canvas));
+    var game = new Game(canvas);
 
     game.addObject( new Paddle(canvas.width * 0.05, canvas.height/2));
     game.addObject( new Paddle(canvas.width * 0.95, canvas.height/2, true));

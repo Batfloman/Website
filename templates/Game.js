@@ -1,3 +1,4 @@
+import CanvasElement from "./CanvasElement.js";
 import GameObject from "./gameAssets/GameObject.js";
 import SceneObject from "./gameAssets/SceneObject.js";
 
@@ -10,8 +11,8 @@ export default class Game {
 
     canvasElement;
 
-    constructor(canvasElement) {
-        this.canvasElement = canvasElement;
+    constructor(canvas) {
+        this.canvasElement = new CanvasElement(canvas);
 
         window.onblur = () => {this.pause();};
         window.onfocus = () => {this.continue();};
@@ -61,16 +62,15 @@ export default class Game {
             let dt = now - this.lastTime;
             
             this.lastTime = now;
-            this.canvasElement.clear();
             
+            this.canvasElement.clear();
             this.gameObjects.forEach(obj => {
-                obj.update(dt);
+                if(dt > 0)  obj.update(dt);
                 obj.render();
             })
         }
         
         window.requestAnimationFrame(() => this.loop());
-        return;
     }
 
     getCanvas() { return this.canvasElement.canvas;}

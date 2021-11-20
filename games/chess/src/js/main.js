@@ -60,6 +60,8 @@ function registerClick(x, y) {
     
     selected = null;
     pieces.forEach(piece => {
-        if(piece.getPos().equals(pos)) selected = piece;
+        if(piece.getPos().equals(pos)) {
+            selected = piece;
+        }
     });
 }

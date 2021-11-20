@@ -37,8 +37,7 @@ export default class Ball extends GameObject {
     }
 
     render() {
-        let canvas = this.game.getCanvas();
-        let ctx = canvas.getContext("2d");
+        let ctx = this.canvas.getContext("2d");
         
         ctx.fillStyle = this.color.getRGB();
         ctx.strokeStyle = this.color.getRGB();
@@ -58,6 +57,15 @@ export default class Ball extends GameObject {
 
     overlapsPoint(point) {
 
+    }
+
+    touches(objClass) {
+        let objects = this.game.findObjects(objClass);
+        if(!objects) return;
+        
+        objects.forEach(obj => {
+            console.log(obj);
+        });
     }
 
     getRandomOrientation() {

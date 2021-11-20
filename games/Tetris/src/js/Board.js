@@ -1,4 +1,4 @@
-import GameObject from "../../../../templates/GameObject.js";
+import GameObject from "../../../../templates/gameAssets/GameObject.js";
 
 export default class Board extends GameObject{
     x;

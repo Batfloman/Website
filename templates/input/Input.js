@@ -13,6 +13,6 @@ export default class Input {
     }
 
     mouseInput(event) {
-        // console.log(event);
+        console.log(event);
     }
 }

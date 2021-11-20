@@ -1,4 +1,4 @@
-import GameObject from "../../../../templates/GameObject.js";
+import GameObject from "../../../../templates/gameAssets/GameObject.js";
 import Color from "../../../../templates/util/Color.js";
 import Board from "./Board.js";
 
