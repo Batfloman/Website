@@ -5,14 +5,21 @@ export default class Input {
 
     constructor(domObject) {
         if(!domObject) domObject = window;
-        mouseEvents.forEach(event => domObject.addEventListener(event, this.mouseInput));
+        let input = this;
+        mouseEvents.forEach(event => domObject.addEventListener(event, function(event) {
+            input.mouseInput(event);
+        }))
     }
 
-    addMouseListener(func) {
-        this.mouseListener.push(func);
+    addMouseListener(obj) {
+        this.mouseListener.push(obj);
     }
 
     mouseInput(event) {
-        console.log(event);
+        if(!!this.mouseListener) {
+            this.mouseListener.forEach(obj => {
+                obj.mouseInput(event);
+            })
+        }
     }
 }

@@ -51,7 +51,6 @@ export default class Grid extends SceneObject {
             ctx.lineTo(offSetX + w, offSetY + i * dy);
         }
         
-
         ctx.stroke();
     }
 
@@ -65,5 +64,14 @@ export default class Grid extends SceneObject {
             }
             this.cells.push(row);
         }
+    }
+
+    overlaps(pos) {
+        let w = this.canvas.width / this.size.x;
+        let h = this.canvas.height / this.size.y;
+        let posX = this.canvas.width / this.pos.x;
+        let posY = this.canvas.height / this.pos.y;
+
+        return (pos.x <= posX && pos.x >= posX + w && pos.y <= posY && pos.y >= posY + h);
     }
 }

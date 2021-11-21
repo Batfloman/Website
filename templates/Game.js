@@ -1,9 +1,12 @@
+import Actor from "./actor/Actor.js";
 import CanvasElement from "./CanvasElement.js";
-import GameObject from "./gameAssets/GameObject.js";
 import SceneObject from "./gameAssets/SceneObject.js";
+import Input from "./input/Input.js";
 
 export default class Game {
     gameObjects = new Array();
+    players = new Array();
+    playerTurn;
 
     started = false;
     paused = false;
@@ -32,11 +35,19 @@ export default class Game {
         }
     }
 
+    addPlayer(player) {
+        if(!this.players.includes(player) && (player instanceof Actor)) {
+            this.players.push(player);
+            if(this.started) player.init(this);
+        }
+    }
+
     start() {
         this.started = true;
         this.paused = false;
         this.lastTime = Date.now();
         this.gameObjects.forEach(obj => obj.init(this));
+        this.players.forEach(player => player.init(this));
         this.loop(this);
     }
 
@@ -68,6 +79,17 @@ export default class Game {
                 if(dt > 0)  obj.update(dt);
                 obj.render();
             })
+            
+            if(this.players.length != 0) {
+                if(!this.playerTurn) {
+                    this.playerTurn = this.players[0];
+                    this.playerTurn.yourTurn();
+                }
+                if(!this.playerTurn.isMyTurn) {
+                    let i = this.players.indexOf(this.playerTurn) + 1;
+                    this.playerTurn = this.players[i >= this.players.length ? 0 : i];
+                }
+            }  
         }
         
         window.requestAnimationFrame(() => this.loop());

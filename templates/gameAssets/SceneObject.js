@@ -4,7 +4,7 @@ export default class SceneObject {
 
     init(game) {
         this.game = game;
-        this.canvas = game.canvasElement.canvas;
+        this.canvas = game.getCanvas();
     }
 
     update(dt) {return;}

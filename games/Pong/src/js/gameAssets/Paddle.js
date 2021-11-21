@@ -1,14 +1,17 @@
 import Color from "../../../../../templates/util/Color.js";
 import GameObject from "../../../../../templates/gameAssets/GameObject.js";
 import Ball from "./Ball.js";
+import Vector2f from "../../../../../templates/util/Vector2f.js";
 
 export default class Paddle extends GameObject {
+    static maxSpeed = 250;
+    static timeNeeded = 2;
+    static acceleration = 2 * Paddle.maxSpeed / Paddle.timeNeeded;
     
     constructor(x, y, isBot) {
         super();
 
-        this.x = x;
-        this.y = y;
+        this.pos = new Vector2f(x, y);
         this.w = 20;
         this.h = 100;
 
@@ -18,14 +21,23 @@ export default class Paddle extends GameObject {
     }
 
     update(dt) {
-        if(!this.isBot) {
+        // if(!this.isBot) {
             
-        } else {
+        // } else {
             let balls = this.game.findObjects(Ball);
-            let closestBall = balls[0];
+            
+            let y = balls[0].pos.y;
+
+            if(y > this.pos.y) {
+                if(this.move.y < Paddle.maxSpeed) this.move.y += Paddle.acceleration / dt;
+            } else {
+                if(this.move.y > -Paddle.maxSpeed) this.move.y -= Paddle.acceleration / dt;
+            }
+
+            super.update(dt)
             
             // TODO welcher ist der näheste Ball mit richtung zu mir
-        }
+        // }
     }
 
     render() {
@@ -34,6 +46,6 @@ export default class Paddle extends GameObject {
 
         ctx.fillStyle = this.color.getRGB();
 
-        ctx.fillRect(this.x - this.w / 2, this.y - this.h / 2, this.w, this.h);
+        ctx.fillRect(this.pos.x - this.w / 2, this.pos.y - this.h / 2, this.w, this.h);
     }
 }

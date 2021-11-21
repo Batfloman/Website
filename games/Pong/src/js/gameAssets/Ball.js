@@ -1,6 +1,7 @@
 import Color from "../../../../../templates/util/Color.js";
 import GameObject from "../../../../../templates/gameAssets/GameObject.js";
 import Vector2f from "../../../../../templates/util/Vector2f.js";
+import Paddle from "./Paddle.js";
 
 export default class Ball extends GameObject {
     static startSpeed = 250;
@@ -9,9 +10,6 @@ export default class Ball extends GameObject {
 
     startX;
     startY;
-
-    orientation;
-    speed;
 
     constructor(x, y) {
         super();
@@ -24,16 +22,12 @@ export default class Ball extends GameObject {
     }
 
     update(dt) { 
-        if(this.pos.x < 0 || this.pos.y > this.canvas.height) {
-            this.bounce();
-        };
-        if(this.x < 0 || this.x > this.canvas.width) this.reset();
-        
-        let moveX = Math.sin(this.orientation * (Math.PI/180)) * dt * this.speed / 1000;
-        let moveY = -Math.cos(this.orientation * (Math.PI/180)) * dt * this.speed / 1000;
-        
-        this.x += moveX;
-        this.y += moveY;
+        super.update(dt);
+
+        console.log(this.getOrientation())
+
+        if(this.touches("bottom") || this.touches("top") || this.touches(Paddle)) this.bounce();
+        if(this.touches("left") || this.touches("right")) this.reset();
     }
 
     render() {
@@ -44,15 +38,14 @@ export default class Ball extends GameObject {
         
         ctx.beginPath();
 
-        ctx.arc(this.x, this.y, Ball.radius, 0, Math.PI * 2);
+        ctx.arc(this.pos.x, this.pos.y, Ball.radius, 0, Math.PI * 2);
         ctx.fill();
     }
 
     reset() {
         this.pos = new Vector2f(this.startX, this.startY);
 
-        this.speed = Ball.startSpeed;
-        this.orientation = this.getRandomOrientation();
+        this.setMove(this.getRandomOrientation(), Ball.startSpeed);
     }
 
     overlapsPoint(point) {
@@ -60,11 +53,22 @@ export default class Ball extends GameObject {
     }
 
     touches(objClass) {
+        if(typeof objClass == "string") {
+            let isTouching = false;
+
+            if(objClass == "bottom") isTouching = this.pos.y + Ball.radius >= this.canvas.height;
+            else if(objClass == "top") isTouching = this.pos.y - Ball.radius <= 0;
+            else if(objClass == "left") isTouching = this.pos.x - Ball.radius <= 0;
+            else if(objClass == "right") isTouching = this.pos.x + Ball.radius >= this.canvas.width;
+
+            return isTouching;
+        }
+
         let objects = this.game.findObjects(objClass);
         if(!objects) return;
         
         objects.forEach(obj => {
-            console.log(obj);
+            // console.log(obj);
         });
     }
 
@@ -75,12 +79,6 @@ export default class Ball extends GameObject {
     }
 
     bounce() {
-        // if()
+        
     }
-
-    get x() { return this.pos.x;}
-    get y() { return this.pos.y;}
-
-    set x(x) { this.pos.x = x;}
-    set y(y) { this.pos.y = y;}
 }

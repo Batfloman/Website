@@ -1,5 +1,5 @@
-var punkte = 0;
-var runden = 0;
+var richtig = 0;
+var fehler = 0;
 var level = 1;
 var ergebnis;
 
@@ -8,10 +8,9 @@ stelleAufgabe();
 function stelleAufgabe() {
     let zahl1 = Math.ceil( Math.random() * level * 5);
     let zahl2 = Math.ceil( Math.random() * level * 5);
-    let operator = level > 7 ? Math.floor( Math.random()*4) : Math.floor( Math.random() * 2);
+    let operator = level > 8 ? Math.floor( Math.random()*4) : Math.floor( Math.random() * 2);
     
-    runden++;
-    level = punkte > 1 ? Math.floor(punkte / 2) : 1;
+    level = richtig > 1 ? Math.floor(richtig / 2) : 1;
     
     document.getElementById("Eingabe").style.background = "white";
     document.getElementById("Eingabe").value = "";
@@ -38,13 +37,13 @@ function pruefeEingabe() {
     var eingabe = document.getElementById("Eingabe").value;
     if (eingabe == ergebnis) {
         document.getElementById("Eingabe").style.background = "green";
-        punkte++;
+        richtig++;
         setTimeout(stelleAufgabe, 1000);
         return false;
     } else {
         document.getElementById("Eingabe").style.background = "red";
         document.getElementById("Frage").innerHTML = ergebnis;
-        if(punkte > 0) punkte--;
+        fehler++;
         setTimeout(stelleAufgabe, 2500);
         return false;
     }
@@ -53,7 +52,7 @@ function pruefeEingabe() {
 
 function ausgeben(text) {
     document.getElementById("Frage").innerHTML = text;
-    document.getElementById("Antworten").innerHTML = `Level ${level} Punkte ${punkte} Runde ${runden}`;
+    document.getElementById("Antworten").innerHTML = `Level ${level} <br> Richtig: ${richtig} | Falsch: ${fehler}`;
 }
 
 function addieren(zahl1, zahl2) {
