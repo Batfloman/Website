@@ -9,7 +9,7 @@ window.onload = () => {
     let game = new Game(canvas);
 
     game.addObject( new GameBoard(3, 3));
-    game.addPlayer( new TicTacToePlayer())
+    game.addPlayer( new TicTacToePlayer("x"));
 
     game.start();
 }

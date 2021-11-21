@@ -67,11 +67,38 @@ export default class Grid extends SceneObject {
     }
 
     overlaps(pos) {
-        let w = this.canvas.width / this.size.x;
-        let h = this.canvas.height / this.size.y;
-        let posX = this.canvas.width / this.pos.x;
-        let posY = this.canvas.height / this.pos.y;
+        let w = this.canvas.width * this.size.x / 100;
+        let h = this.canvas.height * this.size.y / 100;
+        let posX = this.canvas.width * this.pos.x / 100;
+        let posY = this.canvas.height * this.pos.y / 100;
 
-        return (pos.x <= posX && pos.x >= posX + w && pos.y <= posY && pos.y >= posY + h);
+        return (pos.x >= posX && pos.x <= posX + w && pos.y >= posY && pos.y <= posY + h);
+    }
+
+    getCell(pos) {
+        let w = this.canvas.width * this.size.x / 100;
+        let h = this.canvas.height * this.size.y / 100;
+        let posX = this.canvas.width * this.pos.x / 100;
+        let posY = this.canvas.height * this.pos.y / 100;
+        let dw = w / this.dimension.x;
+        let dh = h / this.dimension.y;
+
+        let x, y; 
+        for(let i = 0; i < this.dimension.x; i++) {
+            if(pos.x >= posX + (dw * i) && pos.x <= posX + (dw * (i + 1))) x = i;
+        }
+        for(let i = 0; i < this.dimension.y; i++) {
+            if(pos.y >= posY + (dh * i) && pos.y <= posY + (dh * (i + 1))) y = i;
+        }
+
+        return new Vector2f(x, y);
+    }
+
+    isCellEmpty(pos) {
+        return this.cells[pos.y][pos.x] == "[]";
+    }
+
+    setCell(pos, to) {
+        this.cells[pos.y][pos.x] = to;
     }
 }
