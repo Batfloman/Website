@@ -1,5 +1,5 @@
 import Player from "../../../../../templates/actor/Player.js";
-import GameBoard from "../../../../../templates/gameAssets/GameBoard.js";
+import GameBoard from "../GameBoard.js";
 import Vector2f from "../../../../../templates/util/Vector2f.js";
 
 export default class TicTacToePlayer extends Player {
@@ -10,6 +10,8 @@ export default class TicTacToePlayer extends Player {
     }
 
     mouseInput(event) {
+        if(!this.isMyTurn) return;
+
         if(event.type == "mousedown") {
             let clickedCoord = new Vector2f(event.offsetX, event.offsetY)
 

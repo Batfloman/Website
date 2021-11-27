@@ -1,22 +1,12 @@
-import SceneObject from "./SceneObject.js";
-import Vector2f from "./../util/Vector2f.js";
+import Vector2f from "../../util/Vector2f.js";
+import GameObject from "../GameObject.js";
 
-export default class Grid extends SceneObject {
-    /** @type {Array} */
-    cells;
-    /** @type {Vector2f} */
-    dimension;
-    /** @type {Vector2f} */
-    pos;
-    /** @type {Vector2f} */
-    size;
+export default class Grid extends GameObject {
+    cells: string[][];
+    dimension: Vector2f;
+    size: Vector2f;
     
-    /**
-     * @param {*} dimension amount of x and y Cells
-     * @param {*} size - relative size to Canvas
-     * @param {*} pos - relative position of top left corner
-     */
-    constructor(dimension, size, pos) {
+    constructor(dimension: Vector2f, size: Vector2f, pos) {
         super();
 
         this.dimension = dimension;
@@ -26,9 +16,7 @@ export default class Grid extends SceneObject {
         this.clear();
     }
 
-    update(dt) { return;}
-
-    render() {
+    render(): void {
         let ctx = this.canvas.getContext('2d');
 
         let w = this.canvas.width * this.size.x / 100;
@@ -54,7 +42,7 @@ export default class Grid extends SceneObject {
         ctx.stroke();
     }
 
-    clear() {
+    clear(): void {
         this.cells = new Array();
 
         for(let y = 0; y < this.dimension.y; y++) {
@@ -66,7 +54,7 @@ export default class Grid extends SceneObject {
         }
     }
 
-    overlaps(pos) {
+    overlaps(pos: Vector2f): boolean {
         let w = this.canvas.width * this.size.x / 100;
         let h = this.canvas.height * this.size.y / 100;
         let posX = this.canvas.width * this.pos.x / 100;
@@ -75,7 +63,7 @@ export default class Grid extends SceneObject {
         return (pos.x >= posX && pos.x <= posX + w && pos.y >= posY && pos.y <= posY + h);
     }
 
-    getCell(pos) {
+    getCell(pos: Vector2f): Vector2f {
         let w = this.canvas.width * this.size.x / 100;
         let h = this.canvas.height * this.size.y / 100;
         let posX = this.canvas.width * this.pos.x / 100;
@@ -94,11 +82,11 @@ export default class Grid extends SceneObject {
         return new Vector2f(x, y);
     }
 
-    isCellEmpty(pos) {
+    isCellEmpty(pos: Vector2f): boolean {
         return this.cells[pos.y][pos.x] == "[]";
     }
 
-    setCell(pos, to) {
+    setCell(pos: Vector2f, to: string): void {
         this.cells[pos.y][pos.x] = to;
     }
 }

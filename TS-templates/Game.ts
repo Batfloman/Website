@@ -1,44 +1,54 @@
-import Actor from "./actor/Actor.js";
-import CanvasElement from "./CanvasElement.js";
-import GameObject from "./gameAssets/GameObject.js";
-import Input from "./input/Input.js";
+import Actor from "./actor/Actor";
+import CanvasElement from "./CanvasElement";
+import SceneObject from "./gameAssets/SceneObject";
 
 export default class Game {
-    gameObjects = new Array();
-    players = new Array();
-    playerTurn;
+    gameObjects: SceneObject[];
+    players: Actor[];
+    playerTurn: Actor;
 
-    started = false;
-    paused = false;
-    lastTime;
+    started: boolean = false;
+    paused: boolean = false;
+    lastTime : number;
 
-    canvasElement;
+    canvasElement: CanvasElement;
 
-    constructor(canvas) {
+    constructor(canvas: HTMLCanvasElement) {
         this.canvasElement = new CanvasElement(canvas);
 
         window.onblur = () => {this.pause();};
         window.onfocus = () => {this.continue();};
     }
 
-    addObject(obj) {
-        if(!this.gameObjects.includes(obj) && (obj instanceof GameObject)) {
+    addObject(obj: SceneObject) {
+        if(!this.gameObjects) this.gameObjects = new Array();
+
+        if(!this.gameObjects.includes(obj) && (obj instanceof SceneObject)) {
             this.gameObjects.push(obj);
             if(this.started) obj.init(this);
         }
     }
 
-    removeObject(obj) {
+    removeObject(obj: SceneObject) {
         if(this.gameObjects.includes(obj)) {
             let index = this.gameObjects.indexOf(obj);
             this.gameObjects.splice(index, index+1);
         }
     }
 
-    addPlayer(player) {
+    addPlayer(player: Actor) {
+        if(!this.players) this.players = new Array();
+
         if(!this.players.includes(player) && (player instanceof Actor)) {
             this.players.push(player);
             if(this.started) player.init(this);
+        }
+    }
+
+    removePlayer(player: Actor) {
+        if(this.players.includes(player)) {
+            let index = this.players.indexOf(player);
+            this.gameObjects.splice(index, index+1);
         }
     }
 
@@ -48,7 +58,7 @@ export default class Game {
         this.lastTime = Date.now();
         this.gameObjects.forEach(obj => obj.init(this));
         this.players.forEach(player => player.init(this));
-        this.loop(this);
+        this.loop();
     }
 
     stop() {

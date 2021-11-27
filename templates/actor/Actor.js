@@ -1,6 +1,6 @@
 export default class Actor {
     game;
-    isMyTurn;
+    isMyTurn = false;
 
     init(game) {
         this.game = game;
