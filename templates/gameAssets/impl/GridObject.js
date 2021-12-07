@@ -50,7 +50,9 @@ export default class Grid extends GameObject {
             ctx.moveTo(offSetX + 0, offSetY + i * dy);
             ctx.lineTo(offSetX + w, offSetY + i * dy);
         }
-        
+
+        ctx.closePath();
+
         ctx.stroke();
     }
 
@@ -100,5 +102,64 @@ export default class Grid extends GameObject {
 
     setCell(pos, to) {
         this.cells[pos.y][pos.x] = to;
+    }
+
+    clearCell(pos) {
+        this.cells[pos.y][pos.x] == "[]";
+    }
+
+    inRow(symbol, times) {
+        for(let x = 0; x < this.cells[0].length; x++) {
+            let inRowAmount = 0;
+            let start = 0;
+            let end = 0;
+            for(let y = 0; y < this.cells.length; y++) {
+                if(this.cells[y][x] == symbol) {
+                    inRowAmount++;
+                    start = start != 0 ? new Vector2f(x, y) : start;
+                    end = new Vector2f(x, y);
+                } else {
+                    inRowAmount = 0;
+                    start = 0;
+                    end = 0;
+                }
+                if(inRowAmount >= times) return {is: true, start: start, end: end};
+            }
+        }
+        return {is: false, start: 0, end: 0};
+    }
+
+    inColumn(symbol, times) {
+        for(let y = 0; y < this.cells.length; y++) {
+            let inColumnAmount = 0;
+            let start = 0;
+            let end = 0;
+            for(let x = 0; x < this.cells[0].length; x++) {
+                if(this.cells[y][x] == symbol) {
+                    inColumnAmount++;
+                    start = start != 0 ? new Vector2f(x, y) : start;
+                    end = new Vector2f(x, y);
+                } else {
+                    inColumnAmount = 0;
+                    start = 0;
+                    end = 0;
+                }
+                if(inColumnAmount >= times) return {is: true, start: start, end: end};
+            }
+        }
+        return {is: false, start: 0, end: 0};
+    }
+
+    inDiagonal(symbol, times) {
+        return {is: false, start: 0, end: 0};
+    }
+
+    isFull() {
+        for(let i = 0; i < this.cells.length; i++) {
+            for(let j = 0; j < this.cells[0].length; j++) {
+                if(this.cells[i][j] == "[]") return false;
+            }
+        }
+        return true;
     }
 }

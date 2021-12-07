@@ -1,7 +1,6 @@
 import Actor from "./actor/Actor.js";
 import CanvasElement from "./CanvasElement.js";
 import GameObject from "./gameAssets/GameObject.js";
-import Input from "./input/Input.js";
 
 export default class Game {
     gameObjects = new Array();

@@ -1,42 +1,17 @@
-import GameObject from "../../../../templates/gameAssets/GameObject.js";
+import GridObject from "../../../../templates/gameAssets/impl/GridObject.js";
+import Vector2f from "../../../../templates/util/Vector2f.js";
 
-export default class Board extends GameObject{
-    x;
-    y;
+export default class Board extends GridObject {
 
-    cells;
-    
     constructor(x, y) {
-        super();
-
-        this.x = x;
-        this.y = y;
-
-        this.cells = new Array();
-        for(let j = 0; j < y; j++) {
-            let row = new Array();
-            for(let i = 0; i < x; i++) {
-                row.push("[]");
-            }
-            this.cells.push(row);
-        }
+        super(
+            new Vector2f(x, y),
+            new Vector2f(100, 100),
+            new Vector2f(0, 0)
+        );
     }
 
     render() {
-        let ctx = this.canvas.getContext("2d");
-
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 2;
-
-        for(let i = 0; i <= this.y; i++) {
-            ctx.moveTo(0, this.canvas.height / this.y * i);
-            ctx.lineTo(this.canvas.width, this.canvas.height / this.y * i);
-        }
-        for(let j = 0; j <= this.x; j++) {
-            ctx.moveTo(this.canvas.width / this.x * j, 0);
-            ctx.lineTo(this.canvas.width / this.x * j, this.canvas.height);
-        }
-
-        ctx.stroke();
+        super.render();
     }
 }

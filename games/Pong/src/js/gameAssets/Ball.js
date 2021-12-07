@@ -1,9 +1,9 @@
 import Color from "../../../../../templates/util/Color.js";
-import GameObject from "../../../../../templates/gameAssets/GameObject.js";
+import MoveableObject from "../../../../../templates/gameAssets/impl/MoveableObject.js";
 import Vector2f from "../../../../../templates/util/Vector2f.js";
 import Paddle from "./Paddle.js";
 
-export default class Ball extends GameObject {
+export default class Ball extends MoveableObject {
     static startSpeed = 250;
     static minOrientation = 33;
     static radius = 10;
@@ -24,7 +24,7 @@ export default class Ball extends GameObject {
     update(dt) { 
         super.update(dt);
 
-        console.log(this.getOrientation())
+        console.log(this.getDirection())
 
         if(this.touches("bottom") || this.touches("top") || this.touches(Paddle)) this.bounce();
         if(this.touches("left") || this.touches("right")) this.reset();
@@ -54,8 +54,6 @@ export default class Ball extends GameObject {
 
     touches(objClass) {
         if(typeof objClass == "string") {
-            let isTouching = false;
-
             if(objClass == "bottom") isTouching = this.pos.y + Ball.radius >= this.canvas.height;
             else if(objClass == "top") isTouching = this.pos.y - Ball.radius <= 0;
             else if(objClass == "left") isTouching = this.pos.x - Ball.radius <= 0;

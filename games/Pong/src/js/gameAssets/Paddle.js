@@ -1,9 +1,9 @@
 import Color from "../../../../../templates/util/Color.js";
-import GameObject from "../../../../../templates/gameAssets/GameObject.js";
 import Ball from "./Ball.js";
 import Vector2f from "../../../../../templates/util/Vector2f.js";
+import MoveableObject from "../../../../../templates/gameAssets/impl/MoveableObject.js";
 
-export default class Paddle extends GameObject {
+export default class Paddle extends MoveableObject {
     static maxSpeed = 250;
     static timeNeeded = 2;
     static acceleration = 2 * Paddle.maxSpeed / Paddle.timeNeeded;

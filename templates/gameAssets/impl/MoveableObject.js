@@ -1,4 +1,5 @@
-import GameObject from "../GameObject";
+import Vector2f from "../../util/Vector2f.js";
+import GameObject from "../GameObject.js";
 
 export default class MoveableObject extends GameObject {
 

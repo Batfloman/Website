@@ -16,7 +16,9 @@ export default class GameObject {
     render() { return;}
 
     overlapsPoint(point) { return false;}
-    touches(objClass) { return false};
+    touches(objClass) { {
+        
+    }};
     
     // ===== getter & setter =====
 

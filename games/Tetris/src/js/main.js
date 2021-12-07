@@ -10,9 +10,8 @@ var game;
 
 window.onload = () => {
     canvas = document.getElementById('game-screen');
-    let canvasElement = new CanvasElement(canvas);
 
-    game = new Game(canvasElement);
+    game = new Game(canvas);
 
     game.addObject(new Board(9, 20));
     let blocks = [new Block(0, 10), new Block(8, 5), new Block(4, 19)]

@@ -3,6 +3,7 @@ import GameBoard from "./GameBoard.js";
 import TicTacToePlayer from "./actor/TicTacToePlayer.js";
 
 
+
 window.onload = () => {
     let canvas = document.getElementById('game-screen');
 
