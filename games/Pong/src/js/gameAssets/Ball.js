@@ -54,12 +54,12 @@ export default class Ball extends MoveableObject {
 
     touches(objClass) {
         if(typeof objClass == "string") {
-            if(objClass == "bottom") isTouching = this.pos.y + Ball.radius >= this.canvas.height;
-            else if(objClass == "top") isTouching = this.pos.y - Ball.radius <= 0;
-            else if(objClass == "left") isTouching = this.pos.x - Ball.radius <= 0;
-            else if(objClass == "right") isTouching = this.pos.x + Ball.radius >= this.canvas.width;
+            if(objClass == "bottom") return this.pos.y + Ball.radius >= this.canvas.height;
+            else if(objClass == "top") return this.pos.y - Ball.radius <= 0;
+            else if(objClass == "left") return this.pos.x - Ball.radius <= 0;
+            else if(objClass == "right") return this.pos.x + Ball.radius >= this.canvas.width;
 
-            return isTouching;
+            return false;
         }
 
         let objects = this.game.findObjects(objClass);
