@@ -1,4 +1,5 @@
 export default class Color {
+    
     constructor(r, g, b) {
         this.r = r;
         this.g = g;
@@ -9,16 +10,17 @@ export default class Color {
         return `rgb(${this.r}, ${this.g}, ${this.b})`;
     }
 
+    // static
+
     static get(name) {
-        if(!this.predefinedColor[name]) return Color.getRandom();
-        return this.predefinedColor[name];
+        return !Color.predefinedColor[name] ? Color.getRandom() : Color.predefinedColor[name];
     }
 
     static getRandom() {
         return new Color(
-            Math.floor(Math.random()*255),
-            Math.floor(Math.random()*255),
-            Math.floor(Math.random()*255)
+            Math.floor( Math.random()*255),
+            Math.floor( Math.random()*255),
+            Math.floor( Math.random()*255)
         );
     }
 

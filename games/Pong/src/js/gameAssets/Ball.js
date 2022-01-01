@@ -1,21 +1,22 @@
-import Color from "../../../../../templates/util/Color.js";
-import MoveableObject from "../../../../../templates/gameAssets/impl/MoveableObject.js";
-import Vector2f from "../../../../../templates/util/Vector2f.js";
+import Color from "../util/Color.js";
 import Paddle from "./Paddle.js";
+import Vector2f from "../util/Vector2f.js";
 
-export default class Ball extends MoveableObject {
+export default class Ball {
     static startSpeed = 250;
     static minOrientation = 33;
     static radius = 10;
 
-    startX;
-    startY;
+    startPos;
+    pos;
+    color;
+
+    orientation;
+    speed;
 
     constructor(x, y) {
-        super();
-
-        this.startX = x;
-        this.startY = y;
+        this.pos = new Vector2f(x, y);
+        this.startPos = new Vector2f(x, y);
         this.color = Color.get("white");
 
         this.reset();
@@ -23,8 +24,6 @@ export default class Ball extends MoveableObject {
 
     update(dt) { 
         super.update(dt);
-
-        console.log(this.getDirection())
 
         if(this.touches("bottom") || this.touches("top") || this.touches(Paddle)) this.bounce();
         if(this.touches("left") || this.touches("right")) this.reset();
@@ -44,12 +43,8 @@ export default class Ball extends MoveableObject {
 
     reset() {
         this.pos = new Vector2f(this.startX, this.startY);
-
-        this.setMove(this.getRandomOrientation(), Ball.startSpeed);
-    }
-
-    overlapsPoint(point) {
-
+        this.orientation = this.getRandomOrientation();
+        this.speed = Ball.startSpeed;
     }
 
     touches(objClass) {

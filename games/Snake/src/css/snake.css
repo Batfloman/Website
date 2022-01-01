@@ -29,6 +29,19 @@ body {
     border-radius: 5px;
 }
 
+.options button {
+    font-size: 18px;
+    margin-top: 1%;
+    font-family: Consolas;
+    border: none;
+    border-radius: 5rem;
+    padding: 1rem;
+}
+
+.options button:hover {
+    cursor: pointer;
+}
+
 .game {
     background-color: green;
     margin: 0 auto;
