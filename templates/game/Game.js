@@ -1,12 +1,14 @@
 import Actor from "./actor/Actor.js";
-import CanvasElement from "./CanvasElement.js";
-import GameObject from "./gameAssets/GameObject.js";
+import CanvasElement from "./window/CanvasElement.js";
+import GameObject from "./gameAssets/elements/GameElement.js";
 
 export default class Game {
+
     gameObjects = new Array();
     players = new Array();
     playerTurn;
 
+    // Run
     started = false;
     paused = false;
     lastTime;
@@ -70,14 +72,9 @@ export default class Game {
         if(!this.paused) {
             let now = Date.now()
             let dt = now - this.lastTime;
-            
             this.lastTime = now;
             
-            this.canvasElement.clear();
-            this.gameObjects.forEach(obj => {
-                if(dt > 0)  obj.update(dt);
-                obj.render();
-            })
+            this.updateObjects(dt);
             
             if(this.players.length != 0) {
                 if(!this.playerTurn) {
@@ -94,6 +91,14 @@ export default class Game {
         }
         
         window.requestAnimationFrame(() => this.loop());
+    }
+
+    updateObjects(dt) {
+        this.canvasElement.clear();
+        this.gameObjects.forEach(obj => {
+            if(dt > 0) obj.update(dt);
+            obj.render();
+        })
     }
 
     getCanvas() { return this.canvasElement.canvas;}

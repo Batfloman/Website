@@ -18,7 +18,11 @@ export default class Input {
     mouseInput(event) {
         if(!!this.mouseListener) {
             this.mouseListener.forEach(obj => {
-                obj.mouseInput(event);
+                try {
+                    obj.mouseInput(event);
+                } catch (error) {
+                    console.log(obj, error);
+                }   
             })
         }
     }

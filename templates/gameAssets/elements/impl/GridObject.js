@@ -1,5 +1,5 @@
-import Vector2f from "../../util/Vector2f.js";
-import GameObject from "../GameObject.js";
+import Vector2f from "../../../util/Vector2f.js";
+import GameObject from "../GameElement.js";
 
 export default class Grid extends GameObject {
     /** @type {Array} */
