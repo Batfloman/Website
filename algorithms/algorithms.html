@@ -1,0 +1,47 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm</title>
+
+    <link href="../style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="nav-bar">
+        <h1>Algorithms</h1>
+        <div class="nav-links">
+            <div><a class="nav-link" href="../index.html">Home</a></div>
+            <div><a class="nav-link" href="../games/games.html">Games</a></div>
+            <div><a class="nav-link" href="./algorithms.html">Algorithms</a></div>
+        </div>
+    </div>
+
+    <div id="algorithms" class="collection-container"></div>
+
+    <script>
+        const algorithms = ["Collision"];
+
+        window.onload = function() {
+            algorithms.forEach(
+                algorithm => {
+                    let gameDiv = document.createElement("div");
+                    gameDiv.setAttribute("class", "game");
+
+                    let gameA = document.createElement("a");
+                    gameA.setAttribute("href", `../../algorithms/${algorithm}/index.html`);
+
+                    let gameImg = document.createElement("img");
+                    gameImg.setAttribute("src", "");
+                    gameImg.setAttribute("alt", algorithm);
+
+                    gameA.appendChild(gameImg);
+                    gameDiv.appendChild(gameA);
+
+                    document.getElementById("algorithms").appendChild(gameDiv);
+                }
+            )
+        }
+    </script>
+</body>
+</html>

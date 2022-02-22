@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+
+    <link href="../style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="nav-bar">
+        <h1>Games</h1>
+        <div class="nav-links">
+            <div><a class="nav-link" href="../index.html">Home</a></div>
+            <div><a class="nav-link" href="./games.html">Games</a></div>
+            <div><a class="nav-link" href="../algorithms/algorithms.html">Algorithms</a></div>
+        </div>
+    </div>
+    <div id="games" class="collection-container"></div>
+
+    <script>
+        const games = ["4Gewinnt", "Auralux", "LandingSim", "Pong", "Rechnen", "Snake", "Tetris", "TicTacToe", "Chess"];
+
+        window.onload = function() {
+            games.forEach(
+                game => {
+                    let gameDiv = document.createElement("div");
+                    gameDiv.setAttribute("class", "game");
+
+                    let gameA = document.createElement("a");
+                    gameA.setAttribute("href", `../../games/${game}/index.html`);
+
+                    let gameImg = document.createElement("img");
+                    gameImg.setAttribute("src", "");
+                    gameImg.setAttribute("alt", game);
+
+                    gameA.appendChild(gameImg);
+                    gameDiv.appendChild(gameA);
+
+                    document.getElementById("games").appendChild(gameDiv);
+                }
+            )
+        }
+    </script>
+</body>
+</html>
