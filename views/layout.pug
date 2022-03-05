@@ -1,0 +1,17 @@
+block variables
+
+doctype html
+html
+  head
+    meta(charset="uft-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1, shrink-to-fit=no")
+    title #{title} | Florian
+    link(rel="stylesheet", href="./style.css")
+    link(rel="icon", type="image", href="./pp.jpg")
+  body 
+    div.nav-bar
+      h1 #{title}
+      div.nav-links
+        block nav-links
+    div#root 
+      block layout-content
