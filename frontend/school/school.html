@@ -13,11 +13,11 @@
         <div class="nav-links">
             <div><a class="nav-link" href="../index.html">Home</a></div>
             <div><a class="nav-link" href="../games/games.html">Games</a></div>
-            <div><a class="nav-link" href="./algorithms.html">Algorithms</a></div>
+            <div><a class="nav-link" href="./school.html">Algorithms</a></div>
         </div>
     </div>
 
-    <div id="algorithms" class="collection-container"></div>
+    <div id="school" class="collection-container"></div>
 
     <script>
         const algorithms = ["Collision"];
@@ -29,7 +29,7 @@
                     gameDiv.setAttribute("class", "game");
 
                     let gameA = document.createElement("a");
-                    gameA.setAttribute("href", `../../algorithms/${algorithm}/index.html`);
+                    gameA.setAttribute("href", `../../school/${algorithm}/index.html`);
 
                     let gameImg = document.createElement("img");
                     gameImg.setAttribute("src", "");
@@ -38,7 +38,7 @@
                     gameA.appendChild(gameImg);
                     gameDiv.appendChild(gameA);
 
-                    document.getElementById("algorithms").appendChild(gameDiv);
+                    document.getElementById("school").appendChild(gameDiv);
                 }
             )
         }

@@ -32,6 +32,10 @@ app.get("/games", (req, res) => {
     res.render("games", {"title": "Games"});
 })
 
+app.get("/school", (req, res) => {
+    res.render("school", {"title": "School"});
+})
+
 /**
  * Server Activation
  */
