@@ -1,9 +1,9 @@
 export default class Vector {
-  x;
-  y;
+  x = 0;
+  y = 0;
 
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
+    this.x = !x ? 0 : x;
+    this.y = !y ? 0 : y;
   }
 }

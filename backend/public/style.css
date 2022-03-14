@@ -1,6 +1,5 @@
 html, body {
     width: 100%;
-    min-height: 100%;
     padding: 0;
     margin: 0;
     background-color: rgb(45, 45, 45);
@@ -112,6 +111,10 @@ html, body {
         right: 4vw;
         top: 1vh;
     }
+
+    .collection-container {
+        margin-top: 27.5vh;
+    }
 }
 
 @media screen and (orientation: landscape) {
@@ -124,5 +127,9 @@ html, body {
 
     .settings {
         margin-right: 4vw;
+    }
+
+    .collection-container {
+        margin-top: 17.5vh;
     }
 }
