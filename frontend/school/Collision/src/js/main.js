@@ -3,7 +3,7 @@ import System from "../../../../templates/System.js";
 import Vector2 from "../../../../templates/util/Vector2.js";
 import Polygon from "../../../../templates/physic/2d/boundingBox/Polygon.js";
 import Formeln from "../../../../templates/Formeln.js";
-import Rectangle from "../../../../templates/physic/2d/boundingBox/Rectangle.js";
+import WorldObject from "../../../../templates/assets/WorldObject.js";
 
 window.onload = () => {
   let canvas = document.getElementById("scene");
@@ -11,10 +11,18 @@ window.onload = () => {
 
   let s = new System(c);
 
-  for(let i = 0; i < 10; i++) {
-    let start = new Vector2(Math.floor(Math.random()*canvas.width), Math.floor(Math.random()*canvas.height));
-    let form = new Polygon(start, Math.floor(Math.random()*75) + 25, Math.ceil(Math.random()*10) + 2);
-    s.addObject(form);
+  for(let i = 0; i < 2; i++) {  
+    let xMin = -50;
+    let xMax = 50;
+    let yMin = -50;
+    let yMax = 50;
+    let rMax = 50;
+    let rMin = 25;
+    let maxVertecies = 5;
+    let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - (xMin), Math.floor(Math.random()*(yMax-yMin)) - (yMin));
+    let form = new Polygon(start, Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2);
+    let worldobj = new WorldObject(start, form);
+    s.addObject(worldobj);
   }
 
   s.tick();

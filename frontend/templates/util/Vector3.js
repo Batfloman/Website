@@ -1,6 +1,9 @@
 export default class Vector3 {
+   /** @type {number} */
   x = 0;
+   /** @type {number} */
   y = 0;
+   /** @type {number} */
   z = 0;
 
   constructor(x, y, z) {

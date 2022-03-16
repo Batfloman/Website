@@ -1,14 +1,19 @@
 import Formeln from "../../../Formeln.js";
 import Vector2 from "../../../util/Vector2.js";
+import Color from "../../../util/Color.js";
 
-export default class HitBox {
+export default class Polygon {
+  /** @type {Vector2[]} - save the points relative to a 0, 0 center with 0° rotation */
   model = new Array();
-  /** @type {Vector2} */
-  centerPos;
-  /** @type {number} */
+  /** @type {number} - orientation angle in degree */
   angle = 0;
-  /** @type {Vector2[]} */
+  /** @type {Vector2[]} - translated points*/
   points;
+
+  /** @type {Color} */
+  borderColor;
+  /** @type {Color} */
+  fillColor;
 
   constructor(centerPos, radius, numVerticies) {
     this.centerPos = centerPos;
@@ -20,11 +25,15 @@ export default class HitBox {
     }
   }
 
-  render(ctx) {
-    this.translatePoints();
+  render(ctx, pos) {
+    this.translatePoints(pos);
+
+    ctx.strokeStyle = !this.borderColor ? Color.get("black") : this.borderColor.getRGBValue();
+    ctx.fillStyle = !this.fillColor ? "rgba(0, 0, 0, 0)" : this.fillColor.getRGBValue();
     
     ctx.beginPath()
-    ctx.arc(this.centerPos.x, this.centerPos.y, 10, 0, 360);
+    ctx.arc(pos.x, pos.y, 10, 0, 360);
+    ctx.fill();
     ctx.stroke();
 
     ctx.beginPath();
@@ -37,15 +46,15 @@ export default class HitBox {
     ctx.stroke();
   }
 
-  translatePoints() {
+  translatePoints(pos) {
     this.points = new Array();
 
     this.model.forEach(point => {
       this.points.push(Formeln.rotateAroundCenter(
-        this.centerPos,
+        pos,
         new Vector2(
-          point.x + this.centerPos.x,
-          point.y + this.centerPos.y
+          point.x + pos.x,
+          point.y + pos.y
         ),
         this.angle
       ))
@@ -65,8 +74,6 @@ export default class HitBox {
       point.x -= Math.round(moveX*100) / 100;
       point.y -= Math.round(moveY*100) / 100;
     })
-
-    this.points = this.model;
   }
 
   setPos(pos) { this.centerPos = pos;}

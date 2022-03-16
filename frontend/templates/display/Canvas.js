@@ -1,27 +1,67 @@
+import WorldObject from "../assets/WorldObject.js";
+import Input from "../input/Input.js";
+import Vector2 from "../util/Vector2.js";
+
 export default class Canvas {
+  /** @type {HTMLCanvasElement} */
   htmlCanvas; 
+
+  /** @type {Vector2} */
+  viewOffSet;
+
+  /** @type {boolean} */
+  mouseDown = false;
 
   constructor(htmlCanvas) {
     this.htmlCanvas = htmlCanvas;
 
-    let that = this;
-    this.htmlCanvas.addEventListener("resize", () => {
-      that.resize();
-      that.render();
-    });
-    that.resize();
+    Input.newEventListener("resize", this);
+    Input.newEventListener("mousedown", this);
+    Input.newEventListener("mouseup", this);
+    Input.newEventListener("mousemove", this);
+
+    this.resize();
+    this.viewOffSet = new Vector2(-this.htmlCanvas.width / 2, - (this.htmlCanvas.height / 2));
   }
 
+  /**
+   * @param {SceneObject[]} objects 
+   */
   render(objects) {
-    if(!this.htmlCanvas) throw new Error("no Canvas");
-    
     let ctx = this.htmlCanvas.getContext("2d");
-    
     ctx.clearRect(0, 0, this.htmlCanvas.width, this.htmlCanvas.height);
+    
+    if(!objects) return;
 
     objects.forEach(obj => {
-      obj.render(ctx);
-    })
+      if(obj instanceof WorldObject && obj.isOnScreen()) {
+        obj.render(ctx);
+      }
+    });
+  }
+
+  notify(event) {
+    switch(event.type) {
+      case "resize":
+        this.resize();
+        break;
+      case "mousedown":
+        if(event.button == 0) this.mouseDown = true;
+        break;
+      case "mousemove":
+        if(this.mouseDown) this.updateViewOffSet(event.movementX, event.movementY);
+        break;
+      case "mouseup":
+        if(event.button == 0) this.mouseDown = false;
+        break;
+      default:
+        console.log(event);
+      }
+  }
+
+  updateViewOffSet(xChange, yChange) {
+    this.viewOffSet.x -= xChange;
+    this.viewOffSet.y -= yChange;
   }
 
   resize() {

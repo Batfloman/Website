@@ -1,7 +1,27 @@
 export default class Color {
+   /** @type {number} - between 0 - 255 */
   r = 0;
+   /** @type {number} - between 0 - 255*/
   g = 0;
+   /** @type {number} - between 0 - 255*/
   b = 0;
+
+  static getRandom() {
+    return new Color(
+      Math.floor(Math.random()*256),
+      Math.floor(Math.random()*256),
+      Math.floor(Math.random()*256),
+    )
+  }
+
+  static get(name) {
+    if(!Color.colors[name]) throw new Error(`${name} color not found!`);
+    return Color.colors[name];
+  }
+
+  static colors = {
+    "black": new Color(0, 0, 0),
+  }
 
   constructor(r, g, b) {
     this.r = r > 255 ? r % 255 : r;
@@ -9,6 +29,9 @@ export default class Color {
     this.b = b > 255 ? b % 255 : b;
   }
 
+  /**
+   * @returns {String} - a String "rgb(r, g, b)" with r/g/b values for rendering
+   */
   getRGBValue() {
     return  `rgb(${this.r}, ${this.g}, ${this.b})`;
   }

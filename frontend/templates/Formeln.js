@@ -33,6 +33,22 @@ export default class Formeln {
     return closest;
   }
 
+  static farthestPoint(mainPoint, points, exclude) {
+    let farthest;
+    let farthestDistance;
+    points.forEach(point => {
+      if(mainPoint == point) return;
+      if(exclude instanceof Vector2 && point == exclude) return;
+      if(exclude instanceof Array && exclude.includes(point)) return;
+
+      let distance = Formeln.distance(mainPoint, point);
+      if(!farthest || !farthestDistance || distance > farthestDistance) {
+        farthest = point;
+        farthestDistance = distance;
+      }
+    })
+  }
+
   static moveDirection(start, direction, distance) {
     let moveX = Math.sin( Formeln.toRadian(direction)) * distance;
     let moveY = -Math.cos( Formeln.toRadian(direction)) * distance;
