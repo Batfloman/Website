@@ -12,6 +12,8 @@ export default class System {
   /** @type {number} - last timestamp to calculate "dt"*/
   timeLast;
 
+  interval;
+
   constructor(canvas) {
     if(!(canvas instanceof Canvas)) throw new Error(`${canvas} is supposed to be instanceof Canvas!`);
     
@@ -27,24 +29,13 @@ export default class System {
   }
 
   start() {
-    this.bPaused = false;
+    this.interval = setInterval(() => {
+      this.tick();
+    }, 10);
   }
 
   stop() {
-    this.bPaused = true;
-  }
-
-  loop(that) {
-    if(that.bPaused) {
-      setTimeout(() => {
-        that.loop(that);
-      }, 100);
-      return;
-    }
-
-    that.tick();    
-
-    window.requestAnimationFrame(that.loop(that));
+    clearInterval(this.interval);
   }
 
   tick() {

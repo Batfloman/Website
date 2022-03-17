@@ -23,6 +23,9 @@ export default class Input {
   /** @type {Vector2} - mousePos change (to last mousemove call)*/
   static mouseMovement;
 
+  // ===== pressed keys =====
+
+  static pressedKeys = new Array();
 
   /**
    * updates the most important changes for easier access
@@ -33,6 +36,18 @@ export default class Input {
       Input.mousePosScreen = new Vector2(event.screenX, event.screenY);
       Input.mousePosOffSet = new Vector2(event.offsetX, event.offsetY);
       Input.mouseMovement = new Vector2(event.movementX, event.movementY);
+    })
+    window.addEventListener("keydown", (event) => {
+      if(!(this.pressedKeys.includes(event.key))) this.pressedKeys.push(event.key.toLowerCase()); 
+    })
+    window.addEventListener("keyup", (event) => {
+      if(this.pressedKeys.includes(event.key.toLowerCase())) {
+        let index = this.pressedKeys.indexOf(event.key);
+        this.pressedKeys.splice(index, 1);
+      }
+    })
+    window.addEventListener("blur", () => {
+      this.pressedKeys = new Array();
     })
   }
 
@@ -59,6 +74,10 @@ export default class Input {
     Input.eventListener.get(event.type).forEach(obj => {
       obj.notify(event);
     });
+  }
+
+  static getPressedKeys() {
+    return this.pressedKeys;
   }
 
   static getMousePosPage() { return Input.mousePosPage;}

@@ -4,12 +4,15 @@ import Vector2 from "../../../../templates/util/Vector2.js";
 import Polygon from "../../../../templates/physic/2d/boundingBox/Polygon.js";
 import Formeln from "../../../../templates/Formeln.js";
 import WorldObject from "../../../../templates/assets/WorldObject.js";
+import MoveableObject from "../../../../templates/assets/MovableObject.js";
 
 window.onload = () => {
   let canvas = document.getElementById("scene");
   let c = new Canvas(canvas);
 
   let s = new System(c);
+
+  let first = true;
 
   for(let i = 0; i < 2; i++) {  
     let xMin = -50;
@@ -21,12 +24,12 @@ window.onload = () => {
     let maxVertecies = 5;
     let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - (xMin), Math.floor(Math.random()*(yMax-yMin)) - (yMin));
     let form = new Polygon(start, Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2);
-    let worldobj = new WorldObject(start, form);
+    let worldobj = new MoveableObject(start, form);
     s.addObject(worldobj);
+    if(!first) {
+      worldobj.bLockMovement = true;
+    } else {first = false;}
   }
 
-  s.tick();
-  setInterval(() => {
-    s.tick();
-  }, 10);
+  s.start();
 }
