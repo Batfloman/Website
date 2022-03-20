@@ -1,6 +1,7 @@
 import SceneObject from "./SceneObject.js";
 import Polygon from "../physic/2d/boundingBox/Polygon.js";
 import Vector2 from "../util/Vector2.js";
+import Formeln from "../Formeln.js";
 
 export default class WorldObject extends SceneObject {
   /** @type {Vector2} */
@@ -36,13 +37,24 @@ export default class WorldObject extends SceneObject {
     let screenTopY = this.canvas.viewOffSet.y + this.canvas.htmlCanvas.height;
     let screenBottomY = this.canvas.viewOffSet.y;
 
-    let isInRangeX = (screenLeftX < this.centerPos.x) && (this.centerPos.x < screenRightX);
-    let isInRangeY = (screenBottomY < this.centerPos.y) && (this.centerPos.y < screenTopY);
+    this.translatePoints();
+    let maxDistance = Formeln.distance( this.centerPos, Formeln.farthestPoint(this.centerPos, this.hitBox.points));
+
+    let isInRangeX = (screenLeftX < (this.centerPos.x + maxDistance)) && ((this.centerPos.x - maxDistance) < screenRightX);
+    let isInRangeY = (screenBottomY < (this.centerPos.y + maxDistance)) && ((this.centerPos.y - maxDistance) < screenTopY);
 
     return (isInRangeX && isInRangeY);
   }
 
+  translatePoints() {
+    this.hitBox.translatePoints(this.centerPos);
+  }
+
   rotate(degree) {
     this.hitBox.rotate(degree);
+  }
+
+  getFarthestPoint() {
+    return Formeln.farthestPoint(this.centerPos, this.hitBox.points);
   }
 }

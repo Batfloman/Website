@@ -15,13 +15,13 @@ export default class Input {
   // ===== mouse move =====
 
   /** @type {Vector2} - mousePos on global document with scroll */
-  static mousePosPage;
+  static mousePosPage = new Vector2();
   /** @type {Vector2} - mousePos relative to current Screen*/
-  static mousePosScreen;
+  static mousePosScreen = new Vector2();
   /** @type {Vector2} - mousePos relative to hovered element*/
-  static mousePosOffSet;
+  static mousePosOffSet = new Vector2();
   /** @type {Vector2} - mousePos change (to last mousemove call)*/
-  static mouseMovement;
+  static mouseMovement = new Vector2();
 
   // ===== pressed keys =====
 

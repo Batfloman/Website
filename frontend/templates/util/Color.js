@@ -1,4 +1,7 @@
 export default class Color {
+
+  static none = null;
+
    /** @type {number} - between 0 - 255 */
   r = 0;
    /** @type {number} - between 0 - 255*/
@@ -21,6 +24,7 @@ export default class Color {
 
   static colors = {
     "black": new Color(0, 0, 0),
+    "white": new Color(255, 255, 255)
   }
 
   constructor(r, g, b) {

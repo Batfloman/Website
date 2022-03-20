@@ -15,26 +15,17 @@ export default class Polygon {
   /** @type {Color} */
   fillColor;
 
-  constructor(centerPos, radius, numVerticies) {
-    this.centerPos = centerPos;
+  constructor(model) {
+    if(!model || !(model instanceof Array)) throw new Error(`${model} is no valid model`);
 
-    this.model = new Array();
-    for(let i = 0; i < numVerticies; i++) {
-      let angle = (360 / numVerticies) * i;
-      this.model.push( Formeln.moveDirection(new Vector2(0,0), angle, radius));
-    }
+    this.model = model;
   }
 
   render(ctx, pos) {
     this.translatePoints(pos);
 
-    ctx.strokeStyle = !this.borderColor ? Color.get("black") : this.borderColor.getRGBValue();
+    ctx.strokeStyle = !this.borderColor ? Color.get("black").getRGBValue() : this.borderColor.getRGBValue();
     ctx.fillStyle = !this.fillColor ? "rgba(0, 0, 0, 0)" : this.fillColor.getRGBValue();
-    
-    ctx.beginPath()
-    ctx.arc(pos.x, pos.y, 10, 0, 360);
-    ctx.fill();
-    ctx.stroke();
 
     ctx.beginPath();
     let first = this.points[0];
@@ -53,8 +44,8 @@ export default class Polygon {
       this.points.push(Formeln.rotateAroundCenter(
         pos,
         new Vector2(
-          point.x + pos.x,
-          point.y + pos.y
+          Math.round(point.x + pos.x),
+          Math.round(point.y + pos.y)
         ),
         this.angle
       ))

@@ -20,7 +20,7 @@
     <div id="games" class="collection-container"></div>
 
     <script>
-        const games = ["4Gewinnt", "Auralux", "LandingSim", "Pong", "Rechnen", "Snake", "Tetris", "TicTacToe", "Chess"];
+        const games = ["LandingSim", "Rechnen", "Snake", "TicTacToe"];
 
         window.onload = function() {
             games.forEach(
@@ -29,7 +29,7 @@
                     gameDiv.setAttribute("class", "game");
 
                     let gameA = document.createElement("a");
-                    gameA.setAttribute("href", `../../games/${game}/index.html`);
+                    gameA.setAttribute("href", `../../frontend/games/${game}/index.html`);
 
                     let gameImg = document.createElement("img");
                     gameImg.setAttribute("src", "");

@@ -15,17 +15,39 @@ export default class System {
   interval;
 
   constructor(canvas) {
-    if(!(canvas instanceof Canvas)) throw new Error(`${canvas} is supposed to be instanceof Canvas!`);
+    if(!(canvas instanceof Canvas)) throw new Error(canvas + " is not instanceof Canvas!");
     
     this.canvas = canvas;
   }
 
   addObject(obj) {
-    if(!obj || !(obj instanceof SceneObject)) throw new Error(`${obj} is no SceneObject`);
-    if(this.objects.includes(obj)) throw new Error(`${obj} is already added!`);
+    if(!obj || !(obj instanceof SceneObject)) throw new Error(obj + "is no SceneObject");
+    if(this.objects.includes(obj)) throw new Error(obj + "is already added!");
 
     this.objects.push(obj);
-    obj.init(this.canvas);
+    obj.init(this.canvas, this);
+  }
+
+  findObjects(clas) {
+    if(!clas) throw new Error(clas + " is not valid as class");
+    this.findObjects(clas, null)
+  }
+
+  findObjects(clas, exclude) {
+    if(!clas) throw new Error(clas + " is not valid as class");
+
+    let foundObjects = new Array();
+
+    this.objects.forEach(obj => {
+      if(exclude instanceof SceneObject && obj == exclude) return; 
+      if(exclude instanceof Array && exclude.includes(obj)) return;
+
+      if(obj instanceof clas) {
+        foundObjects.push(obj);
+      }
+    })
+
+    return foundObjects;
   }
 
   start() {

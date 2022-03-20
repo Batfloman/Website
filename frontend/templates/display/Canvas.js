@@ -12,6 +12,9 @@ export default class Canvas {
   /** @type {boolean} */
   mouseDown = false;
 
+  /** @type {boolean} */
+  lockMovement = true;
+
   constructor(htmlCanvas) {
     this.htmlCanvas = htmlCanvas;
 
@@ -49,7 +52,7 @@ export default class Canvas {
         if(event.button == 0) this.mouseDown = true;
         break;
       case "mousemove":
-        if(this.mouseDown) this.updateViewOffSet(event.movementX, event.movementY);
+        if(this.mouseDown && !(this.lockMovement)) this.updateViewOffSet(event.movementX, event.movementY);
         break;
       case "mouseup":
         if(event.button == 0) this.mouseDown = false;
@@ -57,6 +60,17 @@ export default class Canvas {
       default:
         console.log(event);
       }
+  }
+
+  getMousePosWithViewOffSet() {
+    if(!this.viewOffSet) return new Vector2();
+
+    let mousePos = Input.getMousePosOffSet();
+    let offSetted = new Vector2(
+      mousePos.x + this.viewOffSet.x,
+      mousePos.y + this.viewOffSet.y
+    );
+    return offSetted;
   }
 
   updateViewOffSet(xChange, yChange) {

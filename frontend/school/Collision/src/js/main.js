@@ -5,31 +5,39 @@ import Polygon from "../../../../templates/physic/2d/boundingBox/Polygon.js";
 import Formeln from "../../../../templates/Formeln.js";
 import WorldObject from "../../../../templates/assets/WorldObject.js";
 import MoveableObject from "../../../../templates/assets/MovableObject.js";
+import Form from "./Form.js";
+import FromObject from "./FormObject.js";
 
 window.onload = () => {
   let canvas = document.getElementById("scene");
   let c = new Canvas(canvas);
+  c.lockMovement = false;
 
   let s = new System(c);
 
-  let first = true;
+  // s.addObject(new FromObject(
+  //   new Vector2(100, 100),
+  //   new Form(50, 4)
+  // ))
+  // s.addObject(new FromObject(
+  //   new Vector2(50, 50),
+  //   new Form(40, 3, 120)
+  // ))
 
-  for(let i = 0; i < 2; i++) {  
-    let xMin = -50;
-    let xMax = 50;
-    let yMin = -50;
-    let yMax = 50;
+  for(let i = 0; i < 150; i++) {  
+    let xMin = -500;
+    let xMax = 500;
+    let yMin = -500;
+    let yMax = 500;
     let rMax = 50;
     let rMin = 25;
-    let maxVertecies = 5;
-    let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - (xMin), Math.floor(Math.random()*(yMax-yMin)) - (yMin));
-    let form = new Polygon(start, Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2);
-    let worldobj = new MoveableObject(start, form);
+    let maxVertecies = 6;
+    let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - Math.abs(xMin), Math.floor(Math.random()*(yMax-yMin)) - Math.abs(yMin));
+    let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
+    let worldobj = new FromObject(start, form);
     s.addObject(worldobj);
-    if(!first) {
-      worldobj.bLockMovement = true;
-    } else {first = false;}
   }
 
   s.start();
+  // s.tick();
 }
