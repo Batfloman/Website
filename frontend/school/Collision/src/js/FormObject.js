@@ -26,9 +26,9 @@ export default class FromObject extends MoveableObject {
 
     this.hitBox.fillColor = this.lockMovement ?  Color.none : Color.get("black");
 
-    this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? Color.get("white") : Color.get("black");
+    this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? Color.get("red") : Color.get("black");
 
-    this.rotate(90 * dt / 1000);
+    if(this.lockMovement) this.rotate(90 * dt / 1000);
   }
 
   testOverlap(objects) {

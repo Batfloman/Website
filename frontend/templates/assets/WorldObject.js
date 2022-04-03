@@ -19,9 +19,7 @@ export default class WorldObject extends SceneObject {
     this.hitBox = hitBox;
   }
 
-  update() {
-    // this.rotate(1)
-  }
+  update() {};
 
   render(ctx) {
     let pos = new Vector2(

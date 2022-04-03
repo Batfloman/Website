@@ -7,6 +7,8 @@ import WorldObject from "../../../../templates/assets/WorldObject.js";
 import MoveableObject from "../../../../templates/assets/MovableObject.js";
 import Form from "./Form.js";
 import FromObject from "./FormObject.js";
+import ConvexIrregular from "./ConvexIrregular.js";
+import Rectangle from "../../../../templates/physic/2d/boundingBox/Rectangle.js";
 
 window.onload = () => {
   let canvas = document.getElementById("scene");
@@ -17,23 +19,24 @@ window.onload = () => {
 
   // s.addObject(new FromObject(
   //   new Vector2(100, 100),
-  //   new Form(50, 4)
+  //   new Form(50, 4, 45)
   // ))
   // s.addObject(new FromObject(
   //   new Vector2(50, 50),
   //   new Form(40, 3, 120)
   // ))
 
-  for(let i = 0; i < 150; i++) {  
+  for(let i = 0; i < 25; i++) {  
     let xMin = -500;
     let xMax = 500;
     let yMin = -500;
     let yMax = 500;
     let rMax = 50;
     let rMin = 25;
-    let maxVertecies = 6;
+    let maxVertecies = 12;
     let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - Math.abs(xMin), Math.floor(Math.random()*(yMax-yMin)) - Math.abs(yMin));
-    let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
+    let form = new ConvexIrregular(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, .5, Math.floor( Math.random()*360));
+    // let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
     let worldobj = new FromObject(start, form);
     s.addObject(worldobj);
   }

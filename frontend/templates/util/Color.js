@@ -24,7 +24,10 @@ export default class Color {
 
   static colors = {
     "black": new Color(0, 0, 0),
-    "white": new Color(255, 255, 255)
+    "white": new Color(255, 255, 255),
+    "blue": new Color(0, 0, 255),
+    "red": new Color(255, 0, 0),
+    "green": new Color(0, 255, 0)
   }
 
   constructor(r, g, b) {
