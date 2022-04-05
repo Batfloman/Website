@@ -5,7 +5,13 @@ import SAT from "../../../../templates/physic/2d/collision/SAT.js";
 import Color from "../../../../templates/util/Color.js";
 
 export default class FromObject extends MoveableObject {
-  
+
+  normalColor = Color.get("black");
+  kollideColor = Color.get("white");
+  selectedColor = Color.get("black");
+
+  degPerSec = 90;
+
   constructor(centerPos, hitBox) {
     let controles = new Map();
     controles.set("w", (dt) => { this.move(0, 100 * dt / 1000) });
@@ -24,11 +30,11 @@ export default class FromObject extends MoveableObject {
   update(dt) {
     super.update(dt);
 
-    this.hitBox.fillColor = this.lockMovement ?  Color.none : Color.get("black");
+    this.hitBox.fillColor = this.lockMovement ?  Color.none : this.selectedColor;
 
-    this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? Color.get("red") : Color.get("black");
+    this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? this.kollideColor : this.normalColor;
 
-    if(this.lockMovement) this.rotate(90 * dt / 1000);
+    if(this.lockMovement) this.rotate(this.degPerSec * dt / 1000);
   }
 
   testOverlap(objects) {

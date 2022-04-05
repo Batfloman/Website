@@ -22,16 +22,23 @@ export default class SAT {
     return this.areColliding(polygon1, polygon2) && this.areColliding(polygon2, polygon1);
   }
 
+  /**
+   * Tests all Sides of polygon 1 with SAT agaings polygon 2
+   * 
+   * @param {Polygon} polygon1 
+   * @param {Polygon} polygon2 
+   * @returns {boolean} false if a gap is found - else true
+   */
+
   static areColliding(polygon1, polygon2) {
     let lastPoint = polygon1.points[polygon1.points.length - 1];
     
     for(let i = 0; i < polygon1.points.length; i++) {
       let point = polygon1.points[i];
 
-      let vecBetween = lastPoint.vectorTo(point);
-      let normal = vecBetween.getNormal();
+      let normal = lastPoint.vectorTo(point).getNormal();
 
-      // project shape 1 
+      // projection shape 1 
 
       let min1 = Infinity;
       let max1 = -Infinity
@@ -42,7 +49,7 @@ export default class SAT {
         max1 = Math.max(max1, dot);
       })
 
-      // project shape 2 
+      // projection shape 2 
 
       let min2 = Infinity;
       let max2 = -Infinity

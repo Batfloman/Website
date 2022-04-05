@@ -26,14 +26,15 @@ window.onload = () => {
   //   new Form(40, 3, 120)
   // ))
 
-  for(let i = 0; i < 25; i++) {  
-    let xMin = -500;
-    let xMax = 500;
-    let yMin = -500;
-    let yMax = 500;
-    let rMax = 50;
-    let rMin = 25;
-    let maxVertecies = 12;
+  let xMin = -500;
+  let xMax = 500;
+  let yMin = -500;
+  let yMax = 500;
+  let rMax = 50;
+  let rMin = 25;
+  let maxVertecies = 12;
+
+  for(let i = 0; i < 66; i++) {  
     let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - Math.abs(xMin), Math.floor(Math.random()*(yMax-yMin)) - Math.abs(yMin));
     let form = new ConvexIrregular(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, .5, Math.floor( Math.random()*360));
     // let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
