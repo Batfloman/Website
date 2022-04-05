@@ -44,7 +44,7 @@ export default class SAT {
       let max1 = -Infinity
 
       polygon1.points.forEach(point => {
-        let dot = point.dotProduct(normal);
+        let dot = point.dotProduct(normal) / normal.getMagnitude();
         min1 = Math.min(min1, dot);
         max1 = Math.max(max1, dot);
       })
@@ -55,7 +55,7 @@ export default class SAT {
       let max2 = -Infinity
 
       polygon2.points.forEach(point => {
-        let dot = point.dotProduct(normal);
+        let dot = point.dotProduct(normal) / normal.getMagnitude();
         min2 = Math.min(min2, dot);
         max2 = Math.max(max2, dot);
       })
