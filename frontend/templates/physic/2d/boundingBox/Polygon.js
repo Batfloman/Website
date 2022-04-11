@@ -15,10 +15,15 @@ export default class Polygon {
   /** @type {Color} */
   fillColor;
 
+  /**
+   * 
+   * @param {Vector2[]} model 
+   */
   constructor(model) {
     if(!model || !(model instanceof Array)) throw new Error(`${model} is no valid model`);
 
     this.model = model;
+    this.points = model;
   }
 
   render(ctx, pos) {

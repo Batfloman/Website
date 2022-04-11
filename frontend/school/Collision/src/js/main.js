@@ -9,6 +9,8 @@ import Form from "./Form.js";
 import FromObject from "./FormObject.js";
 import ConvexIrregular from "./ConvexIrregular.js";
 import Rectangle from "../../../../templates/physic/2d/boundingBox/Rectangle.js";
+import UIObject from "../../../../templates/assets/UIObject.js";
+import Input from "../../../../templates/input/Input.js";
 
 window.onload = () => {
   let canvas = document.getElementById("scene");
@@ -18,12 +20,12 @@ window.onload = () => {
   let s = new System(c);
 
   // s.addObject(new FromObject(
-  //   new Vector2(100, 100),
-  //   new Form(50, 4, 45)
+  //   new Vector2(-1, -1),
+  //   new Rectangle(100, 100)
   // ))
   // s.addObject(new FromObject(
-  //   new Vector2(50, 50),
-  //   new Form(40, 3, 120)
+  //   new Vector2(-1, 120),
+  //   new Rectangle(100, 100)
   // ))
 
   let xMin = -500;
@@ -41,6 +43,15 @@ window.onload = () => {
     let worldobj = new FromObject(start, form);
     s.addObject(worldobj);
   }
+
+  // if(!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+  //   let test = new UIObject(
+  //     new Vector2(100, 100), 
+  //     new Rectangle(100, 100),
+  //     "click me!"
+  //   );
+  //   s.addObject(test);
+  // }
 
   s.start();
   // s.tick();

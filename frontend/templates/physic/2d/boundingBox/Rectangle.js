@@ -4,6 +4,9 @@ import Polygon from "./Polygon.js";
 export default class Rectangle extends Polygon {
   constructor(width, height) {
     let model = new Array();
+
+    width = !width ? 10 : width;
+    height = !height ? 10 : height;
     
     model.push( new Vector2(width/2, height/2));
     model.push( new Vector2(width/2, -height/2));

@@ -11,7 +11,7 @@ export default class SAT {
    * @param {WorldObject} obj2 
    */
   static testCollision(obj1, obj2) {
-    if(!obj1 || !obj2 || !(obj1 instanceof WorldObject) || !(obj2 instanceof WorldObject)) throw new Error("Worldobjects expected!"); 
+    if(!(obj1 instanceof WorldObject) || !(obj2 instanceof WorldObject)) throw new Error("Worldobjects expected!"); 
 
     obj1.translatePoints();
     obj2.translatePoints();
@@ -19,6 +19,7 @@ export default class SAT {
     let polygon1 = obj1.hitBox;
     let polygon2 = obj2.hitBox;
 
+    
     return this.areColliding(polygon1, polygon2) && this.areColliding(polygon2, polygon1);
   }
 
@@ -37,11 +38,10 @@ export default class SAT {
       let point = polygon1.points[i];
 
       let normal = lastPoint.vectorTo(point).getNormal();
-
       // projection shape 1 
 
       let min1 = Infinity;
-      let max1 = -Infinity
+      let max1 = -Infinity;
 
       polygon1.points.forEach(point => {
         let dot = point.dotProduct(normal) / normal.getMagnitude();
@@ -52,7 +52,7 @@ export default class SAT {
       // projection shape 2 
 
       let min2 = Infinity;
-      let max2 = -Infinity
+      let max2 = -Infinity;
 
       polygon2.points.forEach(point => {
         let dot = point.dotProduct(normal) / normal.getMagnitude();
