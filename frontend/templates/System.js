@@ -43,7 +43,6 @@ export default class System {
       if(exclude instanceof Array && exclude.includes(obj)) return;
 
       if(obj instanceof clas) {
-        console.log(obj)
         foundObjects.push(obj);
       }
     })

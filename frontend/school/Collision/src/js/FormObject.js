@@ -11,7 +11,23 @@ export default class FromObject extends MoveableObject {
   kollideColor = Color.get("white");
   selectedColor = Color.get("black");
 
-  degPerSec = 90;
+  // ===== fun =====
+
+  degPerSec = FromObject.randomSpeed(30, 180);
+  
+  static randomSpeed(min, max) {
+    let value;
+    do {
+      value = Math.random()*max*2 - max;
+    } while (value > -min && value < min)
+    return value;
+  }
+
+  // ===== fun end =====
+
+  //===================
+  // ~~~~~ Class ~~~~~
+  //===================
 
   constructor(centerPos, hitBox) {
     let controles = new Map();
@@ -26,8 +42,6 @@ export default class FromObject extends MoveableObject {
 
     window.addEventListener("click", this);
     Input.newEventListener("click", this);
-
-    
   }
 
   update(dt) {
@@ -37,7 +51,7 @@ export default class FromObject extends MoveableObject {
 
     this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? this.kollideColor : this.normalColor;
 
-    if(this.lockMovement) this.rotate(this.degPerSec * dt / 1000 + (Math.random()*2)-1);
+    if(this.lockMovement) this.rotate(this.degPerSec * dt / 1000);
   }
 
   testOverlap(objects) {
