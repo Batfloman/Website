@@ -9,10 +9,13 @@ export default class System {
   /** @type {SceneObject[]} */
   objects = new Array();
   
-  /** @type {number} - last timestamp to calculate "dt"*/
+  /** @type {number} - last timestamp to calculate "dt" */
   timeLast;
 
   interval;
+
+  /** @type {boolean} - if user is on moblie */
+  isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
   constructor(canvas) {
     if(!(canvas instanceof Canvas)) throw new Error(canvas + " is not instanceof Canvas!");
@@ -26,6 +29,15 @@ export default class System {
 
     this.objects.push(obj);
     obj.init(this.canvas, this);
+  }
+
+  removeObject(obj) {
+    if(!(this.objects.includes(obj))) {
+      console.warn(`${obj} is not there!`); 
+      return;
+    }
+    let index = this.objects.indexOf(obj);
+    let splice = this.objects.splice(index, 1);
   }
 
   findObjects(clas) {
@@ -70,6 +82,7 @@ export default class System {
       obj.update(dt);
     })
 
+    this.objects.sort((a, b) => (a.zIndex > b.zIndex) ? 1 : -1)
     this.canvas.render(this.objects);
   }
 }

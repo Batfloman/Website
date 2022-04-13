@@ -12,22 +12,126 @@ import Rectangle from "../../../../templates/physic/2d/boundingBox/Rectangle.js"
 import UIObject from "../../../../templates/assets/UIObject.js";
 import Input from "../../../../templates/input/Input.js";
 
+let s;
+let selected = new Array();
+
 window.onload = () => {
   let canvas = document.getElementById("scene");
   let c = new Canvas(canvas);
   c.lockMovement = false;
 
-  let s = new System(c);
+  s = new System(c);
 
-  // s.addObject(new FromObject(
-  //   new Vector2(-1, -1),
-  //   new Rectangle(100, 100)
-  // ))
-  // s.addObject(new FromObject(
-  //   new Vector2(-1, 120),
-  //   new Rectangle(100, 100)
-  // ))
+  if(!s.isMobile) {
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 50),
+        new Rectangle(180, 30),
+        "clear",
+        () => {
+          updateSelected();
+          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          arr.forEach(form => {
+            s.removeObject(form);
+          })
+        }
+      )
+    )
 
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 100),
+        new Rectangle(180, 30),
+        "new Random",
+        () => {
+          s.addObject(createRandomForm());
+        }
+      )
+    )
+
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 150),
+        new Rectangle(180, 30),
+        "10x Random",
+        () => {
+          for(let i = 0; i < 10; i++ ){
+            s.addObject(createRandomForm());
+          }
+        }
+      )
+    )
+
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 200),
+        new Rectangle(180, 30),
+        "Stop!",
+        () => {
+          updateSelected();
+          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          arr.forEach(form => {
+            form.degPerSec = 0;
+          })
+        }
+      )
+    )
+
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 250),
+        new Rectangle(180, 30),
+        "random Speed",
+        () => {
+          updateSelected();
+          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          arr.forEach(form => {
+            form.degPerSec = FromObject.randomSpeed(30, 180);
+          })
+        }
+      )
+    )
+
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 300),
+        new Rectangle(180, 30),
+        "2 * Speed",
+        () => {
+          updateSelected();
+          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          arr.forEach(form => {
+            form.degPerSec *= 2;
+          })
+        }
+      )
+    )
+
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 350),
+        new Rectangle(180, 30),
+        "0.5 * Speed",
+        () => {
+          updateSelected();
+          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          arr.forEach(form => {
+            form.degPerSec *= 0.5;
+          })
+        }
+      )
+    )
+  }
+
+  for(let i = 0; i < 66; i++) {  
+    s.addObject(createRandomForm());
+  }
+
+  s.start();
+  // s.tick();
+}
+
+function createRandomForm() {
   let xMin = -500;
   let xMax = 500;
   let yMin = -500;
@@ -36,23 +140,16 @@ window.onload = () => {
   let rMin = 25;
   let maxVertecies = 12;
 
-  for(let i = 0; i < 66; i++) {  
-    let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - Math.abs(xMin), Math.floor(Math.random()*(yMax-yMin)) - Math.abs(yMin));
-    let form = new ConvexIrregular(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, .5, Math.floor( Math.random()*360));
-    // let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
-    let worldobj = new FromObject(start, form);
-    s.addObject(worldobj);
-  }
+  let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - Math.abs(xMin), Math.floor(Math.random()*(yMax-yMin)) - Math.abs(yMin));
+  let form = new ConvexIrregular(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, .5, Math.floor( Math.random()*360));
+  // let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
+  let worldobj = new FromObject(start, form);
+  return worldobj;
+}
 
-  // if(!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-  //   let test = new UIObject(
-  //     new Vector2(100, 100), 
-  //     new Rectangle(100, 100),
-  //     "click me!"
-  //   );
-  //   s.addObject(test);
-  // }
-
-  s.start();
-  // s.tick();
+function updateSelected() {
+  selected = new Array();
+  s.findObjects(FromObject).forEach(obj => {
+    if(!obj.lockMovement) selected.push(obj);
+  })
 }

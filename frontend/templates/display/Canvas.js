@@ -10,9 +10,6 @@ export default class Canvas {
   viewOffSet;
 
   /** @type {boolean} */
-  mouseDown = false;
-
-  /** @type {boolean} */
   lockMovement = true;
 
   /** @type {Vector2} */
@@ -21,14 +18,21 @@ export default class Canvas {
   constructor(htmlCanvas) {
     this.htmlCanvas = htmlCanvas;
 
-    Input.newEventListener("resize", this);
-    Input.newEventListener("mousedown", this);
-    Input.newEventListener("touchstart", this);
-    Input.newEventListener("mouseup", this);
-    Input.newEventListener("touchend", this);
-    Input.newEventListener("mousemove", this);
-    Input.newEventListener("touchmove", this);
-    Input.newEventListener("touchcancel", this);
+    Input.newEventListener("resize", this, this.resize);
+    Input.newEventListener("mousemove", this, (event) => {
+      if(!Input.mouseDown || this.lockMovement) return;
+      this.updateViewOffSet(event.movementX, event.movementY);
+    });
+    Input.newEventListener("touchmove", this, (event) => {
+      if(this.lockMovement) return;
+      this.updateViewOffSet(event.touches[0].clientX- this.lastPos.x, event.touches[0].clientY- this.lastPos.y);
+      this.lastPos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
+    });
+    Input.newEventListener("touchstart", this, (event) => {
+      this.lastPos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
+    })
+
+
 
     this.resize();
     this.viewOffSet = new Vector2(-this.htmlCanvas.width / 2, - (this.htmlCanvas.height / 2));
@@ -48,39 +52,6 @@ export default class Canvas {
         obj.render(ctx);
       }
     });
-  }
-
-  notify(event) {
-    switch(event.type) {
-      case "resize":
-        this.resize();
-        break;
-      case "touchstart":
-        this.mouseDown = true;
-        this.lastPos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
-        break;
-      case "mousedown":
-        if(event.button == 0) this.mouseDown = true;
-        break;
-      case "touchmove":
-        this.updateViewOffSet(event.touches[0].clientX- this.lastPos.x, event.touches[0].clientY- this.lastPos.y);
-        this.lastPos = new Vector2(event.touches[0].clientX, event.touches[0].clientY);
-        break;
-      case "mousemove":
-        if(this.mouseDown && !(this.lockMovement)) {
-          this.updateViewOffSet(event.movementX, event.movementY);
-        }
-        break;
-      case "touchend":
-      case "touchcancel":
-        this.mouseDown = false;
-        break;
-      case "mouseup":
-        if(event.button == 0) this.mouseDown = false;
-        break;
-      default:
-        console.log(event);
-      }
   }
 
   getMousePosWithViewOffSet() {

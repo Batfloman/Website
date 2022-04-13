@@ -6,6 +6,8 @@ export default class SceneObject {
   canvas;
   /** @type {System} */
   system;
+  /** @type {number} */
+  zIndex = 0;
 
   init(canvas, system) {
     this.canvas = canvas;

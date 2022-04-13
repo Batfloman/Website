@@ -40,8 +40,10 @@ export default class FromObject extends MoveableObject {
 
     super(centerPos, hitBox, controles);
 
-    window.addEventListener("click", this);
-    Input.newEventListener("click", this);
+    Input.newEventListener("click", this, (event) => {
+      let mPos = this.canvas.getMousePosWithViewOffSet();
+      if(Formeln.distance(this.centerPos, mPos) < 10) this.lockMovement = !this.lockMovement;
+    });
   }
 
   update(dt) {
@@ -51,7 +53,7 @@ export default class FromObject extends MoveableObject {
 
     this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? this.kollideColor : this.normalColor;
 
-    if(this.lockMovement) this.rotate(this.degPerSec * dt / 1000);
+    this.rotate(this.degPerSec * dt / 1000);
   }
 
   testOverlap(objects) {
@@ -60,18 +62,5 @@ export default class FromObject extends MoveableObject {
       if(overlap) return true;
     }
     return false;
-  }
-
-  notify(event) {
-    switch(event.type) {
-      case "click":
-        let mPos = this.canvas.getMousePosWithViewOffSet();
-        if(Formeln.distance(this.centerPos, mPos) < 10) {
-          this.lockMovement = !this.lockMovement;
-        }
-        break;
-      default: 
-        super.notify(event);
-    }
   }
 }
