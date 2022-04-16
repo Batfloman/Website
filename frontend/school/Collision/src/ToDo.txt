@@ -1,6 +1,0 @@
-// functions
-0. implement Zooming
-1. Convex Form (Hull) Algorithm
-2. Not Convex Form Algorithm
-3. Split not-convex in convex parts
-

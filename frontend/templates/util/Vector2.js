@@ -1,3 +1,5 @@
+import Formeln from "../Formeln.js";
+
 export default class Vector2 {
   /** @type {number} */
   x = 0;
@@ -24,7 +26,7 @@ export default class Vector2 {
   }
 
   getMagnitude() {
-    return Math.sqrt((Math.pow(this.x, 2) + Math.pow(this.y, 2)))
+    return Formeln.calcHypotenuse(this.x, this.y);
   }
 
   dotProduct(vec2) {

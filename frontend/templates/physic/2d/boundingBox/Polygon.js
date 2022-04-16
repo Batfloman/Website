@@ -16,7 +16,6 @@ export default class Polygon {
   fillColor;
 
   /**
-   * 
    * @param {Vector2[]} model 
    */
   constructor(model) {
@@ -26,12 +25,19 @@ export default class Polygon {
     this.points = model;
   }
 
+  /**
+   * @param {CanvasRenderingContext2D} ctx 
+   * @param {Vector2} pos 
+   */
   render(ctx, pos) {
+    // translate Points to new Position
     this.translatePoints(pos);
 
+    // change Color
     ctx.strokeStyle = !this.borderColor ? Color.get("black").getRGBValue() : this.borderColor.getRGBValue();
     ctx.fillStyle = !this.fillColor ? "rgba(0, 0, 0, 0)" : this.fillColor.getRGBValue();
 
+    // draw Outline
     ctx.beginPath();
     let first = this.points[0];
     ctx.moveTo(first.x, first.y);
@@ -57,15 +63,22 @@ export default class Polygon {
     })
   }
 
+  /**
+   * finds the centerpoint of the shape
+   */
   centerModel() {
     let centerX = 0;
     let centerY = 0;
+    // adds all cordinates together
     this.model.forEach(point => {
       centerX += point.x;
       centerY += point.y;
     })
+    // get the "durchschnitt"
     let moveX = centerX / this.model.length;
     let moveY = centerY / this.model.length;
+    // offsets the model Points by the offset from the centerpoint to the "real" centerpoint
+    // => makes the centerpoint the real centerpoint
     this.model.forEach(point => {
       point.x -= Math.round(moveX*100) / 100;
       point.y -= Math.round(moveY*100) / 100;

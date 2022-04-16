@@ -7,9 +7,15 @@ import Color from "../../../../templates/util/Color.js";
 
 export default class FromObject extends MoveableObject {
 
-  normalColor = Color.get("black");
-  kollideColor = Color.get("white");
+  // Border Color when not kolliding
+  standardColor = Color.get("black");
+  // Border Color when kollding
+  kollisionColor = Color.get("white");
+  // Color of Circle when selected
   selectedColor = Color.get("black");
+
+  // Border Width when not kolliding
+  standardWidth = 2;
 
   // ===== fun =====
 
@@ -51,7 +57,7 @@ export default class FromObject extends MoveableObject {
 
     this.hitBox.fillColor = this.lockMovement ?  Color.none : this.selectedColor;
 
-    this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? this.kollideColor : this.normalColor;
+    this.hitBox.borderColor = this.testOverlap( this.system.findObjects(FromObject, this)) ? this.kollisionColor : this.standardColor;
 
     this.rotate(this.degPerSec * dt / 1000);
   }

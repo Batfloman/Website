@@ -22,7 +22,7 @@ window.onload = () => {
 
   s = new System(c);
 
-  if(!s.isMobile) {
+  if (!s.isMobile) {
     s.addObject(
       new UIObject(
         new Vector2(100, 50),
@@ -55,7 +55,7 @@ window.onload = () => {
         new Rectangle(180, 30),
         "10x Random",
         () => {
-          for(let i = 0; i < 10; i++ ){
+          for (let i = 0; i < 10; i++) {
             s.addObject(createRandomForm());
           }
         }
@@ -121,11 +121,44 @@ window.onload = () => {
         }
       )
     )
+
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 400),
+        new Rectangle(180, 30),
+        "select all",
+        () => {
+          s.findObjects(FromObject).forEach(obj => {
+            obj.lockMovement = false;
+          })
+        }
+      )
+    )
+
+    s.addObject(
+      new UIObject(
+        new Vector2(100, 450),
+        new Rectangle(180, 30),
+        "unselect all",
+        () => {
+          s.findObjects(FromObject).forEach(obj => {
+            obj.lockMovement = true;
+          })
+        }
+      )
+    )
   }
 
-  for(let i = 0; i < 66; i++) {  
+  for (let i = 0; i < 66; i++) {
     s.addObject(createRandomForm());
   }
+
+  // s.addObject(
+  //   new FromObject(
+  //     new Vector2(0, 0),
+  //     new Form(50, 4, 45)
+  //   )
+  // )
 
   s.start();
   // s.tick();
@@ -140,8 +173,8 @@ function createRandomForm() {
   let rMin = 25;
   let maxVertecies = 12;
 
-  let start = new Vector2(Math.floor(Math.random()*(xMax-xMin)) - Math.abs(xMin), Math.floor(Math.random()*(yMax-yMin)) - Math.abs(yMin));
-  let form = new ConvexIrregular(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, .5, Math.floor( Math.random()*360));
+  let start = new Vector2(Math.floor(Math.random() * (xMax - xMin)) - Math.abs(xMin), Math.floor(Math.random() * (yMax - yMin)) - Math.abs(yMin));
+  let form = new ConvexIrregular(Math.floor(Math.random() * (rMax - rMin)) + rMin, Math.ceil(Math.random() * (maxVertecies - 2)) + 2, .5, Math.floor(Math.random() * 360));
   // let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
   let worldobj = new FromObject(start, form);
   return worldobj;
@@ -150,6 +183,6 @@ function createRandomForm() {
 function updateSelected() {
   selected = new Array();
   s.findObjects(FromObject).forEach(obj => {
-    if(!obj.lockMovement) selected.push(obj);
+    if (!obj.lockMovement) selected.push(obj);
   })
 }

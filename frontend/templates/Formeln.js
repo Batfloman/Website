@@ -62,6 +62,13 @@ export default class Formeln {
     return new Vector2(start.x + moveX, start.y + moveY);
   }
 
+  /**
+   * rotates the @param point around the @param center for @param angle degrees
+   * @param {Vector2} center 
+   * @param {Vector2} point 
+   * @param {number} angle 
+   * @returns 
+   */
   static rotateAroundCenter(center, point, angle) {
     let xRot = Math.cos(Formeln.toRadian(angle)) * (point.x - center.x) - Math.sin(Formeln.toRadian(angle)) * (point.y - center.y) + center.x;
     let yRot = Math.sin(Formeln.toRadian(angle)) * (point.x - center.x) + Math.cos(Formeln.toRadian(angle)) * (point.y - center.y) + center.y;
