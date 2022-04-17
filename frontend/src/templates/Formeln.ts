@@ -1,4 +1,4 @@
-import Vector2 from "./util/Vector2"
+import Vector2 from "./util/Vector2.js"
 
 export default class Formeln {
 

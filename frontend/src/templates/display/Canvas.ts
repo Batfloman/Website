@@ -1,7 +1,7 @@
-import SceneObject from "../assets/SceneObject";
-import WorldObject from "../assets/WorldObject";
-import Input from "../input/Input";
-import Vector2 from "../util/Vector2";
+import SceneObject from "../assets/SceneObject.js";
+import WorldObject from "../assets/WorldObject.js";
+import Input from "../input/Input.js";
+import Vector2 from "../util/Vector2.js";
 
 export default class Canvas {
   htmlCanvas: HTMLCanvasElement;

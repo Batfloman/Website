@@ -1,6 +1,6 @@
-import Formeln from "../../../Formeln";
-import Vector2 from "../../../util/Vector2";
-import Color from "../../../util/Color";
+import Formeln from "../../../Formeln.js";
+import Vector2 from "../../../util/Vector2.js";
+import Color from "../../../util/Color.js";
 
 export default class Polygon {
   // points relative to a 0, 0 center with 0° rotation

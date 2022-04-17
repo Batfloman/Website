@@ -1,10 +1,10 @@
-import MoveableObject from "../../templates/assets/MovableObject";
-import WorldObject from "../../templates/assets/WorldObject";
-import Formeln from "../../templates/Formeln";
-import Input from "../../templates/input/Input";
-import Polygon from "../../templates/physic/2d/boundingBox/Polygon";
-import SAT from "../../templates/physic/2d/collision/SAT";
-import Vector2 from "../../templates/util/Vector2";
+import MoveableObject from "../../templates/assets/MovableObject.js";
+import WorldObject from "../../templates/assets/WorldObject.js";
+import Formeln from "../../templates/Formeln.js";
+import Input from "../../templates/input/Input.js";
+import Polygon from "../../templates/physic/2d/boundingBox/Polygon.js";
+import SAT from "../../templates/physic/2d/collision/SAT.js";
+import Vector2 from "../../templates/util/Vector2.js";
 
 export default class FromObject extends MoveableObject {
 

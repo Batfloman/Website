@@ -25,15 +25,22 @@ app.use(express.static(path.join(__dirname, "public")));
  */
 
 app.get("/", (req, res) => {
-    res.render("index", {"title": "Home"});
+    res.render("index", { "title": "Home" });
 })
 
 app.get("/games", (req, res) => {
-    res.render("games", {"title": "Games"});
+    res.render("games", { "title": "Games", "content": ["pong"] });
 })
 
+app.get("/games/")
+
 app.get("/school", (req, res) => {
-    res.render("school", {"title": "School"});
+    res.render("school", {
+        "title": "School",
+        "content": [
+            "Collision"
+        ]
+    });
 })
 
 /**

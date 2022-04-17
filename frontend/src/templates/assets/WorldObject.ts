@@ -1,8 +1,8 @@
-import SceneObject from "./SceneObject";
-import Polygon from "../physic/2d/boundingBox/Polygon";
-import Vector2 from "../util/Vector2";
-import Formeln from "../Formeln";
-import Color from "../util/Color";
+import SceneObject from "./SceneObject.js";
+import Polygon from "../physic/2d/boundingBox/Polygon.js";
+import Vector2 from "../util/Vector2.js";
+import Formeln from "../Formeln.js";
+import Color from "../util/Color.js";
 
 export default class WorldObject extends SceneObject {
   centerPos: Vector2;

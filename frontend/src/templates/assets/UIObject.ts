@@ -1,11 +1,11 @@
-import Vector2 from "../util/Vector2";
-import Polygon from "../physic/2d/boundingBox/Polygon";
-import Rectangle from "../physic/2d/boundingBox/Rectangle";
-import WorldObject from "./WorldObject";
-import Input from "../input/Input";
-import SAT from "../physic/2d/collision/SAT";
-import Canvas from "../display/Canvas";
-import System from "../System";
+import Vector2 from "../util/Vector2.js";
+import Polygon from "../physic/2d/boundingBox/Polygon.js";
+import Rectangle from "../physic/2d/boundingBox/Rectangle.js";
+import WorldObject from "./WorldObject.js";
+import Input from "../input/Input.js";
+import SAT from "../physic/2d/collision/SAT.js";
+import Canvas from "../display/Canvas.js";
+import System from "../System.js";
 
 export default class UIObject extends WorldObject {
   staticPos: Vector2;

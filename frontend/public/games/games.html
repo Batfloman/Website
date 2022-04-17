@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Games</title>
 
-    <link href="../../backend/public/style.css" rel="stylesheet">
+    <link href="../../../backend/public/style.css" rel="stylesheet">
 </head>
 <body>
     <div class="nav-bar">
         <h1>My Website</h1>
         <div class="nav-links">
-            <div class="nav-link"><a href="../../index.html">Home</a></div>
+            <div class="nav-link"><a href="../../../index.html">Home</a></div>
             <div class="nav-link"><a class="active" href="./games.html">Games</a></div>
             <div class="nav-link"><a href="../school/school.html">School</a></div>
         </div>
-        <div><img src="../../backend/public/settings.png" class="settings"></div>
+        <div><img src="../../../backend/public/settings.png" class="settings"></div>
     </div>
     <div id="games" class="collection-container"></div>
 
@@ -29,7 +29,7 @@
                     gameDiv.setAttribute("class", "game");
 
                     let gameA = document.createElement("a");
-                    gameA.setAttribute("href", `../../frontend/games/${game}/index.html`);
+                    gameA.setAttribute("href", `../games/${game}/index.html`);
 
                     let gameImg = document.createElement("img");
                     gameImg.setAttribute("src", "");

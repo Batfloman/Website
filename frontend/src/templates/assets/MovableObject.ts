@@ -1,8 +1,8 @@
-import Formeln from "../Formeln";
-import Input from "../input/Input";
-import Polygon from "../physic/2d/boundingBox/Polygon";
-import Vector2 from "../util/Vector2";
-import WorldObject from "./WorldObject";
+import Formeln from "../Formeln.js";
+import Input from "../input/Input.js";
+import Polygon from "../physic/2d/boundingBox/Polygon.js";
+import Vector2 from "../util/Vector2.js";
+import WorldObject from "./WorldObject.js";
 
 export default class MoveableObject extends WorldObject {
   

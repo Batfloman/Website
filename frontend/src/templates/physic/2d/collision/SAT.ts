@@ -1,6 +1,6 @@
-import WorldObject from "../../../assets/WorldObject";
-import Formeln from "../../../Formeln";
-import Polygon from "../boundingBox/Polygon";
+import WorldObject from "../../../assets/WorldObject.js";
+import Formeln from "../../../Formeln.js";
+import Polygon from "../boundingBox/Polygon.js";
 
 // Separating Axis Theorem
 

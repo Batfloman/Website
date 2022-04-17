@@ -1,5 +1,5 @@
-import Canvas from "../display/Canvas";
-import System from "../System";
+import Canvas from "../display/Canvas.js";
+import System from "../System.js";
 
 export default class SceneObject {
   canvas!: Canvas;

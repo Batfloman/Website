@@ -1,5 +1,5 @@
-import Vector2 from "../../../util/Vector2";
-import Polygon from "./Polygon";
+import Vector2 from "../../../util/Vector2.js";
+import Polygon from "./Polygon.js";
 
 export default class Rectangle extends Polygon {
   constructor(width: number, height: number) {

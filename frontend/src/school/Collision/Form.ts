@@ -1,12 +1,9 @@
-import Formeln from "../../templates/Formeln";
-import Polygon from "../../templates/physic/2d/boundingBox/Polygon";
-import Vector2 from "../../templates/util/Vector2";
+import Formeln from "../../templates/Formeln.js";
+import Polygon from "../../templates/physic/2d/boundingBox/Polygon.js";
+import Vector2 from "../../templates/util/Vector2.js";
 
 export default class Form extends Polygon {
   constructor(radius: number, numVerticies: number, startAngle: number) {
-    if(!radius || !(Number.isInteger(radius))) throw new Error(`${radius} is not a valid Number`)
-    if(!numVerticies || !(Number.isInteger(numVerticies))) throw new Error(`${numVerticies} is not a valid Number`)
-
     let model = new Array();
     for(let i = 0; i < numVerticies; i++) {
       let angle = (360 / numVerticies) * i + (!startAngle ? 0 : startAngle % 360);

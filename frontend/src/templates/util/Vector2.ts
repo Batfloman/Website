@@ -1,4 +1,4 @@
-import Formeln from "../Formeln";
+import Formeln from "../Formeln.js";
 
 export default class Vector2 {
   /** @type {number} */

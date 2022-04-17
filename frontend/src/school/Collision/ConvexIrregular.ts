@@ -1,12 +1,9 @@
-import Formeln from "../../templates/Formeln";
-import Polygon from "../../templates/physic/2d/boundingBox/Polygon";
-import Vector2 from "../../templates/util/Vector2";
+import Formeln from "../../templates/Formeln.js";
+import Polygon from "../../templates/physic/2d/boundingBox/Polygon.js";
+import Vector2 from "../../templates/util/Vector2.js";
 
 export default class ConvexIrregular extends Polygon {
   constructor(radius: number, numVerticies: number, irregularity: number, startAngle: number) {
-    if(!radius || !(Number.isInteger(radius))) throw new Error(`${radius} is not a valid Number`);
-    if(!numVerticies || !(Number.isInteger(numVerticies))) throw new Error(`${numVerticies} is not a valid Number`);
-    if(!irregularity) irregularity = 0;
     if(irregularity < 0 || irregularity > 1) throw new Error(`${irregularity} is not valid!`);
 
     let model = new Array();

@@ -1,10 +1,10 @@
-import FromObject from "./FormObject";
-import ConvexIrregular from "./ConvexIrregular";
-import System from "../../templates/System";
-import Canvas from "../../templates/display/Canvas";
-import UIObject from "../../templates/assets/UIObject";
-import Vector2 from "../../templates/util/Vector2";
-import Rectangle from "../../templates/physic/2d/boundingBox/Rectangle";
+import FromObject from "./FormObject.js";
+import ConvexIrregular from "./ConvexIrregular.js";
+import System from "../../templates/System.js";
+import Canvas from "../../templates/display/Canvas.js";
+import UIObject from "../../templates/assets/UIObject.js";
+import Vector2 from "../../templates/util/Vector2.js";
+import Rectangle from "../../templates/physic/2d/boundingBox/Rectangle.js";
 
 let s: System;
 let selected = new Array();

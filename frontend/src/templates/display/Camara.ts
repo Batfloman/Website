@@ -1,5 +1,5 @@
-import Vector2 from "../util/Vector2";
-import Canvas from "./Canvas";
+import Vector2 from "../util/Vector2.js";
+import Canvas from "./Canvas.js";
 
 export default class Camara {
   position!: Vector2;

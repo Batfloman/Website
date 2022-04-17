@@ -1,6 +1,6 @@
-import SceneObject from "../assets/SceneObject";
-import Vector2 from "../util/Vector2";
-import Listener from "./Listener";
+import SceneObject from "../assets/SceneObject.js";
+import Vector2 from "../util/Vector2.js";
+import Listener from "./Listener.js";
 
 export default class Input {
 
@@ -25,7 +25,7 @@ export default class Input {
 
   // ===== pressed keys =====
 
-  static pressedKeys = new Array();
+  static pressedKeys: string[] = new Array();
 
   /**
    * updates the most important changes for easier access
