@@ -9,7 +9,7 @@
 				"$tsc-watch"
 			],
 			"group": "build",
-			"label": "tsc: Überwachen – frontend/tsconfig.json",
+			"label": "tsc: Überwachen – frontend/tsconfig.json"
 		}
 	]
 }

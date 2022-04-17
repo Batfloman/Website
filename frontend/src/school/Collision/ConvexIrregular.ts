@@ -1,0 +1,25 @@
+import Formeln from "../../templates/Formeln";
+import Polygon from "../../templates/physic/2d/boundingBox/Polygon";
+import Vector2 from "../../templates/util/Vector2";
+
+export default class ConvexIrregular extends Polygon {
+  constructor(radius: number, numVerticies: number, irregularity: number, startAngle: number) {
+    if(!radius || !(Number.isInteger(radius))) throw new Error(`${radius} is not a valid Number`);
+    if(!numVerticies || !(Number.isInteger(numVerticies))) throw new Error(`${numVerticies} is not a valid Number`);
+    if(!irregularity) irregularity = 0;
+    if(irregularity < 0 || irregularity > 1) throw new Error(`${irregularity} is not valid!`);
+
+    let model = new Array();
+    for(let i = 0; i < numVerticies; i++) {
+      let angle = (360 / numVerticies) * i + (!startAngle ? 0 : startAngle % 360);
+      model.push( Formeln.moveDirection(new Vector2(0,0), angle, ConvexIrregular.noise(radius, irregularity, numVerticies)));
+    }
+    super(model);
+  }
+
+  static noise(value: number, noiseVaule: number, numVerticies: number) {
+    let noiseChange = (noiseVaule * (Math.floor( Math.random() * value * 2) - value)) / (numVerticies/2);
+
+    return value + noiseChange;
+  }
+}

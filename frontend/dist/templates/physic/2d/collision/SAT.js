@@ -4,7 +4,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Formeln_1 = __importDefault(require("../../../Formeln"));
-// Separating Axis Theorem
 class SAT {
     static testCollision(obj1, obj2) {
         [obj1, obj2].forEach(obj => obj.translatePoints());
@@ -12,16 +11,11 @@ class SAT {
         let polygon2 = obj2.hitBox;
         return this.areColliding(polygon1, polygon2) && this.areColliding(polygon2, polygon1);
     }
-    /**
-     * Tests all Sides of polygon 1 with SAT agaings polygon 2
-     * Returns false if a gap is found - else true
-     */
     static areColliding(polygon1, polygon2) {
         let lastPoint = polygon1.points[polygon1.points.length - 1];
         for (let i = 0; i < polygon1.points.length; i++) {
             let point = polygon1.points[i];
             let normal = lastPoint.vectorTo(point).getNormal();
-            // projection shape 1 
             let min1 = Infinity;
             let max1 = -Infinity;
             polygon1.points.forEach(point => {
@@ -29,7 +23,6 @@ class SAT {
                 min1 = Math.min(min1, dot);
                 max1 = Math.max(max1, dot);
             });
-            // projection shape 2 
             let min2 = Infinity;
             let max2 = -Infinity;
             polygon2.points.forEach(point => {

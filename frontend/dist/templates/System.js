@@ -3,13 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const SceneObject_1 = __importDefault(require("./assets/SceneObject"));
 const Canvas_1 = __importDefault(require("./display/Canvas"));
 class System {
     constructor(canvas) {
-        /** @type {SceneObject[]} */
         this.objects = new Array();
-        // if user is on moblie 
         this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         if (!(canvas instanceof Canvas_1.default))
             throw new Error(canvas + " is not instanceof Canvas!");
@@ -29,20 +26,8 @@ class System {
         let index = this.objects.indexOf(obj);
         return this.objects.splice(index, 1)[0];
     }
-    findObjects(clas, exclude) {
-        if (!clas)
-            throw new Error(clas + " is not valid as class");
-        let foundObjects = new Array();
-        this.objects.forEach(obj => {
-            if (exclude instanceof SceneObject_1.default && obj == exclude)
-                return;
-            if (exclude instanceof Array && exclude.includes(obj))
-                return;
-            if (obj instanceof clas) {
-                foundObjects.push(obj);
-            }
-        });
-        return foundObjects;
+    findObjects(t) {
+        return t;
     }
     start() {
         this.interval = setInterval(() => {

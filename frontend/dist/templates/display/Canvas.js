@@ -10,6 +10,8 @@ class Canvas {
     constructor(htmlCanvas) {
         this.lockScrolling = true;
         this.lastPos = new Vector2_1.default(0, 0);
+        if (htmlCanvas == null)
+            htmlCanvas = document.createElement("canvas");
         this.htmlCanvas = htmlCanvas;
         Input_1.default.newEventListener("resize", this, this.resize);
         Input_1.default.newEventListener("mousemove", this, (event) => {

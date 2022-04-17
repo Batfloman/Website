@@ -10,12 +10,6 @@ const WorldObject_1 = __importDefault(require("./WorldObject"));
 const Input_1 = __importDefault(require("../input/Input"));
 const SAT_1 = __importDefault(require("../physic/2d/collision/SAT"));
 class UIObject extends WorldObject_1.default {
-    /**
-     *
-     * @param {Vector2} pos
-     * @param {Polygon} hitBox
-     * @param {String} content
-     */
     constructor(pos, hitBox, content, action) {
         super(new Vector2_1.default(0, 0), hitBox);
         this.style = {
@@ -36,7 +30,6 @@ class UIObject extends WorldObject_1.default {
         Input_1.default.newEventListener("click", this, (event) => {
             this.centerPos = new Vector2_1.default(this.staticPos.x + this.canvas.viewOffSet.x, this.staticPos.y + this.canvas.viewOffSet.y);
             let click = new WorldObject_1.default(this.canvas.getMousePosWithViewOffSet(), new Rectangle_1.default(5, 5));
-            // console.log(this, click)
             if (SAT_1.default.testCollision(this, click)) {
                 this.clicked();
             }
@@ -60,7 +53,6 @@ class UIObject extends WorldObject_1.default {
     clicked() {
         this.action();
     }
-    // (Hopefully) less calculation in Worldobject
     isOnScreen() { return true; }
 }
 exports.default = UIObject;

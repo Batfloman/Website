@@ -6,9 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Vector2_1 = __importDefault(require("../util/Vector2"));
 const Listener_1 = __importDefault(require("./Listener"));
 class Input {
-    /**
-     * updates the most important changes for easier access
-     */
     static staticConstructor() {
         ["touchend", "mouseup", "touchcancel"].forEach(inputEvent => {
             window.addEventListener(inputEvent, (event) => { Input.mouseDown = false; });
@@ -39,12 +36,6 @@ class Input {
         Input.mousePosOffSet = new Vector2_1.default(event.offsetX, event.offsetY);
         Input.mouseMovement = new Vector2_1.default(event.movementX, event.movementY);
     }
-    /**
-     *
-     * @param {WindowEventMap} event
-     * @param {SceneObject} obj
-     * @param {Function} func
-     */
     static newEventListener(event, obj, func) {
         if (!(Input.eventListener.has(event)))
             window.addEventListener(event, Input.notifyOfEvent);
@@ -71,21 +62,11 @@ class Input {
     static getMouseMovement() { return Input.mouseMovement; }
 }
 exports.default = Input;
-/** @type {Map} */
 Input.eventListener = new Map();
-// ===== mouse click =====
-/** @type {boolean} */
 Input.mouseDown = false;
-// ===== mouse move =====
-/** @type {Vector2} - mousePos on global document with scroll */
 Input.mousePosPage = new Vector2_1.default(0, 0);
-/** @type {Vector2} - mousePos relative to current Screen*/
 Input.mousePosScreen = new Vector2_1.default(0, 0);
-/** @type {Vector2} - mousePos relative to hovered element*/
 Input.mousePosOffSet = new Vector2_1.default(0, 0);
-/** @type {Vector2} - mousePos change (to last mousemove call)*/
 Input.mouseMovement = new Vector2_1.default(0, 0);
-// ===== pressed keys =====
 Input.pressedKeys = new Array();
-// call static Constructor
 Input.staticConstructor();

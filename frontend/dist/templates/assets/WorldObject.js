@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SceneObject_1 = __importDefault(require("./SceneObject"));
 const Vector2_1 = __importDefault(require("../util/Vector2"));
 const Formeln_1 = __importDefault(require("../Formeln"));
+const Color_1 = __importDefault(require("../util/Color"));
 class WorldObject extends SceneObject_1.default {
     constructor(centerPos, hitBox) {
         super();
@@ -14,10 +15,8 @@ class WorldObject extends SceneObject_1.default {
     }
     render(ctx) {
         let pos = new Vector2_1.default(this.centerPos.x - this.canvas.viewOffSet.x, this.centerPos.y - this.canvas.viewOffSet.y);
-        // change Color
-        ctx.strokeStyle = !this.hitBox.borderColor ? "black" : this.hitBox.borderColor.getRGBValue();
-        ctx.fillStyle = !this.hitBox.fillColor ? "rgba(0, 0, 0, 0)" : this.hitBox.fillColor.getRGBValue();
-        // draw Outline
+        ctx.strokeStyle = this.borderColor instanceof Color_1.default ? this.borderColor.getRGBValue() : "black";
+        ctx.fillStyle = this.fillColor instanceof Color_1.default ? this.fillColor.getRGBValue() : "rgba(0, 0, 0, 0)";
         ctx.beginPath();
         let first = this.hitBox.points[0];
         ctx.moveTo(first.x, first.y);
