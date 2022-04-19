@@ -7,4 +7,5 @@ export interface ICollideable {
   hitBox: Polygon;
 
   touches(obj: Polygon | Vector2): boolean;
+  translatePoints(): Vector2[];
 }

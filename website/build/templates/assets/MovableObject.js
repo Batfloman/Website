@@ -17,7 +17,7 @@ export default class MoveableObject extends WorldObject {
             if (this.controles.has(key)) {
                 let func = this.controles.get(key);
                 if (func instanceof Function)
-                    func();
+                    func(dt);
             }
         });
     }

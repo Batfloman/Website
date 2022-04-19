@@ -8,6 +8,8 @@ export default class Input {
 
   static pressedKeys: string[] = new Array();
 
+  static mPosHover = new Vector2();
+
   /**
    * updates the most important changes for easier access
    */
@@ -27,9 +29,13 @@ export default class Input {
     // Mouse 
     window.addEventListener("mousedown", (event: MouseEvent) => {
       Input.keyDown("" + event.button);
+      Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
     })
     window.addEventListener("mouseup", (event: MouseEvent) => {
       Input.keyUp("" + event.button);
+    })
+    window.addEventListener("mousemove", (event: MouseEvent) => {
+      Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
     })
     
     // Keys
@@ -59,6 +65,8 @@ export default class Input {
   static notifyOfEvent(event: Event) {
     let listener = Input.eventListener.get(event.type);
     if(!listener) return;
+
+    if(event instanceof MouseEvent) Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
 
     listener.forEach(listener => {
       listener.func.call(listener.obj, event);

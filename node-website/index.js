@@ -32,26 +32,26 @@ app.get("/", (req, res) => {
 
 app.get("/games", (req, res) => {
   let games = new Array();
-  fs.readdirSync(path.join(__dirname, "../frontend/public/games")).forEach(file => {
-    if (fs.lstatSync(path.join(__dirname, "../frontend/public/games", file)).isDirectory()) games.push(file)
+  fs.readdirSync(path.join(__dirname, "../website/public/games")).forEach(file => {
+    if (fs.lstatSync(path.join(__dirname, "../website/public/games", file)).isDirectory()) games.push(file)
   })
   res.render("games", { "title": "Games", "content": games });
 })
 
 app.get("/games/:game", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/public/games/", req.params.game, "index.html"), );
+  res.sendFile(path.join(__dirname, "../website/public/games/", req.params.game, "index.html"));
 })
 
 app.get("/school", (req, res) => {
   let content = new Array();
-  fs.readdirSync(path.join(__dirname, "../frontend/public/school")).forEach(file => {
-    if (fs.lstatSync(path.join(__dirname, "../frontend/public/school", file)).isDirectory()) content.push(file)
+  fs.readdirSync(path.join(__dirname, "../website/public/school")).forEach(file => {
+    if (fs.lstatSync(path.join(__dirname, "../website/public/school", file)).isDirectory()) content.push(file)
   })
   res.render("school", {"title": "School","content": content });
 })
 
 app.get("/school/:content", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/public/school/", req.params.content, "index.html"));
+  res.sendFile(path.join(__dirname, "../website/public/school/", req.params.content, "index.html"));
 })
 
 /**

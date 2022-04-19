@@ -1,39 +1,38 @@
 import Canvas from "./display/Canvas.js";
-import { SceneObject } from "./assets/SceneObject.js";
 import Scene from "./display/Scene.js";
 export default class System {
     constructor(canvas) {
+        this.scenes = new Map();
         this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         if (!(canvas instanceof Canvas))
             throw new Error(canvas + " is not instanceof Canvas!");
         this.canvas = canvas;
+        this.scenes.set("main", new Scene(canvas));
+        this.activeScene = this.scenes.get("main");
     }
     addObject(obj) {
-        if (this.objects.includes(obj))
+        if (!this.activeScene)
             return;
-        this.objects.push(obj);
-        obj.init(this.canvas, this);
+        this.activeScene.addObject(obj);
+        obj.init(this);
     }
     removeObject(obj) {
-        if (!(this.objects.includes(obj))) {
-            console.warn(`${obj} is not there!`);
-            return;
-        }
-        let index = this.objects.indexOf(obj);
-        return this.objects.splice(index, 1)[0];
+        if (!this.activeScene)
+            return null;
+        return this.activeScene.removeObject(obj);
     }
     findObjects(clas, exclude) {
-        let found = new Array();
-        this.objects.forEach(obj => {
-            if (exclude instanceof Array && exclude.includes(obj))
-                return;
-            if (exclude instanceof SceneObject && exclude == obj)
-                return;
-            if (obj instanceof Function) {
-                found.push(obj);
-            }
-        });
-        return found;
+        if (!this.activeScene)
+            return null;
+        return this.activeScene.findObjects(clas, exclude);
+    }
+    addScene(scene, name) {
+        this.scenes.set(name == undefined ? "scene" + this.scenes.size : name, scene);
+    }
+    activateScene(name) {
+        let scene = this.scenes.get(name);
+        if (scene != null)
+            this.activeScene = scene;
     }
     start() {
         this.interval = setInterval(() => {
@@ -44,17 +43,17 @@ export default class System {
         clearInterval(this.interval);
     }
     tick() {
+        var _a, _b;
         if (!this.timeLast)
             this.timeLast = Date.now();
         let timeNow = Date.now();
         let dt = timeNow - this.timeLast;
         this.timeLast = timeNow;
-        if (!!this.activeScene) {
-            let scene = this.scenes.get(this.activeScene);
-            if (!(scene instanceof Scene))
-                return;
-            scene.update(dt);
-            this.canvas.render(scene);
+        (_a = this.activeScene) === null || _a === void 0 ? void 0 : _a.update(dt);
+        let ctx = this.canvas.htmlCanvas.getContext("2d");
+        if (!!ctx) {
+            ctx.clearRect(0, 0, this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
+            (_b = this.activeScene) === null || _b === void 0 ? void 0 : _b.render(ctx);
         }
     }
 }

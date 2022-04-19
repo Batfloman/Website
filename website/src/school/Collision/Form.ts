@@ -3,7 +3,7 @@ import Polygon from "../../templates/physic/2d/boundingBox/Polygon.js";
 import Vector2 from "../../templates/util/Vector2.js";
 
 export default class Form extends Polygon {
-  constructor(radius: number, numVerticies: number, startAngle: number) {
+  constructor(radius: number, numVerticies: number, startAngle?: number) {
     let model = new Array();
     for(let i = 0; i < numVerticies; i++) {
       let angle = (360 / numVerticies) * i + (!startAngle ? 0 : startAngle % 360);

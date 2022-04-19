@@ -25,12 +25,12 @@ export default class MoveableObject extends WorldObject implements IMoveable {
     Input.pressedKeys.forEach(key => {
       if(this.controles.has(key)) {
         let func = this.controles.get(key)
-        if(func instanceof Function) func();
+        if(func instanceof Function) func(dt);
       }
     }) 
   }
 
-  move(direction: number, distance: number) {
+  move(direction: number, distance: number): void {
     this.pos = Formeln.moveDirection(this.pos, direction, distance);
   }
 }

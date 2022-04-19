@@ -29,26 +29,26 @@ export default class UIObject extends WorldObject {
   constructor(pos: Vector2, hitBox: Polygon, content: string, action: Function) {
     super(new Vector2(0, 0), hitBox);
 
-    this.staticPos = !pos || !(pos instanceof Vector2) ? new Vector2(0,0) : pos;
-    this.hitBox = !hitBox || !(hitBox instanceof Polygon) ? new Rectangle(50, 50) : hitBox;
+    this.pos = pos;
+    this.staticPos = pos;
+    this.hitBox = hitBox;
     this.content = content;
     this.action = action;
     this.zIndex = 10;    
   }
 
-  init(canvas: Canvas, system: System) {
-    super.init(canvas, system);
+  init(system: System) {
+    super.init(system);
 
-    Input.newEventListener("click", this, (event: Event) => {
+    Input.newEventListener("click", this, (event: MouseEvent) => {
       this.pos = new Vector2(
-        this.staticPos.x + this.canvas.viewOffSet.x,
-        this.staticPos.y + this.canvas.viewOffSet.y
+        this.staticPos.x + this.getCamara().offset.x,
+        this.staticPos.y + this.getCamara().offset.y
       )
       let click = new WorldObject(
-        this.canvas.getMousePosWithViewOffSet(), 
-        new Rectangle(5, 5)
+        this.getCamara().getMousePosWithViewOffSet(new Vector2(event.offsetX, event.offsetY)), 
+        new Rectangle(2, 2)
       );
-      // console.log(this, click)
   
       if(SAT.testCollision(this, click)) {
         this.clicked();
@@ -58,13 +58,24 @@ export default class UIObject extends WorldObject {
 
   update(dt: number) {
     this.pos = new Vector2(
-      this.staticPos.x + this.canvas.viewOffSet.x,
-      this.staticPos.y + this.canvas.viewOffSet.y
+      this.staticPos.x + this.getCamara().offset.x,
+      this.staticPos.y + this.getCamara().offset.y
     )
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    super.render(ctx);
+    this.hitBox.translatePoints(this.staticPos)
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    let first = this.hitBox.points[0];
+    ctx.moveTo(first.x, first.y);
+    this.hitBox.points.forEach(point => {
+      ctx.lineTo(point.x, point.y);
+    })
+    ctx.lineTo(first.x, first.y);
+    ctx.stroke();
+    
     ctx.fillStyle = "red";
     ctx.fill();
 
@@ -79,6 +90,5 @@ export default class UIObject extends WorldObject {
     this.action();
   }
   
-  // (Hopefully) less calculation in Worldobject
   isOnScreen() {return true;}
 }

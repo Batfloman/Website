@@ -14,8 +14,6 @@ export default class GridObject extends WorldObject {
             this.grid.push(yRow);
         }
     }
-    render(ctx) {
-    }
     get(x, y) {
         return this.grid[y][x];
     }

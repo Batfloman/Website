@@ -16,6 +16,12 @@ export default class Polygon {
         });
         return this.points;
     }
+    getFarthestPoint(pos) {
+        return Formeln.farthestPoint(pos, this.translatePoints(pos));
+    }
+    getClosestPoint(pos) {
+        return Formeln.closestPoint(pos, this.translatePoints(pos));
+    }
     centerModel() {
         let centerX = 0;
         let centerY = 0;

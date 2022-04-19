@@ -6,6 +6,12 @@ export default class Vector2 {
         this.x = !x ? 0 : x;
         this.y = !y ? 0 : y;
     }
+    add(vec2) {
+        return new Vector2(this.x + vec2.x, this.y + vec2.y);
+    }
+    subtract(vec2) {
+        return new Vector2(this.x - vec2.x, this.y - vec2.y);
+    }
     vectorTo(point) {
         return new Vector2(Math.round(point.x - this.x), Math.round(point.y - this.y));
     }

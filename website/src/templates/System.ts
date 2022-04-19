@@ -4,8 +4,8 @@ import Scene from "./display/Scene.js";
 
 export default class System {
   canvas: Canvas;
-  scenes!: Map<string, Scene>;
-  activeScene: string | undefined | null;
+  scenes: Map<string, Scene> = new Map();
+  activeScene: Scene | undefined;
 
   // last timestamp | used to calculate "dt"
   timeLast!: number;
@@ -20,36 +20,36 @@ export default class System {
     if (!(canvas instanceof Canvas)) throw new Error(canvas + " is not instanceof Canvas!");
 
     this.canvas = canvas;
+    this.scenes.set("main", new Scene(canvas));
+    this.activeScene = this.scenes.get("main");
   }
 
   addObject(obj: SceneObject) {
-    if (this.objects.includes(obj)) return;
+    if (!this.activeScene) return;
 
-    this.objects.push(obj);
-    obj.init(this.canvas, this);
+    this.activeScene.addObject(obj);
+    obj.init(this);
   }
 
-  removeObject(obj: SceneObject): SceneObject | void {
-    if (!(this.objects.includes(obj))) {
-      console.warn(`${obj} is not there!`);
-      return;
-    }
-    let index = this.objects.indexOf(obj);
-    return this.objects.splice(index, 1)[0];
+  removeObject(obj: SceneObject): SceneObject | null {
+    if (!this.activeScene) return null;
+
+    return this.activeScene.removeObject(obj);
   }
 
-  findObjects(clas: Function, exclude?: Array<SceneObject> | SceneObject): SceneObject[] {
-    let found = new Array();
+  findObjects(clas: Function, exclude?: Array<SceneObject> | SceneObject): SceneObject[] | null {
+    if (!this.activeScene) return null;
 
-    this.objects.forEach(obj => {
-      if (exclude instanceof Array && exclude.includes(obj)) return;
-      if (exclude instanceof SceneObject && exclude == obj) return;
+    return this.activeScene.findObjects(clas, exclude);
+  }
 
-      if (obj instanceof Function) {
-        found.push(obj);
-      }
-    })
-    return found;
+  addScene(scene: Scene, name?: string) {
+    this.scenes.set(name == undefined ? "scene" + this.scenes.size : name, scene);
+  }
+
+  activateScene(name: string) {
+    let scene = this.scenes.get(name);
+    if (scene != null) this.activeScene = scene;
   }
 
   start() {
@@ -68,12 +68,11 @@ export default class System {
     let dt = timeNow - this.timeLast;
     this.timeLast = timeNow;
 
-    if (!!this.activeScene) {
-      let scene = this.scenes.get(this.activeScene);
-      if (!(scene instanceof Scene)) return;
-
-      scene.update(dt);
-      this.canvas.render(scene);
+    this.activeScene?.update(dt);
+    let ctx = this.canvas.htmlCanvas.getContext("2d");
+    if(!! ctx) {
+      ctx.clearRect(0, 0, this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);      
+      this.activeScene?.render(ctx);
     }
   }
 }

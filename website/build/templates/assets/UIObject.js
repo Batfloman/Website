@@ -1,5 +1,4 @@
 import Vector2 from "../util/Vector2.js";
-import Polygon from "../physic/2d/boundingBox/Polygon.js";
 import Rectangle from "../physic/2d/boundingBox/Rectangle.js";
 import WorldObject from "./WorldObject.js";
 import Input from "../input/Input.js";
@@ -14,17 +13,18 @@ export default class UIObject extends WorldObject {
             "xAlign": "center",
             "yAlign": "middle",
         };
-        this.staticPos = !pos || !(pos instanceof Vector2) ? new Vector2(0, 0) : pos;
-        this.hitBox = !hitBox || !(hitBox instanceof Polygon) ? new Rectangle(50, 50) : hitBox;
+        this.pos = pos;
+        this.staticPos = pos;
+        this.hitBox = hitBox;
         this.content = content;
         this.action = action;
         this.zIndex = 10;
     }
-    init(canvas, system) {
-        super.init(canvas, system);
+    init(system) {
+        super.init(system);
         Input.newEventListener("click", this, (event) => {
-            this.pos = new Vector2(this.staticPos.x + this.canvas.viewOffSet.x, this.staticPos.y + this.canvas.viewOffSet.y);
-            let click = new WorldObject(this.canvas.getMousePosWithViewOffSet(), new Rectangle(5, 5));
+            this.pos = new Vector2(this.staticPos.x + this.getCamara().offset.x, this.staticPos.y + this.getCamara().offset.y);
+            let click = new WorldObject(this.getCamara().getMousePosWithViewOffSet(new Vector2(event.offsetX, event.offsetY)), new Rectangle(2, 2));
             if (SAT.testCollision(this, click)) {
                 this.clicked();
             }
@@ -32,10 +32,20 @@ export default class UIObject extends WorldObject {
         });
     }
     update(dt) {
-        this.pos = new Vector2(this.staticPos.x + this.canvas.viewOffSet.x, this.staticPos.y + this.canvas.viewOffSet.y);
+        this.pos = new Vector2(this.staticPos.x + this.getCamara().offset.x, this.staticPos.y + this.getCamara().offset.y);
     }
     render(ctx) {
-        super.render(ctx);
+        this.hitBox.translatePoints(this.staticPos);
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        let first = this.hitBox.points[0];
+        ctx.moveTo(first.x, first.y);
+        this.hitBox.points.forEach(point => {
+            ctx.lineTo(point.x, point.y);
+        });
+        ctx.lineTo(first.x, first.y);
+        ctx.stroke();
         ctx.fillStyle = "red";
         ctx.fill();
         ctx.fillStyle = this.style.color;

@@ -17,7 +17,7 @@ export default class Polygon {
     this.points = model;
   }
 
-  translatePoints(pos: Vector2) {
+  translatePoints(pos: Vector2): Vector2[] {
     this.points = new Array();
 
     this.model.forEach(point => {
@@ -32,6 +32,14 @@ export default class Polygon {
     })
 
     return this.points;
+  }
+
+  getFarthestPoint(pos: Vector2) {
+    return Formeln.farthestPoint(pos, this.translatePoints(pos));
+  }
+
+  getClosestPoint(pos: Vector2) {
+    return Formeln.closestPoint(pos, this.translatePoints(pos));
   }
 
   /**

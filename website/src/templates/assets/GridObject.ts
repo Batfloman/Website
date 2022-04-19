@@ -21,10 +21,6 @@ export default class GridObject extends WorldObject {
     }
   }
 
-  render(ctx: CanvasRenderingContext2D) {
-    
-  }
-
   get(x: number, y: number) {
     return this.grid[y][x];
   }

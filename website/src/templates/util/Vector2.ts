@@ -9,6 +9,20 @@ export default class Vector2 {
     this.y = !y ? 0 : y;
   }
 
+  add(vec2: Vector2) {
+    return new Vector2(
+      this.x + vec2.x, 
+      this.y + vec2.y
+    );
+  }
+
+  subtract(vec2: Vector2) {
+    return new Vector2(
+      this.x - vec2.x, 
+      this.y - vec2.y
+    );
+  }
+
   vectorTo(point: Vector2): Vector2 {
     return new Vector2(
       Math.round(point.x - this.x),

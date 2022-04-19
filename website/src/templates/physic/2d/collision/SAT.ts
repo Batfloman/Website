@@ -1,13 +1,14 @@
 import WorldObject from "../../../assets/WorldObject.js";
 import Formeln from "../../../Formeln.js";
+import { ICollideable } from "../../../propertys/ICollideable.js";
 import Polygon from "../boundingBox/Polygon.js";
 
 // Separating Axis Theorem
 
 export default class SAT {
 
-  static testCollision(obj1: WorldObject, obj2: WorldObject) {
-    [obj1, obj2].forEach(obj => obj.translatePoints())
+  static testCollision(obj1: ICollideable, obj2: ICollideable) {
+    [obj1, obj2].forEach(obj => obj.translatePoints());
     
     let polygon1 = obj1.hitBox;
     let polygon2 = obj2.hitBox;
@@ -53,18 +54,5 @@ export default class SAT {
       lastPoint = point;
     }
     return true;
-  }
-
-  static potentialCollision(obj1: WorldObject, obj2: WorldObject) {
-    obj1.translatePoints();
-    obj2.translatePoints();
-
-    let center1 = obj1.pos;
-    let center2 = obj2.pos;
-    let distance = Formeln.distance(center1, center2);
-    let furthest1 = Formeln.distance(center1, obj1.getFarthestPoint());
-    let furthest2 = Formeln.distance(center2, obj2.getFarthestPoint());
-    
-    return (distance < (furthest1 + furthest2));
   }
 }

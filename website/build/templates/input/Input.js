@@ -1,3 +1,4 @@
+import Vector2 from "../util/Vector2.js";
 import Listener from "./Listener.js";
 export default class Input {
     static staticConstructor() {
@@ -12,9 +13,13 @@ export default class Input {
         });
         window.addEventListener("mousedown", (event) => {
             Input.keyDown("" + event.button);
+            Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
         });
         window.addEventListener("mouseup", (event) => {
             Input.keyUp("" + event.button);
+        });
+        window.addEventListener("mousemove", (event) => {
+            Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
         });
         window.addEventListener("keydown", (event) => {
             Input.keyDown(event.key);
@@ -39,6 +44,8 @@ export default class Input {
         let listener = Input.eventListener.get(event.type);
         if (!listener)
             return;
+        if (event instanceof MouseEvent)
+            Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
         listener.forEach(listener => {
             listener.func.call(listener.obj, event);
         });
@@ -64,4 +71,5 @@ export default class Input {
 }
 Input.eventListener = new Map();
 Input.pressedKeys = new Array();
+Input.mPosHover = new Vector2();
 Input.staticConstructor();

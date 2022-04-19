@@ -10,8 +10,34 @@ export default class Scene {
         this.hitBox = new Rectangle(canvas.htmlCanvas.width, canvas.htmlCanvas.height);
         this.pos = new Vector2(0, 0);
     }
+    addObject(obj) {
+        if (this.objects.includes(obj))
+            return;
+        this.objects.push(obj);
+    }
+    removeObject(obj) {
+        if (!this.objects.includes(obj))
+            return null;
+        return this.objects.splice(this.objects.indexOf(obj), 1)[0];
+    }
+    findObjects(clas, exclude) {
+        let found = new Array();
+        this.objects.forEach(obj => {
+            if (exclude instanceof Array && exclude.includes(obj))
+                return;
+            if (exclude instanceof SceneObject && exclude == obj)
+                return;
+            if (obj instanceof clas) {
+                found.push(obj);
+            }
+        });
+        return found;
+    }
     touches(obj) {
         throw new Error("Method not implemented.");
+    }
+    translatePoints() {
+        return this.hitBox.translatePoints(this.pos);
     }
     update(dt) {
         this.objects.forEach(obj => {
@@ -23,7 +49,7 @@ export default class Scene {
             return (a.zIndex > b.zIndex) ? 1 : -1;
         });
         this.objects.forEach(obj => {
-            if (obj instanceof SceneObject && obj.shouldRender()) {
+            if (obj.shouldRender()) {
                 obj.render(ctx);
             }
         });

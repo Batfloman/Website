@@ -1,4 +1,3 @@
-import Formeln from "../../../Formeln.js";
 export default class SAT {
     static testCollision(obj1, obj2) {
         [obj1, obj2].forEach(obj => obj.translatePoints());
@@ -30,15 +29,5 @@ export default class SAT {
             lastPoint = point;
         }
         return true;
-    }
-    static potentialCollision(obj1, obj2) {
-        obj1.translatePoints();
-        obj2.translatePoints();
-        let center1 = obj1.pos;
-        let center2 = obj2.pos;
-        let distance = Formeln.distance(center1, center2);
-        let furthest1 = Formeln.distance(center1, obj1.getFarthestPoint());
-        let furthest2 = Formeln.distance(center2, obj2.getFarthestPoint());
-        return (distance < (furthest1 + furthest2));
     }
 }

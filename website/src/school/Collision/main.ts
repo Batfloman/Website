@@ -1,17 +1,17 @@
-import FromObject from "./FormObject.js";
+import FormObject from "./FormObject.js";
 import ConvexIrregular from "./ConvexIrregular.js";
 import System from "../../templates/System.js";
 import Canvas from "../../templates/display/Canvas.js";
 import UIObject from "../../templates/assets/UIObject.js";
 import Vector2 from "../../templates/util/Vector2.js";
 import Rectangle from "../../templates/physic/2d/boundingBox/Rectangle.js";
+import Form from "./Form.js";
 
 let s: System;
 let selected = new Array();
 
 window.onload = () => {
   let c = new Canvas(document.querySelector("canvas"));
-  c.lockScrolling = false;
 
   s = new System(c);
 
@@ -23,7 +23,8 @@ window.onload = () => {
         "clear",
         () => {
           updateSelected();
-          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          let arr = selected.length == 0 ? s.findObjects(FormObject) : selected;
+          if (arr == null) return;
           arr.forEach(form => {
             s.removeObject(form);
           })
@@ -62,7 +63,8 @@ window.onload = () => {
         "Stop!",
         () => {
           updateSelected();
-          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          let arr = selected.length == 0 ? s.findObjects(FormObject) : selected;
+          if (arr == null) return;
           arr.forEach(form => {
             form.degPerSec = 0;
           })
@@ -77,9 +79,10 @@ window.onload = () => {
         "random Speed",
         () => {
           updateSelected();
-          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          let arr = selected.length == 0 ? s.findObjects(FormObject) : selected;
+          if (arr == null) return;
           arr.forEach(form => {
-            form.degPerSec = FromObject.randomSpeed(30, 180);
+            form.degPerSec = FormObject.randomSpeed(30, 180);
           })
         }
       )
@@ -92,7 +95,8 @@ window.onload = () => {
         "2 * Speed",
         () => {
           updateSelected();
-          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          let arr = selected.length == 0 ? s.findObjects(FormObject) : selected;
+          if (arr == null) return;
           arr.forEach(form => {
             form.degPerSec *= 2;
           })
@@ -107,7 +111,8 @@ window.onload = () => {
         "0.5 * Speed",
         () => {
           updateSelected();
-          let arr = selected.length == 0 ? s.findObjects(FromObject) : selected;
+          let arr = selected.length == 0 ? s.findObjects(FormObject) : selected;
+          if (arr == null) return;
           arr.forEach(form => {
             form.degPerSec *= 0.5;
           })
@@ -121,7 +126,7 @@ window.onload = () => {
         new Rectangle(180, 30),
         "select all",
         () => {
-          let objects = s.findObjects(FromObject) as FromObject[];
+          let objects = s.findObjects(FormObject) as FormObject[];
           objects.forEach(obj => {
             obj.lockMovement = false;
           })
@@ -135,7 +140,7 @@ window.onload = () => {
         new Rectangle(180, 30),
         "unselect all",
         () => {
-          let objects = s.findObjects(FromObject) as FromObject[];
+          let objects = s.findObjects(FormObject) as FormObject[];
           objects.forEach(obj => {
             obj.lockMovement = true;
           })
@@ -148,18 +153,11 @@ window.onload = () => {
     s.addObject(createRandomForm());
   }
 
-  // s.addObject(
-  //   new FromObject(
-  //     new Vector2(0, 0),
-  //     new Form(50, 4, 45)
-  //   )
-  // )
-
   s.start();
   // s.tick();
 }
 
-function createRandomForm(): FromObject {
+function createRandomForm(): FormObject {
   let xMin = -500;
   let xMax = 500;
   let yMin = -500;
@@ -171,14 +169,14 @@ function createRandomForm(): FromObject {
   let start = new Vector2(Math.floor(Math.random() * (xMax - xMin)) - Math.abs(xMin), Math.floor(Math.random() * (yMax - yMin)) - Math.abs(yMin));
   let form = new ConvexIrregular(Math.floor(Math.random() * (rMax - rMin)) + rMin, Math.ceil(Math.random() * (maxVertecies - 2)) + 2, .5, Math.floor(Math.random() * 360));
   // let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
-  let worldobj = new FromObject(start, form);
+  let worldobj = new FormObject(start, form);
   return worldobj;
 }
 
 function updateSelected(): void {
   selected = new Array();
-  
-  let objects = s.findObjects(FromObject) as FromObject[];
+
+  let objects = s.findObjects(FormObject) as FormObject[];
   objects.forEach(obj => {
     if (!obj.lockMovement) selected.push(obj);
   })

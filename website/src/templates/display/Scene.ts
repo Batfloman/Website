@@ -12,7 +12,7 @@ export default class Scene implements IRenderable, ICollideable, IUpdateable {
   canvas: Canvas;
   objects: SceneObject[];
   camara: Camara;
-  
+
   pos: Vector2;
   hitBox: Polygon;
 
@@ -23,11 +23,37 @@ export default class Scene implements IRenderable, ICollideable, IUpdateable {
     this.hitBox = new Rectangle(canvas.htmlCanvas.width, canvas.htmlCanvas.height);
     this.pos = new Vector2(0, 0);
   }
-  
+
+  addObject(obj: SceneObject): void {
+    if (this.objects.includes(obj)) return;
+    this.objects.push(obj);
+  }
+
+  removeObject(obj: SceneObject): SceneObject | null {
+    if (!this.objects.includes(obj)) return null;
+    return this.objects.splice(this.objects.indexOf(obj), 1)[0];
+  }
+
+  findObjects(clas: Function, exclude?: Array<SceneObject> | SceneObject): SceneObject[] {
+    let found = new Array();
+
+    this.objects.forEach(obj => {
+      if (exclude instanceof Array && exclude.includes(obj)) return;
+      if (exclude instanceof SceneObject && exclude == obj) return;
+
+      if (obj instanceof clas) {
+        found.push(obj);
+      }
+    })
+    return found;
+  }
 
   // ICollideable
   touches(obj: Vector2 | Polygon): boolean {
     throw new Error("Method not implemented.");
+  }
+  translatePoints(): Vector2[] {
+    return this.hitBox.translatePoints(this.pos);
   }
 
   // IUpdateable
@@ -43,7 +69,7 @@ export default class Scene implements IRenderable, ICollideable, IUpdateable {
       return (a.zIndex > b.zIndex) ? 1 : -1
     });
     this.objects.forEach(obj => {
-      if (obj instanceof SceneObject && obj.shouldRender()) {
+      if (obj.shouldRender()) {
         obj.render(ctx);
       }
     });
