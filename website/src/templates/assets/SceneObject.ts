@@ -1,6 +1,6 @@
 import System from "../System.js";
-import { IRenderable } from "../propertys/IRenderable.js";
-import { IUpdateable } from "../propertys/IUpdateable.js";
+import { IRenderable } from "../2d/propertys/IRenderable.js";
+import { IUpdateable } from "../2d/propertys/IUpdateable.js";
 import Camara from "../display/Camara.js";
 
 export abstract class SceneObject implements IRenderable, IUpdateable {

@@ -1,9 +1,9 @@
-import MoveableObject from "../../templates/assets/MovableObject.js";
-import WorldObject from "../../templates/assets/WorldObject.js";
-import Formeln from "../../templates/Formeln.js";
+import MoveableObject from "../../templates/2d/assets/MovableObject.js";
+import WorldObject from "../../templates/2d/assets/WorldObject2.js";
+import Formeln from "../../templates/2d/Formeln2.js";
 import Input from "../../templates/input/Input.js";
-import CircleCollision from "../../templates/physic/2d/collision/CircleCollision.js";
-import SAT from "../../templates/physic/2d/collision/SAT.js";
+import CircleCollision from "../../templates/2d/collision/CircleCollision.js";
+import SAT from "../../templates/2d/collision/SAT.js";
 export default class FormObject extends MoveableObject {
     constructor(centerPos, hitBox) {
         let controles = new Map();

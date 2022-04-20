@@ -1,11 +1,11 @@
-import MoveableObject from "../../templates/assets/MovableObject.js";
+import MoveableObject from "../../templates/2d/assets/MovableObject.js";
 import { SceneObject } from "../../templates/assets/SceneObject.js";
-import WorldObject from "../../templates/assets/WorldObject.js";
-import Formeln from "../../templates/Formeln.js";
+import WorldObject from "../../templates/2d/assets/WorldObject2.js";
+import Formeln from "../../templates/2d/Formeln2.js";
 import Input from "../../templates/input/Input.js";
-import Polygon from "../../templates/physic/2d/boundingBox/Polygon.js";
-import CircleCollision from "../../templates/physic/2d/collision/CircleCollision.js";
-import SAT from "../../templates/physic/2d/collision/SAT.js";
+import Polygon from "../../templates/2d/boundingBox/Polygon2.js";
+import CircleCollision from "../../templates/2d/collision/CircleCollision.js";
+import SAT from "../../templates/2d/collision/SAT.js";
 import Vector2 from "../../templates/util/Vector2.js";
 
 export default class FormObject extends MoveableObject {

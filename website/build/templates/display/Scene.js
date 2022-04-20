@@ -1,5 +1,5 @@
 import { SceneObject } from "../assets/SceneObject.js";
-import Rectangle from "../physic/2d/boundingBox/Rectangle.js";
+import Rectangle from "../2d/boundingBox/Rectangle.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 export default class Scene {

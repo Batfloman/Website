@@ -1,6 +1,6 @@
-import Formeln from "../Formeln.js";
+import Formeln from "../2d/Formeln2.js";
 import Input from "../input/Input.js";
-import Rectangle from "../physic/2d/boundingBox/Rectangle.js";
+import Rectangle from "../2d/boundingBox/Rectangle.js";
 import Vector2 from "../util/Vector2.js";
 export default class Camara {
     constructor(canvas) {

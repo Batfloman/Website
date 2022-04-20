@@ -1,9 +1,9 @@
 import { SceneObject } from "../assets/SceneObject.js";
-import Polygon from "../physic/2d/boundingBox/Polygon.js";
-import Rectangle from "../physic/2d/boundingBox/Rectangle.js";
-import { ICollideable } from "../propertys/ICollideable.js";
-import { IRenderable } from "../propertys/IRenderable.js";
-import { IUpdateable } from "../propertys/IUpdateable.js";
+import Polygon from "../2d/boundingBox/Polygon2.js";
+import Rectangle from "../2d/boundingBox/Rectangle.js";
+import { ICollideable } from "../2d/propertys/ICollideable.js";
+import { IRenderable } from "../2d/propertys/IRenderable.js";
+import { IUpdateable } from "../2d/propertys/IUpdateable.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";

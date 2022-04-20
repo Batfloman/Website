@@ -1,8 +1,8 @@
-import Formeln from "../Formeln.js";
+import Formeln from "../2d/Formeln2.js";
 import Input from "../input/Input.js";
-import Polygon from "../physic/2d/boundingBox/Polygon.js";
-import Rectangle from "../physic/2d/boundingBox/Rectangle.js";
-import { IMoveable } from "../propertys/IMoveable.js";
+import Polygon from "../2d/boundingBox/Polygon2.js";
+import Rectangle from "../2d/boundingBox/Rectangle.js";
+import { IMoveable } from "../2d/propertys/IMoveable.js";
 import Vector2 from "../util/Vector2.js";
 import Canvas from "./Canvas.js";
 

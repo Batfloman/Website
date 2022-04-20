@@ -1,4 +1,4 @@
-import Formeln from "../Formeln.js";
+import Formeln from "../2d/Formeln2.js";
 export default class Vector2 {
     constructor(x, y) {
         this.x = 0;
@@ -12,6 +12,9 @@ export default class Vector2 {
     subtract(vec2) {
         return new Vector2(this.x - vec2.x, this.y - vec2.y);
     }
+    dotProduct(vec2) {
+        return this.x * vec2.x + this.y * vec2.y;
+    }
     vectorTo(point) {
         return new Vector2(Math.round(point.x - this.x), Math.round(point.y - this.y));
     }
@@ -20,8 +23,5 @@ export default class Vector2 {
     }
     getMagnitude() {
         return Formeln.calcHypothenuse(this.x, this.y);
-    }
-    dotProduct(vec2) {
-        return this.x * vec2.x + this.y * vec2.y;
     }
 }

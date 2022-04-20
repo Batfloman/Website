@@ -1,15 +1,15 @@
-import WorldObject from "../../templates/assets/WorldObject.js";
 import Canvas from "../../templates/display/Canvas.js";
-import Polygon from "../../templates/physic/2d/boundingBox/Polygon.js";
+import Cuboid from "../../templates/3d/boundingBox/Cuboid.js";
 import System from "../../templates/System.js";
-import Vector2 from "../../templates/util/Vector2.js";
-var s;
+import Vector3 from "../../templates/util/Vector3.js";
+import FormObject2 from "./FormObject2.js";
 window.onload = () => {
-    s = new System(new Canvas(document.querySelector("canvas")));
-    s.addObject(new WorldObject(new Vector2(), new Polygon([new Vector2()])));
-    s.addObject(new WorldObject(new Vector2(), new Polygon([new Vector2()])));
-    loop();
+    let s = new System(new Canvas(document.querySelector("canvas")));
+    for (let i = 0; i < 10; i++) {
+        s.addObject(randomCuboid());
+    }
+    s.start();
 };
-function loop() {
-    window.requestAnimationFrame(loop);
+function randomCuboid() {
+    return new FormObject2(new Vector3(((Math.random() * 250) - 125), ((Math.random() * 250) - 125), ((Math.random() * 250) - 125)), new Cuboid(((Math.random() * 100) + 10), ((Math.random() * 100) + 10), ((Math.random() * 100) + 10), new Vector3(0, 0, 0)));
 }

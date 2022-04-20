@@ -1,7 +1,7 @@
 import { SceneObject } from "../assets/SceneObject.js";
-import WorldObject from "../assets/WorldObject.js";
+import WorldObject from "../2d/assets/WorldObject2.js";
 import Input from "../input/Input.js";
-import { IRenderable } from "../propertys/IRenderable.js";
+import { IRenderable } from "../2d/propertys/IRenderable.js";
 import Scene from "./Scene.js";
 
 export default class Canvas {

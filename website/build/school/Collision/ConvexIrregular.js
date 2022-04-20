@@ -1,5 +1,5 @@
-import Formeln from "../../templates/Formeln.js";
-import Polygon from "../../templates/physic/2d/boundingBox/Polygon.js";
+import Formeln from "../../templates/2d/Formeln2.js";
+import Polygon from "../../templates/2d/boundingBox/Polygon2.js";
 import Vector2 from "../../templates/util/Vector2.js";
 export default class ConvexIrregular extends Polygon {
     constructor(radius, numVerticies, irregularity, startAngle) {
