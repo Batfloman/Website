@@ -1,5 +1,5 @@
 import Vector3 from "../../util/Vector3.js";
-import Form from "../../../school/Collision/Form.js";
+import Form from "../../../school/Collision2d/Form.js";
 import Formeln3 from "../Formeln3.js";
 import Point from "../Point.js";
 
