@@ -7,10 +7,10 @@ export default class Polygon2 {
         this.model = model;
         this.points = model;
     }
-    translatePoints(pos) {
+    translatePoints(pos, angle) {
         this.points = new Array();
         this.model.forEach(point => {
-            this.points.push(Formeln.rotateAroundCenter(pos, new Vector2(Math.round(point.x + pos.x), Math.round(point.y + pos.y)), this.angle));
+            this.points.push(Polygon2.translatePoint(point, pos, !angle ? this.angle : angle));
         });
         return this.points;
     }
@@ -40,5 +40,8 @@ export default class Polygon2 {
     rotate(degree) {
         this.angle += degree;
         this.angle %= 360;
+    }
+    static translatePoint(point, center, angle) {
+        return Formeln.rotateAroundCenter(center, new Vector2(Math.round(point.x + center.x), Math.round(point.y + center.y)), angle);
     }
 }

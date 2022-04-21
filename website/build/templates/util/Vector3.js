@@ -10,6 +10,9 @@ export default class Vector3 {
     subtract(vec3) {
         return new Vector3(this.x - vec3.x, this.y - vec3.y, this.z - vec3.z);
     }
+    stretch(factor) {
+        return new Vector3(this.x * factor, this.y * factor, this.z * factor);
+    }
     vectorTo(point) {
         return new Vector3(Math.round(point.x - this.x), Math.round(point.y - this.y), Math.round(point.z - this.z));
     }

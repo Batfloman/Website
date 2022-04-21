@@ -13,7 +13,10 @@ export default class Vector2 {
         return new Vector2(this.x - vec2.x, this.y - vec2.y);
     }
     dotProduct(vec2) {
-        return this.x * vec2.x + this.y * vec2.y;
+        return (this.x * vec2.x) + (this.y * vec2.y);
+    }
+    crossProduct(vec2) {
+        return (this.x * vec2.y) - (vec2.x * this.y);
     }
     vectorTo(point) {
         return new Vector2(Math.round(point.x - this.x), Math.round(point.y - this.y));

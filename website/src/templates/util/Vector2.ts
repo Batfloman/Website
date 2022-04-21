@@ -24,7 +24,11 @@ export default class Vector2 {
   }
 
   dotProduct(vec2: Vector2): number {
-    return this.x * vec2.x + this.y * vec2.y;
+    return (this.x * vec2.x) + (this.y * vec2.y);
+  }
+
+  crossProduct(vec2: Vector2): number {
+    return (this.x * vec2.y) - (vec2.x * this.y)
   }
 
   vectorTo(point: Vector2): Vector2 {

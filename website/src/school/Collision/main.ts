@@ -7,6 +7,8 @@ import Vector2 from "../../templates/util/Vector2.js";
 import Rectangle from "../../templates/2d/boundingBox/Rectangle.js";
 import Form from "./Form.js";
 import Polygon from "../../templates/2d/boundingBox/Polygon2.js";
+import RandomForm from "./RandomForm.js";
+import Util from "../../templates/util/Util.js";
 
 let s: System;
 let selected = new Array();
@@ -154,11 +156,35 @@ window.onload = () => {
   //   s.addObject(createRandomForm());
   // }
 
+  // s.addObject(
+  //   new FormObject(
+  //     new Vector2(-100, 100),
+  //     new RandomForm(75, 4, 1, 0)
+  //   )
+  // )
+
+  for (let i = 0; i < 66; i++) {
+    s.addObject(createRandomForm())
+  }
+
+  // s.addObject(new FormObject(new Vector2(), new Polygon(
+  //   [
+  //     new Vector2(0, -100),
+  //     new Vector2(45, 45),
+  //     new Vector2(100, 0),
+  //     new Vector2(100, 100),
+  //     new Vector2(0, 100),
+  //     new Vector2(-25, -25),
+  //     new Vector2(-50, 25),
+  //     new Vector2(-75, -50)
+  //   ]
+  // )))
+
   s.start();
   // s.tick();
 }
 
-function createRandomForm(): FormObject {
+function createConvexIrregular(): FormObject {
   let xMin = -500;
   let xMax = 500;
   let yMin = -500;
@@ -170,6 +196,21 @@ function createRandomForm(): FormObject {
   let start = new Vector2(Math.floor(Math.random() * (xMax - xMin)) - Math.abs(xMin), Math.floor(Math.random() * (yMax - yMin)) - Math.abs(yMin));
   let form = new ConvexIrregular(Math.floor(Math.random() * (rMax - rMin)) + rMin, Math.ceil(Math.random() * (maxVertecies - 2)) + 2, .5, Math.floor(Math.random() * 360));
   // let form = new Form(Math.floor(Math.random()*(rMax-rMin)) + rMin, Math.ceil(Math.random()*(maxVertecies-2)) + 2, Math.floor( Math.random()*360));
+  let worldobj = new FormObject(start, form);
+  return worldobj;
+}
+
+function createRandomForm(): FormObject {
+  let startX = Util.randomBetween(-500, 500);
+  let startY = Util.randomBetween(-500, 500);
+  let start = new Vector2(startX, startY);
+
+  let radius = Util.randomBetween(25, 50);
+  let numVertices = Util.randomBetween(4, 25);
+  let irregularity = Util.randomBetween(0.33, .99, 5);
+  let startAngle = Util.randomBetween(0, 360);
+  let form = new RandomForm(radius, numVertices, irregularity, startAngle);
+
   let worldobj = new FormObject(start, form);
   return worldobj;
 }

@@ -51,7 +51,6 @@ export default class WorldObject2 extends SceneObject implements ICollideable {
   }
 
   getFarthestPoint() {
-    this.translatePoints();
-    return Formeln.farthestPoint(this.pos, this.hitBox.points);
+    return Formeln.farthestPoint(new Vector2(), this.hitBox.model);
   }
 }

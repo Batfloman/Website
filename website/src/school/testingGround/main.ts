@@ -4,18 +4,24 @@ import Cuboid from "../../templates/3d/boundingBox/Cuboid.js";
 import System from "../../templates/System.js"
 import Vector3 from "../../templates/util/Vector3.js";
 import FormObject2 from "./FormObject2.js";
+import TestForm from "./TestForm.js";
 
 window.onload = () => {
   let s = new System(new Canvas(document.querySelector("canvas")));
 
-  for (let i = 0; i < 10; i++) {
-    s.addObject(randomCuboid());
-  }
+  // for (let i = 0; i < 10; i++) {
+  //   s.addObject(randomCuboid());
+  // }
 
   // s.addObject(randomCuboid());
 
+  s.addObject(new FormObject2(
+    new Vector3(),
+    new TestForm(1000, 200)
+  ))
+
   // s.addObject(new FormObject2(
-  //   new Vector3(),
+  //   new Vector3(100, 0, 0),
   //   new Cube(50)
   // ))
 

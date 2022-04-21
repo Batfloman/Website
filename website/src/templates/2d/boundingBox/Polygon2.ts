@@ -11,22 +11,16 @@ export default class Polygon2 {
   points: Vector2[];
 
   constructor(model: Vector2[]) {
+    
     this.model = model;
     this.points = model;
   }
 
-  translatePoints(pos: Vector2): Vector2[] {
+  translatePoints(pos: Vector2, angle?: number): Vector2[] {
     this.points = new Array();
 
     this.model.forEach(point => {
-      this.points.push(Formeln.rotateAroundCenter(
-        pos,
-        new Vector2(
-          Math.round(point.x + pos.x),
-          Math.round(point.y + pos.y)
-        ),
-        this.angle
-      ))
+      this.points.push(Polygon2.translatePoint(point, pos, !angle ? this.angle : angle));
     })
 
     return this.points;
@@ -69,5 +63,16 @@ export default class Polygon2 {
   rotate(degree: number): void { 
     this.angle += degree;
     this.angle %= 360;
+  }
+
+  static translatePoint(point: Vector2, center: Vector2, angle: number): Vector2 {
+    return Formeln.rotateAroundCenter(
+      center,
+      new Vector2(
+        Math.round(point.x + center.x),
+        Math.round(point.y + center.y)
+      ),
+      angle
+    )
   }
 }

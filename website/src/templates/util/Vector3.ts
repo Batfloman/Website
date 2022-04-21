@@ -25,6 +25,14 @@ export default class Vector3 {
     )
   }
 
+  stretch(factor: number) {
+    return new Vector3(
+      this.x * factor,
+      this.y * factor,
+      this.z * factor
+    )
+  }
+
   vectorTo(point: Vector3): Vector3 {
     return new Vector3(
       Math.round(point.x - this.x),

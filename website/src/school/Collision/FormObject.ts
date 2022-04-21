@@ -7,6 +7,8 @@ import Polygon from "../../templates/2d/boundingBox/Polygon2.js";
 import CircleCollision from "../../templates/2d/collision/CircleCollision.js";
 import SAT from "../../templates/2d/collision/SAT.js";
 import Vector2 from "../../templates/util/Vector2.js";
+import Polygon2Helper from "../../templates/2d/collision/Triangulation.js";
+import Renderer from "../../templates/display/Renderer.js";
 
 export default class FormObject extends MoveableObject {
 
@@ -25,11 +27,11 @@ export default class FormObject extends MoveableObject {
   // ===== fun =====
 
   degPerSec = FormObject.randomSpeed(30, 180);
-  
+
   static randomSpeed(min: number, max: number) {
     let value;
     do {
-      value = Math.random()*max*2 - max;
+      value = Math.random() * max * 2 - max;
     } while (value > -min && value < min)
     return value;
   }
@@ -54,7 +56,7 @@ export default class FormObject extends MoveableObject {
     Input.newEventListener("mousedown", this, (event: MouseEvent) => {
       let mPos = Input.mPosHover.add(this.getCamara().offset);
       let distance = Formeln.distance(this.pos, mPos);
-      if(distance < 10) {
+      if (distance < 10) {
         this.lockMovement = !this.lockMovement;
       }
     })
@@ -66,7 +68,7 @@ export default class FormObject extends MoveableObject {
     this.rotate(this.degPerSec * dt / 1000);
 
     let objects = this.system.activeScene?.findObjects(FormObject);
-    if(!!objects) this.collides = this.testOverlap(objects);
+    if (!!objects) this.collides = this.testOverlap(objects);
   }
 
   render(ctx: CanvasRenderingContext2D) {
@@ -74,39 +76,39 @@ export default class FormObject extends MoveableObject {
     this.hitBox.translatePoints(pos);
 
     // change Color
-    ctx.strokeStyle = this.collides ? this.collisionColor : this.standardColor; 
-    ctx.fillStyle = this.lockMovement ? "rgba(0, 0, 0, 0)" : this.selectedColor;
+    let borderColor = this.collides ? this.collisionColor : this.standardColor;
+    let fillColor = this.lockMovement ? "rgba(0, 0, 0, 0)" : this.selectedColor;
+
+    // Triangles
+    Polygon2Helper.triangulate(this.hitBox.model).forEach(triangle => {
+      triangle.translatePoints(pos, this.hitBox.angle);
+      Renderer.renderPolygon2(ctx, triangle);
+    });
 
     // draw Outline
     ctx.lineWidth = 1.75;
-    ctx.beginPath();
-    let first = this.hitBox.points[0];
-    ctx.moveTo(first.x, first.y);
-    this.hitBox.points.forEach(point => {
-      ctx.lineTo(point.x, point.y);
-    })
-    ctx.lineTo(first.x, first.y);
-    ctx.stroke();
-    
+    Renderer.renderPolygon2(ctx, this.hitBox, borderColor, fillColor);
+    // middle Circle
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, 10, 0, 360);
     ctx.fill();
     ctx.stroke();
 
+    // outer Circle
     ctx.beginPath();
     ctx.strokeStyle = "rgba(45, 45, 45, 10)"
     ctx.lineWidth = 0.75;
-    ctx.arc(pos.x, pos.y, Formeln.distance(this.pos, this.getFarthestPoint()), 0, 360);
+    ctx.arc(pos.x, pos.y, Formeln.distance(new Vector2(), this.getFarthestPoint()), 0, 360);
     ctx.stroke();
   }
 
   testOverlap(objects: SceneObject[]): boolean {
-    for(let i = 0; i < objects.length; i++) {
+    for (let i = 0; i < objects.length; i++) {
       let obj = objects[i];
-      if(!(obj instanceof WorldObject) ||  obj == this) continue;
+      if (!(obj instanceof WorldObject) || obj == this) continue;
 
       let overlap = (CircleCollision.potentialCollision(this, obj) && SAT.testCollision(this, obj));
-      if(overlap) return true;
+      if (overlap) return true;
     }
     return false;
   }

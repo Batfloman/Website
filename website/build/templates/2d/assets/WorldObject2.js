@@ -1,4 +1,5 @@
 import { SceneObject } from "../../assets/SceneObject.js";
+import Vector2 from "../../util/Vector2.js";
 import Formeln from "../Formeln2.js";
 import SAT from "../collision/SAT.js";
 import CircleCollision from "../collision/CircleCollision.js";
@@ -33,7 +34,6 @@ export default class WorldObject2 extends SceneObject {
         this.hitBox.rotate(degree);
     }
     getFarthestPoint() {
-        this.translatePoints();
-        return Formeln.farthestPoint(this.pos, this.hitBox.points);
+        return Formeln.farthestPoint(new Vector2(), this.hitBox.model);
     }
 }

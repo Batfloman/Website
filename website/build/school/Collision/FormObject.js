@@ -4,6 +4,9 @@ import Formeln from "../../templates/2d/Formeln2.js";
 import Input from "../../templates/input/Input.js";
 import CircleCollision from "../../templates/2d/collision/CircleCollision.js";
 import SAT from "../../templates/2d/collision/SAT.js";
+import Vector2 from "../../templates/util/Vector2.js";
+import Polygon2Helper from "../../templates/2d/collision/Triangulation.js";
+import Renderer from "../../templates/display/Renderer.js";
 export default class FormObject extends MoveableObject {
     constructor(centerPos, hitBox) {
         let controles = new Map();
@@ -46,17 +49,14 @@ export default class FormObject extends MoveableObject {
     render(ctx) {
         let pos = this.calcPosOnScreen();
         this.hitBox.translatePoints(pos);
-        ctx.strokeStyle = this.collides ? this.collisionColor : this.standardColor;
-        ctx.fillStyle = this.lockMovement ? "rgba(0, 0, 0, 0)" : this.selectedColor;
-        ctx.lineWidth = 1.75;
-        ctx.beginPath();
-        let first = this.hitBox.points[0];
-        ctx.moveTo(first.x, first.y);
-        this.hitBox.points.forEach(point => {
-            ctx.lineTo(point.x, point.y);
+        let borderColor = this.collides ? this.collisionColor : this.standardColor;
+        let fillColor = this.lockMovement ? "rgba(0, 0, 0, 0)" : this.selectedColor;
+        Polygon2Helper.triangulate(this.hitBox.model).forEach(triangle => {
+            triangle.translatePoints(pos, this.hitBox.angle);
+            Renderer.renderPolygon2(ctx, triangle);
         });
-        ctx.lineTo(first.x, first.y);
-        ctx.stroke();
+        ctx.lineWidth = 1.75;
+        Renderer.renderPolygon2(ctx, this.hitBox, borderColor, fillColor);
         ctx.beginPath();
         ctx.arc(pos.x, pos.y, 10, 0, 360);
         ctx.fill();
@@ -64,7 +64,7 @@ export default class FormObject extends MoveableObject {
         ctx.beginPath();
         ctx.strokeStyle = "rgba(45, 45, 45, 10)";
         ctx.lineWidth = 0.75;
-        ctx.arc(pos.x, pos.y, Formeln.distance(this.pos, this.getFarthestPoint()), 0, 360);
+        ctx.arc(pos.x, pos.y, Formeln.distance(new Vector2(), this.getFarthestPoint()), 0, 360);
         ctx.stroke();
     }
     testOverlap(objects) {
