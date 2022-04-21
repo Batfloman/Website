@@ -1,6 +1,8 @@
 import Formeln from "../Formeln2.js";
 import Vector2 from "../../util/Vector2.js";
 import Color from "../../util/Color.js";
+import Polygon2Helper from "../collision/Polygon2Helper.js";
+import Triangulation from "../collision/Triangulation.js";
 
 export default class Polygon2 {
   // points relative to a 0, 0 center with 0° rotation
@@ -8,71 +10,36 @@ export default class Polygon2 {
   // angle in degree
   angle: number = 0;
 
-  points: Vector2[];
+  isConvex: boolean;
+  convexParts: Polygon2[] | null;
 
   constructor(model: Vector2[]) {
-    
     this.model = model;
-    this.points = model;
-  }
 
-  translatePoints(pos: Vector2, angle?: number): Vector2[] {
-    this.points = new Array();
-
-    this.model.forEach(point => {
-      this.points.push(Polygon2.translatePoint(point, pos, !angle ? this.angle : angle));
-    })
-
-    return this.points;
-  }
-
-  getFarthestPoint(pos: Vector2) {
-    return Formeln.farthestPoint(pos, this.translatePoints(pos));
-  }
-
-  getClosestPoint(pos: Vector2) {
-    return Formeln.closestPoint(pos, this.translatePoints(pos));
+    this.isConvex = Polygon2Helper.isConvex(this);
+    this.convexParts = this.isConvex ? null : Triangulation.triangulate(this.model);
   }
 
   /**
    * offsets all Points to match the "real" center
    */
   centerModel(): void {
-    let centerX = 0;
-    let centerY = 0;
-    // adds all cordinates together
+    let realCenter = this.findCenter();
     this.model.forEach(point => {
-      centerX += point.x;
-      centerY += point.y;
-    })
-    // get the "durchschnitt"
-    let moveX = centerX / this.model.length;
-    let moveY = centerY / this.model.length;
-    // offsets the model Points by the offset from the centerpoint to the "real" centerpoint
-    // => makes the centerpoint the real centerpoint
-    this.model.forEach(point => {
-      point.x -= Math.round(moveX*100) / 100;
-      point.y -= Math.round(moveY*100) / 100;
+      point.x -= Math.round(realCenter.x*100) / 100;
+      point.y -= Math.round(realCenter.y*100) / 100;
     })
   }
 
-  setAngle(angle: number): void {
-     this.angle = angle;
-  }
+  findCenter(): Vector2 {
+    let center = new Vector2(0, 0);
 
-  rotate(degree: number): void { 
-    this.angle += degree;
-    this.angle %= 360;
-  }
+    this.model.forEach(point => {
+      center = center.add(point);
+    })
 
-  static translatePoint(point: Vector2, center: Vector2, angle: number): Vector2 {
-    return Formeln.rotateAroundCenter(
-      center,
-      new Vector2(
-        Math.round(point.x + center.x),
-        Math.round(point.y + center.y)
-      ),
-      angle
-    )
+    let realCenter = center.scale(1 / this.model.length);
+
+    return realCenter;
   }
 }

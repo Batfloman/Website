@@ -6,17 +6,23 @@ import Color from "../../util/Color.js";
 import { ICollideable } from "../propertys/ICollideable.js";
 import SAT from "../collision/SAT.js";
 import CircleCollision from "../collision/CircleCollision.js";
+import Polygon2 from "../boundingBox/Polygon2.js";
+import Polygon2Helper from "../collision/Polygon2Helper.js";
 
 export default class WorldObject2 extends SceneObject implements ICollideable {
   // ICollideable
   pos: Vector2;
   hitBox: Polygon;
+  angle: number;
+  points: Vector2[];
 
-  constructor(center: Vector2, hitBox: Polygon) {
+  constructor(center: Vector2, hitBox: Polygon, startAngle?: number) {
     super();
 
     this.pos = center;
     this.hitBox = hitBox;
+    this.angle = !startAngle ? 0 : startAngle;
+    this.points = this.translatePoints();
   }
 
   // SceneObject
@@ -35,7 +41,8 @@ export default class WorldObject2 extends SceneObject implements ICollideable {
     throw new Error("Method not implemented.");
   }
   translatePoints(): Vector2[] {
-    return this.hitBox.translatePoints(this.pos);
+    this.points = Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.angle);
+    return this.points;
   }
 
   isOnScreen(): boolean {
@@ -43,14 +50,19 @@ export default class WorldObject2 extends SceneObject implements ICollideable {
   }
 
   calcPosOnScreen(): Vector2 {
-    return this.pos.subtract(this.getCamara().offset);
+    return this.getCamara().calcPointPosOnScreen(this.pos);
+  }
+
+  calcPointsOnScreen(): Vector2[] {
+    return this.getCamara().calcPointsPosOnScreen(this.translatePoints());
   }
 
   rotate(degree: number) {
-    this.hitBox.rotate(degree);
+    this.angle = (this.angle + degree) % 360;
   }
 
-  getFarthestPoint() {
-    return Formeln.farthestPoint(new Vector2(), this.hitBox.model);
+  getFarthestPoint(): Vector2 {
+    let point = Formeln.farthestPoint(new Vector2(), this.hitBox.model);
+    return Polygon2Helper.translatePoint(point, this.pos, this.angle);
   }
 }

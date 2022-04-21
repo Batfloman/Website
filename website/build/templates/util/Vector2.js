@@ -12,6 +12,9 @@ export default class Vector2 {
     subtract(vec2) {
         return new Vector2(this.x - vec2.x, this.y - vec2.y);
     }
+    scale(scalar) {
+        return new Vector2(this.x * scalar, this.y * scalar);
+    }
     dotProduct(vec2) {
         return (this.x * vec2.x) + (this.y * vec2.y);
     }

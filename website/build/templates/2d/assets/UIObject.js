@@ -3,6 +3,7 @@ import Rectangle from "../boundingBox/Rectangle.js";
 import WorldObject from "./WorldObject2.js";
 import Input from "../../input/Input.js";
 import SAT from "../collision/SAT.js";
+import Renderer from "../../display/Renderer.js";
 export default class UIObject extends WorldObject {
     constructor(pos, hitBox, content, action) {
         super(new Vector2(0, 0), hitBox);
@@ -35,17 +36,10 @@ export default class UIObject extends WorldObject {
         this.pos = new Vector2(this.staticPos.x + this.getCamara().offset.x, this.staticPos.y + this.getCamara().offset.y);
     }
     render(ctx) {
-        this.hitBox.translatePoints(this.staticPos);
+        this.translatePoints();
         ctx.strokeStyle = "black";
         ctx.lineWidth = 3;
-        ctx.beginPath();
-        let first = this.hitBox.points[0];
-        ctx.moveTo(first.x, first.y);
-        this.hitBox.points.forEach(point => {
-            ctx.lineTo(point.x, point.y);
-        });
-        ctx.lineTo(first.x, first.y);
-        ctx.stroke();
+        Renderer.connectDots(ctx, this.calcPointsOnScreen());
         ctx.fillStyle = "red";
         ctx.fill();
         ctx.fillStyle = this.style.color;

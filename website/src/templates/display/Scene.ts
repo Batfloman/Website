@@ -7,6 +7,7 @@ import { IUpdateable } from "../2d/propertys/IUpdateable.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
+import Polygon2Helper from "../2d/collision/Polygon2Helper.js";
 
 export default class Scene implements IRenderable, ICollideable, IUpdateable {
   canvas: Canvas;
@@ -15,6 +16,8 @@ export default class Scene implements IRenderable, ICollideable, IUpdateable {
 
   pos: Vector2;
   hitBox: Polygon;
+  points: Vector2[];
+  angle: number;
 
   constructor(canvas: Canvas, ...objects: SceneObject[]) {
     this.canvas = canvas;
@@ -22,6 +25,8 @@ export default class Scene implements IRenderable, ICollideable, IUpdateable {
     this.camara = new Camara(canvas);
     this.hitBox = new Rectangle(canvas.htmlCanvas.width, canvas.htmlCanvas.height);
     this.pos = new Vector2(0, 0);
+    this.angle = 0;
+    this.points = this.translatePoints();
   }
 
   addObject(obj: SceneObject): void {
@@ -53,7 +58,7 @@ export default class Scene implements IRenderable, ICollideable, IUpdateable {
     throw new Error("Method not implemented.");
   }
   translatePoints(): Vector2[] {
-    return this.hitBox.translatePoints(this.pos);
+    return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.angle);
   }
 
   // IUpdateable

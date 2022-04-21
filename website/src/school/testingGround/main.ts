@@ -17,7 +17,7 @@ window.onload = () => {
 
   s.addObject(new FormObject2(
     new Vector3(),
-    new TestForm(1000, 200)
+    new TestForm(5000, 200)
   ))
 
   // s.addObject(new FormObject2(

@@ -6,7 +6,7 @@ import FormObject2 from "./FormObject2.js";
 import TestForm from "./TestForm.js";
 window.onload = () => {
     let s = new System(new Canvas(document.querySelector("canvas")));
-    s.addObject(new FormObject2(new Vector3(), new TestForm(1000, 200)));
+    s.addObject(new FormObject2(new Vector3(), new TestForm(5000, 200)));
     s.start();
 };
 function randomCuboid() {

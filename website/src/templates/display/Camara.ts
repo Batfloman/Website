@@ -5,16 +5,24 @@ import Rectangle from "../2d/boundingBox/Rectangle.js";
 import { IMoveable } from "../2d/propertys/IMoveable.js";
 import Vector2 from "../util/Vector2.js";
 import Canvas from "./Canvas.js";
+import Polygon2Helper from "../2d/collision/Polygon2Helper.js";
+import WorldObject2 from "../2d/assets/WorldObject2.js";
 
 export default class Camara implements IMoveable {
   canvas: Canvas;
   
-  pos: Vector2;
   offset: Vector2;
-  hitBox: Polygon;
   scale: number;
+  
+  // ICollideable
+  pos: Vector2;
+  hitBox: Polygon;
+  angle: number = 0;
+  points: Vector2[];
+  
+  // IMoveable
   lockMovement: boolean;
-
+  
   constructor(canvas: Canvas) {
     this.canvas = canvas;
     this.pos = new Vector2();
@@ -33,6 +41,20 @@ export default class Camara implements IMoveable {
     Input.newEventListener("resize", this, (event: Event) => {
       this.hitBox = new Rectangle(canvas.htmlCanvas.width, canvas.htmlCanvas.height);
     })
+
+    this.points = this.translatePoints();
+  }
+
+  calcPointPosOnScreen(point: Vector2): Vector2 {
+    return point.subtract(this.offset);
+  }
+
+  calcPointsPosOnScreen(points: Vector2[]): Vector2[] {
+    let p: Vector2[] = new Array();
+    points.forEach(point => {
+      p.push(point.subtract(this.offset))
+    })
+    return p;
   }
 
   getMousePosWithViewOffSet(without: Vector2): Vector2 {
@@ -41,7 +63,7 @@ export default class Camara implements IMoveable {
 
   // IMoveable
   translatePoints(): Vector2[] {
-    return this.hitBox.translatePoints(this.pos);
+    return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.angle);
   }
   touches(obj: Vector2 | Polygon): boolean {
     throw new Error("Method not implemented.");

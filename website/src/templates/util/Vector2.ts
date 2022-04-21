@@ -23,6 +23,13 @@ export default class Vector2 {
     );
   }
 
+  scale(scalar: number) {
+    return new Vector2(
+      this.x * scalar,
+      this.y * scalar
+    )
+  }
+
   dotProduct(vec2: Vector2): number {
     return (this.x * vec2.x) + (this.y * vec2.y);
   }

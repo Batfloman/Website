@@ -1,16 +1,29 @@
-import Formeln from "../Formeln2.js";
+import Formeln2 from "../Formeln2.js";
 import { ICollideable } from "../propertys/ICollideable.js";
+import Polygon2Helper from "./Polygon2Helper.js";
 
 export default class CircleCollision {
   static potentialCollision(obj1: ICollideable, obj2: ICollideable) {
     [obj1, obj2].forEach(obj => obj.translatePoints());
 
-    let centerDistance = Formeln.distance(obj1.pos, obj2.pos);
+    let centerDistance = Formeln2.distance(obj1.pos, obj2.pos);
 
-    let furthest1 = Formeln.distance(obj1.pos, obj1.hitBox.getFarthestPoint(obj1.pos));
-    let furthest2 = Formeln.distance(obj2.pos, obj2.hitBox.getFarthestPoint(obj2.pos));
+    let furthest1 = Formeln2.distance(obj1.pos, Formeln2.farthestPoint(obj1.pos, obj1.translatePoints()));
+    let furthest2 = Formeln2.distance(obj2.pos, Formeln2.farthestPoint(obj2.pos, obj2.translatePoints()));
     
     let collision = (centerDistance < (furthest1 + furthest2));
     return collision;
   }
+
+  // static potentialCollision(körper1: ICollideable, körper2: ICollideable) {
+  //   [körper1, körper2].forEach(obj => obj.translatePoints());
+
+  //   let distanzMitten = Formeln.distance(körper1.pos, körper2.pos);
+
+  //   let radius1 = Formeln.distance(körper1.pos, körper1.hitBox.getFarthestPoint(körper1.pos));
+  //   let radius2 = Formeln.distance(körper2.pos, körper2.hitBox.getFarthestPoint(körper2.pos));
+    
+  //   let kollidieren = (distanzMitten < (radius1 + radius2));
+  //   return kollidieren;
+  // }
 }

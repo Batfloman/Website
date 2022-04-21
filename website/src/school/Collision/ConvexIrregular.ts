@@ -3,7 +3,7 @@ import Polygon from "../../templates/2d/boundingBox/Polygon2.js";
 import Vector2 from "../../templates/util/Vector2.js";
 
 export default class ConvexIrregular extends Polygon {
-  constructor(radius: number, numVerticies: number, irregularity: number, startAngle: number) {
+  constructor(radius: number, numVerticies: number, irregularity: number, startAngle?: number) {
     if(irregularity < 0 || irregularity > 1) throw new Error(`${irregularity} is not valid!`);
 
     let model = new Array();

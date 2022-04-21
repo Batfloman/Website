@@ -10,8 +10,8 @@ export default class Rectangle extends Polygon {
     
     model.push( new Vector2(0, 0));
     model.push( new Vector2(0, height));
-    model.push( new Vector2(width, 0));
     model.push( new Vector2(width, height));
+    model.push( new Vector2(width, 0));
     
     super(model);
 

@@ -2,6 +2,7 @@ import { SceneObject } from "../assets/SceneObject.js";
 import Rectangle from "../2d/boundingBox/Rectangle.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
+import Polygon2Helper from "../2d/collision/Polygon2Helper.js";
 export default class Scene {
     constructor(canvas, ...objects) {
         this.canvas = canvas;
@@ -9,6 +10,8 @@ export default class Scene {
         this.camara = new Camara(canvas);
         this.hitBox = new Rectangle(canvas.htmlCanvas.width, canvas.htmlCanvas.height);
         this.pos = new Vector2(0, 0);
+        this.angle = 0;
+        this.points = this.translatePoints();
     }
     addObject(obj) {
         if (this.objects.includes(obj))
@@ -37,7 +40,7 @@ export default class Scene {
         throw new Error("Method not implemented.");
     }
     translatePoints() {
-        return this.hitBox.translatePoints(this.pos);
+        return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.angle);
     }
     update(dt) {
         this.objects.forEach(obj => {

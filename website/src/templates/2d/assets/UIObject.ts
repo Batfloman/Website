@@ -6,6 +6,8 @@ import Input from "../../input/Input.js";
 import SAT from "../collision/SAT.js";
 import Canvas from "../../display/Canvas.js";
 import System from "../../System.js";
+import Renderer from "../../display/Renderer.js";
+import Polygon2Helper from "../collision/Polygon2Helper.js";
 
 export default class UIObject extends WorldObject {
   staticPos: Vector2;
@@ -64,17 +66,12 @@ export default class UIObject extends WorldObject {
   }
 
   render(ctx: CanvasRenderingContext2D): void {
-    this.hitBox.translatePoints(this.staticPos)
+    this.translatePoints();
+    
     ctx.strokeStyle = "black";
     ctx.lineWidth = 3;
-    ctx.beginPath();
-    let first = this.hitBox.points[0];
-    ctx.moveTo(first.x, first.y);
-    this.hitBox.points.forEach(point => {
-      ctx.lineTo(point.x, point.y);
-    })
-    ctx.lineTo(first.x, first.y);
-    ctx.stroke();
+    
+    Renderer.connectDots(ctx, this.calcPointsOnScreen())
     
     ctx.fillStyle = "red";
     ctx.fill();
