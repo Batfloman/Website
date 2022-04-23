@@ -91,6 +91,7 @@ export default class FormObject extends MoveableObject {
     // draw Outline
     ctx.lineWidth = 1.75;
     Renderer.connectDots(ctx, this.calcPointsOnScreen(), borderColor, fillColor);
+    
     // middle Circle
     ctx.beginPath();
     ctx.arc(pos.x, pos.y, 10, 0, 360);
