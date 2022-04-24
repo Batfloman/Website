@@ -22,7 +22,9 @@ export default class FormObject extends MoveableObject {
         this.standardColor = "black";
         this.collisionColor = "white";
         this.selectedColor = "black";
-        this.standardWidth = 2;
+        this.standardWidth = 1.75;
+        this.drawPoints = false;
+        this.drawTriangles = true;
         this.degPerSec = FormObject.randomSpeed(30, 180);
         Input.newEventListener("mousedown", this, (event) => {
             let mPos = Input.mPosHover.add(this.getCamara().offset);
@@ -51,18 +53,20 @@ export default class FormObject extends MoveableObject {
         let pos = this.calcPosOnScreen();
         let borderColor = this.collides ? this.collisionColor : this.standardColor;
         let fillColor = this.lockMovement ? "rgba(0, 0, 0, 0)" : this.selectedColor;
-        ctx.lineWidth = .25;
-        if (!Polygon2Helper.isConvex(this.hitBox)) {
-            Triangulation.triangulate(this.hitBox.model).forEach(triangle => {
-                Renderer.connectDots(ctx, this.getCamara().calcPointsPosOnScreen(Polygon2Helper.translatePoints(triangle.model, this.pos, this.angle)));
-            });
+        if (this.drawTriangles) {
+            ctx.lineWidth = .25;
+            if (!Polygon2Helper.isConvex(this.hitBox)) {
+                Triangulation.triangulate(this.hitBox.model).forEach(triangle => {
+                    Renderer.connectDots(ctx, this.getCamara().calcPointsPosOnScreen(Polygon2Helper.translatePoints(triangle.model, this.pos, this.angle)));
+                });
+            }
         }
-        ctx.lineWidth = 1.75;
-        Renderer.connectDots(ctx, this.calcPointsOnScreen(), borderColor, fillColor);
-        ctx.beginPath();
-        ctx.arc(pos.x, pos.y, 10, 0, 360);
-        ctx.fill();
-        ctx.stroke();
+        ctx.lineWidth = this.standardWidth;
+        let fillColor2 = this.standardFillColor;
+        Renderer.connectDots(ctx, this.calcPointsOnScreen(), borderColor, fillColor2);
+        if (this.drawPoints) {
+            Renderer.drawDots(ctx, this.calcPointsOnScreen());
+        }
         ctx.beginPath();
         ctx.strokeStyle = "rgba(45, 45, 45, 10)";
         ctx.lineWidth = 0.75;

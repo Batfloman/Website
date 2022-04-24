@@ -18,10 +18,10 @@ export default class CircleCollision {
   // static potentialCollision(körper1: ICollideable, körper2: ICollideable) {
   //   [körper1, körper2].forEach(obj => obj.translatePoints());
 
-  //   let distanzMitten = Formeln.distance(körper1.pos, körper2.pos);
+  //   let distanzMitten = Formeln2.distance(körper1.pos, körper2.pos);
 
-  //   let radius1 = Formeln.distance(körper1.pos, körper1.hitBox.getFarthestPoint(körper1.pos));
-  //   let radius2 = Formeln.distance(körper2.pos, körper2.hitBox.getFarthestPoint(körper2.pos));
+  //   let radius1 = Formeln2.distance(körper1.pos, Formeln2.farthestPoint(körper1.pos, körper1.translatePoints()));
+  //   let radius2 = Formeln2.distance(körper2.pos, Formeln2.farthestPoint(körper2.pos, körper2.translatePoints()));
     
   //   let kollidieren = (distanzMitten < (radius1 + radius2));
   //   return kollidieren;

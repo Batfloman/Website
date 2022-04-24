@@ -10,6 +10,7 @@ export default class Renderer {
             ctx.lineTo(point.x, point.y);
         });
         ctx.lineTo(first.x, first.y);
+        ctx.fill();
         ctx.stroke();
     }
     static drawDots(ctx, points, borderColor, fillColor) {

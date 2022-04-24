@@ -1,6 +1,7 @@
 import Formeln from "../../templates/2d/Formeln2.js";
 import Polygon from "../../templates/2d/boundingBox/Polygon2.js";
 import Vector2 from "../../templates/util/Vector2.js";
+import Util from "../../templates/util/Util.js";
 export default class RandomForm extends Polygon {
     constructor(radius, numVertices, irregularity, startAngle) {
         if (irregularity < 0 || irregularity > 1)
@@ -15,5 +16,15 @@ export default class RandomForm extends Polygon {
     static noise(value, noiseVaule, numVertices) {
         let noiseChange = (noiseVaule * (Math.floor(Math.random() * value * 2) - value)) / 1.2;
         return value + noiseChange;
+    }
+    static zufälligeForm(radius, numVertices, irregularity) {
+        let form = new Array();
+        for (let i = 0; i < numVertices; i++) {
+            let mittelPunkt = new Vector2(0, 0);
+            let gradWert = (360 / numVertices) * i;
+            let distanz = (Util.randomBetween(-1, 1) * irregularity * radius) + radius;
+            form.push(Formeln.moveDirection(mittelPunkt, gradWert, distanz));
+        }
+        return form;
     }
 }

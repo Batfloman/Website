@@ -18,13 +18,20 @@ export default class FormObject extends MoveableObject {
 
   // Border Color when not kolliding
   standardColor = "black";
+  // fill Color 
+  standardFillColor: string | undefined;
   // Border Color when kollding
   collisionColor = "white";
   // Color of Circle when selected
   selectedColor = "black";
 
   // Border Width when not kolliding
-  standardWidth = 2;
+  standardWidth = 1.75;
+
+  // if points should be drawn;
+  drawPoints: boolean = false;
+  // if triangles should be drawn;
+  drawTriangles: boolean = true;
 
   // ===== fun =====
 
@@ -81,22 +88,30 @@ export default class FormObject extends MoveableObject {
     let fillColor = this.lockMovement ? "rgba(0, 0, 0, 0)" : this.selectedColor;
 
     // Triangles
-    ctx.lineWidth = .25;
-    if (!Polygon2Helper.isConvex(this.hitBox)) {
-      Triangulation.triangulate(this.hitBox.model).forEach(triangle => {
-        Renderer.connectDots(ctx, this.getCamara().calcPointsPosOnScreen(Polygon2Helper.translatePoints(triangle.model, this.pos, this.angle)))
-      });
+    if(this.drawTriangles) {
+      ctx.lineWidth = .25;
+      if (!Polygon2Helper.isConvex(this.hitBox)) {
+        Triangulation.triangulate(this.hitBox.model).forEach(triangle => {
+          Renderer.connectDots(ctx, this.getCamara().calcPointsPosOnScreen(Polygon2Helper.translatePoints(triangle.model, this.pos, this.angle)))
+        });
+      }
     }
 
     // draw Outline
-    ctx.lineWidth = 1.75;
-    Renderer.connectDots(ctx, this.calcPointsOnScreen(), borderColor, fillColor);
-    
+    ctx.lineWidth = this.standardWidth;
+    let fillColor2 = this.standardFillColor;
+    Renderer.connectDots(ctx, this.calcPointsOnScreen(), borderColor, fillColor2);
+
+    // draw Points
+    if(this.drawPoints) {
+      Renderer.drawDots(ctx, this.calcPointsOnScreen());
+    }
+
     // middle Circle
-    ctx.beginPath();
-    ctx.arc(pos.x, pos.y, 10, 0, 360);
-    ctx.fill();
-    ctx.stroke();
+    // ctx.beginPath();
+    // ctx.arc(pos.x, pos.y, 10, 0, 360);
+    // ctx.fill();
+    // ctx.stroke();
 
     // outer Circle
     ctx.beginPath();

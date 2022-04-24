@@ -13,11 +13,12 @@ export default class Polygon2 {
   isConvex: boolean;
   convexParts: Polygon2[] | null;
 
-  constructor(model: Vector2[]) {
+  constructor(model: Vector2[], startAngle?: number) {
     this.model = model;
 
     this.isConvex = Polygon2Helper.isConvex(this);
     this.convexParts = this.isConvex ? null : Triangulation.triangulate(this.model);
+    this.angle = !startAngle ? 0 : startAngle;
   }
 
   /**

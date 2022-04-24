@@ -34,6 +34,10 @@ export default class Vector2 {
     return (this.x * vec2.x) + (this.y * vec2.y);
   }
 
+  skalarProdukt(vec2: Vector2): number {
+    return (this.x * vec2.x) + (this.y * vec2.y);
+  }
+
   crossProduct(vec2: Vector2): number {
     return (this.x * vec2.y) - (vec2.x * this.y)
   }
@@ -53,6 +57,10 @@ export default class Vector2 {
   }
 
   getMagnitude(): number {
+    return Formeln.calcHypothenuse(this.x, this.y);
+  }
+
+  getLänge(): number {
     return Formeln.calcHypothenuse(this.x, this.y);
   }
 }

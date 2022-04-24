@@ -2,12 +2,13 @@ import Vector2 from "../../util/Vector2.js";
 import Polygon2Helper from "../collision/Polygon2Helper.js";
 import Triangulation from "../collision/Triangulation.js";
 export default class Polygon2 {
-    constructor(model) {
+    constructor(model, startAngle) {
         this.model = new Array();
         this.angle = 0;
         this.model = model;
         this.isConvex = Polygon2Helper.isConvex(this);
         this.convexParts = this.isConvex ? null : Triangulation.triangulate(this.model);
+        this.angle = !startAngle ? 0 : startAngle;
     }
     centerModel() {
         let realCenter = this.findCenter();
