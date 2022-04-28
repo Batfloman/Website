@@ -1,7 +1,4 @@
-import { SceneObject } from "../assets/SceneObject.js";
-import WorldObject from "../2d/assets/WorldObject2.js";
 import Input from "../input/Input.js";
-import { IRenderable } from "../2d/propertys/IRenderable.js";
 import Scene from "./Scene.js";
 
 export default class Canvas {
@@ -11,22 +8,21 @@ export default class Canvas {
     if(htmlCanvas == null) htmlCanvas = document.createElement("canvas");
     this.htmlCanvas = htmlCanvas;
 
-    Input.newEventListener("resize", this, this.resize);
-    this.resize();
+    Input.newEventListener("resize", this, this.updateSizeValues);
+    this.updateSizeValues();
   }
 
   render(scene: Scene) {
     if (!scene) return;
 
     let ctx = this.htmlCanvas.getContext("2d");
-    if(!ctx) return;
-
-    ctx.clearRect(0, 0, this.htmlCanvas.width, this.htmlCanvas.height);
-
-    if(!!ctx) scene.render(ctx);
+    if(!!ctx) {
+      ctx.clearRect(0, 0, this.htmlCanvas.width, this.htmlCanvas.height);
+      scene.render(ctx);
+    }
   }
 
-  resize() {
+  updateSizeValues() {
     this.htmlCanvas.width = this.htmlCanvas.getBoundingClientRect().width;
     this.htmlCanvas.height = this.htmlCanvas.getBoundingClientRect().height;
   }

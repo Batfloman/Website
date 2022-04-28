@@ -45,9 +45,6 @@ export default class Triangulation {
         }
 
         if(isEar) {
-          // tirangles[currentTirangleIndexCount++] = b;
-          // tirangles[currentTirangleIndexCount++] = a;
-          // tirangles[currentTirangleIndexCount++] = c;
           tirangles.push(new Polygon2([va, vb, vc]));
 
           indexList.splice(i, 1);
@@ -55,10 +52,6 @@ export default class Triangulation {
         }
       }
     }
-
-    // tirangles[currentTirangleIndexCount++] = indexList[0];
-    // tirangles[currentTirangleIndexCount++] = indexList[1];
-    // tirangles[currentTirangleIndexCount++] = indexList[2];
 
     tirangles.push(new Polygon2([vertices[indexList[0]], vertices[indexList[1]], vertices[indexList[2]]]))
 
