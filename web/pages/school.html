@@ -1,0 +1,53 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>School | Florian</title>
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="../img/pp.jpg" type="image/jpg">
+</head>
+
+<body>
+  <div class="nav-bar">
+    <h1>My Website</h1>
+    <div class="nav-links">
+      <div class="nav-link"><a href="../index.html">Home</a></div>
+      <div class="nav-link"><a href="./games.html">Games</a></div>
+      <div class="nav-link"><a class="active" href="./school.html">School</a></div>
+    </div>
+    <div><img src="../img/settings.png" class="settings"></div>
+  </div>
+  <div id="content" class="container"></div>
+
+  <script>
+    const gameContainer = document.getElementById("game-container");
+
+    const content = new Map([
+      ["Facharbeit", "../content/pdf/Florian_Hirche_Facharbeit.pdf"],
+      ["Kollision 2d", "../content/school/collision2d/index.html"],
+      ["Kollision 3d", "../content/school/collision3d/index.html"],
+    ]);
+
+    for (let key of content.keys()) {
+      let contentDiv = document.createElement("div");
+      contentDiv.setAttribute("class", "content");
+
+      let contentA = document.createElement("a");
+      contentA.setAttribute("href", content.get(key));
+
+      let contentImg = document.createElement("img");
+      contentImg.setAttribute("src", "");
+      contentImg.setAttribute("alt", key);
+
+      contentA.appendChild(contentImg);
+      contentDiv.appendChild(contentA);
+
+      document.getElementById("content").appendChild(contentDiv);
+    }
+  </script>
+</body>
+
+</html>

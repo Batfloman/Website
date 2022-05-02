@@ -1,5 +1,5 @@
-import Canvas from "../../../../templates/display/Canvas.js";
-import System from "../../../../templates/System.js";
+import Canvas from "../../../../lib/display/Canvas.js.js";
+import System from "../../../../lib/System.js.js";
 
 window.onload = () => {
   let canvas = document.getElementById("game-screen");

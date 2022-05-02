@@ -1,5 +1,5 @@
-import GridObject from "../../../../templates/gameAssets/impl/GridObject.js";
-import Vector2f from "../../../../templates/util/Vector2f.js";
+import GridObject from "../../../../lib/gameAssets/impl/GridObject.js.js";
+import Vector2f from "../../../../lib/util/Vector2f.js.js";
 
 export default class Board extends GridObject {
 

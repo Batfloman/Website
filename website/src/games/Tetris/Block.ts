@@ -1,5 +1,5 @@
-import GameObject from "../../../../templates/gameAssets/GameObject.js";
-import Color from "../../../../templates/util/Color.js";
+import GameObject from "../../../../lib/gameAssets/GameObject.js.js";
+import Color from "../../../../lib/util/Color.js";
 import Board from "./Board.js";
 
 export default class Block extends GameObject {

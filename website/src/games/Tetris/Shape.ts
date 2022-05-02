@@ -1,4 +1,4 @@
-import GameObject from "../../../../templates/gameAssets/GameObject.js";
+import GameObject from "../../../../lib/gameAssets/GameObject.js.js";
 
 export default class Shape extends GameObject {
     x;

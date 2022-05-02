@@ -1,5 +1,5 @@
-import CanvasElement from "../../../../templates/CanvasElement.js";
-import Game from "../../../../templates/Game.js";
+import CanvasElement from "../../../../lib/CanvasElement.js.js";
+import Game from "../../../../lib/Game.js.js";
 import Color from "../../../chess/src/js/util/Color.js";
 import Block from "./Block.js";
 import Board from "./Board.js";
