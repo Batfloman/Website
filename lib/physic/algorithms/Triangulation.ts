@@ -1,6 +1,6 @@
 import Util from "../../util/Util.js";
 import Vector2 from "../../util/Vector2.js";
-import Polygon2 from "../boundingBox/Polygon.js";
+import Polygon2 from "../boundingBox/Polygon2.js";
 
 export default class Triangulation {
   static triangulate(vertices: Vector2[]): Polygon2[] {

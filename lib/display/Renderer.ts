@@ -1,4 +1,4 @@
-import Canvas from "./Canvas";
+import Canvas from "./Canvas.js";
 
 export default class Renderer {
   canvas: Canvas;

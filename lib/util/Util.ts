@@ -1,15 +1,17 @@
-import Vector2 from "./Vector2";
+import Vector2 from "./Vector2.js";
 
 export default class Util {
   /**
    * Returns an Item from an array
-   * @param arr Array
-   * @param index index
    */
   static getItem<T>(arr: T[], index: number): T {
     if (index < 0) index = arr.length - 1;
 
     return arr[index % arr.length];
+  }
+
+  static getRandomItem<T>(arr: T[]): T {
+    return Util.getItem(arr, Util.randomBetween(0, arr.length-1));
   }
 
   /**
@@ -19,7 +21,7 @@ export default class Util {
    * @param afterDot decimals
    */
   static randomBetween(start: number, end: number, afterDot?: number): number {
-    let decimals = Math.pow(10, afterDot == undefined ? 2 : afterDot);
+    let decimals = Math.pow(10, afterDot == undefined ? 0 : afterDot);
 
     return (
       Math.round((Math.random() * (end - start) + start) * decimals) / decimals

@@ -1,4 +1,4 @@
-import Input from "../../website/src/templates/input/Input";
+import Input from "../input/Input.js";
 
 export default class Canvas {
   htmlCanvas: HTMLCanvasElement;
@@ -6,8 +6,9 @@ export default class Canvas {
   width!: number;
   heigh!: number;
 
-  constructor(htmlCanvas: HTMLCanvasElement) {
-    this.htmlCanvas = htmlCanvas;
+  constructor(htmlCanvas: HTMLCanvasElement | null) {
+    this.htmlCanvas =
+      htmlCanvas == null ? document.createElement("canvas") : htmlCanvas;
 
     Input.newEventListener("resize", this, this.updateSize);
     this.updateSize();

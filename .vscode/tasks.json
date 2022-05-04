@@ -2,33 +2,11 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build",
+			"label": "Build All",
 			"dependsOn": [
-				"Build Lib",
-				"Build Games"
-			],
-		},
-		{
-			"label": "Build Lib",
-			"dependsOn": [
-				"tsc: Überwachen – lib/tsconfig.json"
+				"tsc: Überwachen – Lib",
+				"tsc: Überwachen – Game: TicTacToe"
 			]
-		},
-		{
-			"label": "Build Games",
-			"dependsOn": [
-				"tsc: Überwachen – web/content/games/TicTacToe/ts/tsconfig.json"
-			]
-		},
-		{
-			"type": "typescript",
-			"tsconfig": "lib/tsconfig.json",
-			"option": "watch",
-			"problemMatcher": [
-				"$tsc-watch"
-			],
-			"group": "build",
-			"label": "tsc: Überwachen – lib/tsconfig.json"
 		},
 		{
 			"type": "typescript",
@@ -38,7 +16,17 @@
 				"$tsc-watch"
 			],
 			"group": "build",
-			"label": "tsc: Überwachen – web/content/games/TicTacToe/ts/tsconfig.json"
+			"label": "tsc: Überwachen – Game: TicTacToe"
+		},
+		{
+			"type": "typescript",
+			"tsconfig": "lib/tsconfig.json",
+			"option": "watch",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"group": "build",
+			"label": "tsc: Überwachen – Lib"
 		}
 	]
 }

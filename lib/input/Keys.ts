@@ -1,0 +1,1 @@
+type key = "a" | "b"

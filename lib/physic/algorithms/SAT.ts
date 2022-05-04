@@ -1,9 +1,7 @@
+import ICollideable from "../property/ICollideable.js";
+import Triangulation from "./Triangulation.js";
 
 // Separating Axis Theorem
-
-import ICollideable from "../property/ICollideable";
-import Triangulation from "./Triangulation";
-
 export default class SAT {
   static testCollision(obj1: ICollideable, obj2: ICollideable) {
     if(obj1.hitBox.isConvex) {
