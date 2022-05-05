@@ -1,4 +1,6 @@
+import Vector2 from "../../util/Vector2.js";
 import IPositionable from "./IPositionable.js";
 export default interface IMoveable extends IPositionable {
-    move(direction: number, distance: number): void;
+    moveDirection(direction: number, distance: number): void;
+    move(move: Vector2): void;
 }

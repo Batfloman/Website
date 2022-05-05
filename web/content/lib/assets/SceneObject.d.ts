@@ -1,5 +1,6 @@
 import Canvas from "../display/Canvas.js";
 import IRenderable from "../display/IRenderable.js";
+import Renderer from "../display/Renderer.js";
 import { Game } from "../games/Game.js";
 export declare abstract class SceneObject implements IRenderable {
     game: Game;
@@ -7,5 +8,5 @@ export declare abstract class SceneObject implements IRenderable {
     zIndex: number;
     init(game: Game, canvas: Canvas): void;
     abstract update(dt: number): void;
-    abstract render(ctx: CanvasRenderingContext2D): void;
+    abstract render(renderer: Renderer): void;
 }

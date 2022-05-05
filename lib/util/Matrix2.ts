@@ -1,7 +1,7 @@
 import Util from "./Util.js";
 
-export default class Grid {
-  cells: Array<Array<string>>;
+export default class Matrix2<T> {
+  cells: Array<Array<T | string>>;
 
   constructor(x: number, y: number) {
     this.cells = [];
@@ -18,7 +18,15 @@ export default class Grid {
     return Util.getItem(Util.getItem(this.cells, x), y);
   }
 
-  set(x: number, y: number, content: string) {
+  set(x: number, y: number, content: string | T) {
     this.cells[y][x] = content;
+  }
+
+  getSizeX() {
+    return this.cells[0].length;
+  }
+
+  getSizeY() {
+    return this.cells.length;
   }
 }

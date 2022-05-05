@@ -1,5 +1,5 @@
 import Util from "./Util.js";
-export default class Grid {
+export default class Matrix2 {
     constructor(x, y) {
         this.cells = [];
         for (let i = 0; i < y; i++) {
@@ -15,5 +15,11 @@ export default class Grid {
     }
     set(x, y, content) {
         this.cells[y][x] = content;
+    }
+    getSizeX() {
+        return this.cells[0].length;
+    }
+    getSizeY() {
+        return this.cells.length;
     }
 }

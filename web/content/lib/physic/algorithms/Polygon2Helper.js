@@ -1,6 +1,8 @@
 import Util from "../../util/Util.js";
 export default class Polygon2Helper {
     static isConvex(polygon) {
+        if (polygon.model.length <= 3)
+            return true;
         let windung = "right";
         let a = Util.getItem(polygon.model, -1);
         let b = Util.getItem(polygon.model, 0);

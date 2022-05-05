@@ -1,11 +1,13 @@
 export class Color {
-    constructor(r, g, b) {
+    constructor(r, g, b, a = 100) {
         this.r = 0;
         this.g = 0;
         this.b = 0;
-        this.r = r % 255;
-        this.g = g % 255;
-        this.b = b % 255;
+        this.a = 100;
+        this.r = (r - 1 % 255) + 1;
+        this.g = (g - 1 % 255) + 1;
+        this.b = (b - 1 % 255) + 1;
+        this.a = (a - 1 % 100) + 1;
     }
     static getRandom() {
         return new Color(Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256));
@@ -17,19 +19,22 @@ export class Color {
         console.warn(`${color} is not declared!`);
     }
     getRGBString() {
-        return `rgb(${this.r}, ${this.g}, ${this.b})`;
+        return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
     }
     setR(r) {
-        this.r = r % 255;
+        this.r = (r - 1 % 255) + 1;
     }
     setG(g) {
-        this.g = g % 255;
+        this.g = (g - 1 % 255) + 1;
     }
     setB(b) {
-        this.b = b % 255;
+        this.b = (b - 1 % 255) + 1;
+    }
+    setA(a) {
+        this.a = (a - 1 % 100) + 1;
     }
 }
-Color.none = null;
+Color.none = new Color(0, 0, 0, 0);
 const colors = new Map([
     ["red", new Color(255, 0, 0)],
     ["green", new Color(0, 255, 0)],

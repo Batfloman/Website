@@ -1,3 +1,4 @@
+import Renderer from "./Renderer";
 export default interface IRenderable {
-    render(ctx: CanvasRenderingContext2D): void;
+    render(renderer: Renderer): void;
 }

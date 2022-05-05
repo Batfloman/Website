@@ -8,9 +8,22 @@ export default class Util {
     static getRandomItem(arr) {
         return Util.getItem(arr, Util.randomBetween(0, arr.length - 1));
     }
-    static randomBetween(start, end, afterDot) {
-        let decimals = Math.pow(10, afterDot == undefined ? 0 : afterDot);
-        return (Math.round((Math.random() * (end - start) + start) * decimals) / decimals);
+    static removeItemAtIndex(arr, index) {
+        if (index < 0 || index >= arr.length)
+            throw new Error(`${index} is not Valid!`);
+        return arr.splice(index, 1)[0];
+    }
+    static removeItem(arr, item) {
+        if (arr.includes(item)) {
+            return arr.splice(arr.indexOf(item), 1)[0];
+        }
+        return null;
+    }
+    static randomBetween(start, end, decimals = 0) {
+        return Util.round((Math.random() * (end - start) + start), decimals);
+    }
+    static round(number, decimals = 0) {
+        return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
     }
     static calcHypothenuse(side1, side2) {
         return Math.sqrt(Math.pow(side1, 2) + Math.pow(side2, 2));

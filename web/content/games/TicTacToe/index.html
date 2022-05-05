@@ -11,5 +11,12 @@
 </head>
 <body>
   <canvas id="screen">
+
+  <script>
+    let canvas = document.getElementById("screen");
+
+    // disable popup on righclick
+    canvas.setAttribute("oncontextmenu", "return false;");
+  </script>
 </body>
 </html>

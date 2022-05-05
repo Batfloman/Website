@@ -1,6 +1,8 @@
 import Canvas from "../display/Canvas.js";
 import IRenderable from "../display/IRenderable.js";
+import Renderer from "../display/Renderer.js";
 import { Game } from "../games/Game.js";
+import Vector2 from "../util/Vector2.js";
 
 export abstract class SceneObject implements IRenderable {
   game!: Game;
@@ -13,5 +15,5 @@ export abstract class SceneObject implements IRenderable {
   }
 
   abstract update(dt: number): void;
-  abstract render(ctx: CanvasRenderingContext2D): void;
+  abstract render(renderer: Renderer): void;
 }

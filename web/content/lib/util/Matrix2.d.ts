@@ -1,6 +1,8 @@
-export default class Grid {
-    cells: Array<Array<string>>;
+export default class Matrix2<T> {
+    cells: Array<Array<T | string>>;
     constructor(x: number, y: number);
-    get(x: number, y: number): string;
-    set(x: number, y: number, content: string): void;
+    get(x: number, y: number): string | T;
+    set(x: number, y: number, content: string | T): void;
+    getSizeX(): number;
+    getSizeY(): number;
 }

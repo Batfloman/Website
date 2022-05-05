@@ -1,9 +1,58 @@
+import Util from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
+
+const keys: Map<string, inputKey> = new Map([
+  ["a", "a"],
+  ["b", "b"],
+  ["c", "c"],
+  ["d", "d"],
+  ["e", "e"],
+  ["f", "f"],
+  ["g", "g"],
+  ["h", "h"],
+  ["i", "i"],
+  ["j", "j"],
+  ["k", "k"],
+  ["l", "l"],
+  ["m", "m"],
+  ["n", "n"],
+  ["o", "o"],
+  ["p", "p"],
+  ["q", "q"],
+  ["r", "r"],
+  ["s", "s"],
+  ["t", "t"],
+  ["u", "u"],
+  ["v", "v"],
+  ["w", "w"],
+  ["x", "x"],
+  ["y", "y"],
+  ["z", "z"],
+  ["0", "0"],
+  ["1", "1"],
+  ["2", "2"],
+  ["3", "3"],
+  ["4", "4"],
+  ["5", "5"],
+  ["6", "6"],
+  ["7", "7"],
+  ["8", "8"],
+  ["9", "9"],
+  ["mouse0", "leftclick"],
+  ["mouse2", "rightclick"],
+  ["mouse1", "middleclick"],
+  ["tab", "tab"],
+  ["shift", "shift"],
+  [" ", "space"],
+  ["control", "strg"],
+  ["altgraph", "altRight"],
+  ["alt", "alt"],
+]);
 
 export default class Input {
   static eventListener: Map<string, Listener[]> = new Map();
 
-  static pressedKeys: string[] = new Array();
+  static pressedKeys: inputKey[] = new Array();
 
   static mPosHover = new Vector2();
 
@@ -13,10 +62,10 @@ export default class Input {
   static staticConstructor() {
     // Touch
     window.addEventListener("touchstart", (event: TouchEvent) => {
-      Input.keyDown("0");
+      Input.keyDown("leftclick");
     });
     window.addEventListener("touchend", (event: TouchEvent) => {
-      Input.keyUp("0");
+      Input.keyUp("leftclick");
     });
     window.addEventListener("touchcancel", (event: TouchEvent) => {
       this.pressedKeys = new Array();
@@ -24,11 +73,11 @@ export default class Input {
 
     // Mouse
     window.addEventListener("mousedown", (event: MouseEvent) => {
-      Input.keyDown("" + event.button);
+      Input.keyDown(Input.getInputKey("mouse" + event.button));
       Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
     });
     window.addEventListener("mouseup", (event: MouseEvent) => {
-      Input.keyUp("" + event.button);
+            Input.keyUp(Input.getInputKey("mouse" + event.button));
     });
     window.addEventListener("mousemove", (event: MouseEvent) => {
       Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
@@ -36,10 +85,11 @@ export default class Input {
 
     // Keys
     window.addEventListener("keydown", (event: KeyboardEvent) => {
-      Input.keyDown(event.key);
+      
+      Input.keyDown(Input.getInputKey(event.key));
     });
     window.addEventListener("keyup", (event: KeyboardEvent) => {
-      Input.keyUp(event.key);
+      Input.keyUp(Input.getInputKey(event.key));
     });
 
     // Window changes
@@ -75,26 +125,34 @@ export default class Input {
     });
   }
 
-  private static keyDown(key: string) {
-    key = key.toLowerCase();
-    if (!this.pressedKeys.includes(key)) this.pressedKeys.push(key);
-  }
+  private static keyDown(key: inputKey | undefined) {
+    if(!key) return;
 
-  private static keyUp(key: string) {
-    key = key.toLowerCase();
-
-    if (this.pressedKeys.includes(key)) {
-      let index = this.pressedKeys.indexOf(key);
-      this.pressedKeys.splice(index, 1);
+    if (!this.pressedKeys.includes(key)) {
+      this.pressedKeys.push(key);
     }
   }
 
-  static isLeftClick(): boolean {
-    return Input.pressedKeys.includes("0");
+  private static keyUp(key: inputKey | undefined) {
+    if(!key) return;
+
+    if (this.pressedKeys.includes(key)) {
+      Util.removeItem(this.pressedKeys, key);
+    }
   }
 
-  static isPressed(key: string): boolean {
-    return Input.pressedKeys.includes(key.toLowerCase());
+  static getInputKey(key: string): inputKey | undefined {
+    key = key.toLowerCase();
+    if (!keys.has(key)) console.warn(key + " has no InputKey!");
+    return keys.get(key);
+  }
+
+  static isLeftClick(): boolean {
+    return Input.pressedKeys.includes("leftclick");
+  }
+
+  static isPressed(key: inputKey): boolean {
+    return Input.pressedKeys.includes(key);
   }
 }
 

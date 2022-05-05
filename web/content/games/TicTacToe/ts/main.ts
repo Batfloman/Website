@@ -1,20 +1,24 @@
-import TurnBasedGame from "../../../lib/games/TurnBasedGame.js";
+import TicTacToePlayer from "./TicTacToePlayer.js";
 import Canvas from "../../../lib/display/Canvas.js";
-import Player from "../../../lib/players/Player.js";
+import Game from "./Game.js";
+import Board from "./Borad.js";
+import Vector2 from "../../../lib/util/Vector2.js";
+import Util from "../../../lib/util/Util.js"
 
 window.onload = () => {
   const canvas = new Canvas(document.querySelector("canvas"));
-  const game = new TurnBasedGame(canvas);
+  const game = new Game(canvas);
 
-  let player1 = new Player();
+  let player1 = new TicTacToePlayer();
   game.addPlayer(player1);
-  let player2 = new Player();
+  let player2 = new TicTacToePlayer();
   game.addPlayer(player2);
 
-  // let board = new Board();
-  // game.addObject(board);
+  let board = new Board(new Vector2(), 3, 3);
+  game.addObject(board);
 
   game.randomPlayerTurn();
 
   game.start();
+  // game.tick();
 };

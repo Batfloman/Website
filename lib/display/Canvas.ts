@@ -4,7 +4,7 @@ export default class Canvas {
   htmlCanvas: HTMLCanvasElement;
 
   width!: number;
-  heigh!: number;
+  height!: number;
 
   constructor(htmlCanvas: HTMLCanvasElement | null) {
     this.htmlCanvas =
@@ -19,6 +19,6 @@ export default class Canvas {
     this.htmlCanvas.height = this.htmlCanvas.getBoundingClientRect().height;
 
     this.width = this.htmlCanvas.width;
-    this.heigh = this.htmlCanvas.height;
+    this.height = this.htmlCanvas.height;
   }
 }

@@ -3,7 +3,7 @@ import Triangulation from "./Triangulation.js";
 
 // Separating Axis Theorem
 export default class SAT {
-  static testCollision(obj1: ICollideable, obj2: ICollideable) {
+  static testCollision(obj1: ICollideable, obj2: ICollideable): boolean {
     if(obj1.hitBox.isConvex) {
       if(obj2.hitBox.isConvex) {
         return this.areColliding(obj1, obj2) && this.areColliding(obj2, obj1);
@@ -23,6 +23,7 @@ export default class SAT {
         }
       }
     }
+    return true;
   }
 
   /**

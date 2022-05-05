@@ -21,6 +21,7 @@ export default class SAT {
                 }
             }
         }
+        return true;
     }
     static areColliding(polygon1, polygon2) {
         let points1 = polygon1.translatePoints();

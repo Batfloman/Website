@@ -1,17 +1,44 @@
+import Camara from "../display/Camara.js";
+import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
 export class Game {
     constructor(canvas) {
         this.paused = true;
+        this.pausedBecauseBlur = false;
         this.lastTime = Date.now();
         this.timeSinceLastTime = 0;
         this.canvas = canvas;
         this.objects = [];
+        this.camara = new Camara(this.canvas);
         setInterval(Game.testTick, 10, this);
         Input.newEventListener("blur", this, () => {
-            this.stop();
+            if (!this.paused) {
+                this.stop();
+                this.pausedBecauseBlur = true;
+            }
         });
         Input.newEventListener("focus", this, () => {
-            this.start();
+            if (this.pausedBecauseBlur)
+                this.start();
+        });
+        Input.newEventListener("resize", this, this.renderObjects);
+    }
+    tick() {
+        this.updateObjects();
+        this.renderObjects();
+    }
+    updateObjects() {
+        let dt = this.calc_dt();
+        this.objects.forEach((obj) => {
+            obj.update(dt);
+        });
+    }
+    renderObjects() {
+        let renderer = new Renderer(this.canvas, this.camara);
+        renderer.clear();
+        this.objects.sort((a, b) => a.zIndex <= b.zIndex ? -1 : 1);
+        this.objects.forEach((obj) => {
+            obj.render(renderer);
         });
     }
     addObject(obj) {
@@ -39,8 +66,11 @@ export class Game {
         });
         return found;
     }
-    tick() {
-        throw new Error("not Implmented!");
+    setCamaraScaleLock(b) {
+        this.camara.lockScaling = b;
+    }
+    setCamaraMovementLock(b) {
+        this.camara.lockMovement = b;
     }
     calc_dt() {
         return Date.now() - this.lastTime;

@@ -3,8 +3,8 @@ import Vector2 from "../util/Vector2.js";
 import { WorldObject } from "./WorldObject.js";
 
 export abstract class ControllableObject extends WorldObject {
-  controlles: Map<key, Function> = new Map();
-  
+  controlles: Map<string, Function> = new Map();
+
   constructor(pos: Vector2, hitBox: Polygon2, angle?: number) {
     super(pos, hitBox, angle);
   }
@@ -12,6 +12,6 @@ export abstract class ControllableObject extends WorldObject {
   update(dt: number): void {
     this.controlles.forEach((value, key) => {
       console.log(value, key);
-    })
+    });
   }
 }

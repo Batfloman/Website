@@ -14,18 +14,31 @@ export default class Util {
     return Util.getItem(arr, Util.randomBetween(0, arr.length-1));
   }
 
+  static removeItemAtIndex<T>(arr: T[], index: number): T {
+    if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`); 
+
+    return arr.splice(index, 1)[0];
+  }
+
+  static removeItem<T>(arr: T[], item: T): T | null {
+    if(arr.includes(item)) {
+      return arr.splice(arr.indexOf(item), 1)[0];
+    }
+    return null;
+  }
+
   /**
    * Returns a random Number
-   * @param start min Number
-   * @param end max Number
-   * @param afterDot decimals
+   * @param start min Number (is included)
+   * @param end max Number (is included)
+   * @param decimals decimals (default = 0)
    */
-  static randomBetween(start: number, end: number, afterDot?: number): number {
-    let decimals = Math.pow(10, afterDot == undefined ? 0 : afterDot);
-
-    return (
-      Math.round((Math.random() * (end - start) + start) * decimals) / decimals
-    );
+  static randomBetween(start: number, end: number, decimals: number = 0): number {
+    return Util.round( (Math.random() * (end - start) + start), decimals);
+  }
+  
+  static round(number: number, decimals: number = 0): number {
+    return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
   }
 
   /**

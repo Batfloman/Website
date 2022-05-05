@@ -9,9 +9,8 @@ export declare abstract class WorldObject extends SceneObject implements ICollid
     orientation: number;
     points: Vector2[];
     constructor(pos: Vector2, hitBox: Polygon, angle?: number);
-    abstract update(dt: number): void;
-    abstract render(ctx: CanvasRenderingContext2D): void;
-    abstract checkCollision(other: ICollideable): boolean;
-    move(direction: number, distance: number): void;
+    checkCollision(other: ICollideable): boolean;
+    moveDirection(direction: number, distance: number): void;
+    move(move: Vector2): void;
     translatePoints(): Vector2[];
 }
