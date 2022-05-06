@@ -5,7 +5,7 @@ export declare class Color {
     b: number;
     a: number;
     static getRandom(): Color;
-    static get(color: colors): Color | undefined;
+    static get(color: colors): Color;
     constructor(r: number, g: number, b: number, a?: number);
     getRGBString(): string;
     setR(r: number): void;

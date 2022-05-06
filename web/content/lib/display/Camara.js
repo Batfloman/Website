@@ -20,9 +20,9 @@ export default class Camara {
             if (!(event.target == this.canvas.htmlCanvas))
                 return;
             if (event.deltaY < 0)
-                this.scale *= 1.2;
+                this.scale *= 1.15;
             else if (event.deltaY > 0)
-                this.scale *= 0.83333333333;
+                this.scale *= 1 / 1.15;
             this.translatePoints();
         });
         Input.newEventListener("mousemove", this, (event) => {
@@ -31,8 +31,8 @@ export default class Camara {
             if (!(event.target == this.canvas.htmlCanvas))
                 return;
             if (Input.isLeftClick()) {
-                this.pos.x -= event.movementX;
-                this.pos.y += event.movementY;
+                this.pos.x -= event.movementX / this.scale;
+                this.pos.y += event.movementY / this.scale;
             }
         });
     }
@@ -48,11 +48,12 @@ export default class Camara {
     translatePoints() {
         this.points = [];
         this.hitBox.model.forEach((point) => {
-            this.points.push(Polygon2Helper.translatePoint(point.scale(this.scale), this.pos, this.orientation));
+            this.points.push(Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation));
         });
+        this.hitBox.farthest = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1 / this.scale);
         return this.points;
     }
     getOffset() {
-        return this.pos.subtract(new Vector2(this.canvas.width / 2, -this.canvas.height / 2));
+        return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
     }
 }

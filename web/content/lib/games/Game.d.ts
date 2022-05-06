@@ -22,4 +22,5 @@ export declare abstract class Game {
     start(): void;
     stop(): void;
     private static testTick;
+    getCamara(): Camara;
 }

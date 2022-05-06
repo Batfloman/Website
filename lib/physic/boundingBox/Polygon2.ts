@@ -1,3 +1,4 @@
+import Util from "../../util/Util.js";
 import Vector2 from "../../util/Vector2.js";
 import Polygon2Helper from "../algorithms/Polygon2Helper.js";
 
@@ -5,15 +6,16 @@ export default class Polygon2 {
   // points relative to a 0, 0 center with 0° rotation
   model: Vector2[] = new Array();
   // angle in degree
-  angle: number = 0;
 
   isConvex: boolean;
 
-  constructor(model: Vector2[], startAngle?: number) {
+  farthest: Vector2;
+
+  constructor(model: Vector2[]) {
     this.model = model;
+    this.farthest = Util.farthestPoint(new Vector2(), this.model);
 
     this.isConvex = Polygon2Helper.isConvex(this);
-    this.angle = !startAngle ? 0 : startAngle;
   }
 
   /**

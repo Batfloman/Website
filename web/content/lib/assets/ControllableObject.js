@@ -1,4 +1,4 @@
-import { WorldObject } from "./WorldObject.js";
+import WorldObject from "./WorldObject.js";
 export class ControllableObject extends WorldObject {
     constructor(pos, hitBox, angle) {
         super(pos, hitBox, angle);

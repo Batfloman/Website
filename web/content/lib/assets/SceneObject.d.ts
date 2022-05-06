@@ -9,4 +9,6 @@ export declare abstract class SceneObject implements IRenderable {
     init(game: Game, canvas: Canvas): void;
     abstract update(dt: number): void;
     abstract render(renderer: Renderer): void;
+    shouldRender(): boolean;
+    calc_valueChangeForDT(perSecond: number, dt: number): number;
 }

@@ -6,15 +6,13 @@ export default class Polygon2Helper {
   static isConvex(polygon: Polygon2): boolean {
     if(polygon.model.length <= 3) return true;
 
-    let windung = "right";
     let a = Util.getItem(polygon.model, -1);
     let b = Util.getItem(polygon.model, 0);
     let c = Util.getItem(polygon.model, 1);
     let ab = b.subtract(a);
     let bc = c.subtract(b);
-    if (ab.crossProduct(bc) < 0) {
-      windung = "left";
-    }
+
+    let windung = ab.crossProduct(bc) < 0 ? "left" : "right";
 
     for (let i = 0; i < polygon.model.length; i++) {
       let a = Util.getItem(polygon.model, i - 1);
@@ -30,6 +28,7 @@ export default class Polygon2Helper {
 
     return true;
   }
+
 
   static translatePoint(point: Vector2,center: Vector2,angle?: number): Vector2 {
     return Util.rotateAroundCenter(center, point.add(center), !angle ? 0 : angle);

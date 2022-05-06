@@ -33,12 +33,15 @@ export abstract class Game {
   }
 
   tick(): void {
-    this.updateObjects();
+    let before = Date.now();
     this.renderObjects();
+    // console.log(Date.now() - before);
+
+    this.updateObjects(this.calc_dt());
+    this.lastTime = Date.now();
   }
 
-  private updateObjects() {
-    let dt = this.calc_dt();
+  private updateObjects(dt: number) {
     this.objects.forEach((obj) => {
       obj.update(dt);
     });
@@ -49,10 +52,10 @@ export abstract class Game {
 
     renderer.clear();
 
-    this.objects.sort((a, b) => a.zIndex <= b.zIndex ? -1 : 1);
+    this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
 
     this.objects.forEach((obj) => {
-      obj.render(renderer);
+      if(obj.shouldRender()) obj.render(renderer);
     });
   }
 
@@ -111,7 +114,10 @@ export abstract class Game {
   private static testTick(game: Game): void {
     if (!game.paused) {
       game.tick();
-      game.lastTime = Date.now();
     }
+  }
+
+  getCamara(): Camara {
+    return this.camara;
   }
 }

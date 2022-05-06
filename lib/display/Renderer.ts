@@ -1,11 +1,14 @@
+import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
+import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import { Color } from "../util/Color.js";
+import Util from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
 
 export default class Renderer {
   fillColor: Color = Color.none;
-  strokeColor: Color = Color.none;
+  strokeColor: Color = Color.get("black");
   lineWidth: number = 1;
 
   camara: Camara;
@@ -13,6 +16,7 @@ export default class Renderer {
 
   ctx!: CanvasRenderingContext2D;
   offSet!: Vector2;
+  scale!: number;
 
   constructor(canvas: Canvas, camara: Camara) {
     this.canvas = canvas;
@@ -21,11 +25,10 @@ export default class Renderer {
     this.updateValues();
   }
 
-  
-
   private updateValues() {
     this.ctx = this.updateCtx();
     this.offSet = this.camara.getOffset();
+    this.scale = this.camara.scale;
     this.ctx.strokeStyle = this.strokeColor.getRGBString();
     this.ctx.fillStyle = this.fillColor.getRGBString();
     this.ctx.lineWidth = this.lineWidth * this.camara.scale;
@@ -40,7 +43,7 @@ export default class Renderer {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  grid(
+  renderGrid(
     worldPos: Vector2,
     xSize: number,
     ySize: number,
@@ -50,13 +53,13 @@ export default class Renderer {
     this.updateValues();
 
     let pos = worldPos.subtract(this.offSet);
-    cellXSize *= this.camara.scale;
-    cellYSize *= this.camara.scale
+    cellXSize *= this.scale;
+    cellYSize *= this.scale;
     let w = xSize * cellXSize;
     let h = ySize * cellYSize;
 
     // center Model
-    pos = pos.subtract(new Vector2(w/2, -h/2));
+    pos = pos.subtract(new Vector2(w / 2, -h / 2));
 
     // begin Draw
     this.ctx.beginPath();
@@ -74,6 +77,69 @@ export default class Renderer {
       this.ctx.lineTo(pos.x + w, -pos.y + i * cellYSize);
       this.ctx.stroke();
     }
+  }
+
+  renderPoints(points: Vector2[], radius: number) {
+    this.updateValues();
+
+    radius *= this.scale;
+    if(radius < 0.5) radius = 0.5;
+
+    points.forEach((point) => {
+      let pos = this.calcPosOnScreen(point);
+      this.ctx.beginPath();
+      this.ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
+      this.ctx.fill();
+      this.ctx.stroke();
+    });
+  }
+
+  connectPoints(points: Vector2[]) {
+    this.updateValues();
+
+    for (let i = 0; i < points.length; i++) {
+      let last = this.calcPosOnScreen(Util.getItem(points, i - 1));
+      let current = this.calcPosOnScreen(Util.getItem(points, i));
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(last.x, last.y);
+      this.ctx.lineTo(current.x, current.y);
+      this.ctx.stroke();
+    }
+  }
+
+  polygon(
+    worldPos: Vector2,
+    polygon: Polygon2,
+    angle: number,
+    renderPoints: boolean = true,
+    renderOutline: boolean = true
+  ) {
+    this.updateValues();
+
+    let translated = Polygon2Helper.translatePoints(polygon.model, worldPos, angle);
+    
+    if(renderOutline) this.connectPoints(translated);
+    if(renderPoints) this.renderPoints(translated, 1);
+  }
+
+  private calcPosOnScreen(worldPos: Vector2): Vector2 {
+    this.updateValues();
+    
+    let distance = worldPos.subtract(this.camara.pos).scale(this.scale);
+    // console.log(worldPos.subtract(this.camara.pos).scale(this.scale));
+
+    let canvasCenter = new Vector2(
+      this.offSet.x,
+      this.offSet.y,
+    )
+
+    let pos = new Vector2(
+      distance.x + canvasCenter.x,
+      -distance.y + canvasCenter.y
+    )
+
+    return pos;
   }
 
   setStrokeColor(color: Color | undefined) {

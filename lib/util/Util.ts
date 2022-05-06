@@ -10,6 +10,10 @@ export default class Util {
     return arr[index % arr.length];
   }
 
+  static getLastItem<T>(arr: T[]): T {
+    return arr[arr.length-1];
+  }
+
   static getRandomItem<T>(arr: T[]): T {
     return Util.getItem(arr, Util.randomBetween(0, arr.length-1));
   }

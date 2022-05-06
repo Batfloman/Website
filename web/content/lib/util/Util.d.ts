@@ -1,6 +1,7 @@
 import Vector2 from "./Vector2.js";
 export default class Util {
     static getItem<T>(arr: T[], index: number): T;
+    static getLastItem<T>(arr: T[]): T;
     static getRandomItem<T>(arr: T[]): T;
     static removeItemAtIndex<T>(arr: T[], index: number): T;
     static removeItem<T>(arr: T[], item: T): T | null;

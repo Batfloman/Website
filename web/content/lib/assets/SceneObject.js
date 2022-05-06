@@ -6,4 +6,10 @@ export class SceneObject {
         this.game = game;
         this.canvas = canvas;
     }
+    shouldRender() {
+        return true;
+    }
+    calc_valueChangeForDT(perSecond, dt) {
+        return perSecond * dt / 1000;
+    }
 }

@@ -24,11 +24,12 @@ export class Game {
         Input.newEventListener("resize", this, this.renderObjects);
     }
     tick() {
-        this.updateObjects();
+        let before = Date.now();
         this.renderObjects();
+        this.updateObjects(this.calc_dt());
+        this.lastTime = Date.now();
     }
-    updateObjects() {
-        let dt = this.calc_dt();
+    updateObjects(dt) {
         this.objects.forEach((obj) => {
             obj.update(dt);
         });
@@ -36,9 +37,10 @@ export class Game {
     renderObjects() {
         let renderer = new Renderer(this.canvas, this.camara);
         renderer.clear();
-        this.objects.sort((a, b) => a.zIndex <= b.zIndex ? -1 : 1);
+        this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
         this.objects.forEach((obj) => {
-            obj.render(renderer);
+            if (obj.shouldRender())
+                obj.render(renderer);
         });
     }
     addObject(obj) {
@@ -90,7 +92,9 @@ export class Game {
     static testTick(game) {
         if (!game.paused) {
             game.tick();
-            game.lastTime = Date.now();
         }
+    }
+    getCamara() {
+        return this.camara;
     }
 }

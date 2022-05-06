@@ -14,18 +14,21 @@ export class Color {
     );
   }
 
-  static get(color: colors): Color | undefined {
+  static get(color: colors): Color {
     if (colors.has(color)) {
-      return colors.get(color);
+      let c = colors.get(color);
+      if(c == undefined) return Color.none;
+      return c;
     }
     console.warn(`${color} is not declared!`);
+    return Color.none;
   }
 
   constructor(r: number, g: number, b: number, a: number = 100) {
-    this.r = (r-1 % 255) + 1;
-    this.g = (g-1 % 255) + 1;
-    this.b = (b-1 % 255) + 1;
-    this.a = (a-1 % 100) + 1;
+    this.r = r - (1 % 255) + 1;
+    this.g = g - (1 % 255) + 1;
+    this.b = b - (1 % 255) + 1;
+    this.a = a - (1 % 100) + 1;
   }
 
   /**
@@ -36,16 +39,16 @@ export class Color {
   }
 
   setR(r: number) {
-    this.r = (r-1 % 255) + 1;
+    this.r = r - (1 % 255) + 1;
   }
   setG(g: number) {
-    this.g = (g-1 % 255) + 1;
+    this.g = g - (1 % 255) + 1;
   }
   setB(b: number) {
-    this.b = (b-1 % 255) + 1;
+    this.b = b - (1 % 255) + 1;
   }
   setA(a: number) {
-    this.a = (a-1 % 100) + 1;
+    this.a = a - (1 % 100) + 1;
   }
 }
 

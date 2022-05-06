@@ -5,6 +5,9 @@ export default class Util {
             index = arr.length - 1;
         return arr[index % arr.length];
     }
+    static getLastItem(arr) {
+        return arr[arr.length - 1];
+    }
     static getRandomItem(arr) {
         return Util.getItem(arr, Util.randomBetween(0, arr.length - 1));
     }

@@ -4,8 +4,9 @@
 		{
 			"label": "Build All",
 			"dependsOn": [
-				"tsc: Überwachen – Lib",
-				"tsc: Überwachen – Game: TicTacToe"
+				"tsc: watch – Lib",
+				"tsc: watch – Game: TicTacToe",
+				"tsc: watch - School: Collision2d"
 			]
 		},
 		{
@@ -16,7 +17,7 @@
 				"$tsc-watch"
 			],
 			"group": "build",
-			"label": "tsc: Überwachen – Game: TicTacToe"
+			"label": "tsc: watch – Game: TicTacToe"
 		},
 		{
 			"type": "typescript",
@@ -26,7 +27,17 @@
 				"$tsc-watch"
 			],
 			"group": "build",
-			"label": "tsc: Überwachen – Lib"
+			"label": "tsc: watch – Lib"
+		},
+		{
+			"type": "typescript",
+			"tsconfig": "web/content/school/collision2d/ts/tsconfig.json",
+			"option": "watch",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"group": "build",
+			"label": "tsc: watch - School: Collision2d"
 		}
 	]
 }

@@ -37,8 +37,8 @@ export default class Camara implements ICollideable, IMoveable {
       if (this.lockScaling) return;
       if (!(event.target == this.canvas.htmlCanvas)) return;
 
-      if (event.deltaY < 0) this.scale *= 1.2;
-      else if (event.deltaY > 0) this.scale *= 0.83333333333;
+      if (event.deltaY < 0) this.scale *= 1.15;
+      else if (event.deltaY > 0) this.scale *= 1 / 1.15;
 
       this.translatePoints();
     });
@@ -47,8 +47,8 @@ export default class Camara implements ICollideable, IMoveable {
       if (!(event.target == this.canvas.htmlCanvas)) return;
 
       if (Input.isLeftClick()) {
-        this.pos.x -= event.movementX;
-        this.pos.y += event.movementY;
+        this.pos.x -= event.movementX / this.scale;
+        this.pos.y += event.movementY / this.scale;
       }
     });
   }
@@ -66,18 +66,20 @@ export default class Camara implements ICollideable, IMoveable {
     this.hitBox.model.forEach((point) => {
       this.points.push(
         Polygon2Helper.translatePoint(
-          point.scale(this.scale),
+          point.scale(1/this.scale),
           this.pos,
           this.orientation
         )
       );
     });
+    this.hitBox.farthest = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1/this.scale);
     return this.points;
   }
 
+  /**
+   * Returns the Vector from the top left corner to the center
+   */
   getOffset(): Vector2 {
-    return this.pos.subtract(
-      new Vector2(this.canvas.width / 2, -this.canvas.height / 2)
-    );
+    return new Vector2(this.canvas.width / 2, this.canvas.height / 2)
   }
 }
