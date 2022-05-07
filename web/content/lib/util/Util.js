@@ -23,7 +23,7 @@ export default class Util {
         return null;
     }
     static randomBetween(start, end, decimals = 0) {
-        return Util.round((Math.random() * (end - start) + start), decimals);
+        return Util.round(Math.random() * (end - start) + start, decimals);
     }
     static round(number, decimals = 0) {
         return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals);

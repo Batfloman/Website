@@ -1,34 +1,47 @@
 import Util from "../../util/Util.js";
 export default class Polygon2Helper {
-    static isConvex(polygon) {
+    static testConvex(polygon) {
         if (polygon.model.length <= 3)
             return true;
-        let a = Util.getItem(polygon.model, -1);
-        let b = Util.getItem(polygon.model, 0);
-        let c = Util.getItem(polygon.model, 1);
-        let ab = b.subtract(a);
-        let bc = c.subtract(b);
-        let windung = ab.crossProduct(bc) < 0 ? "left" : "right";
+        let windung = Polygon2Helper.findWindung(polygon);
         for (let i = 0; i < polygon.model.length; i++) {
-            let a = Util.getItem(polygon.model, i - 1);
-            let b = Util.getItem(polygon.model, i);
-            let c = Util.getItem(polygon.model, i + 1);
-            let ab = b.subtract(a);
-            let bc = c.subtract(b);
-            if (windung == "right" && ab.crossProduct(bc) < 0)
-                return false;
-            else if (windung == "left" && ab.crossProduct(bc) > 0)
+            const a = Util.getItem(polygon.model, i - 1);
+            const b = Util.getItem(polygon.model, i);
+            const c = Util.getItem(polygon.model, i + 1);
+            const ba = a.subtract(b);
+            const bc = c.subtract(b);
+            if (!Polygon2Helper.isConvex(windung, ba.crossProduct(bc)))
                 return false;
         }
         return true;
     }
-    static translatePoint(point, center, angle) {
-        return Util.rotateAroundCenter(center, point.add(center), !angle ? 0 : angle);
+    static isConvex(windung, crossProduct) {
+        if (windung == "clockwise" && crossProduct > 0)
+            return true;
+        if (windung == "counterclockwise" && crossProduct < 0)
+            return true;
+        return false;
     }
-    static translatePoints(points, center, angle) {
-        let translated = [];
-        points.forEach(point => {
-            translated.push(Util.rotateAroundCenter(center, point.add(center), !angle ? 0 : angle));
+    static findWindung(polygon) {
+        return this.findArea(polygon) < 0 ? "clockwise" : "counterclockwise";
+    }
+    static findArea(polygon) {
+        let area = 0;
+        for (let i = 0; i < polygon.model.length; i++) {
+            const a = Util.getItem(polygon.model, i);
+            const b = Util.getItem(polygon.model, i + 1);
+            area += a.x * b.y;
+            area -= a.y * b.x;
+        }
+        return area / 2;
+    }
+    static translatePoint(point, center, angle = 0) {
+        return Util.rotateAroundCenter(center, point.add(center), angle);
+    }
+    static translatePoints(points, center, angle = 0) {
+        const translated = [];
+        points.forEach((point) => {
+            translated.push(Util.rotateAroundCenter(center, point.add(center), angle));
         });
         return translated;
     }

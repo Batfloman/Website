@@ -18,6 +18,7 @@ export default class Renderer {
     clear(): void;
     renderGrid(worldPos: Vector2, xSize: number, ySize: number, cellXSize: number, cellYSize: number): void;
     renderPoints(points: Vector2[], radius: number): void;
+    renderText(worldPos: Vector2, text: string): void;
     renderCircle(worldPos: Vector2, radius: number): void;
     connectPoints(points: Vector2[]): void;
     polygon(worldPos: Vector2, polygon: Polygon2, angle: number, renderPoints?: boolean, renderOutline?: boolean): void;

@@ -10,14 +10,27 @@ export default class Collision {
                 return SAT.testCollision(obj1, obj2);
             }
             else {
-                let collides = false;
-                return collides;
+                let parts = Triangulation.triangulate(obj2);
+                for (let part of parts) {
+                    if (SAT.testCollision(obj1, part))
+                        return true;
+                }
             }
         }
         else {
-            let collides = false;
-            let parts = Triangulation.triangulate(obj1);
+            const parts = Triangulation.triangulate(obj1);
             for (let part of parts) {
+                if (obj2.hitBox.isConvex) {
+                    if (SAT.testCollision(part, obj2))
+                        return true;
+                }
+                else {
+                    let parts2 = Triangulation.triangulate(obj2);
+                    for (let part2 of parts2) {
+                        if (SAT.testCollision(part, part2))
+                            return true;
+                    }
+                }
             }
         }
         return false;

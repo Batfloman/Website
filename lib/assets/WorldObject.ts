@@ -25,6 +25,10 @@ export abstract class WorldObject extends SceneObject implements ICollideable, I
     this.orientation %= 360;
   }
 
+  shouldRender(): boolean {
+    return this.checkCollision(this.game.getCamara());  
+  }
+
   checkCollision(other: ICollideable): boolean {
     return Collision.testCollision(this, other);
   }

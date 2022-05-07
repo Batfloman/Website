@@ -6,7 +6,7 @@ import Vector2 from "../../../lib/util/Vector2.js";
 import Rectangle from "../../../lib/physic/boundingBox/Rectangel.js";
 import Renderer from "../../../lib/display/Renderer.js";
 import { Color } from "../../../lib/util/Color.js";
-import WorldObject from "../../../lib/assets/WorldObject.js";
+import { WorldObject } from "../../../lib/assets/WorldObject.js";
 
 export default class Board extends WorldObject {
   grid: Matrix2<string>;

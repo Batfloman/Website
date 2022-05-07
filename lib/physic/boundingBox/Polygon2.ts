@@ -14,7 +14,7 @@ export default class Polygon2 {
     this.model = model;
     this.farthest = Util.farthestPoint(new Vector2(), this.model);
 
-    this.isConvex = Polygon2Helper.isConvex(this);
+    this.isConvex = Polygon2Helper.testConvex(this);
   }
 
   /**

@@ -3,23 +3,23 @@ export default class SAT {
         return this.areColliding(obj1, obj2) && this.areColliding(obj2, obj1);
     }
     static areColliding(polygon1, polygon2) {
-        let points1 = polygon1.translatePoints();
-        let points2 = polygon2.translatePoints();
+        const points1 = polygon1.translatePoints();
+        const points2 = polygon2.translatePoints();
         let lastPoint = points1[points1.length - 1];
         for (let i = 0; i < points1.length; i++) {
-            let point = points1[i];
-            let normal = lastPoint.vectorTo(point).getNormal();
+            const point = points1[i];
+            const normal = lastPoint.vectorTo(point).getNormal();
             let min1 = Infinity;
             let max1 = -Infinity;
             points1.forEach((point) => {
-                let dot = point.dotProduct(normal) / normal.getMagnitude();
+                const dot = point.dotProduct(normal) / normal.getMagnitude();
                 min1 = Math.min(min1, dot);
                 max1 = Math.max(max1, dot);
             });
             let min2 = Infinity;
             let max2 = -Infinity;
             points2.forEach((point) => {
-                let dot = point.dotProduct(normal) / normal.getMagnitude();
+                const dot = point.dotProduct(normal) / normal.getMagnitude();
                 min2 = Math.min(min2, dot);
                 max2 = Math.max(max2, dot);
             });

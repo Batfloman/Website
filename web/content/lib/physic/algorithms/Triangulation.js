@@ -1,11 +1,43 @@
+import Util from "../../util/Util.js";
 import Polygon2 from "../boundingBox/Polygon2.js";
+import Polygon2Helper from "./Polygon2Helper.js";
 export default class Triangulation {
     static triangulate(obj) {
-        let vertices = obj.translatePoints();
-        let tirangles = [];
-        let indexList = [];
+        const vertices = obj.hitBox.model;
+        const windung = Polygon2Helper.findWindung(obj.hitBox);
+        const tirangles = [];
+        const indexList = [];
         for (let i = 0; i < vertices.length; i++) {
             indexList.push(i);
+        }
+        while (indexList.length > 3) {
+            for (let i = 0; i < indexList.length; i++) {
+                const i1 = Util.getItem(indexList, i - 1);
+                const i2 = Util.getItem(indexList, i);
+                const i3 = Util.getItem(indexList, i + 1);
+                const va = vertices[i1];
+                const vb = vertices[i2];
+                const vc = vertices[i3];
+                const vb_to_va = va.subtract(vb);
+                const vb_to_vc = vc.subtract(vb);
+                if (!Polygon2Helper.isConvex(windung, vb_to_va.crossProduct(vb_to_vc)))
+                    continue;
+                let isEar = true;
+                for (let j = 0; j < vertices.length; j++) {
+                    if (j == i1 || j == i2 || j == i3)
+                        continue;
+                    let p = vertices[j];
+                    if (Triangulation.isPointInTriangle(p, vb, va, vc)) {
+                        isEar = false;
+                        break;
+                    }
+                }
+                if (!isEar)
+                    continue;
+                tirangles.push(new Triangle(obj.pos, new Polygon2([va, vb, vc]), obj.orientation));
+                Util.removeItemAtIndex(indexList, i);
+                break;
+            }
         }
         tirangles.push(new Triangle(obj.pos, new Polygon2([
             vertices[indexList[0]],
@@ -39,6 +71,6 @@ class Triangle {
         throw new Error("Method not implemented.");
     }
     translatePoints() {
-        throw new Error("Method not implemented.");
+        return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
     }
 }

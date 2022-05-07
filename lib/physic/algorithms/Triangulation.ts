@@ -2,59 +2,64 @@ import Util from "../../util/Util.js";
 import Vector2 from "../../util/Vector2.js";
 import Polygon2 from "../boundingBox/Polygon2.js";
 import ICollideable from "../property/ICollideable.js";
+import Polygon2Helper from "./Polygon2Helper.js";
 
 export default class Triangulation {
   static triangulate(obj: ICollideable): ICollideable[] {
-    let vertices = obj.translatePoints();
-    let tirangles: Triangle[] = [];
+    const vertices = obj.hitBox.model;
+    const windung = Polygon2Helper.findWindung(obj.hitBox);
 
-    let indexList: number[] = [];
+    const tirangles: Triangle[] = [];
+
+    const indexList: number[] = [];
     for (let i = 0; i < vertices.length; i++) {
       indexList.push(i);
     }
 
-    // let counter = 0;
-    // while (indexList.length > 3 || counter++ < 100) {
-    //   for (let i = 0; i < indexList.length; i++) {
-    //     let a = indexList[i];
-    //     let b = Util.getItem(indexList, i - 1);
-    //     let c = Util.getItem(indexList, i + 1);
+    while (indexList.length > 3) {
+      for (let i = 0; i < indexList.length; i++) {
+        const i1 = Util.getItem(indexList, i - 1);
+        const i2 = Util.getItem(indexList, i);
+        const i3 = Util.getItem(indexList, i + 1);
 
-    //     let va = vertices[a];
-    //     let vb = vertices[b];
-    //     let vc = vertices[c];
+        const va = vertices[i1];
+        const vb = vertices[i2];
+        const vc = vertices[i3];
 
-    //     let va_to_vb = vb.subtract(va);
-    //     let va_to_vc = vc.subtract(va);
+        const vb_to_va = va.subtract(vb);
+        const vb_to_vc = vc.subtract(vb);
 
-    //     // Is ear test vertex convex?
-    //     if (va_to_vb.crossProduct(va_to_vc) > 0) continue;
+        // Is ear test vertex convex?
+        if (!Polygon2Helper.isConvex(windung, vb_to_va.crossProduct(vb_to_vc))) continue;
 
-    //     let isEar = true;
+        let isEar = true;
 
-    //     // Does test ear contain any polygon vertecies?
-    //     for (let j = 0; j < vertices.length; j++) {
-    //       if (j == a || j == b || j == c) continue;
+        // Does test ear contain any polygon vertecies?
+        for (let j = 0; j < vertices.length; j++) {
+          if (j == i1 || j == i2 || j == i3) continue;
 
-    //       let p = vertices[j];
+          let p = vertices[j];
 
-    //       if (Triangulation.isPointInTriangle(p, vb, va, vc)) {
-    //         isEar = false;
-    //         break;
-    //       }
-    //     }
+          if (Triangulation.isPointInTriangle(p, vb, va, vc)) {
+            isEar = false;
+            break;
+          }
+        }
 
-    //     if (isEar) {
-    //       tirangles.push(
-    //         new Triangle(obj.pos, new Polygon2([va, vb, vc]), obj.orientation)
-    //       );
+        if (!isEar) continue;
 
-    //       indexList.splice(i, 1);
-    //       break;
-    //     }
-    //   }
-    // }
+        tirangles.push(
+          new Triangle(
+            obj.pos,
+            new Polygon2([va, vb, vc]),
+            obj.orientation
+          )
+        );
 
+        Util.removeItemAtIndex(indexList, i);
+        break;
+      }
+    }
     tirangles.push(
       new Triangle(
         obj.pos,
@@ -70,12 +75,7 @@ export default class Triangulation {
     return tirangles;
   }
 
-  static isPointInTriangle(
-    p: Vector2,
-    a: Vector2,
-    b: Vector2,
-    c: Vector2
-  ): boolean {
+  static isPointInTriangle(p: Vector2, a: Vector2, b: Vector2, c: Vector2): boolean {
     let ab = b.subtract(a);
     let bc = c.subtract(b);
     let ca = a.subtract(c);
@@ -108,6 +108,6 @@ class Triangle implements ICollideable {
     throw new Error("Method not implemented.");
   }
   translatePoints(): Vector2[] {
-    throw new Error("Method not implemented.");
+    return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
   }
 }

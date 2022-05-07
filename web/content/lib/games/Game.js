@@ -24,8 +24,9 @@ export class Game {
         Input.newEventListener("resize", this, this.renderObjects);
     }
     tick() {
-        this.updateObjects(this.calc_dt());
+        let dt = this.calc_dt();
         this.lastTime = Date.now();
+        this.updateObjects(dt);
         this.renderObjects();
     }
     updateObjects(dt) {
@@ -36,7 +37,7 @@ export class Game {
     renderObjects() {
         let renderer = new Renderer(this.canvas, this.camara);
         renderer.clear();
-        this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
+        this.objects.sort((a, b) => { return a.zIndex <= b.zIndex ? -1 : 1; });
         this.objects.forEach((obj) => {
             if (obj.shouldRender()) {
                 obj.render(renderer);

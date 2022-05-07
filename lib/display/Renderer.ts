@@ -43,13 +43,7 @@ export default class Renderer {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  renderGrid(
-    worldPos: Vector2,
-    xSize: number,
-    ySize: number,
-    cellXSize: number,
-    cellYSize: number
-  ) {
+  renderGrid(worldPos: Vector2, xSize: number, ySize: number, cellXSize: number, cellYSize: number) {
     this.updateValues();
 
     let pos = worldPos.subtract(this.offSet);
@@ -83,7 +77,7 @@ export default class Renderer {
     this.updateValues();
 
     radius *= this.scale;
-    if(radius < 0.5) radius = 0.5;
+    if (radius < 0.5) radius = 0.5;
 
     points.forEach((point) => {
       let pos = this.calcPosOnScreen(point);
@@ -94,9 +88,22 @@ export default class Renderer {
     });
   }
 
+  renderText(worldPos: Vector2, text: string) {
+    this.updateValues();
+
+    let pos = this.calcPosOnScreen(worldPos);
+
+    this.ctx.beginPath();
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.font = "20px Arial"
+    this.ctx.fillText(text, pos.x, pos.y);
+    this.ctx.stroke();
+  }
+
   renderCircle(worldPos: Vector2, radius: number) {
     this.updateValues();
-    
+
     let pos = this.calcPosOnScreen(worldPos);
 
     this.ctx.beginPath();
@@ -117,6 +124,8 @@ export default class Renderer {
       this.ctx.lineTo(current.x, current.y);
       this.ctx.stroke();
     }
+    this.ctx.fill();
+    this.ctx.stroke();
   }
 
   polygon(
@@ -129,20 +138,17 @@ export default class Renderer {
     this.updateValues();
 
     let translated = Polygon2Helper.translatePoints(polygon.model, worldPos, angle);
-    
-    if(renderOutline) this.connectPoints(translated);
-    if(renderPoints) this.renderPoints(translated, 1);
+
+    if (renderOutline) this.connectPoints(translated);
+    if (renderPoints) this.renderPoints(translated, 1);
   }
 
   private calcPosOnScreen(worldPos: Vector2): Vector2 {
     this.updateValues();
-    
+
     let distance = worldPos.subtract(this.camara.pos).scale(this.scale);
 
-    let pos = new Vector2(
-      distance.x + this.offSet.x,
-      -distance.y + this.offSet.y
-    )
+    let pos = new Vector2(distance.x + this.offSet.x, -distance.y + this.offSet.y);
 
     return pos;
   }

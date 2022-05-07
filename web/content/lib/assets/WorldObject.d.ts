@@ -9,6 +9,7 @@ export declare abstract class WorldObject extends SceneObject implements ICollid
     orientation: number;
     constructor(pos: Vector2, hitBox: Polygon2, angle?: number);
     rotate(angle: number): void;
+    shouldRender(): boolean;
     checkCollision(other: ICollideable): boolean;
     translatePoints(): Vector2[];
     moveDirection(direction: number, distance: number): void;

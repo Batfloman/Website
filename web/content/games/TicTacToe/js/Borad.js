@@ -2,7 +2,7 @@ import Polygon2 from "../../../lib/physic/boundingBox/Polygon2.js";
 import Matrix2 from "../../../lib/util/Matrix2.js";
 import Rectangle from "../../../lib/physic/boundingBox/Rectangel.js";
 import { Color } from "../../../lib/util/Color.js";
-import WorldObject from "../../../lib/assets/WorldObject.js";
+import { WorldObject } from "../../../lib/assets/WorldObject.js";
 export default class Board extends WorldObject {
     constructor(pos, xSize, ySize) {
         super(pos, new Polygon2([]));

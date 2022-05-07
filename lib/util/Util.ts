@@ -11,21 +11,21 @@ export default class Util {
   }
 
   static getLastItem<T>(arr: T[]): T {
-    return arr[arr.length-1];
+    return arr[arr.length - 1];
   }
 
   static getRandomItem<T>(arr: T[]): T {
-    return Util.getItem(arr, Util.randomBetween(0, arr.length-1));
+    return Util.getItem(arr, Util.randomBetween(0, arr.length - 1));
   }
 
   static removeItemAtIndex<T>(arr: T[], index: number): T {
-    if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`); 
+    if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`);
 
     return arr.splice(index, 1)[0];
   }
 
   static removeItem<T>(arr: T[], item: T): T | null {
-    if(arr.includes(item)) {
+    if (arr.includes(item)) {
       return arr.splice(arr.indexOf(item), 1)[0];
     }
     return null;
@@ -38,9 +38,9 @@ export default class Util {
    * @param decimals decimals (default = 0)
    */
   static randomBetween(start: number, end: number, decimals: number = 0): number {
-    return Util.round( (Math.random() * (end - start) + start), decimals);
+    return Util.round(Math.random() * (end - start) + start, decimals);
   }
-  
+
   static round(number: number, decimals: number = 0): number {
     return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
   }
@@ -126,11 +126,7 @@ export default class Util {
    * @param direction angle in which the point will be moved
    * @param distance amount by which the point will be moved
    */
-  static moveDirection(
-    start: Vector2,
-    direction: number,
-    distance: number
-  ): Vector2 {
+  static moveDirection(start: Vector2, direction: number, distance: number): Vector2 {
     let moveX = Math.sin(Util.toRadian(direction)) * distance;
     let moveY = Math.cos(Util.toRadian(direction)) * distance;
 

@@ -1,11 +1,13 @@
 import { ControllableObject } from "../../../lib/assets/ControllableObject.js";
 import { Color } from "../../../lib/util/Color.js";
+import Triangulation from "../../../lib/physic/algorithms/Triangulation.js";
+import Util from "../../../lib/util/Util.js";
 export default class FormObject extends ControllableObject {
     constructor(pos, hitBox, angle) {
         super(pos, hitBox, angle);
         this.collides = false;
         this.selected = false;
-        this.rotationSpeed = 0;
+        this.rotationSpeed = Util.randomBetween(45, 135, 2);
         this.controlles.set("w", (dt) => {
             if (!this.selected)
                 return;
@@ -41,18 +43,30 @@ export default class FormObject extends ControllableObject {
         super.update(dt);
         this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
         let objects = this.game.findObjects(FormObject, this);
-        objects.forEach((obj) => {
+        for (let obj of objects) {
             this.collides = this.checkCollision(obj);
             if (this.collides)
-                return;
-        });
+                break;
+        }
     }
     render(renderer) {
         renderer.setLineWidth(3);
         renderer.setStrokeColor(this.collides ? Color.get("white") : Color.get("black"));
-        renderer.polygon(this.pos, this.hitBox, this.orientation, true);
+        renderer.setFillColor(this.collides ? Color.get("white") : Color.get("black"));
+        renderer.polygon(this.pos, this.hitBox, this.orientation, true, true);
+        renderer.setLineWidth(0.5);
+        if (!this.hitBox.isConvex) {
+            let parts = Triangulation.triangulate(this);
+            for (let part of parts) {
+                renderer.polygon(part.pos, part.hitBox, part.orientation, false, true);
+            }
+        }
+        renderer.setLineWidth(3);
         renderer.setStrokeColor(Color.get("black"));
         renderer.setFillColor(this.selected ? Color.get("black") : Color.none);
         renderer.renderCircle(this.pos, 10);
+        renderer.setFillColor(Color.get("white"));
+        renderer.setLineWidth(0.5);
+        renderer.renderText(this.pos, `${Util.round(this.pos.x)} | ${Util.round(this.pos.y)}`);
     }
 }

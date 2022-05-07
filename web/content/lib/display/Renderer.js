@@ -59,6 +59,16 @@ export default class Renderer {
             this.ctx.stroke();
         });
     }
+    renderText(worldPos, text) {
+        this.updateValues();
+        let pos = this.calcPosOnScreen(worldPos);
+        this.ctx.beginPath();
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.font = "20px Arial";
+        this.ctx.fillText(text, pos.x, pos.y);
+        this.ctx.stroke();
+    }
     renderCircle(worldPos, radius) {
         this.updateValues();
         let pos = this.calcPosOnScreen(worldPos);
@@ -77,6 +87,8 @@ export default class Renderer {
             this.ctx.lineTo(current.x, current.y);
             this.ctx.stroke();
         }
+        this.ctx.fill();
+        this.ctx.stroke();
     }
     polygon(worldPos, polygon, angle, renderPoints = true, renderOutline = true) {
         this.updateValues();

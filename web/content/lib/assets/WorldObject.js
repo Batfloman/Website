@@ -13,6 +13,9 @@ export class WorldObject extends SceneObject {
         this.orientation += angle;
         this.orientation %= 360;
     }
+    shouldRender() {
+        return this.checkCollision(this.game.getCamara());
+    }
     checkCollision(other) {
         return Collision.testCollision(this, other);
     }
