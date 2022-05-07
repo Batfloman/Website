@@ -5,7 +5,6 @@ import Polygon2Helper from "../algorithms/Polygon2Helper.js";
 export default class Polygon2 {
   // points relative to a 0, 0 center with 0° rotation
   model: Vector2[] = new Array();
-  // angle in degree
 
   isConvex: boolean;
 

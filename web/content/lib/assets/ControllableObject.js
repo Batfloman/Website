@@ -1,4 +1,5 @@
-import WorldObject from "./WorldObject.js";
+import Input from "../input/Input.js";
+import { WorldObject } from "./WorldObject.js";
 export class ControllableObject extends WorldObject {
     constructor(pos, hitBox, angle) {
         super(pos, hitBox, angle);
@@ -6,7 +7,9 @@ export class ControllableObject extends WorldObject {
     }
     update(dt) {
         this.controlles.forEach((value, key) => {
-            console.log(value, key);
+            if (Input.isPressed(key)) {
+                value.call(this, dt);
+            }
         });
     }
 }

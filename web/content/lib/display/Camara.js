@@ -13,7 +13,6 @@ export default class Camara {
         this.pos = !pos ? new Vector2() : pos;
         this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
         this.orientation = 0;
-        this.points = this.translatePoints();
         Input.newEventListener("wheel", this, (event) => {
             if (this.lockScaling)
                 return;
@@ -23,7 +22,6 @@ export default class Camara {
                 this.scale *= 1.15;
             else if (event.deltaY > 0)
                 this.scale *= 1 / 1.15;
-            this.translatePoints();
         });
         Input.newEventListener("mousemove", this, (event) => {
             if (this.lockMovement)
@@ -46,12 +44,12 @@ export default class Camara {
         return SAT.testCollision(this, other);
     }
     translatePoints() {
-        this.points = [];
+        let points = [];
         this.hitBox.model.forEach((point) => {
-            this.points.push(Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation));
+            points.push(Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation));
         });
         this.hitBox.farthest = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1 / this.scale);
-        return this.points;
+        return points;
     }
     getOffset() {
         return new Vector2(this.canvas.width / 2, this.canvas.height / 2);

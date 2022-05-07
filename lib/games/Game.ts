@@ -33,12 +33,10 @@ export abstract class Game {
   }
 
   tick(): void {
-    let before = Date.now();
-    this.renderObjects();
-    // console.log(Date.now() - before);
-
     this.updateObjects(this.calc_dt());
     this.lastTime = Date.now();
+    
+    this.renderObjects();
   }
 
   private updateObjects(dt: number) {
@@ -55,7 +53,9 @@ export abstract class Game {
     this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
 
     this.objects.forEach((obj) => {
-      if(obj.shouldRender()) obj.render(renderer);
+      if(obj.shouldRender()) {
+        obj.render(renderer);
+      }
     });
   }
 

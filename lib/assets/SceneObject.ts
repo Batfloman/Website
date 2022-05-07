@@ -21,6 +21,7 @@ export abstract class SceneObject implements IRenderable {
   }
 
   calc_valueChangeForDT(perSecond: number, dt: number): number {
-    return perSecond * dt / 1000;
+    let value = perSecond * dt / 1000;
+    return Number.isNaN(value) ? 0 : value;
   }
 }

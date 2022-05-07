@@ -59,6 +59,14 @@ export default class Renderer {
             this.ctx.stroke();
         });
     }
+    renderCircle(worldPos, radius) {
+        this.updateValues();
+        let pos = this.calcPosOnScreen(worldPos);
+        this.ctx.beginPath();
+        this.ctx.arc(pos.x, pos.y, radius * this.scale, 0, Math.PI * 2);
+        this.ctx.fill();
+        this.ctx.stroke();
+    }
     connectPoints(points) {
         this.updateValues();
         for (let i = 0; i < points.length; i++) {
@@ -81,8 +89,7 @@ export default class Renderer {
     calcPosOnScreen(worldPos) {
         this.updateValues();
         let distance = worldPos.subtract(this.camara.pos).scale(this.scale);
-        let canvasCenter = new Vector2(this.offSet.x, this.offSet.y);
-        let pos = new Vector2(distance.x + canvasCenter.x, -distance.y + canvasCenter.y);
+        let pos = new Vector2(distance.x + this.offSet.x, -distance.y + this.offSet.y);
         return pos;
     }
     setStrokeColor(color) {

@@ -63,7 +63,7 @@ export default class Util {
             if (exclude instanceof Array && exclude.includes(point))
                 return;
             let distance = Util.distance(mainPoint, point);
-            if (!farthest || !farthestDistance || distance > farthestDistance) {
+            if (distance >= farthestDistance) {
                 farthest = point;
                 farthestDistance = distance;
             }
@@ -72,7 +72,7 @@ export default class Util {
     }
     static moveDirection(start, direction, distance) {
         let moveX = Math.sin(Util.toRadian(direction)) * distance;
-        let moveY = -Math.cos(Util.toRadian(direction)) * distance;
+        let moveY = Math.cos(Util.toRadian(direction)) * distance;
         return new Vector2(start.x + moveX, start.y + moveY);
     }
     static rotateAroundCenter(center, point, angle) {

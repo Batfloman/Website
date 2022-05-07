@@ -17,7 +17,6 @@ export default class Camara implements ICollideable, IMoveable {
 
   hitBox: Polygon2;
   orientation: number;
-  points: Vector2[];
 
   lockScaling: boolean = true;
   lockMovement: boolean = true;
@@ -31,7 +30,6 @@ export default class Camara implements ICollideable, IMoveable {
       this.canvas.htmlCanvas.height
     );
     this.orientation = 0;
-    this.points = this.translatePoints();
 
     Input.newEventListener("wheel", this, (event: WheelEvent) => {
       if (this.lockScaling) return;
@@ -39,8 +37,6 @@ export default class Camara implements ICollideable, IMoveable {
 
       if (event.deltaY < 0) this.scale *= 1.15;
       else if (event.deltaY > 0) this.scale *= 1 / 1.15;
-
-      this.translatePoints();
     });
     Input.newEventListener("mousemove", this, (event: MouseEvent) => {
       if (this.lockMovement) return;
@@ -62,9 +58,9 @@ export default class Camara implements ICollideable, IMoveable {
     return SAT.testCollision(this, other);
   }
   translatePoints(): Vector2[] {
-    this.points = [];
+    let points: Vector2[] = [];
     this.hitBox.model.forEach((point) => {
-      this.points.push(
+      points.push(
         Polygon2Helper.translatePoint(
           point.scale(1/this.scale),
           this.pos,
@@ -73,7 +69,7 @@ export default class Camara implements ICollideable, IMoveable {
       );
     });
     this.hitBox.farthest = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1/this.scale);
-    return this.points;
+    return points;
   }
 
   /**

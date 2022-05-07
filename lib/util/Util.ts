@@ -111,7 +111,7 @@ export default class Util {
 
       let distance = Util.distance(mainPoint, point);
 
-      if (!farthest || !farthestDistance || distance > farthestDistance) {
+      if (distance >= farthestDistance) {
         farthest = point;
         farthestDistance = distance;
       }
@@ -132,7 +132,7 @@ export default class Util {
     distance: number
   ): Vector2 {
     let moveX = Math.sin(Util.toRadian(direction)) * distance;
-    let moveY = -Math.cos(Util.toRadian(direction)) * distance;
+    let moveY = Math.cos(Util.toRadian(direction)) * distance;
 
     return new Vector2(start.x + moveX, start.y + moveY);
   }

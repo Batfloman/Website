@@ -1,46 +1,6 @@
-import WorldObject from "../../assets/WorldObject.js";
-import CircleCollision from "./CircleCollision.js";
-import Triangulation from "./Triangulation.js";
 export default class SAT {
     static testCollision(obj1, obj2) {
-        if (!CircleCollision.potentialCollision(obj1, obj2))
-            return false;
-        if (obj1.hitBox.isConvex) {
-            if (obj2.hitBox.isConvex) {
-                return this.areColliding(obj1, obj2) && this.areColliding(obj2, obj1);
-            }
-            else {
-                let parts = Triangulation.triangulate(obj2.hitBox.model);
-                let collides = false;
-                for (let part of parts) {
-                    let obj2part = new WorldObject(obj1.pos, part, obj1.orientation);
-                    collides = SAT.testCollision(obj1, obj2part);
-                    if (collides)
-                        return true;
-                }
-            }
-        }
-        else {
-            let parts = Triangulation.triangulate(obj1.hitBox.model);
-            let collides = false;
-            for (let part of parts) {
-                let obj1part = new WorldObject(obj1.pos, part, obj1.orientation);
-                if (obj2.hitBox.isConvex) {
-                    collides = SAT.testCollision(obj1part, obj2);
-                    if (collides)
-                        return true;
-                }
-                else {
-                    for (let part of parts) {
-                        let obj2part = new WorldObject(obj1.pos, part, obj1.orientation);
-                        collides = SAT.testCollision(obj1part, obj2part);
-                        if (collides)
-                            return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return this.areColliding(obj1, obj2) && this.areColliding(obj2, obj1);
     }
     static areColliding(polygon1, polygon2) {
         let points1 = polygon1.translatePoints();
