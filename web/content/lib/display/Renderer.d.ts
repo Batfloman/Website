@@ -21,7 +21,7 @@ export default class Renderer {
     renderText(worldPos: Vector2, text: string): void;
     renderCircle(worldPos: Vector2, radius: number): void;
     connectPoints(points: Vector2[]): void;
-    polygon(worldPos: Vector2, polygon: Polygon2, angle: number, renderPoints?: boolean, renderOutline?: boolean): void;
+    renderPolygon(worldPos: Vector2, polygon: Polygon2, angle: number, renderPoints?: boolean, renderOutline?: boolean): void;
     private calcPosOnScreen;
     setStrokeColor(color: Color | undefined): void;
     setFillColor(color: Color | undefined): void;

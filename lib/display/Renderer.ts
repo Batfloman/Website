@@ -128,7 +128,7 @@ export default class Renderer {
     this.ctx.stroke();
   }
 
-  polygon(
+  renderPolygon(
     worldPos: Vector2,
     polygon: Polygon2,
     angle: number,

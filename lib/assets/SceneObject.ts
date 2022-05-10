@@ -16,9 +16,8 @@ export abstract class SceneObject implements IRenderable {
   abstract update(dt: number): void;
   abstract render(renderer: Renderer): void;
 
-  shouldRender(): boolean {
-    return true;
-  }
+  abstract shouldUpdate(): boolean;
+  abstract shouldRender(): boolean;
 
   calc_valueChangeForDT(perSecond: number, dt: number): number {
     let value = perSecond * dt / 1000;

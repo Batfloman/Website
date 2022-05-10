@@ -1,18 +1,17 @@
 import Util from "../../util/Util.js";
 import Vector2 from "../../util/Vector2.js";
 import Polygon2Helper from "../algorithms/Polygon2Helper.js";
+import { HitBox } from "./HitBox.js";
 
-export default class Polygon2 {
+export default class Polygon2 extends HitBox {
   // points relative to a 0, 0 center with 0° rotation
   model: Vector2[] = new Array();
 
-  isConvex: boolean;
-
-  farthest: Vector2;
-
   constructor(model: Vector2[]) {
+    super();
+
     this.model = model;
-    this.farthest = Util.farthestPoint(new Vector2(), this.model);
+    this.farthestPoint = Util.farthestPoint(new Vector2(), this.model);
 
     this.isConvex = Polygon2Helper.testConvex(this);
   }

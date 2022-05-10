@@ -3,7 +3,7 @@ export default class Polygon2Helper {
     static testConvex(polygon) {
         if (polygon.model.length <= 3)
             return true;
-        let windung = Polygon2Helper.findWindung(polygon);
+        let windung = Polygon2Helper.findWinding(polygon);
         for (let i = 0; i < polygon.model.length; i++) {
             const a = Util.getItem(polygon.model, i - 1);
             const b = Util.getItem(polygon.model, i);
@@ -22,7 +22,7 @@ export default class Polygon2Helper {
             return true;
         return false;
     }
-    static findWindung(polygon) {
+    static findWinding(polygon) {
         return this.findArea(polygon) < 0 ? "clockwise" : "counterclockwise";
     }
     static findArea(polygon) {

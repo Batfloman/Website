@@ -45,4 +45,5 @@ const colors = new Map([
     ["blue", new Color(0, 0, 255)],
     ["black", new Color(0, 0, 0)],
     ["white", new Color(255, 255, 255)],
+    ["yellow", new Color(255, 255, 0)]
 ]);

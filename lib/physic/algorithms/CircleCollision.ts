@@ -8,9 +8,9 @@ export default class CircleCollision {
 
     return this.circleCollision(
       obj1.pos,
-      obj1.hitBox.farthest.getMagnitude(),
+      obj1.hitBox.farthestPoint.getMagnitude(),
       obj2.pos,
-      obj2.hitBox.farthest.getMagnitude()
+      obj2.hitBox.farthestPoint.getMagnitude()
     );
   }
 

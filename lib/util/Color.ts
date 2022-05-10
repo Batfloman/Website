@@ -52,7 +52,7 @@ export class Color {
   }
 }
 
-type colors = "red" | "green" | "blue" | "black" | "white";
+type colors = "red" | "green" | "blue" | "black" | "white" | "yellow";
 
 const colors = new Map<colors, Color>([
   ["red", new Color(255, 0, 0)],
@@ -60,4 +60,5 @@ const colors = new Map<colors, Color>([
   ["blue", new Color(0, 0, 255)],
   ["black", new Color(0, 0, 0)],
   ["white", new Color(255, 255, 255)],
+  ["yellow", new Color(255, 255, 0)]
 ]);

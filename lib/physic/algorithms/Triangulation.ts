@@ -6,8 +6,10 @@ import Polygon2Helper from "./Polygon2Helper.js";
 
 export default class Triangulation {
   static triangulate(obj: ICollideable): ICollideable[] {
+    if(!(obj.hitBox instanceof Polygon2)) throw new Error("other than polygon not implemented yet!");
+
     const vertices = obj.hitBox.model;
-    const windung = Polygon2Helper.findWindung(obj.hitBox);
+    const windung = Polygon2Helper.findWinding(obj.hitBox);
 
     const tirangles: Triangle[] = [];
 
@@ -75,7 +77,7 @@ export default class Triangulation {
     return tirangles;
   }
 
-  static isPointInTriangle(p: Vector2, a: Vector2, b: Vector2, c: Vector2): boolean {
+  private static isPointInTriangle(p: Vector2, a: Vector2, b: Vector2, c: Vector2): boolean {
     let ab = b.subtract(a);
     let bc = c.subtract(b);
     let ca = a.subtract(c);

@@ -8,14 +8,15 @@ window.onload = () => {
     let s = new System(new Canvas(document.querySelector("canvas")));
     s.setCamaraMovementLock(false);
     s.setCamaraScaleLock(false);
-    for (let i = 0; i < 50; i++) {
+    s.setMaxRenderDistance(2000);
+    for (let i = 0; i < 1000; i++) {
         s.addObject(createRandomShape());
     }
     s.start();
 };
 function createRandomShape() {
-    let start = new Vector2(Util.randomBetween(-1000, 1000, 2), Util.randomBetween(-1000, 1000, 2));
-    let form = new Form(Util.randomBetween(5, 20), Util.randomBetween(25, 75, 2), Util.randomBetween(0.5, 1, 2));
+    let start = new Vector2(Util.randomBetween(-5000, 5000, 2), Util.randomBetween(-5000, 5000, 2));
+    let form = new Form(Util.randomBetween(5, 10), Util.randomBetween(25, 75, 2), Util.randomBetween(0.5, 1, 2));
     form.centerModel();
     return new FormObject(start, form);
 }

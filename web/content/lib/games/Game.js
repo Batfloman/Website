@@ -5,8 +5,9 @@ export class Game {
     constructor(canvas) {
         this.paused = true;
         this.pausedBecauseBlur = false;
+        this.maxRenderDistance = 2000;
         this.lastTime = Date.now();
-        this.timeSinceLastTime = 0;
+        this.timeElapsedBeforePause = 0;
         this.canvas = canvas;
         this.objects = [];
         this.camara = new Camara(this.canvas);
@@ -24,24 +25,24 @@ export class Game {
         Input.newEventListener("resize", this, this.renderObjects);
     }
     tick() {
-        let dt = this.calc_dt();
-        this.lastTime = Date.now();
-        this.updateObjects(dt);
+        this.updateObjects();
         this.renderObjects();
     }
-    updateObjects(dt) {
+    updateObjects() {
+        let dt = this.calc_dt();
+        this.lastTime = Date.now();
         this.objects.forEach((obj) => {
-            obj.update(dt);
+            if (obj.shouldUpdate())
+                obj.update(dt);
         });
     }
     renderObjects() {
         let renderer = new Renderer(this.canvas, this.camara);
         renderer.clear();
-        this.objects.sort((a, b) => { return a.zIndex <= b.zIndex ? -1 : 1; });
+        this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
         this.objects.forEach((obj) => {
-            if (obj.shouldRender()) {
+            if (obj.shouldRender())
                 obj.render(renderer);
-            }
         });
     }
     addObject(obj) {
@@ -69,24 +70,18 @@ export class Game {
         });
         return found;
     }
-    setCamaraScaleLock(b) {
-        this.camara.lockScaling = b;
-    }
-    setCamaraMovementLock(b) {
-        this.camara.lockMovement = b;
-    }
     calc_dt() {
         return Date.now() - this.lastTime;
     }
     start() {
         if (this.paused) {
-            this.lastTime = Date.now() - this.timeSinceLastTime;
+            this.lastTime = Date.now() - this.timeElapsedBeforePause;
             this.paused = false;
         }
     }
     stop() {
         if (!this.paused) {
-            this.timeSinceLastTime = Date.now() - this.lastTime;
+            this.timeElapsedBeforePause = Date.now() - this.lastTime;
             this.paused = true;
         }
     }
@@ -97,5 +92,14 @@ export class Game {
     }
     getCamara() {
         return this.camara;
+    }
+    setCamaraScaleLock(b) {
+        this.camara.lockScaling = b;
+    }
+    setCamaraMovementLock(b) {
+        this.camara.lockMovement = b;
+    }
+    setMaxRenderDistance(distance) {
+        this.maxRenderDistance = distance;
     }
 }

@@ -2,7 +2,7 @@ import Util from "../../util/Util.js";
 import Vector2 from "../../util/Vector2.js";
 import Polygon2 from "../boundingBox/Polygon2.js";
 
-type PolygonWindung = "clockwise" | "counterclockwise";
+type PolygonWinding = "clockwise" | "counterclockwise";
 
 export default class Polygon2Helper {
   /**
@@ -11,7 +11,7 @@ export default class Polygon2Helper {
   static testConvex(polygon: Polygon2): boolean {
     if (polygon.model.length <= 3) return true;
 
-    let windung = Polygon2Helper.findWindung(polygon);
+    let windung = Polygon2Helper.findWinding(polygon);
 
     for (let i = 0; i < polygon.model.length; i++) {
       const a = Util.getItem(polygon.model, i - 1);
@@ -26,27 +26,19 @@ export default class Polygon2Helper {
     return true;
   }
 
-  static isConvex(windung: PolygonWindung, crossProduct: number) {
+  /**
+   * test a vertex for Convexity
+   */
+  static isConvex(windung: PolygonWinding, crossProduct: number) {
     if (windung == "clockwise" && crossProduct > 0) return true;
     if (windung == "counterclockwise" && crossProduct < 0) return true;
     return false;
   }
 
   /**
-   * Returns the "windung" of an Polygon
-   * if "left" => the crossProduct of two adjacent Vectors needs to be positive
-   *  to make the angle between them convex
-   * if "right" => the crossProducct needs to be negative
+   * Returns the winding of an Polygon
    */
-  static findWindung(polygon: Polygon2): PolygonWindung {
-    // const a = Util.getItem(polygon.model, -1);
-    // const b = Util.getItem(polygon.model, 0);
-    // const c = Util.getItem(polygon.model, 1);
-    
-    // const ba = a.subtract(b);
-    // const bc = c.subtract(b);
-    
-    // return ba.crossProduct(bc) > 0 ? "clockwise" : "counterclockwise";
+  static findWinding(polygon: Polygon2): PolygonWinding {
     return this.findArea(polygon) < 0 ? "clockwise" : "counterclockwise";
   }
 
@@ -69,7 +61,6 @@ export default class Polygon2Helper {
   static translatePoint(point: Vector2, center: Vector2, angle: number = 0): Vector2 {
     return Util.rotateAroundCenter(center, point.add(center), angle);
   }
-
   static translatePoints(points: Vector2[], center: Vector2, angle: number = 0): Vector2[] {
     const translated: Vector2[] = [];
 

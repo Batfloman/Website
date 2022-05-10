@@ -1,11 +1,13 @@
 import Util from "../../util/Util.js";
 import Vector2 from "../../util/Vector2.js";
 import Polygon2Helper from "../algorithms/Polygon2Helper.js";
-export default class Polygon2 {
+import { HitBox } from "./HitBox.js";
+export default class Polygon2 extends HitBox {
     constructor(model) {
+        super();
         this.model = new Array();
         this.model = model;
-        this.farthest = Util.farthestPoint(new Vector2(), this.model);
+        this.farthestPoint = Util.farthestPoint(new Vector2(), this.model);
         this.isConvex = Polygon2Helper.testConvex(this);
     }
     centerModel() {

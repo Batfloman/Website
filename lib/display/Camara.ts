@@ -68,7 +68,7 @@ export default class Camara implements ICollideable, IMoveable {
         )
       );
     });
-    this.hitBox.farthest = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1/this.scale);
+    this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1/this.scale);
     return points;
   }
 

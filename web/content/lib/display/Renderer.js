@@ -90,7 +90,7 @@ export default class Renderer {
         this.ctx.fill();
         this.ctx.stroke();
     }
-    polygon(worldPos, polygon, angle, renderPoints = true, renderOutline = true) {
+    renderPolygon(worldPos, polygon, angle, renderPoints = true, renderOutline = true) {
         this.updateValues();
         let translated = Polygon2Helper.translatePoints(polygon.model, worldPos, angle);
         if (renderOutline)

@@ -13,6 +13,6 @@ export declare class Color {
     setB(b: number): void;
     setA(a: number): void;
 }
-declare type colors = "red" | "green" | "blue" | "black" | "white";
+declare type colors = "red" | "green" | "blue" | "black" | "white" | "yellow";
 declare const colors: Map<colors, Color>;
 export {};

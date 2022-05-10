@@ -1,5 +1,8 @@
+import Circle from "../boundingBox/Circle.js";
 export default class SAT {
     static testCollision(obj1, obj2) {
+        if (obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle)
+            return true;
         return this.areColliding(obj1, obj2) && this.areColliding(obj2, obj1);
     }
     static areColliding(polygon1, polygon2) {

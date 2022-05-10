@@ -7,6 +7,7 @@ export declare abstract class Game {
     protected camara: Camara;
     private paused;
     private pausedBecauseBlur;
+    maxRenderDistance: number;
     constructor(canvas: Canvas);
     tick(): void;
     private updateObjects;
@@ -14,13 +15,14 @@ export declare abstract class Game {
     addObject(obj: SceneObject): void;
     removeObject(obj: SceneObject): SceneObject | undefined;
     findObjects<T extends SceneObject>(clas: Function, exclude?: T | T[]): T[];
-    setCamaraScaleLock(b: boolean): void;
-    setCamaraMovementLock(b: boolean): void;
     private lastTime;
-    private timeSinceLastTime;
+    private timeElapsedBeforePause;
     calc_dt(): number;
     start(): void;
     stop(): void;
     private static testTick;
     getCamara(): Camara;
+    setCamaraScaleLock(b: boolean): void;
+    setCamaraMovementLock(b: boolean): void;
+    setMaxRenderDistance(distance: number): void;
 }

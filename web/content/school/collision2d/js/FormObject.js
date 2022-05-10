@@ -2,6 +2,7 @@ import { ControllableObject } from "../../../lib/assets/ControllableObject.js";
 import { Color } from "../../../lib/util/Color.js";
 import Triangulation from "../../../lib/physic/algorithms/Triangulation.js";
 import Util from "../../../lib/util/Util.js";
+import Polygon2Helper from "../../../lib/physic/algorithms/Polygon2Helper.js";
 export default class FormObject extends ControllableObject {
     constructor(pos, hitBox, angle) {
         super(pos, hitBox, angle);
@@ -53,12 +54,12 @@ export default class FormObject extends ControllableObject {
         renderer.setLineWidth(3);
         renderer.setStrokeColor(this.collides ? Color.get("white") : Color.get("black"));
         renderer.setFillColor(this.collides ? Color.get("white") : Color.get("black"));
-        renderer.polygon(this.pos, this.hitBox, this.orientation, true, true);
+        renderer.renderPolygon(this.pos, this.hitBox, this.orientation, true, true);
         renderer.setLineWidth(0.5);
         if (!this.hitBox.isConvex) {
             let parts = Triangulation.triangulate(this);
             for (let part of parts) {
-                renderer.polygon(part.pos, part.hitBox, part.orientation, false, true);
+                renderer.renderPolygon(part.pos, part.hitBox, part.orientation, false, true);
             }
         }
         renderer.setLineWidth(3);
@@ -68,5 +69,8 @@ export default class FormObject extends ControllableObject {
         renderer.setFillColor(Color.get("white"));
         renderer.setLineWidth(0.5);
         renderer.renderText(this.pos, `${Util.round(this.pos.x)} | ${Util.round(this.pos.y)}`);
+    }
+    translatePoints() {
+        return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
     }
 }

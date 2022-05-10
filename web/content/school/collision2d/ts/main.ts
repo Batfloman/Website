@@ -13,8 +13,9 @@ window.onload = () => {
 
   s.setCamaraMovementLock(false);
   s.setCamaraScaleLock(false);
+  s.setMaxRenderDistance(2000);
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 1000; i++) {
     s.addObject(createRandomShape());
   }
 
@@ -23,9 +24,9 @@ window.onload = () => {
 };
 
 function createRandomShape(): FormObject {
-  let start = new Vector2(Util.randomBetween(-1000, 1000, 2), Util.randomBetween(-1000, 1000, 2));
+  let start = new Vector2(Util.randomBetween(-5000, 5000, 2), Util.randomBetween(-5000, 5000, 2));
   let form = new Form(
-    Util.randomBetween(5, 20),
+    Util.randomBetween(5, 10),
     Util.randomBetween(25, 75, 2),
     Util.randomBetween(0.5, 1, 2)
   );

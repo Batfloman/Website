@@ -127,8 +127,9 @@ export default class Util {
    * @param distance amount by which the point will be moved
    */
   static moveDirection(start: Vector2, direction: number, distance: number): Vector2 {
-    let moveX = Math.sin(Util.toRadian(direction)) * distance;
-    let moveY = Math.cos(Util.toRadian(direction)) * distance;
+    const rad = Util.toRadian(direction)
+    const moveX = Math.sin(rad) * distance;
+    const moveY = Math.cos(rad) * distance;
 
     return new Vector2(start.x + moveX, start.y + moveY);
   }
@@ -137,17 +138,14 @@ export default class Util {
    * Rotates the @param point around a @param center Point by @param angle degrees
    * @param center point which another point will rotate around
    * @param point point that will be rotated
-   * @param angel angle by which the point will be rotated
+   * @param angle angle by which the point will be rotated
    */
   static rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2 {
-    let xRotated =
-      Math.cos(Util.toRadian(angle)) * (point.x - center.x) -
-      Math.sin(Util.toRadian(angle)) * (point.y - center.y) +
-      center.x;
-    let yRotated =
-      Math.sin(Util.toRadian(angle)) * (point.x - center.x) +
-      Math.cos(Util.toRadian(angle)) * (point.y - center.y) +
-      center.y;
+    const rad = Util.toRadian(angle);
+    const xRotated =
+      Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x;
+    const yRotated =
+      Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y;
 
     return new Vector2(xRotated, yRotated);
   }

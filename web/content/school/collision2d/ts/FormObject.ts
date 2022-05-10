@@ -5,8 +5,10 @@ import { Color } from "../../../lib/util/Color.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import Triangulation from "../../../lib/physic/algorithms/Triangulation.js";
 import Util from "../../../lib/util/Util.js";
+import Polygon2Helper from "../../../lib/physic/algorithms/Polygon2Helper.js";
+import { WorldObject } from "../../../lib/assets/WorldObject.js";
 
-export default class FormObject extends ControllableObject {
+export default class FormObject extends ControllableObject<Polygon2> {
   collides: boolean = false;
   selected: boolean = false;
 
@@ -51,7 +53,7 @@ export default class FormObject extends ControllableObject {
     super.update(dt);
     this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
 
-    let objects = this.game.findObjects(FormObject, this) as Array<ControllableObject>;
+    let objects = this.game.findObjects(FormObject, this) as Array<ControllableObject<Polygon2>>;
 
     for (let obj of objects) {
       this.collides = this.checkCollision(obj);
@@ -62,13 +64,13 @@ export default class FormObject extends ControllableObject {
     renderer.setLineWidth(3);
     renderer.setStrokeColor(this.collides ? Color.get("white") : Color.get("black"));
     renderer.setFillColor(this.collides ? Color.get("white") : Color.get("black"));
-    renderer.polygon(this.pos, this.hitBox, this.orientation, true, true);
+    renderer.renderPolygon(this.pos, this.hitBox, this.orientation, true, true);
 
     renderer.setLineWidth(0.5);
     if (!this.hitBox.isConvex) {
-      let parts = Triangulation.triangulate(this);
+      let parts = Triangulation.triangulate(this) as Array<WorldObject<Polygon2>>;
       for (let part of parts) {
-        renderer.polygon(part.pos, part.hitBox, part.orientation, false, true);
+        renderer.renderPolygon(part.pos, part.hitBox, part.orientation, false, true);
       }
     }
 
@@ -80,5 +82,9 @@ export default class FormObject extends ControllableObject {
     renderer.setFillColor(Color.get("white"));
     renderer.setLineWidth(0.5);
     renderer.renderText(this.pos, `${Util.round(this.pos.x)} | ${Util.round(this.pos.y)}`);
+  }
+
+  translatePoints(): Vector2[] {
+    return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
   }
 }

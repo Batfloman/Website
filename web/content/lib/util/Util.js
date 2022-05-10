@@ -71,17 +71,15 @@ export default class Util {
         return farthest;
     }
     static moveDirection(start, direction, distance) {
-        let moveX = Math.sin(Util.toRadian(direction)) * distance;
-        let moveY = Math.cos(Util.toRadian(direction)) * distance;
+        const rad = Util.toRadian(direction);
+        const moveX = Math.sin(rad) * distance;
+        const moveY = Math.cos(rad) * distance;
         return new Vector2(start.x + moveX, start.y + moveY);
     }
     static rotateAroundCenter(center, point, angle) {
-        let xRotated = Math.cos(Util.toRadian(angle)) * (point.x - center.x) -
-            Math.sin(Util.toRadian(angle)) * (point.y - center.y) +
-            center.x;
-        let yRotated = Math.sin(Util.toRadian(angle)) * (point.x - center.x) +
-            Math.cos(Util.toRadian(angle)) * (point.y - center.y) +
-            center.y;
+        const rad = Util.toRadian(angle);
+        const xRotated = Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x;
+        const yRotated = Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y;
         return new Vector2(xRotated, yRotated);
     }
     static toRadian(degree) {

@@ -12,6 +12,8 @@ export abstract class Game {
   private paused: boolean = true;
   private pausedBecauseBlur: boolean = false;
 
+  maxRenderDistance = 2000;
+
   constructor(canvas: Canvas) {
     this.canvas = canvas;
     this.objects = [];
@@ -33,17 +35,16 @@ export abstract class Game {
   }
 
   tick(): void {
-    let dt = this.calc_dt();
-    this.lastTime = Date.now();
-    
-    this.updateObjects(dt);
-    
+    this.updateObjects();
     this.renderObjects();
   }
 
-  private updateObjects(dt: number) {
+  private updateObjects() {
+    let dt = this.calc_dt();
+    this.lastTime = Date.now();
+
     this.objects.forEach((obj) => {
-      obj.update(dt);
+      if (obj.shouldUpdate()) obj.update(dt);
     });
   }
 
@@ -52,12 +53,10 @@ export abstract class Game {
 
     renderer.clear();
 
-    this.objects.sort((a, b) => {return a.zIndex <= b.zIndex ? -1 : 1});
+    this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
 
     this.objects.forEach((obj) => {
-      if (obj.shouldRender()) {
-        obj.render(renderer);
-      }
+      if (obj.shouldRender()) obj.render(renderer);
     });
   }
 
@@ -89,27 +88,22 @@ export abstract class Game {
     return found;
   }
 
-  setCamaraScaleLock(b: boolean) {
-    this.camara.lockScaling = b;
-  }
-  setCamaraMovementLock(b: boolean) {
-    this.camara.lockMovement = b;
-  }
-
+  // used to calc dt
   private lastTime = Date.now();
-  private timeSinceLastTime = 0;
+  // saves dt on pause
+  private timeElapsedBeforePause = 0;
   calc_dt(): number {
     return Date.now() - this.lastTime;
   }
   start(): void {
     if (this.paused) {
-      this.lastTime = Date.now() - this.timeSinceLastTime;
+      this.lastTime = Date.now() - this.timeElapsedBeforePause;
       this.paused = false;
     }
   }
   stop(): void {
     if (!this.paused) {
-      this.timeSinceLastTime = Date.now() - this.lastTime;
+      this.timeElapsedBeforePause = Date.now() - this.lastTime;
       this.paused = true;
     }
   }
@@ -121,5 +115,15 @@ export abstract class Game {
 
   getCamara(): Camara {
     return this.camara;
+  }
+
+  setCamaraScaleLock(b: boolean) {
+    this.camara.lockScaling = b;
+  }
+  setCamaraMovementLock(b: boolean) {
+    this.camara.lockMovement = b;
+  }
+  setMaxRenderDistance(distance: number) {
+    this.maxRenderDistance = distance;
   }
 }

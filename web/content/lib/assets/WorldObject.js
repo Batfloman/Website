@@ -1,5 +1,4 @@
 import Collision from "../physic/algorithms/Collision.js";
-import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import Util from "../util/Util.js";
 import { SceneObject } from "./SceneObject.js";
 export class WorldObject extends SceneObject {
@@ -13,19 +12,21 @@ export class WorldObject extends SceneObject {
         this.orientation += angle;
         this.orientation %= 360;
     }
+    shouldUpdate() {
+        return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxRenderDistance;
+    }
     shouldRender() {
-        return this.checkCollision(this.game.getCamara());
+        if (Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxRenderDistance)
+            return this.checkCollision(this.game.getCamara());
+        return false;
     }
     checkCollision(other) {
         return Collision.testCollision(this, other);
-    }
-    translatePoints() {
-        return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
     }
     moveDirection(direction, distance) {
         this.pos = Util.moveDirection(this.pos, direction, distance);
     }
     move(move) {
-        this.pos.add(move);
+        this.pos = this.pos.add(move);
     }
 }

@@ -48,7 +48,7 @@ export default class Camara {
         this.hitBox.model.forEach((point) => {
             points.push(Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation));
         });
-        this.hitBox.farthest = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1 / this.scale);
+        this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1 / this.scale);
         return points;
     }
     getOffset() {

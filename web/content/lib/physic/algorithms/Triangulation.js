@@ -3,8 +3,10 @@ import Polygon2 from "../boundingBox/Polygon2.js";
 import Polygon2Helper from "./Polygon2Helper.js";
 export default class Triangulation {
     static triangulate(obj) {
+        if (!(obj.hitBox instanceof Polygon2))
+            throw new Error("other than polygon not implemented yet!");
         const vertices = obj.hitBox.model;
-        const windung = Polygon2Helper.findWindung(obj.hitBox);
+        const windung = Polygon2Helper.findWinding(obj.hitBox);
         const tirangles = [];
         const indexList = [];
         for (let i = 0; i < vertices.length; i++) {
