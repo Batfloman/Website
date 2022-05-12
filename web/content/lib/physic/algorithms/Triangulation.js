@@ -14,9 +14,9 @@ export default class Triangulation {
         }
         while (indexList.length > 3) {
             for (let i = 0; i < indexList.length; i++) {
-                const i1 = Util.getItem(indexList, i - 1);
-                const i2 = Util.getItem(indexList, i);
-                const i3 = Util.getItem(indexList, i + 1);
+                const i1 = Util.array.getItem(indexList, i - 1);
+                const i2 = Util.array.getItem(indexList, i);
+                const i3 = Util.array.getItem(indexList, i + 1);
                 const va = vertices[i1];
                 const vb = vertices[i2];
                 const vc = vertices[i3];
@@ -37,7 +37,7 @@ export default class Triangulation {
                 if (!isEar)
                     continue;
                 tirangles.push(new Triangle(obj.pos, new Polygon2([va, vb, vc]), obj.orientation));
-                Util.removeItemAtIndex(indexList, i);
+                Util.array.removeItemAtIndex(indexList, i);
                 break;
             }
         }

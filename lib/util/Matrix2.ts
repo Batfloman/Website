@@ -5,9 +5,9 @@ export default class Matrix2<T> {
 
   constructor(x: number, y: number) {
     this.cells = [];
-    for(let i = 0; i < y; i++) {
+    for (let i = 0; i < y; i++) {
       let arr = [];
-      for(let j = 0; j < x; j++) {
+      for (let j = 0; j < x; j++) {
         arr.push("[]");
       }
       this.cells.push(arr);
@@ -15,7 +15,7 @@ export default class Matrix2<T> {
   }
 
   get(x: number, y: number) {
-    return Util.getItem(Util.getItem(this.cells, x), y);
+    return Util.array.getItem(Util.array.getItem(this.cells, x), y);
   }
 
   set(x: number, y: number, content: string | T) {

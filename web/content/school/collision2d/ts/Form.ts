@@ -20,6 +20,6 @@ export default class Form extends Polygon2 {
   }
 
   private static randomDistance(normal: number, irregularity = 0): number {
-    return Util.round(Util.randomBetween(-1, 2, 5) * normal * irregularity + normal, 2);
+    return Util.math.round(Util.math.randomBetween(-1, 2, 5) * normal * irregularity + normal, 2);
   }
 }

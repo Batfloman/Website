@@ -4,6 +4,7 @@ import Circle from "../../../lib/physic/boundingBox/Circle.js";
 import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 import { Color } from "../../../lib/util/Color.js";
+import CircleCollision from "../../../lib/physic/algorithms/CircleCollision.js";
 export default class SkyBody extends WorldObject {
     constructor(pos, radius, mass, veloctiy = new Vector2()) {
         super(pos, new Circle(radius));
@@ -16,6 +17,15 @@ export default class SkyBody extends WorldObject {
         const g = this.game.getGConst();
         this.forces = new Vector2();
         let objects = this.game.findObjects(SkyBody, this);
+        objects.forEach((obj) => {
+            const collision = CircleCollision.circleCollision(this.pos, this.hitBox.farthestPoint.getMagnitude(), obj.pos, obj.hitBox.farthestPoint.getMagnitude());
+            if (collision) {
+                const bigger = this.mass > obj.mass ? this : obj;
+                const smaller = bigger == this ? obj : this;
+                bigger.mass += smaller.mass;
+                this.game.removeObject(smaller);
+            }
+        });
         objects.forEach((obj) => {
             const force = (g * this.mass * obj.mass) / Math.pow(Util.distance(this.pos, obj.pos), 2);
             const distance = obj.pos.subtract(this.pos).scale(1000);

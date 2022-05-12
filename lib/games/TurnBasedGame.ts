@@ -24,16 +24,16 @@ export abstract class TurnBasedGame extends Game {
   }
 
   randomPlayerTurn(): void {
-    this.currentPlayer = Util.getRandomItem(this.players);
+    this.currentPlayer = Util.array.getRandomItem(this.players);
   }
 
   mixPlayerOrder(): void {
     let mixedPlayer = [];
     while (this.players.length > 0) {
       mixedPlayer.push(
-        Util.removeItemAtIndex(
+        Util.array.removeItemAtIndex(
           this.players,
-          Util.randomBetween(0, this.players.length - 1)
+          Util.math.randomBetween(0, this.players.length - 1)
         )
       );
     }
@@ -43,7 +43,7 @@ export abstract class TurnBasedGame extends Game {
   nextPlayer(): void {
     if (this.currentPlayer == undefined) this.randomPlayerTurn();
     else
-      this.currentPlayer = Util.getItem(
+      this.currentPlayer = Util.array.getItem(
         this.players,
         this.players.indexOf(this.currentPlayer) + 1
       );

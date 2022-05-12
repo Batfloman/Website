@@ -11,7 +11,7 @@ export default class Matrix2 {
         }
     }
     get(x, y) {
-        return Util.getItem(Util.getItem(this.cells, x), y);
+        return Util.array.getItem(Util.array.getItem(this.cells, x), y);
     }
     set(x, y, content) {
         this.cells[y][x] = content;

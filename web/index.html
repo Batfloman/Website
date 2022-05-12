@@ -19,7 +19,11 @@
       <div class="nav-link"><a href="./pages/games.html">Games</a></div>
       <div class="nav-link"><a href="./pages/school.html">School</a></div>
     </div>
-    <div><img src="./img/settings.png" class="settings"></div>
+    <!-- <div><img src="./img/settings.png" class="settings"></div> -->
+    <div class="settings" id="settings-button"></div>
+  </div>
+  <div class="settings-popup" id="settings-popup">
+    <div class="theme" id="theme-button">Theme</div>
   </div>
   <div id="container">
     <div id="header">
@@ -28,6 +32,26 @@
 
   </div>
   <div class="footer"></div>
+
+  <script>
+    const root = document.querySelector(":root");
+    const rs = root.style;
+
+
+    let settingsActive = false;
+
+    const settings_button = document.getElementById("settings-button");
+    settings_button.onclick = () => {
+      if (settingsActive) {
+        rs.setProperty("--settings-hide-popup", "hidden");
+        rs.setProperty("--settings-rotation", "rotate(60deg)");
+      } else {
+        rs.setProperty("--settings-hide-popup", "visible");
+        rs.setProperty("--settings-rotation", "rotate(-60deg)");
+      }
+      settingsActive = !settingsActive;
+    }
+  </script>
 </body>
 
 </html>

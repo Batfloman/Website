@@ -14,9 +14,9 @@ export default class Polygon2Helper {
     let windung = Polygon2Helper.findWinding(polygon);
 
     for (let i = 0; i < polygon.model.length; i++) {
-      const a = Util.getItem(polygon.model, i - 1);
-      const b = Util.getItem(polygon.model, i);
-      const c = Util.getItem(polygon.model, i + 1);
+      const a = Util.array.getItem(polygon.model, i - 1);
+      const b = Util.array.getItem(polygon.model, i);
+      const c = Util.array.getItem(polygon.model, i + 1);
 
       const ba = a.subtract(b);
       const bc = c.subtract(b);
@@ -45,8 +45,8 @@ export default class Polygon2Helper {
   static findArea(polygon: Polygon2): number {
     let area = 0;
     for(let i = 0; i < polygon.model.length; i++) {
-      const a = Util.getItem(polygon.model, i);
-      const b = Util.getItem(polygon.model, i+1);
+      const a = Util.array.getItem(polygon.model, i);
+      const b = Util.array.getItem(polygon.model, i+1);
 
       area += a.x * b.y;
       area -= a.y * b.x;

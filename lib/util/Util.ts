@@ -1,49 +1,54 @@
 import Vector2 from "./Vector2.js";
 
 export default class Util {
-  /**
-   * Returns an Item from an array
-   */
-  static getItem<T>(arr: T[], index: number): T {
-    if (index < 0) index = arr.length - 1;
+  static array = {
+    getItem<T>(arr: T[], index: number): T {
+      if (index < 0) index = arr.length - 1;
 
-    return arr[index % arr.length];
-  }
+      return arr[index % arr.length];
+    },
 
-  static getLastItem<T>(arr: T[]): T {
-    return arr[arr.length - 1];
-  }
+    getLastItem<T>(arr: T[]): T {
+      return arr[arr.length - 1];
+    },
 
-  static getRandomItem<T>(arr: T[]): T {
-    return Util.getItem(arr, Util.randomBetween(0, arr.length - 1));
-  }
+    getRandomItem<T>(arr: T[]): T {
+      return Util.array.getItem(arr, Util.math.randomBetween(0, arr.length - 1));
+    },
 
-  static removeItemAtIndex<T>(arr: T[], index: number): T {
-    if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`);
+    removeItemAtIndex<T>(arr: T[], index: number): T {
+      if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`);
 
-    return arr.splice(index, 1)[0];
-  }
+      return arr.splice(index, 1)[0];
+    },
 
-  static removeItem<T>(arr: T[], item: T): T | null {
-    if (arr.includes(item)) {
-      return arr.splice(arr.indexOf(item), 1)[0];
+    removeItem<T>(arr: T[], item: T): T | null {
+      if (arr.includes(item)) {
+        return arr.splice(arr.indexOf(item), 1)[0];
+      }
+      return null;
+    },
+  };
+
+  static math = {
+    randomBetween(start: number, end: number, num_decimals: number = 0): number {
+      return Util.math.round(Math.random() * (end - start) + start, num_decimals);
+    },
+    round(number: number, num_decimals: number = 0): number {
+      return Math.round(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
+    },
+    toRadian(degree: number) {
+      return (degree * Math.PI) / 180;
     }
-    return null;
   }
 
-  /**
-   * Returns a random Number
-   * @param start min Number (is included)
-   * @param end max Number (is included)
-   * @param decimals decimals (default = 0)
-   */
-  static randomBetween(start: number, end: number, decimals: number = 0): number {
-    return Util.round(Math.random() * (end - start) + start, decimals);
-  }
-
-  static round(number: number, decimals: number = 0): number {
-    return Math.round(number * Math.pow(10, decimals)) / Math.pow(10, decimals);
-  }
+  static shapes = {
+    cricle: {
+      area(radius: number): number {
+        return Math.PI * Math.pow(radius, 2);
+      },
+    },
+  };
 
   /**
    * Returns the Hypothenuse of a Triangle
@@ -127,7 +132,7 @@ export default class Util {
    * @param distance amount by which the point will be moved
    */
   static moveDirection(start: Vector2, direction: number, distance: number): Vector2 {
-    const rad = Util.toRadian(direction)
+    const rad = Util.math.toRadian(direction);
     const moveX = Math.sin(rad) * distance;
     const moveY = Math.cos(rad) * distance;
 
@@ -141,20 +146,12 @@ export default class Util {
    * @param angle angle by which the point will be rotated
    */
   static rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2 {
-    const rad = Util.toRadian(angle);
+    const rad = Util.math.toRadian(angle);
     const xRotated =
       Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x;
     const yRotated =
       Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y;
 
     return new Vector2(xRotated, yRotated);
-  }
-
-  /**
-   * Retruns the @param degree measured in Radians
-   * @param degree angle measured in degree
-   */
-  static toRadian(degree: number) {
-    return (degree * Math.PI) / 180;
   }
 }

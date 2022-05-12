@@ -8,7 +8,7 @@ export default class FormObject extends ControllableObject {
         super(pos, hitBox, angle);
         this.collides = false;
         this.selected = false;
-        this.rotationSpeed = Util.randomBetween(45, 135, 2);
+        this.rotationSpeed = Util.math.randomBetween(45, 135, 2);
         this.controlles.set("w", (dt) => {
             if (!this.selected)
                 return;
@@ -68,7 +68,7 @@ export default class FormObject extends ControllableObject {
         renderer.renderCircle(this.pos, 10);
         renderer.setFillColor(Color.get("white"));
         renderer.setLineWidth(0.5);
-        renderer.renderText(this.pos, `${Util.round(this.pos.x)} | ${Util.round(this.pos.y)}`);
+        renderer.renderText(this.pos, `${Util.math.round(this.pos.x)} | ${Util.math.round(this.pos.y)}`);
     }
     translatePoints() {
         return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);

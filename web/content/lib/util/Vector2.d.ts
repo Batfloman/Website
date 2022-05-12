@@ -6,7 +6,6 @@ export default class Vector2 {
     subtract(vec2: Vector2): Vector2;
     scale(scalar: number): Vector2;
     dotProduct(vec2: Vector2): number;
-    skalarProdukt(vec2: Vector2): number;
     crossProduct(vec2: Vector2): number;
     vectorTo(point: Vector2): Vector2;
     getNormal(): Vector2;

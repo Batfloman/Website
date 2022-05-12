@@ -15,9 +15,6 @@ export default class Vector2 {
     dotProduct(vec2) {
         return this.x * vec2.x + this.y * vec2.y;
     }
-    skalarProdukt(vec2) {
-        return this.x * vec2.x + this.y * vec2.y;
-    }
     crossProduct(vec2) {
         return this.x * vec2.y - vec2.x * this.y;
     }

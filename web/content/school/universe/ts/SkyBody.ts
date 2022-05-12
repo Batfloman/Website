@@ -5,6 +5,7 @@ import Circle from "../../../lib/physic/boundingBox/Circle.js";
 import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 import { Color } from "../../../lib/util/Color.js";
+import CircleCollision from "../../../lib/physic/algorithms/CircleCollision.js";
 
 export default class SkyBody extends WorldObject<Circle> {
   mass: number;
@@ -25,21 +26,21 @@ export default class SkyBody extends WorldObject<Circle> {
 
     let objects: SkyBody[] = this.game.findObjects(SkyBody, this);
 
-    // objects.forEach((obj) => {
-    //   const collision = CircleCollision.circleCollision(
-    //     this.pos,
-    //     this.hitBox.farthestPoint.getMagnitude(),
-    //     obj.pos,
-    //     obj.hitBox.farthestPoint.getMagnitude()
-    //   );
-    //   if (collision) {
-    //     const bigger = this.mass > obj.mass ? this : obj;
-    //     const smaller = bigger == this ? obj : this;
+    objects.forEach((obj) => {
+      const collision = CircleCollision.circleCollision(
+        this.pos,
+        this.hitBox.farthestPoint.getMagnitude(),
+        obj.pos,
+        obj.hitBox.farthestPoint.getMagnitude()
+      );
+      if (collision) {
+        const bigger = this.mass > obj.mass ? this : obj;
+        const smaller = bigger == this ? obj : this;
 
-    //     bigger.mass += smaller.mass;
-    //     this.game.removeObject(smaller);
-    //   }
-    // });
+        bigger.mass += smaller.mass;
+        this.game.removeObject(smaller);
+      }
+    });
 
     objects.forEach((obj) => {
       const force = (g * this.mass * obj.mass) / Math.pow(Util.distance(this.pos, obj.pos), 2);

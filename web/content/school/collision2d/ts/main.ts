@@ -24,11 +24,11 @@ window.onload = () => {
 };
 
 function createRandomShape(): FormObject {
-  let start = new Vector2(Util.randomBetween(-5000, 5000, 2), Util.randomBetween(-5000, 5000, 2));
+  let start = new Vector2(Util.math.randomBetween(-5000, 5000, 2), Util.math.randomBetween(-5000, 5000, 2));
   let form = new Form(
-    Util.randomBetween(5, 10),
-    Util.randomBetween(25, 75, 2),
-    Util.randomBetween(0.5, 1, 2)
+    Util.math.randomBetween(5, 10),
+    Util.math.randomBetween(25, 75, 2),
+    Util.math.randomBetween(0.5, 1, 2)
   );
   form.centerModel();
   return new FormObject(start, form);

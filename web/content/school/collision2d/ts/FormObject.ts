@@ -12,7 +12,7 @@ export default class FormObject extends ControllableObject<Polygon2> {
   collides: boolean = false;
   selected: boolean = false;
 
-  rotationSpeed: number = Util.randomBetween(45, 135, 2);
+  rotationSpeed: number = Util.math.randomBetween(45, 135, 2);
 
   constructor(pos: Vector2, hitBox: Polygon2, angle?: number) {
     super(pos, hitBox, angle);
@@ -81,7 +81,7 @@ export default class FormObject extends ControllableObject<Polygon2> {
 
     renderer.setFillColor(Color.get("white"));
     renderer.setLineWidth(0.5);
-    renderer.renderText(this.pos, `${Util.round(this.pos.x)} | ${Util.round(this.pos.y)}`);
+    renderer.renderText(this.pos, `${Util.math.round(this.pos.x)} | ${Util.math.round(this.pos.y)}`);
   }
 
   translatePoints(): Vector2[] {

@@ -14,9 +14,9 @@ window.onload = () => {
   universe.setCamaraScaleLock(false);
   universe.setMaxRenderDistance(maxDistance);
 
-  // for (let i = 0; i < 500; i++) {
-  //   universe.addObject(createSkyBody());
-  // }
+  for (let i = 0; i < 500; i++) {
+    universe.addObject(createSkyBody());
+  }
 
   // universe.addObject(new SkyBody(new Vector2(), 500, 10000));
   // universe.addObject(new SkyBody(new Vector2(1500, 0), 100, 500, new Vector2(0, 15)));
@@ -26,15 +26,15 @@ window.onload = () => {
 
   universe.start();
 
-  // setInterval(() => {
-  //   (universe.findObjects(SkyBody) as SkyBody[]).forEach((obj) => {
-  //     if (Util.distance(universe.getCamara().pos, obj.pos) > universe.maxRenderDistance)
-  //       universe.removeObject(obj);
-  //   });
-  //   for (let i = 0; i < 125; i++) {
-  //     universe.addObject(createSkyBody());
-  //   }
-  // }, 5000);
+  setInterval(() => {
+    (universe.findObjects(SkyBody) as SkyBody[]).forEach((obj) => {
+      if (Util.distance(universe.getCamara().pos, obj.pos) > universe.maxRenderDistance)
+        universe.removeObject(obj);
+    });
+    for (let i = 0; i < 125; i++) {
+      universe.addObject(createSkyBody());
+    }
+  }, 5000);
 };
 
 function createSkyBody() {

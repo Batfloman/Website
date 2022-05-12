@@ -137,7 +137,7 @@ export default class Input {
     if(!key) return;
 
     if (this.pressedKeys.includes(key)) {
-      Util.removeItem(this.pressedKeys, key);
+      Util.array.removeItem(this.pressedKeys, key);
     }
   }
 

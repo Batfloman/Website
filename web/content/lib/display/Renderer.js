@@ -80,8 +80,8 @@ export default class Renderer {
     connectPoints(points) {
         this.updateValues();
         for (let i = 0; i < points.length; i++) {
-            let last = this.calcPosOnScreen(Util.getItem(points, i - 1));
-            let current = this.calcPosOnScreen(Util.getItem(points, i));
+            let last = this.calcPosOnScreen(Util.array.getItem(points, i - 1));
+            let current = this.calcPosOnScreen(Util.array.getItem(points, i));
             this.ctx.beginPath();
             this.ctx.moveTo(last.x, last.y);
             this.ctx.lineTo(current.x, current.y);

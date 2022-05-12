@@ -96,7 +96,7 @@ export default class Renderer {
     this.ctx.beginPath();
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
-    this.ctx.font = "20px Arial"
+    this.ctx.font = "20px Arial";
     this.ctx.fillText(text, pos.x, pos.y);
     this.ctx.stroke();
   }
@@ -116,8 +116,8 @@ export default class Renderer {
     this.updateValues();
 
     for (let i = 0; i < points.length; i++) {
-      let last = this.calcPosOnScreen(Util.getItem(points, i - 1));
-      let current = this.calcPosOnScreen(Util.getItem(points, i));
+      let last = this.calcPosOnScreen(Util.array.getItem(points, i - 1));
+      let current = this.calcPosOnScreen(Util.array.getItem(points, i));
 
       this.ctx.beginPath();
       this.ctx.moveTo(last.x, last.y);
