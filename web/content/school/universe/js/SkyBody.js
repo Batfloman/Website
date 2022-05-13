@@ -11,7 +11,7 @@ export default class SkyBody extends WorldObject {
         this.mass = mass;
         this.velocity = veloctiy;
     }
-    update(dt) {
+    update2(dt) {
         if (!(this.game instanceof Universe))
             return;
         const g = this.game.getGConst();

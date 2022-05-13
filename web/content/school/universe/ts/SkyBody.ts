@@ -18,7 +18,7 @@ export default class SkyBody extends WorldObject<Circle> {
     this.velocity = veloctiy;
   }
 
-  update(dt: number): void {
+  update2(dt: number): void {
     if (!(this.game instanceof Universe)) return;
 
     const g = (this.game as Universe).getGConst();
