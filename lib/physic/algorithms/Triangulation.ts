@@ -6,7 +6,8 @@ import Polygon2Helper from "./Polygon2Helper.js";
 
 export default class Triangulation {
   static triangulate(obj: ICollideable): ICollideable[] {
-    if(!(obj.hitBox instanceof Polygon2)) throw new Error("other than polygon not implemented yet!");
+    if (!(obj.hitBox instanceof Polygon2))
+      throw new Error("other than polygon not implemented yet!");
 
     const vertices = obj.hitBox.model;
     const windung = Polygon2Helper.findWinding(obj.hitBox);
@@ -50,13 +51,7 @@ export default class Triangulation {
 
         if (!isEar) continue;
 
-        tirangles.push(
-          new Triangle(
-            obj.pos,
-            new Polygon2([va, vb, vc]),
-            obj.orientation
-          )
-        );
+        tirangles.push(new Triangle(obj.pos, new Polygon2([va, vb, vc]), obj.orientation));
 
         Util.array.removeItemAtIndex(indexList, i);
         break;
@@ -65,11 +60,7 @@ export default class Triangulation {
     tirangles.push(
       new Triangle(
         obj.pos,
-        new Polygon2([
-          vertices[indexList[0]],
-          vertices[indexList[1]],
-          vertices[indexList[2]],
-        ]),
+        new Polygon2([vertices[indexList[0]], vertices[indexList[1]], vertices[indexList[2]]]),
         obj.orientation
       )
     );
@@ -101,8 +92,8 @@ class Triangle implements ICollideable {
   hitBox: Polygon2;
   orientation: number;
 
-  // unused!
   translatedPoints!: Vector2[];
+  alreadyTranslated: boolean = false;
 
   constructor(pos: Vector2, hitBox: Polygon2, angle: number = 0) {
     this.pos = pos;
@@ -115,6 +106,14 @@ class Triangle implements ICollideable {
     throw new Error("Method not implemented.");
   }
   translatePoints(): Vector2[] {
-    return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
+    if (!this.alreadyTranslated) {
+      this.translatedPoints = Polygon2Helper.translatePoints(
+        this.hitBox.model,
+        this.pos,
+        this.orientation
+      );
+      this.alreadyTranslated = true;
+    }
+    return this.translatedPoints;
   }
 }

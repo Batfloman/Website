@@ -8,6 +8,7 @@ export declare abstract class WorldObject<HitBoxType extends HitBox> extends Sce
     hitBox: HitBoxType;
     orientation: number;
     translatedPoints: Vector2[];
+    alreadyTranslated: boolean;
     constructor(pos: Vector2, hitBox: HitBoxType, angle?: number);
     update(dt: number): void;
     abstract update2(dt: number): void;

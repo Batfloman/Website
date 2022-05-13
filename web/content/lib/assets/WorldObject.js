@@ -4,16 +4,20 @@ import { SceneObject } from "./SceneObject.js";
 export class WorldObject extends SceneObject {
     constructor(pos, hitBox, angle = 0) {
         super();
+        this.alreadyTranslated = false;
         this.pos = pos;
         this.hitBox = hitBox;
         this.orientation = angle;
     }
     update(dt) {
-        this.translatedPoints = this.translatePoints();
+        this.alreadyTranslated = false;
         this.update2(dt);
     }
     translatePoints() {
-        return this.hitBox.translatePoints(this.pos, this.orientation);
+        if (!this.alreadyTranslated) {
+            this.translatedPoints = this.hitBox.translatePoints(this.pos, this.orientation);
+        }
+        return this.translatedPoints;
     }
     shouldUpdate() {
         return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;

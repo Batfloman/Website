@@ -14,6 +14,7 @@ export abstract class WorldObject<HitBoxType extends HitBox>
   hitBox: HitBoxType;
   orientation: number;
   translatedPoints!: Vector2[];
+  alreadyTranslated: boolean = false;
 
   constructor(pos: Vector2, hitBox: HitBoxType, angle = 0) {
     super();
@@ -24,14 +25,17 @@ export abstract class WorldObject<HitBoxType extends HitBox>
   }
 
   update(dt: number): void {
-    this.translatedPoints = this.translatePoints();
+    this.alreadyTranslated = false;
     this.update2(dt);
   }
 
   abstract update2(dt: number): void;
 
   translatePoints(): Vector2[] {
-    return this.hitBox.translatePoints(this.pos, this.orientation);
+    if (!this.alreadyTranslated) {
+      this.translatedPoints = this.hitBox.translatePoints(this.pos, this.orientation);
+    }
+    return this.translatedPoints;
   }
 
   shouldUpdate(): boolean {

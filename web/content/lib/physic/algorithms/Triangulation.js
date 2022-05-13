@@ -41,11 +41,7 @@ export default class Triangulation {
                 break;
             }
         }
-        tirangles.push(new Triangle(obj.pos, new Polygon2([
-            vertices[indexList[0]],
-            vertices[indexList[1]],
-            vertices[indexList[2]],
-        ]), obj.orientation));
+        tirangles.push(new Triangle(obj.pos, new Polygon2([vertices[indexList[0]], vertices[indexList[1]], vertices[indexList[2]]]), obj.orientation));
         return tirangles;
     }
     static isPointInTriangle(p, a, b, c) {
@@ -65,6 +61,7 @@ export default class Triangulation {
 }
 class Triangle {
     constructor(pos, hitBox, angle = 0) {
+        this.alreadyTranslated = false;
         this.pos = pos;
         this.hitBox = hitBox;
         this.orientation = angle;
@@ -73,6 +70,10 @@ class Triangle {
         throw new Error("Method not implemented.");
     }
     translatePoints() {
-        return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
+        if (!this.alreadyTranslated) {
+            this.translatedPoints = Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);
+            this.alreadyTranslated = true;
+        }
+        return this.translatedPoints;
     }
 }

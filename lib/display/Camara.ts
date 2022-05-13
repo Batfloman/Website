@@ -19,6 +19,7 @@ export default class Camara implements ICollideable, IMoveable {
   hitBox: Polygon2;
   orientation: number;
   translatedPoints!: Vector2[];
+  alreadyTranslated: boolean = false;
 
   lockScaling: boolean = true;
   lockMovement: boolean = true;
@@ -27,10 +28,7 @@ export default class Camara implements ICollideable, IMoveable {
     this.canvas = canvas;
     this.pos = !pos ? new Vector2() : pos;
 
-    this.hitBox = new Rectangel(
-      this.canvas.htmlCanvas.width,
-      this.canvas.htmlCanvas.height
-    );
+    this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
     this.orientation = 0;
 
     Input.newEventListener("wheel", this, (event: WheelEvent) => {
@@ -39,6 +37,8 @@ export default class Camara implements ICollideable, IMoveable {
 
       if (event.deltaY < 0) this.scale *= 1.15;
       else if (event.deltaY > 0) this.scale *= 1 / 1.15;
+
+      this.alreadyTranslated = false;
     });
     Input.newEventListener("mousemove", this, (event: MouseEvent) => {
       if (this.lockMovement) return;
@@ -47,6 +47,7 @@ export default class Camara implements ICollideable, IMoveable {
       if (Input.isLeftClick()) {
         this.pos.x -= event.movementX / this.scale;
         this.pos.y += event.movementY / this.scale;
+        this.alreadyTranslated = false;
       }
     });
   }
@@ -60,24 +61,25 @@ export default class Camara implements ICollideable, IMoveable {
     return Collision.testCollision(this, other);
   }
   translatePoints(): Vector2[] {
-    let points: Vector2[] = [];
-    this.hitBox.model.forEach((point) => {
-      points.push(
-        Polygon2Helper.translatePoint(
-          point.scale(1/this.scale),
-          this.pos,
-          this.orientation
-        )
+    if (!this.alreadyTranslated) {
+      this.translatedPoints = [];
+      this.hitBox.model.forEach((point) => {
+        this.translatedPoints.push(
+          Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation)
+        );
+      });
+      this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(
+        1 / this.scale
       );
-    });
-    this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1/this.scale);
-    return points;
+      this.alreadyTranslated = true;
+    }
+    return this.translatedPoints;
   }
 
   /**
    * Returns the Vector from the top left corner to the center
    */
   getOffset(): Vector2 {
-    return new Vector2(this.canvas.width / 2, this.canvas.height / 2)
+    return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
   }
 }

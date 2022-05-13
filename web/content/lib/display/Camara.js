@@ -7,6 +7,7 @@ import Vector2 from "../util/Vector2.js";
 export default class Camara {
     constructor(canvas, pos) {
         this.scale = 1;
+        this.alreadyTranslated = false;
         this.lockScaling = true;
         this.lockMovement = true;
         this.canvas = canvas;
@@ -22,6 +23,7 @@ export default class Camara {
                 this.scale *= 1.15;
             else if (event.deltaY > 0)
                 this.scale *= 1 / 1.15;
+            this.alreadyTranslated = false;
         });
         Input.newEventListener("mousemove", this, (event) => {
             if (this.lockMovement)
@@ -31,6 +33,7 @@ export default class Camara {
             if (Input.isLeftClick()) {
                 this.pos.x -= event.movementX / this.scale;
                 this.pos.y += event.movementY / this.scale;
+                this.alreadyTranslated = false;
             }
         });
     }
@@ -44,12 +47,15 @@ export default class Camara {
         return Collision.testCollision(this, other);
     }
     translatePoints() {
-        let points = [];
-        this.hitBox.model.forEach((point) => {
-            points.push(Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation));
-        });
-        this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1 / this.scale);
-        return points;
+        if (!this.alreadyTranslated) {
+            this.translatedPoints = [];
+            this.hitBox.model.forEach((point) => {
+                this.translatedPoints.push(Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation));
+            });
+            this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1 / this.scale);
+            this.alreadyTranslated = true;
+        }
+        return this.translatedPoints;
     }
     getOffset() {
         return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
