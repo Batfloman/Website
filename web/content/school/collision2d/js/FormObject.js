@@ -8,7 +8,7 @@ export default class FormObject extends ControllableObject {
         super(pos, hitBox, angle);
         this.collides = false;
         this.selected = false;
-        this.rotationSpeed = Util.math.randomBetween(45, 135, 2);
+        this.rotationSpeed = Util.math.randomBetween(45, 135);
         this.controlles.set("w", (dt) => {
             if (!this.selected)
                 return;
@@ -40,8 +40,7 @@ export default class FormObject extends ControllableObject {
             this.rotate(this.calc_valueChangeForDT(-90, dt));
         });
     }
-    update(dt) {
-        super.update(dt);
+    update2(dt) {
         this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
         let objects = this.game.findObjects(FormObject, this);
         for (let obj of objects) {
@@ -66,9 +65,6 @@ export default class FormObject extends ControllableObject {
         renderer.setStrokeColor(Color.get("black"));
         renderer.setFillColor(this.selected ? Color.get("black") : Color.none);
         renderer.renderCircle(this.pos, 10);
-        renderer.setFillColor(Color.get("white"));
-        renderer.setLineWidth(0.5);
-        renderer.renderText(this.pos, `${Util.math.round(this.pos.x)} | ${Util.math.round(this.pos.y)}`);
     }
     translatePoints() {
         return Polygon2Helper.translatePoints(this.hitBox.model, this.pos, this.orientation);

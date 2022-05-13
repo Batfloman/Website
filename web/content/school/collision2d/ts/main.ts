@@ -4,9 +4,6 @@ import System from "./System.js";
 import Util from "../../../lib/util/Util.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import Form from "./Form.js";
-import Rectangle from "../../../lib/physic/boundingBox/Rectangel.js";
-import Polygon2 from "../../../lib/physic/boundingBox/Polygon2.js";
-import Polygon2Helper from "../../../lib/physic/algorithms/Polygon2Helper.js";
 
 window.onload = () => {
   let s = new System(new Canvas(document.querySelector("canvas")));
@@ -15,7 +12,7 @@ window.onload = () => {
   s.setCamaraScaleLock(false);
   s.setMaxUpdateDistance(10000);
 
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 1000; i++) {
     s.addObject(createRandomShape());
   }
 
@@ -59,10 +56,10 @@ function createRandomShape(): FormObject {
     Util.math.randomBetween(-5000, 5000, 2)
   );
   let form = new Form(
-    Util.math.randomBetween(5, 10),
+    Util.math.randomBetween(4, 15),
     Util.math.randomBetween(25, 75, 2),
-    Util.math.randomBetween(0.5, 1, 2)
+    Util.math.randomBetween(1, 1, 2)
   );
   form.centerModel();
-  return new FormObject(start, form);
+  return new FormObject(start, form, Util.math.randomBetween(0, 360));
 }

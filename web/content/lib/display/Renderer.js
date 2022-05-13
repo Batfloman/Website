@@ -9,19 +9,16 @@ export default class Renderer {
         this.lineWidth = 1;
         this.canvas = canvas;
         this.camara = camara;
+        let ctx = this.canvas.htmlCanvas.getContext("2d");
+        this.ctx = !ctx ? new CanvasRenderingContext2D() : ctx;
         this.updateValues();
     }
     updateValues() {
-        this.ctx = this.updateCtx();
         this.offSet = this.camara.getOffset();
         this.scale = this.camara.scale;
         this.ctx.strokeStyle = this.strokeColor.getRGBString();
         this.ctx.fillStyle = this.fillColor.getRGBString();
         this.ctx.lineWidth = this.lineWidth * this.camara.scale;
-    }
-    updateCtx() {
-        let ctx = this.canvas.htmlCanvas.getContext("2d");
-        return !ctx ? new CanvasRenderingContext2D() : ctx;
     }
     clear() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -49,8 +46,6 @@ export default class Renderer {
     renderPoints(points, radius) {
         this.updateValues();
         radius *= this.scale;
-        if (radius < 0.5)
-            radius = 0.5;
         points.forEach((point) => {
             let pos = this.calcPosOnScreen(point);
             this.ctx.beginPath();
@@ -79,9 +74,13 @@ export default class Renderer {
     }
     connectPoints(points) {
         this.updateValues();
+        const positions = [];
+        for (let point of points) {
+            positions.push(this.calcPosOnScreen(point));
+        }
         for (let i = 0; i < points.length; i++) {
-            let last = this.calcPosOnScreen(Util.array.getItem(points, i - 1));
-            let current = this.calcPosOnScreen(Util.array.getItem(points, i));
+            let last = Util.array.getItem(positions, i - 1);
+            let current = Util.array.getItem(positions, i);
             this.ctx.beginPath();
             this.ctx.moveTo(last.x, last.y);
             this.ctx.lineTo(current.x, current.y);
@@ -99,7 +98,6 @@ export default class Renderer {
             this.renderPoints(translated, 1);
     }
     calcPosOnScreen(worldPos) {
-        this.updateValues();
         let distance = worldPos.subtract(this.camara.pos).scale(this.scale);
         let pos = new Vector2(distance.x + this.offSet.x, -distance.y + this.offSet.y);
         return pos;

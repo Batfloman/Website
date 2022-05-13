@@ -36,6 +36,10 @@ export default class Camara {
                 this.alreadyTranslated = false;
             }
         });
+        Input.newEventListener("resize", this, () => {
+            this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
+            this.alreadyTranslated = false;
+        });
     }
     moveDirection(direction, distance) {
         this.pos = Util.moveDirection(this.pos, direction, distance);

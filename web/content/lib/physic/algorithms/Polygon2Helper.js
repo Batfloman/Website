@@ -3,14 +3,14 @@ export default class Polygon2Helper {
     static testConvex(polygon) {
         if (polygon.model.length <= 3)
             return true;
-        const windung = Polygon2Helper.findWinding(polygon);
+        const winding = Polygon2Helper.findWinding(polygon);
         for (let i = 0; i < polygon.model.length; i++) {
             const a = Util.array.getItem(polygon.model, i - 1);
             const b = Util.array.getItem(polygon.model, i);
             const c = Util.array.getItem(polygon.model, i + 1);
             const ba = a.subtract(b);
             const bc = c.subtract(b);
-            if (!Polygon2Helper.isConvex(windung, ba.crossProduct(bc)))
+            if (!Polygon2Helper.isConvex(winding, ba.crossProduct(bc)))
                 return false;
         }
         return true;

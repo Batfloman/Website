@@ -14,7 +14,6 @@ export default class Renderer {
     scale: number;
     constructor(canvas: Canvas, camara: Camara);
     private updateValues;
-    private updateCtx;
     clear(): void;
     renderGrid(worldPos: Vector2, xSize: number, ySize: number, cellXSize: number, cellYSize: number): void;
     renderPoints(points: Vector2[], radius: number): void;

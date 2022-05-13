@@ -12,7 +12,7 @@ export default class FormObject extends ControllableObject<Polygon2> {
   collides: boolean = false;
   selected: boolean = false;
 
-  rotationSpeed: number = Util.math.randomBetween(45, 135, 2);
+  rotationSpeed: number = Util.math.randomBetween(45, 135);
 
   constructor(pos: Vector2, hitBox: Polygon2, angle?: number) {
     super(pos, hitBox, angle);
@@ -49,11 +49,10 @@ export default class FormObject extends ControllableObject<Polygon2> {
     });
   }
 
-  update(dt: number): void {
-    super.update(dt);
+  update2(dt: number): void {
     this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
 
-    let objects = this.game.findObjects(FormObject, this) as Array<ControllableObject<Polygon2>>;
+    let objects = this.game.findObjects(FormObject, this) as Array<FormObject>;
 
     for (let obj of objects) {
       this.collides = this.checkCollision(obj);
@@ -79,9 +78,9 @@ export default class FormObject extends ControllableObject<Polygon2> {
     renderer.setFillColor(this.selected ? Color.get("black") : Color.none);
     renderer.renderCircle(this.pos, 10);
 
-    renderer.setFillColor(Color.get("white"));
-    renderer.setLineWidth(0.5);
-    renderer.renderText(this.pos, `${Util.math.round(this.pos.x)} | ${Util.math.round(this.pos.y)}`);
+    // renderer.setFillColor(Color.get("white"));
+    // renderer.setLineWidth(0.5);
+    // renderer.renderText(this.pos, `${Util.math.round(this.pos.x)} | ${Util.math.round(this.pos.y)}`);
   }
 
   translatePoints(): Vector2[] {

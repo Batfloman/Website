@@ -50,6 +50,10 @@ export default class Camara implements ICollideable, IMoveable {
         this.alreadyTranslated = false;
       }
     });
+    Input.newEventListener("resize", this, () => {
+      this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
+      this.alreadyTranslated = false;
+    });
   }
   moveDirection(direction: number, distance: number): void {
     this.pos = Util.moveDirection(this.pos, direction, distance);

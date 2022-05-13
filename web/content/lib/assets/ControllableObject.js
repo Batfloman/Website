@@ -11,5 +11,6 @@ export class ControllableObject extends WorldObject {
                 value.call(this, dt);
             }
         });
+        this.update2(dt);
     }
 }

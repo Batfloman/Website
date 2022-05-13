@@ -22,21 +22,17 @@ export default class Renderer {
     this.canvas = canvas;
     this.camara = camara;
 
+    let ctx = this.canvas.htmlCanvas.getContext("2d");
+    this.ctx = !ctx ? new CanvasRenderingContext2D() : ctx;
     this.updateValues();
   }
 
   private updateValues() {
-    this.ctx = this.updateCtx();
     this.offSet = this.camara.getOffset();
     this.scale = this.camara.scale;
     this.ctx.strokeStyle = this.strokeColor.getRGBString();
     this.ctx.fillStyle = this.fillColor.getRGBString();
     this.ctx.lineWidth = this.lineWidth * this.camara.scale;
-  }
-
-  private updateCtx(): CanvasRenderingContext2D {
-    let ctx = this.canvas.htmlCanvas.getContext("2d");
-    return !ctx ? new CanvasRenderingContext2D() : ctx;
   }
 
   clear() {
@@ -77,7 +73,6 @@ export default class Renderer {
     this.updateValues();
 
     radius *= this.scale;
-    if (radius < 0.5) radius = 0.5;
 
     points.forEach((point) => {
       let pos = this.calcPosOnScreen(point);
@@ -115,9 +110,14 @@ export default class Renderer {
   connectPoints(points: Vector2[]) {
     this.updateValues();
 
+    const positions: Vector2[] = []
+    for(let point of points) {
+      positions.push(this.calcPosOnScreen(point));
+    }
+
     for (let i = 0; i < points.length; i++) {
-      let last = this.calcPosOnScreen(Util.array.getItem(points, i - 1));
-      let current = this.calcPosOnScreen(Util.array.getItem(points, i));
+      let last = Util.array.getItem(positions, i - 1);
+      let current = Util.array.getItem(positions, i);
 
       this.ctx.beginPath();
       this.ctx.moveTo(last.x, last.y);
@@ -144,8 +144,6 @@ export default class Renderer {
   }
 
   private calcPosOnScreen(worldPos: Vector2): Vector2 {
-    this.updateValues();
-
     let distance = worldPos.subtract(this.camara.pos).scale(this.scale);
 
     let pos = new Vector2(distance.x + this.offSet.x, -distance.y + this.offSet.y);

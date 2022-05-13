@@ -12,5 +12,6 @@ export abstract class ControllableObject<HitBoxType extends HitBox> extends Worl
         value.call(this, dt);
       }
     });
+    this.update2(dt);
   }
 }
