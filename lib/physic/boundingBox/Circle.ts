@@ -11,4 +11,14 @@ export default class Circle extends HitBox {
     this.isConvex = true;
     this.farthestPoint = Util.moveDirection(new Vector2(), 0, radius);
   }
+
+  // ==========================================================================================
+  // from Super classes
+
+  translatePoints(pos: Vector2, orientation: number): Vector2[] {
+    throw new Error("HOW TF DO I TRANSLATE A CIRCLE??????");
+  }
+  scale(scalar: number): void {
+    this.radius *= scalar;
+  }
 }

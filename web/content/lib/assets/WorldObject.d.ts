@@ -7,12 +7,15 @@ export declare abstract class WorldObject<HitBoxType extends HitBox> extends Sce
     pos: Vector2;
     hitBox: HitBoxType;
     orientation: number;
+    translatedPoints: Vector2[];
     constructor(pos: Vector2, hitBox: HitBoxType, angle?: number);
-    rotate(angle: number): void;
+    update(dt: number): void;
+    abstract update2(dt: number): void;
+    translatePoints(): Vector2[];
     shouldUpdate(): boolean;
     shouldRender(): boolean;
     checkCollision(other: ICollideable): boolean;
-    abstract translatePoints(): Vector2[];
+    rotate(angle: number): void;
     moveDirection(direction: number, distance: number): void;
     move(move: Vector2): void;
 }

@@ -8,4 +8,10 @@ export default class Circle extends HitBox {
         this.isConvex = true;
         this.farthestPoint = Util.moveDirection(new Vector2(), 0, radius);
     }
+    translatePoints(pos, orientation) {
+        throw new Error("HOW TF DO I TRANSLATE A CIRCLE??????");
+    }
+    scale(scalar) {
+        this.radius *= scalar;
+    }
 }

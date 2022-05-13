@@ -11,9 +11,6 @@ export class TurnBasedGame extends Game {
         this.players.push(player);
         player.init(this);
     }
-    tick() {
-        super.tick();
-    }
     randomPlayerTurn() {
         this.currentPlayer = Util.array.getRandomItem(this.players);
     }

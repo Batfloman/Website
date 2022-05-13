@@ -7,15 +7,15 @@ export default class Vector2 {
     this.y = !y ? 0 : y;
   }
 
-  add(vec2: Vector2) {
+  add(vec2: Vector2): Vector2 {
     return new Vector2(this.x + vec2.x, this.y + vec2.y);
   }
 
-  subtract(vec2: Vector2) {
+  subtract(vec2: Vector2): Vector2 {
     return new Vector2(this.x - vec2.x, this.y - vec2.y);
   }
 
-  scale(scalar: number) {
+  scale(scalar: number): Vector2 {
     return new Vector2(this.x * scalar, this.y * scalar);
   }
 

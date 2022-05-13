@@ -1,8 +1,7 @@
 import Input from "../input/Input.js";
 export default class Canvas {
     constructor(htmlCanvas) {
-        this.htmlCanvas =
-            htmlCanvas == null ? document.createElement("canvas") : htmlCanvas;
+        this.htmlCanvas = htmlCanvas == null ? document.createElement("canvas") : htmlCanvas;
         Input.newEventListener("resize", this, this.updateSize);
         this.updateSize();
     }

@@ -1,4 +1,5 @@
 import Input from "../input/Input.js";
+import Collision from "../physic/algorithms/Collision.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import SAT from "../physic/algorithms/SAT.js";
 import Polygon2 from "../physic/boundingBox/Polygon2.js";
@@ -17,6 +18,7 @@ export default class Camara implements ICollideable, IMoveable {
 
   hitBox: Polygon2;
   orientation: number;
+  translatedPoints!: Vector2[];
 
   lockScaling: boolean = true;
   lockMovement: boolean = true;
@@ -55,7 +57,7 @@ export default class Camara implements ICollideable, IMoveable {
     this.pos = this.pos.add(move);
   }
   checkCollision(other: ICollideable): boolean {
-    return SAT.testCollision(this, other);
+    return Collision.testCollision(this, other);
   }
   translatePoints(): Vector2[] {
     let points: Vector2[] = [];

@@ -1,6 +1,6 @@
 import Input from "../input/Input.js";
+import Collision from "../physic/algorithms/Collision.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
-import SAT from "../physic/algorithms/SAT.js";
 import Rectangel from "../physic/boundingBox/Rectangel.js";
 import Util from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
@@ -41,7 +41,7 @@ export default class Camara {
         this.pos = this.pos.add(move);
     }
     checkCollision(other) {
-        return SAT.testCollision(this, other);
+        return Collision.testCollision(this, other);
     }
     translatePoints() {
         let points = [];

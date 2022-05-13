@@ -13,18 +13,51 @@ window.onload = () => {
 
   s.setCamaraMovementLock(false);
   s.setCamaraScaleLock(false);
-  s.setMaxRenderDistance(2000);
+  s.setMaxUpdateDistance(2000);
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 500; i++) {
     s.addObject(createRandomShape());
   }
+
+  // let form = new FormObject(
+  //   new Vector2(-100, 0),
+  //   new Polygon2([
+  //     new Vector2(0, 100),
+  //     new Vector2(200, 120),
+  //     new Vector2(10, 0),
+  //     new Vector2(200, -120),
+  //     new Vector2(0, -100),
+  //     new Vector2(-100, 0),
+  //   ]),
+  //   0
+  // );
+  // form.rotationSpeed = 0;
+  // s.addObject(form);
+
+  // let form2 = new FormObject(
+  //   new Vector2(100, 0),
+  //   new Polygon2([
+  //     new Vector2(0, 100),
+  //     new Vector2(200, 120),
+  //     new Vector2(10, 0),
+  //     new Vector2(200, -120),
+  //     new Vector2(0, -100),
+  //     new Vector2(-100, 0),
+  //   ])
+  // )
+  // form2.selected = true;
+  // form2.rotationSpeed = 0;
+  // s.addObject(form2);
 
   s.start();
   // s.tick ();
 };
 
 function createRandomShape(): FormObject {
-  let start = new Vector2(Util.math.randomBetween(-5000, 5000, 2), Util.math.randomBetween(-5000, 5000, 2));
+  let start = new Vector2(
+    Util.math.randomBetween(-5000, 5000, 2),
+    Util.math.randomBetween(-5000, 5000, 2)
+  );
   let form = new Form(
     Util.math.randomBetween(5, 10),
     Util.math.randomBetween(25, 75, 2),

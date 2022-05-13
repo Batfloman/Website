@@ -49,15 +49,15 @@ export default class Triangulation {
         return tirangles;
     }
     static isPointInTriangle(p, a, b, c) {
-        let ab = b.subtract(a);
-        let bc = c.subtract(b);
-        let ca = a.subtract(c);
-        let ap = p.subtract(a);
-        let bp = p.subtract(b);
-        let cp = p.subtract(c);
-        let cross1 = ab.crossProduct(ap);
-        let cross2 = bc.crossProduct(bp);
-        let cross3 = ca.crossProduct(cp);
+        const ab = b.subtract(a);
+        const bc = c.subtract(b);
+        const ca = a.subtract(c);
+        const ap = p.subtract(a);
+        const bp = p.subtract(b);
+        const cp = p.subtract(c);
+        const cross1 = ab.crossProduct(ap);
+        const cross2 = bc.crossProduct(bp);
+        const cross3 = ca.crossProduct(cp);
         if (cross1 < 0 || cross2 < 0 || cross3 < 0)
             return false;
         return true;

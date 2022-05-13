@@ -4,7 +4,7 @@ import Polygon2Helper from "../algorithms/Polygon2Helper.js";
 import { HitBox } from "./HitBox.js";
 
 export default class Polygon2 extends HitBox {
-  // points relative to a 0, 0 center with 0° rotation
+  // points relative to a (0|0) center with 0° rotation
   model: Vector2[] = new Array();
 
   constructor(model: Vector2[]) {
@@ -12,7 +12,6 @@ export default class Polygon2 extends HitBox {
 
     this.model = model;
     this.farthestPoint = Util.farthestPoint(new Vector2(), this.model);
-
     this.isConvex = Polygon2Helper.testConvex(this);
   }
 
@@ -20,22 +19,32 @@ export default class Polygon2 extends HitBox {
    * offsets all Points to match the "real" center
    */
   centerModel(): void {
-    let realCenter = this.findCenter();
-    this.model.forEach(point => {
-      point.x -= Math.round(realCenter.x*100) / 100;
-      point.y -= Math.round(realCenter.y*100) / 100;
-    })
+    const realCenter = this.findCenter();
+    this.model.forEach((point) => {
+      point.x -= Math.round(realCenter.x * 100) / 100;
+      point.y -= Math.round(realCenter.y * 100) / 100;
+    });
   }
 
   findCenter(): Vector2 {
-    let center = new Vector2(0, 0);
+    let center = new Vector2();
 
-    this.model.forEach(point => {
+    this.model.forEach((point) => {
       center = center.add(point);
+    });
+
+    return center.scale(1 / this.model.length);
+  }
+
+  // ==========================================================================================
+  // from Super classes
+
+  translatePoints(pos: Vector2, orientation: number): Vector2[] {
+    return Polygon2Helper.translatePoints(this.model, pos, orientation);
+  }
+  scale(scalar: number): void {
+    this.model.forEach(point => {
+      point = point.scale(scalar);
     })
-
-    let realCenter = center.scale(1 / this.model.length);
-
-    return realCenter;
   }
 }

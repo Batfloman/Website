@@ -78,27 +78,31 @@ export default class Triangulation {
   }
 
   private static isPointInTriangle(p: Vector2, a: Vector2, b: Vector2, c: Vector2): boolean {
-    let ab = b.subtract(a);
-    let bc = c.subtract(b);
-    let ca = a.subtract(c);
+    const ab = b.subtract(a);
+    const bc = c.subtract(b);
+    const ca = a.subtract(c);
 
-    let ap = p.subtract(a);
-    let bp = p.subtract(b);
-    let cp = p.subtract(c);
+    const ap = p.subtract(a);
+    const bp = p.subtract(b);
+    const cp = p.subtract(c);
 
-    let cross1 = ab.crossProduct(ap);
-    let cross2 = bc.crossProduct(bp);
-    let cross3 = ca.crossProduct(cp);
+    const cross1 = ab.crossProduct(ap);
+    const cross2 = bc.crossProduct(bp);
+    const cross3 = ca.crossProduct(cp);
 
     if (cross1 < 0 || cross2 < 0 || cross3 < 0) return false;
     return true;
   }
 }
 
+// simple ICollideable Object to store;
 class Triangle implements ICollideable {
   pos: Vector2;
   hitBox: Polygon2;
   orientation: number;
+
+  // unused!
+  translatedPoints!: Vector2[];
 
   constructor(pos: Vector2, hitBox: Polygon2, angle: number = 0) {
     this.pos = pos;
@@ -106,6 +110,7 @@ class Triangle implements ICollideable {
     this.orientation = angle;
   }
 
+  // unused!
   checkCollision(other: ICollideable): boolean {
     throw new Error("Method not implemented.");
   }

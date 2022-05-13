@@ -11,18 +11,25 @@ export default class Polygon2 extends HitBox {
         this.isConvex = Polygon2Helper.testConvex(this);
     }
     centerModel() {
-        let realCenter = this.findCenter();
-        this.model.forEach(point => {
+        const realCenter = this.findCenter();
+        this.model.forEach((point) => {
             point.x -= Math.round(realCenter.x * 100) / 100;
             point.y -= Math.round(realCenter.y * 100) / 100;
         });
     }
     findCenter() {
-        let center = new Vector2(0, 0);
-        this.model.forEach(point => {
+        let center = new Vector2();
+        this.model.forEach((point) => {
             center = center.add(point);
         });
-        let realCenter = center.scale(1 / this.model.length);
-        return realCenter;
+        return center.scale(1 / this.model.length);
+    }
+    translatePoints(pos, orientation) {
+        return Polygon2Helper.translatePoints(this.model, pos, orientation);
+    }
+    scale(scalar) {
+        this.model.forEach(point => {
+            point = point.scale(scalar);
+        });
     }
 }

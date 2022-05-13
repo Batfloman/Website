@@ -8,19 +8,29 @@ export abstract class Game {
   protected canvas: Canvas;
   protected objects: SceneObject[];
   protected camara: Camara;
+  protected renderer: Renderer;
 
+  // game is paused?
   private paused: boolean = true;
+  // changed Tab? auto pause
   private pausedBecauseBlur: boolean = false;
+  // if paused saves elapsed time
+  private timeElapsedBeforePause = 0;
 
-  maxRenderDistance = 2000;
+  // saves the time form the latest game-tick
+  private lastTime = Date.now();
+
+  // max distance at which Object will be updated
+  maxUpdateDistance = 2000;
+  // max distance that an Object can have to the Camara before it is deleted
+  deleteDistance = 10000;
 
   constructor(canvas: Canvas) {
     this.canvas = canvas;
     this.objects = [];
 
     this.camara = new Camara(this.canvas);
-
-    setInterval(Game.testTick, 10, this);
+    this.renderer = new Renderer(this.canvas, this.camara);
 
     Input.newEventListener("blur", this, () => {
       if (!this.paused) {
@@ -32,11 +42,30 @@ export abstract class Game {
       if (this.pausedBecauseBlur) this.start();
     });
     Input.newEventListener("resize", this, this.renderObjects);
+
+    // start loop
+    Game.testTick(this);
+  }
+
+  // only ticks the game when not paused
+  private static testTick(game: Game): void {
+    if (!game.paused) game.tick();
+
+    window.requestAnimationFrame(() => {
+      Game.testTick(game);
+    });
   }
 
   tick(): void {
+    let before = Date.now();
     this.updateObjects();
+    const timeToUpdate = Date.now() - before;
+
+    before = Date.now();
     this.renderObjects();
+    const timeToRender = Date.now() - before;
+
+    console.log("update", timeToUpdate, "render", timeToRender);
   }
 
   private updateObjects() {
@@ -88,29 +117,20 @@ export abstract class Game {
     return found;
   }
 
-  // used to calc dt
-  private lastTime = Date.now();
-  // saves dt on pause
-  private timeElapsedBeforePause = 0;
-  calc_dt(): number {
+  private calc_dt(): number {
     return Date.now() - this.lastTime;
   }
   start(): void {
-    if (this.paused) {
-      this.lastTime = Date.now() - this.timeElapsedBeforePause;
-      this.paused = false;
-    }
+    if (!this.paused) return;
+
+    this.lastTime = Date.now() - this.timeElapsedBeforePause;
+    this.paused = false;
   }
   stop(): void {
-    if (!this.paused) {
-      this.timeElapsedBeforePause = Date.now() - this.lastTime;
-      this.paused = true;
-    }
-  }
-  private static testTick(game: Game): void {
-    if (!game.paused) {
-      game.tick();
-    }
+    if (this.paused) return;
+
+    this.timeElapsedBeforePause = Date.now() - this.lastTime;
+    this.paused = true;
   }
 
   getCamara(): Camara {
@@ -123,7 +143,7 @@ export abstract class Game {
   setCamaraMovementLock(b: boolean) {
     this.camara.lockMovement = b;
   }
-  setMaxRenderDistance(distance: number) {
-    this.maxRenderDistance = distance;
+  setMaxUpdateDistance(distance: number) {
+    this.maxUpdateDistance = distance;
   }
 }

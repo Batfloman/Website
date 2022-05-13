@@ -7,8 +7,7 @@ export default class Canvas {
   height!: number;
 
   constructor(htmlCanvas: HTMLCanvasElement | null) {
-    this.htmlCanvas =
-      htmlCanvas == null ? document.createElement("canvas") : htmlCanvas;
+    this.htmlCanvas = htmlCanvas == null ? document.createElement("canvas") : htmlCanvas;
 
     Input.newEventListener("resize", this, this.updateSize);
     this.updateSize();

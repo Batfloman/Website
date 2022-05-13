@@ -9,6 +9,7 @@ export default class Camara implements ICollideable, IMoveable {
     scale: number;
     hitBox: Polygon2;
     orientation: number;
+    translatedPoints: Vector2[];
     lockScaling: boolean;
     lockMovement: boolean;
     constructor(canvas: Canvas, pos?: Vector2);

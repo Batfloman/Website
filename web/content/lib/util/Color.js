@@ -13,14 +13,14 @@ export class Color {
         return new Color(Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256));
     }
     static get(color) {
-        if (colors.has(color)) {
-            let c = colors.get(color);
-            if (c == undefined)
-                return Color.none;
-            return c;
+        if (!colors.has(color)) {
+            console.warn(`${color} is not declared!`);
+            return Color.none;
         }
-        console.warn(`${color} is not declared!`);
-        return Color.none;
+        let c = colors.get(color);
+        if (c == undefined)
+            return Color.none;
+        return c;
     }
     getRGBString() {
         return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
@@ -45,5 +45,5 @@ const colors = new Map([
     ["blue", new Color(0, 0, 255)],
     ["black", new Color(0, 0, 0)],
     ["white", new Color(255, 255, 255)],
-    ["yellow", new Color(255, 255, 0)]
+    ["yellow", new Color(255, 255, 0)],
 ]);

@@ -5,13 +5,14 @@ export class Game {
     constructor(canvas) {
         this.paused = true;
         this.pausedBecauseBlur = false;
-        this.maxRenderDistance = 2000;
-        this.lastTime = Date.now();
         this.timeElapsedBeforePause = 0;
+        this.lastTime = Date.now();
+        this.maxUpdateDistance = 2000;
+        this.deleteDistance = 10000;
         this.canvas = canvas;
         this.objects = [];
         this.camara = new Camara(this.canvas);
-        setInterval(Game.testTick, 10, this);
+        this.renderer = new Renderer(this.canvas, this.camara);
         Input.newEventListener("blur", this, () => {
             if (!this.paused) {
                 this.stop();
@@ -23,10 +24,23 @@ export class Game {
                 this.start();
         });
         Input.newEventListener("resize", this, this.renderObjects);
+        Game.testTick(this);
+    }
+    static testTick(game) {
+        if (!game.paused)
+            game.tick();
+        window.requestAnimationFrame(() => {
+            Game.testTick(game);
+        });
     }
     tick() {
+        let before = Date.now();
         this.updateObjects();
+        const timeToUpdate = Date.now() - before;
+        before = Date.now();
         this.renderObjects();
+        const timeToRender = Date.now() - before;
+        console.log("update", timeToUpdate, "render", timeToRender);
     }
     updateObjects() {
         let dt = this.calc_dt();
@@ -74,21 +88,16 @@ export class Game {
         return Date.now() - this.lastTime;
     }
     start() {
-        if (this.paused) {
-            this.lastTime = Date.now() - this.timeElapsedBeforePause;
-            this.paused = false;
-        }
+        if (!this.paused)
+            return;
+        this.lastTime = Date.now() - this.timeElapsedBeforePause;
+        this.paused = false;
     }
     stop() {
-        if (!this.paused) {
-            this.timeElapsedBeforePause = Date.now() - this.lastTime;
-            this.paused = true;
-        }
-    }
-    static testTick(game) {
-        if (!game.paused) {
-            game.tick();
-        }
+        if (this.paused)
+            return;
+        this.timeElapsedBeforePause = Date.now() - this.lastTime;
+        this.paused = true;
     }
     getCamara() {
         return this.camara;
@@ -99,7 +108,7 @@ export class Game {
     setCamaraMovementLock(b) {
         this.camara.lockMovement = b;
     }
-    setMaxRenderDistance(distance) {
-        this.maxRenderDistance = distance;
+    setMaxUpdateDistance(distance) {
+        this.maxUpdateDistance = distance;
     }
 }

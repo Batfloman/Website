@@ -6,7 +6,6 @@ export declare abstract class TurnBasedGame extends Game {
     protected currentPlayer: Player | undefined;
     constructor(canvas: Canvas, ...players: Player[]);
     addPlayer(player: Player): void;
-    tick(): void;
     randomPlayerTurn(): void;
     mixPlayerOrder(): void;
     nextPlayer(): void;

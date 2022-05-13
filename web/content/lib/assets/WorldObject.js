@@ -8,20 +8,25 @@ export class WorldObject extends SceneObject {
         this.hitBox = hitBox;
         this.orientation = angle;
     }
-    rotate(angle) {
-        this.orientation += angle;
-        this.orientation %= 360;
+    update(dt) {
+        this.translatedPoints = this.translatePoints();
+        this.update2(dt);
+    }
+    translatePoints() {
+        return this.hitBox.translatePoints(this.pos, this.orientation);
     }
     shouldUpdate() {
-        return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxRenderDistance;
+        return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;
     }
     shouldRender() {
-        if (Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxRenderDistance)
-            return this.checkCollision(this.game.getCamara());
-        return false;
+        return this.checkCollision(this.game.getCamara());
     }
     checkCollision(other) {
         return Collision.testCollision(this, other);
+    }
+    rotate(angle) {
+        this.orientation += angle;
+        this.orientation %= 360;
     }
     moveDirection(direction, distance) {
         this.pos = Util.moveDirection(this.pos, direction, distance);

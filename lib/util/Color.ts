@@ -15,13 +15,14 @@ export class Color {
   }
 
   static get(color: colors): Color {
-    if (colors.has(color)) {
-      let c = colors.get(color);
-      if(c == undefined) return Color.none;
-      return c;
+    if (!colors.has(color)) {
+      console.warn(`${color} is not declared!`);
+      return Color.none;
     }
-    console.warn(`${color} is not declared!`);
-    return Color.none;
+
+    let c = colors.get(color);
+    if (c == undefined) return Color.none;
+    return c;
   }
 
   constructor(r: number, g: number, b: number, a: number = 100) {
@@ -32,7 +33,7 @@ export class Color {
   }
 
   /**
-   * @returns {String} - a String "rgb(r, g, b)" with r/g/b values for rendering
+   * @returns {String} - a String "rgb(r, g, bm a)" with r/g/b/a values for rendering
    */
   getRGBString(): string {
     return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
@@ -60,5 +61,5 @@ const colors = new Map<colors, Color>([
   ["blue", new Color(0, 0, 255)],
   ["black", new Color(0, 0, 0)],
   ["white", new Color(255, 255, 255)],
-  ["yellow", new Color(255, 255, 0)]
+  ["yellow", new Color(255, 255, 0)],
 ]);

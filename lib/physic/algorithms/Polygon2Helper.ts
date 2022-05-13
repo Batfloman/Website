@@ -11,7 +11,7 @@ export default class Polygon2Helper {
   static testConvex(polygon: Polygon2): boolean {
     if (polygon.model.length <= 3) return true;
 
-    let windung = Polygon2Helper.findWinding(polygon);
+    const windung = Polygon2Helper.findWinding(polygon);
 
     for (let i = 0; i < polygon.model.length; i++) {
       const a = Util.array.getItem(polygon.model, i - 1);
@@ -30,8 +30,8 @@ export default class Polygon2Helper {
    * test a vertex for Convexity
    */
   static isConvex(windung: PolygonWinding, crossProduct: number) {
-    if (windung == "clockwise" && crossProduct > 0) return true;
-    if (windung == "counterclockwise" && crossProduct < 0) return true;
+    if (windung == "clockwise" && crossProduct >= 0) return true;
+    if (windung == "counterclockwise" && crossProduct <= 0) return true;
     return false;
   }
 
