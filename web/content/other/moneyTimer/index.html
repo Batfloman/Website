@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Timer | Florian</title>
+
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+  <div id="timer">00:00</div>
+  <div id="earnedMoney">0,00€</div>
+  <form>
+    <button type="button" id="buttonTimerStart" onclick="startTimer()">Start</button>
+    <button type="button" id="buttonTimerStop" onclick="stopTimer()">Stop</button>
+  </form>
+
+  <script>
+    const timer = document.getElementById("timer");
+    const moneyEarned = document.getElementById("earnedMoney");
+    const buttonTimerStop = document.getElementById("buttonTimerStop");
+
+    let timerStopped = true;
+    let startTime = Date.now() - localStorage.getItem("elapsedTime");
+
+    let elapsedTime = localStorage.getItem("elapsedTime");
+    let h = 0;
+    let m = 0;
+    let s = 0;
+    let ms = 0;
+
+    let MoneyPerHour = 10;
+
+    if (localStorage.getItem("elapsedTime")) {
+      buttonTimerStop.innerText = "reset";
+    }
+
+    updateTimeValues();
+    updateTimerText();
+    updateMoneyEarnedText();
+    loop();
+
+    function startTimer() {
+      if (!timerStopped) return;
+      timerStopped = false;
+      startTime = Date.now() - elapsedTime;
+
+      buttonTimerStop.innerText = "Stop";
+    }
+
+    function stopTimer() {
+      if (timerStopped) {
+        startTime = Date.now();
+        window.localStorage.setItem("elapsedTime", 0);
+        updateTimeValues();
+        updateTimerText();
+        updateMoneyEarnedText();
+        return;
+      };
+      timerStopped = true;
+      buttonTimerStop.innerText = "reset";
+    }
+
+    function loop() {
+      if (!timerStopped) {
+        updateTimeValues();
+        updateTimerText();
+        updateMoneyEarnedText();
+      }
+
+      window.requestAnimationFrame(loop);
+    }
+
+    function updateTimerText() {
+      let timerText = "";
+
+      if (h != 0) timerText += h + ":";
+
+      if (m != 0) {
+        while (m.length < 2) m = "0" + m;
+        timerText += m + ":";
+      }
+      else if (h != 0) timerText += "00:";
+
+      while (s.length < 2) s = "0" + s;
+      timerText += s + ":";
+
+      if (ms.length < 2) timerText += "00";
+      else {
+        while (ms.length < 3) ms = "0" + ms;
+        timerText += ms.slice(0, 2);
+      }
+
+      timer.innerText = timerText;
+    }
+
+    function updateTimeValues() {
+      elapsedTime = Date.now() - startTime;
+      window.localStorage.setItem("elapsedTime", elapsedTime);
+
+      h = (Math.floor((elapsedTime / 1000 / 60 / 60))).toString();
+      m = (Math.floor((elapsedTime / 1000 / 60) % 60)).toString();
+      s = (Math.floor((elapsedTime / 1000) % 60)).toString();
+      ms = (Math.floor((elapsedTime) % 1000)).toString()
+    }
+
+    function updateMoneyEarnedText() {
+      const numDecimals = 2;
+      const multFactor = Math.pow(10, numDecimals);
+      const earned = (Math.floor((elapsedTime / 1000 / 60 / 60) * MoneyPerHour * multFactor) / multFactor).toString();
+      const segments = earned.split("\.");
+
+      // adds missing 0's to alwas match num of decimals
+      let decimals = segments[1];
+      if(decimals == undefined) {
+        segments.push("0");
+        decimals = "0";
+      }
+      while (decimals.length < numDecimals) decimals = decimals + "0";
+      segments[1] = decimals;
+
+      // put text together
+      let text = "";
+      segments.forEach(segment => {
+        text += segment;
+        if (segment != segments[segments.length - 1]) text += ",";
+      })
+
+      text += "€";
+
+      moneyEarned.innerText = text;
+    }
+  </script>
+</body>
+
+</html>

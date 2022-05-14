@@ -37,6 +37,9 @@ export default class Util {
     round(number: number, num_decimals: number = 0): number {
       return Math.round(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
     },
+    floor(number: number, num_decimals: number = 0): number {
+      return Math.floor(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
+    },
     toRadian(degree: number) {
       return (degree * Math.PI) / 180;
     }
