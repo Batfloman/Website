@@ -66,7 +66,7 @@ class Triangle {
         this.hitBox = hitBox;
         this.orientation = angle;
     }
-    checkCollision(other) {
+    isCollidingWith(other) {
         throw new Error("Method not implemented.");
     }
     translatePoints() {

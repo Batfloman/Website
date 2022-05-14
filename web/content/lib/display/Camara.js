@@ -48,7 +48,7 @@ export default class Camara {
     move(move) {
         this.pos = this.pos.add(move);
     }
-    checkCollision(other) {
+    isCollidingWith(other) {
         return Collision.testCollision(this, other);
     }
     translatePoints() {
@@ -57,7 +57,7 @@ export default class Camara {
             this.hitBox.model.forEach((point) => {
                 this.translatedPoints.push(Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation));
             });
-            this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(1 / this.scale);
+            this.hitBox.farthestDistance = this.getOffset().scale(1 / this.scale).getMagnitude();
             this.alreadyTranslated = true;
         }
         return this.translatedPoints;

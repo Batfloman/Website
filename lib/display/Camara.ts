@@ -62,7 +62,7 @@ export default class Camara implements ICollideable, IMoveable {
   move(move: Vector2): void {
     this.pos = this.pos.add(move);
   }
-  checkCollision(other: ICollideable): boolean {
+  isCollidingWith(other: ICollideable): boolean {
     return Collision.testCollision(this, other);
   }
   translatePoints(): Vector2[] {
@@ -73,9 +73,7 @@ export default class Camara implements ICollideable, IMoveable {
           Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation)
         );
       });
-      this.hitBox.farthestPoint = Util.farthestPoint(new Vector2(), this.hitBox.model).scale(
-        1 / this.scale
-      );
+      this.hitBox.farthestDistance = this.getOffset().scale(1/this.scale).getMagnitude();
       this.alreadyTranslated = true;
     }
     return this.translatedPoints;

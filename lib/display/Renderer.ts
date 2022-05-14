@@ -7,16 +7,16 @@ import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
 
 export default class Renderer {
-  fillColor: Color = Color.none;
-  strokeColor: Color = Color.get("black");
-  lineWidth: number = 1;
+  private fillColor: Color = Color.none;
+  private strokeColor: Color = Color.get("black");
+  private lineWidth: number = 1;
 
-  camara: Camara;
-  canvas: Canvas;
+  private camara: Camara;
+  private canvas: Canvas;
 
-  ctx!: CanvasRenderingContext2D;
-  offSet!: Vector2;
-  scale!: number;
+  private ctx!: CanvasRenderingContext2D;
+  private offSet!: Vector2;
+  private scale!: number;
 
   constructor(canvas: Canvas, camara: Camara) {
     this.canvas = canvas;
@@ -87,6 +87,17 @@ export default class Renderer {
     this.updateValues();
 
     let pos = this.calcPosOnScreen(worldPos);
+
+    this.ctx.beginPath();
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.font = "20px Arial";
+    this.ctx.fillText(text, pos.x, pos.y);
+    this.ctx.stroke();
+  }
+
+  renderStaticText(pos: Vector2, text: string) {
+    this.updateValues();
 
     this.ctx.beginPath();
     this.ctx.textAlign = "center";

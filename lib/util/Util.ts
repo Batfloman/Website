@@ -36,11 +36,17 @@ export default class Util {
     randomBetween(start: number, end: number, num_decimals: number = 0): number {
       return Util.math.round(Math.random() * (end - start) + start, num_decimals);
     },
+    postiveOrNegative(): number {
+      return Math.random() > 0.5 ? 1 : -1;
+    },
     round(number: number, num_decimals: number = 0): number {
       return Math.round(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
     },
     floor(number: number, num_decimals: number = 0): number {
       return Math.floor(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
+    },
+    ceil(number: number, num_decimals: number = 0): number {
+      return Math.ceil(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
     },
     toRadian(degree: number) {
       return (degree * Math.PI) / 180;

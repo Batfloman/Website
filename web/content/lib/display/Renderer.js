@@ -64,6 +64,15 @@ export default class Renderer {
         this.ctx.fillText(text, pos.x, pos.y);
         this.ctx.stroke();
     }
+    renderStaticText(pos, text) {
+        this.updateValues();
+        this.ctx.beginPath();
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.font = "20px Arial";
+        this.ctx.fillText(text, pos.x, pos.y);
+        this.ctx.stroke();
+    }
     renderCircle(worldPos, radius) {
         this.updateValues();
         let pos = this.calcPosOnScreen(worldPos);

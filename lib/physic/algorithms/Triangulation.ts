@@ -102,7 +102,7 @@ class Triangle implements ICollideable {
   }
 
   // unused!
-  checkCollision(other: ICollideable): boolean {
+  isCollidingWith(other: ICollideable): boolean {
     throw new Error("Method not implemented.");
   }
   translatePoints(): Vector2[] {

@@ -5,7 +5,7 @@ import { HitBox } from "./HitBox.js";
 export default class Circle extends HitBox {
   radius: number;
 
-  constructor(radius: number) {
+  constructor(radius: number = 0) {
     super();
     this.radius = radius;
     this.isConvex = true;

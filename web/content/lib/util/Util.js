@@ -84,11 +84,17 @@ Util.math = {
     randomBetween(start, end, num_decimals = 0) {
         return Util.math.round(Math.random() * (end - start) + start, num_decimals);
     },
+    postiveOrNegative() {
+        return Math.random() > 0.5 ? 1 : -1;
+    },
     round(number, num_decimals = 0) {
         return Math.round(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
     },
     floor(number, num_decimals = 0) {
         return Math.floor(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
+    },
+    ceil(number, num_decimals = 0) {
+        return Math.ceil(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
     },
     toRadian(degree) {
         return (degree * Math.PI) / 180;

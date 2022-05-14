@@ -15,7 +15,7 @@ export declare abstract class WorldObject<HitBoxType extends HitBox> extends Sce
     translatePoints(): Vector2[];
     shouldUpdate(): boolean;
     shouldRender(): boolean;
-    checkCollision(other: ICollideable): boolean;
+    isCollidingWith(other: ICollideable): boolean;
     rotate(angle: number): void;
     moveDirection(direction: number, distance: number): void;
     move(move: Vector2): void;

@@ -1,3 +1,4 @@
+import Camara from "../display/Camara.js";
 import Collision from "../physic/algorithms/Collision.js";
 import { HitBox } from "../physic/boundingBox/HitBox.js";
 import ICollideable from "../physic/property/ICollideable.js";
@@ -42,10 +43,10 @@ export abstract class WorldObject<HitBoxType extends HitBox>
     return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;
   }
   shouldRender(): boolean {
-    return this.checkCollision(this.game.getCamara());
+    return this.isCollidingWith(this.game.getCamara());
   }
 
-  checkCollision(other: ICollideable): boolean {
+  isCollidingWith(other: ICollideable): boolean {
     return Collision.testCollision(this, other);
   }
 

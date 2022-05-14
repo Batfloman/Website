@@ -23,9 +23,9 @@ export class WorldObject extends SceneObject {
         return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;
     }
     shouldRender() {
-        return this.checkCollision(this.game.getCamara());
+        return this.isCollidingWith(this.game.getCamara());
     }
-    checkCollision(other) {
+    isCollidingWith(other) {
         return Collision.testCollision(this, other);
     }
     rotate(angle) {

@@ -16,7 +16,7 @@ export default class Camara implements ICollideable, IMoveable {
     constructor(canvas: Canvas, pos?: Vector2);
     moveDirection(direction: number, distance: number): void;
     move(move: Vector2): void;
-    checkCollision(other: ICollideable): boolean;
+    isCollidingWith(other: ICollideable): boolean;
     translatePoints(): Vector2[];
     getOffset(): Vector2;
 }

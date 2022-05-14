@@ -10,8 +10,10 @@ export default class Util {
     };
     static math: {
         randomBetween(start: number, end: number, num_decimals?: number): number;
+        postiveOrNegative(): number;
         round(number: number, num_decimals?: number): number;
         floor(number: number, num_decimals?: number): number;
+        ceil(number: number, num_decimals?: number): number;
         toRadian(degree: number): number;
     };
     static shapes: {

@@ -7,7 +7,7 @@
         "tsc: watch – Lib",
         "tsc: watch – Game: TicTacToe",
         "tsc: watch - School: Collision2d",
-        "tsc: watch - School: Universe"
+        "tsc: watch - Other: Universe"
       ],
       "problemMatcher": []
     },
@@ -43,13 +43,13 @@
     },
     {
       "type": "typescript",
-      "tsconfig": "web/content/school/universe/ts/tsconfig.json",
+      "tsconfig": "web/content/other/universe/ts/tsconfig.json",
       "option": "watch",
       "problemMatcher": [
         "$tsc-watch"
       ],
       "group": "build",
-      "label": "tsc: watch - School: Universe"
+      "label": "tsc: watch - Other: Universe"
     }
   ]
 }

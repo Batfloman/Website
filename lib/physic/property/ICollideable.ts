@@ -9,6 +9,6 @@ export default interface ICollideable extends IPositionable {
   translatedPoints: Vector2[];
   alreadyTranslated: boolean;
 
-  checkCollision(other: ICollideable): boolean;
+  isCollidingWith(other: ICollideable): boolean;
   translatePoints(): Vector2[];
 }
