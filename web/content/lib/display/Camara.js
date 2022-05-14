@@ -14,6 +14,7 @@ export default class Camara {
         this.pos = !pos ? new Vector2() : pos;
         this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
         this.orientation = 0;
+        this.translatePoints();
         Input.newEventListener("wheel", this, (event) => {
             if (this.lockScaling)
                 return;

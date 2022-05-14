@@ -1,3 +1,4 @@
+import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import Vector2 from "./Vector2.js";
 export default class Util {
     static array: {
@@ -10,11 +11,15 @@ export default class Util {
     static math: {
         randomBetween(start: number, end: number, num_decimals?: number): number;
         round(number: number, num_decimals?: number): number;
+        floor(number: number, num_decimals?: number): number;
         toRadian(degree: number): number;
     };
     static shapes: {
         cricle: {
             area(radius: number): number;
+        };
+        polygon: {
+            area(polygon: Polygon2): number;
         };
     };
     static calcHypothenuse(side1: number, side2: number): number;

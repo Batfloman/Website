@@ -30,6 +30,7 @@ export default class Camara implements ICollideable, IMoveable {
 
     this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
     this.orientation = 0;
+    this.translatePoints();
 
     Input.newEventListener("wheel", this, (event: WheelEvent) => {
       if (this.lockScaling) return;

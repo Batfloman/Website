@@ -1,3 +1,4 @@
+import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import Vector2 from "./Vector2.js";
 export default class Util {
     static calcHypothenuse(side1, side2) {
@@ -86,6 +87,9 @@ Util.math = {
     round(number, num_decimals = 0) {
         return Math.round(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
     },
+    floor(number, num_decimals = 0) {
+        return Math.floor(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
+    },
     toRadian(degree) {
         return (degree * Math.PI) / 180;
     }
@@ -96,4 +100,9 @@ Util.shapes = {
             return Math.PI * Math.pow(radius, 2);
         },
     },
+    polygon: {
+        area(polygon) {
+            return Polygon2Helper.findArea(polygon);
+        }
+    }
 };

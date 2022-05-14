@@ -9,7 +9,7 @@ export default class Circle extends HitBox {
     super();
     this.radius = radius;
     this.isConvex = true;
-    this.farthestPoint = Util.moveDirection(new Vector2(), 0, radius);
+    this.farthestDistance = radius;
   }
 
   // ==========================================================================================

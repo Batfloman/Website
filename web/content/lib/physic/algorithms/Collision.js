@@ -1,9 +1,13 @@
+import Circle from "../boundingBox/Circle.js";
 import CircleCollision from "./CircleCollision.js";
 import SAT from "./SAT.js";
 import Triangulation from "./Triangulation.js";
 export default class Collision {
     static testCollision(obj1, obj2) {
+        [obj1, obj2].forEach((obj) => obj.translatePoints());
         if (!CircleCollision.potentialCollision(obj1, obj2))
+            return false;
+        if (obj1 instanceof Circle && obj2 instanceof Circle)
             return false;
         if (!obj1.hitBox.isConvex) {
             const parts = Triangulation.triangulate(obj1);

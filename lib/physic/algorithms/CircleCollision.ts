@@ -6,9 +6,9 @@ export default class CircleCollision {
   static potentialCollision(obj1: ICollideable, obj2: ICollideable) {
     return this.circleCollision(
       obj1.pos,
-      obj1.hitBox.farthestPoint.getMagnitude(),
+      obj1.hitBox.farthestDistance,
       obj2.pos,
-      obj2.hitBox.farthestPoint.getMagnitude()
+      obj2.hitBox.farthestDistance
     );
   }
 

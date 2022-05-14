@@ -2,7 +2,7 @@ import Vector2 from "../../util/Vector2";
 
 export abstract class HitBox {
   isConvex!: boolean;
-  farthestPoint!: Vector2;
+  farthestDistance!: number;
 
   abstract translatePoints(pos: Vector2, orientation: number): Vector2[];
 

@@ -1,3 +1,5 @@
+import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
+import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import Vector2 from "./Vector2.js";
 
 export default class Util {
@@ -51,6 +53,11 @@ export default class Util {
         return Math.PI * Math.pow(radius, 2);
       },
     },
+    polygon: {
+      area(polygon: Polygon2): number {
+        return Polygon2Helper.findArea(polygon);
+      } 
+    }
   };
 
   /**

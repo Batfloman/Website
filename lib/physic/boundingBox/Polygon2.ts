@@ -11,7 +11,7 @@ export default class Polygon2 extends HitBox {
     super();
 
     this.model = model;
-    this.farthestPoint = Util.farthestPoint(new Vector2(), this.model);
+    this.farthestDistance = Util.farthestPoint(new Vector2(), this.model).getMagnitude();
     this.isConvex = Polygon2Helper.testConvex(this);
   }
 

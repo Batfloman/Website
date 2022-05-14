@@ -60,12 +60,12 @@ export abstract class Game {
     let before = Date.now();
     this.updateObjects();
     const timeToUpdate = Date.now() - before;
-
+    
     before = Date.now();
     this.renderObjects();
     const timeToRender = Date.now() - before;
 
-    console.log("update", timeToUpdate, "render", timeToRender);
+    // console.log("update", timeToUpdate, "render", timeToRender);
   }
 
   private updateObjects() {

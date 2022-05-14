@@ -9,7 +9,11 @@ import CircleCollision from "../../../lib/physic/algorithms/CircleCollision.js";
 
 export default class SkyBody extends WorldObject<Circle> {
   mass: number;
+  density!: number;
+  volume!: number;
+
   velocity: Vector2;
+  impuls!: Vector2;
   forces!: Vector2;
 
   constructor(pos: Vector2, radius: number, mass: number, veloctiy: Vector2 = new Vector2()) {
@@ -27,13 +31,7 @@ export default class SkyBody extends WorldObject<Circle> {
     let objects: SkyBody[] = this.game.findObjects(SkyBody, this);
 
     objects.forEach((obj) => {
-      const collision = CircleCollision.circleCollision(
-        this.pos,
-        this.hitBox.farthestPoint.getMagnitude(),
-        obj.pos,
-        obj.hitBox.farthestPoint.getMagnitude()
-      );
-      if (collision) {
+      if (this.checkCollision(obj)) {
         const bigger = this.mass > obj.mass ? this : obj;
         const smaller = bigger == this ? obj : this;
 
@@ -42,29 +40,54 @@ export default class SkyBody extends WorldObject<Circle> {
       }
     });
 
-    objects.forEach((obj) => {
-      const force = (g * this.mass * obj.mass) / Math.pow(Util.distance(this.pos, obj.pos), 2);
+    // update Values
+    this.volume = this.getVolume();
+    this.hitBox.farthestDistance = this.getRadius();
 
-      const distance = obj.pos.subtract(this.pos).scale(1000);
-      const unitVec = new Vector2(
-        distance.x / distance.getMagnitude(),
-        distance.y / distance.getMagnitude()
-      );
-      this.forces = this.forces.add(unitVec.scale(force));
-    });
+    // objects.forEach((obj) => {
+    //   const force = (g * this.mass * obj.mass) / Math.pow(Util.distance(this.pos, obj.pos), 2);
+
+    //   const distance = obj.pos.subtract(this.pos);
+    //   const unitVec = new Vector2(
+    //     distance.x / distance.getMagnitude(),
+    //     distance.y / distance.getMagnitude()
+    //   );
+    //   this.forces = this.forces.add(unitVec.scale(force));
+    // });
 
     this.velocity = this.velocity.add(
       new Vector2((dt * this.forces.x) / this.mass, (dt * this.forces.y) / this.mass)
     );
 
-    this.move(this.velocity.scale(.05));
+    this.move(this.velocity.scale(0.05));
   }
   render(renderer: Renderer): void {
     renderer.setFillColor(Color.get("yellow"));
-    renderer.renderCircle(this.pos, this.mass / 100);
+    renderer.renderCircle(this.pos, this.getRadius());
   }
 
   translatePoints(): Vector2[] {
     return [this.pos];
   }
+
+  // ==========================================================================================
+  // physics
+
+  private getVolume(): number {
+    return this.mass / this.density;
+  }
+
+  private getMass(): number {
+    return this.volume * this.density;
+  }
+
+  private getDensity(): number {
+    return this.mass / this.volume;
+  }
+
+  private getRadius(): number {
+    return Math.sqrt(this.volume / Math.PI);
+  }
+
+  // private gForce(obj: SkyBody): Vector2 {}
 }

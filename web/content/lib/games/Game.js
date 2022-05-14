@@ -40,7 +40,6 @@ export class Game {
         before = Date.now();
         this.renderObjects();
         const timeToRender = Date.now() - before;
-        console.log("update", timeToUpdate, "render", timeToRender);
     }
     updateObjects() {
         let dt = this.calc_dt();
