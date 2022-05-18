@@ -16,20 +16,20 @@
     <div class="nav-bar">
       <h1>My Website</h1>
       <div class="nav-links">
-        <div class="nav-link"><a href="../index.html">Home</a></div>
-        <div class="nav-link"><a href="./games.html">Games</a></div>
-        <div class="nav-link"><a class="active" href="./school.html">School</a></div>
+        <div class="nav-link"><a id="btn-home" href="../index.html?theme=black">Home</a></div>
+        <div class="nav-link"><a id="btn-games" href="./games.html?theme=black">Games</a></div>
+        <div class="nav-link"><a id="btn-school" href="./school.html?theme=black" class="active">School</a></div>
       </div>
       <div class="settings" id="settings-button"></div>
     </div>
   </header>
-  
+
   <section>
     <div class="settings-popup" id="settings-popup">
       <div class="theme" id="theme-button">change Theme</div>
     </div>
   </section>
-  
+
   <section>
     <div id="content" class="container"></div>
   </section>
@@ -46,7 +46,7 @@
 
       const contentA = document.createElement("a");
       contentA.setAttribute("href", content[key]);
-      
+
       const contentImg = document.createElement("img");
       contentImg.setAttribute("src", "");
       contentImg.setAttribute("alt", key);

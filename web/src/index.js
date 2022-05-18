@@ -11,7 +11,7 @@ const themes = {
   },
 };
 
-let currentTheme = themes.dark;
+let currentTheme = "dark";
 let settingsActive = false;
 
 window.onload = () => {
@@ -19,20 +19,20 @@ window.onload = () => {
   const params = Object.fromEntries(urlSearchParams.entries());
 
   if (themes[params.theme]) {
-    currentTheme = themes[params.theme];
+    currentTheme = params.theme;
     updateTheme();
   }
-
+  
   // ==========================================================================================
   // css changes
   const root = document.querySelector(":root");
   const rs = root.style;
-
+  
   // theme style change on button click
   const theme_button = document.getElementById("theme-button");
   theme_button.addEventListener("click", () => {
-    if (currentTheme == themes.dark) currentTheme = themes.light;
-    else currentTheme = themes.dark;
+    if (currentTheme == "dark") currentTheme = "light";
+    else currentTheme = "dark";
 
     updateTheme();
   });
@@ -55,7 +55,16 @@ function updateTheme() {
   const root = document.querySelector(":root");
   const rs = root.style;
 
-  rs.setProperty("--theme", currentTheme.theme);
-  rs.setProperty("--theme-background", currentTheme.themeBackground);
-  rs.setProperty("--theme-font-color", currentTheme.themeFontColor);
+  let theme = themes[currentTheme];
+
+  rs.setProperty("--theme", theme.theme);
+  rs.setProperty("--theme-background", theme.themeBackground);
+  rs.setProperty("--theme-font-color", theme.themeFontColor);
+
+  const themePattern = /theme=(\w)+/;
+  ["btn-home", "btn-games", "btn-school"].forEach(btnID => {
+    const btn = document.getElementById(btnID);
+    const href = btn.getAttribute("href");
+    btn.setAttribute("href", href.replace(themePattern, "theme=" + currentTheme));
+  })
 }
