@@ -1,7 +1,7 @@
 import Input from "../input/Input.js";
 import Collision from "../physic/algorithms/Collision.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
-import Rectangel from "../physic/boundingBox/Rectangel.js";
+import Rectangle from "../physic/boundingBox/Rectangle.js";
 import Util from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
 export default class Camara {
@@ -12,7 +12,7 @@ export default class Camara {
         this.lockMovement = true;
         this.canvas = canvas;
         this.pos = !pos ? new Vector2() : pos;
-        this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
+        this.hitBox = new Rectangle(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
         this.orientation = 0;
         this.translatePoints();
         Input.newEventListener("wheel", this, (event) => {
@@ -38,7 +38,7 @@ export default class Camara {
             }
         });
         Input.newEventListener("resize", this, () => {
-            this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
+            this.hitBox = new Rectangle(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
             this.alreadyTranslated = false;
         });
     }
@@ -64,5 +64,9 @@ export default class Camara {
     }
     getOffset() {
         return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
+    }
+    setScale(scale) {
+        this.scale = scale;
+        this.alreadyTranslated = false;
     }
 }

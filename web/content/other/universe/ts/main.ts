@@ -4,7 +4,7 @@ import SkyBody from "./SkyBody.js";
 import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 
-const maxDistance = 100000;
+const maxDistance = 250000;
 const spawnAmount = Math.pow(maxDistance, 1 / 4) * Math.pow(maxDistance, 1 / 4);
 
 window.onload = () => {
@@ -12,7 +12,10 @@ window.onload = () => {
 
   universe.setCamaraMovementLock(false);
   universe.setCamaraScaleLock(false);
-  universe.setMaxUpdateDistance(Infinity);
+  universe.setMaxUpdateDistance(500000);
+  universe.setMaxDeleteDistance(250000);
+
+  universe.getCamara().setScale(0.025);
 
   for (let i = 0; i < spawnAmount; i++) {
     universe.addObject(createSkyBody());
@@ -29,15 +32,15 @@ window.onload = () => {
 
   universe.start();
 
-  // setInterval(() => {
-  //   (universe.findObjects(SkyBody) as SkyBody[]).forEach((obj) => {
-  //     if (Util.distance(universe.getCamara().pos, obj.pos) > universe.maxUpdateDistance)
-  //       universe.removeObject(obj);
-  //   });
-  //   for (let i = 0; i < spawnAmount / 3; i++) {
-  //     universe.addObject(createSkyBody());
-  //   }
-  // }, 15000);
+  setInterval(() => {
+    (universe.findObjects(SkyBody) as SkyBody[]).forEach((obj) => {
+      if (Util.distance(universe.getCamara().pos, obj.pos) > universe.maxUpdateDistance)
+        universe.removeObject(obj);
+    });
+    for (let i = 0; i < spawnAmount / 3; i++) {
+      universe.addObject(createSkyBody());
+    }
+  }, 15000);
 };
 
 function createSkyBody() {

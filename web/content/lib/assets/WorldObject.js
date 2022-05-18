@@ -10,6 +10,10 @@ export class WorldObject extends SceneObject {
         this.orientation = angle;
     }
     update(dt) {
+        if (Util.distance(this.pos, this.game.getCamara().pos) > this.game.deleteDistance) {
+            this.game.removeObject(this);
+            return;
+        }
         this.alreadyTranslated = false;
         this.update2(dt);
     }

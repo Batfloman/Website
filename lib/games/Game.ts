@@ -146,4 +146,7 @@ export abstract class Game {
   setMaxUpdateDistance(distance: number) {
     this.maxUpdateDistance = distance;
   }
+  setMaxDeleteDistance(distance: number) {
+    this.deleteDistance = distance;
+  }
 }

@@ -20,6 +20,7 @@ export default class Renderer {
     renderText(worldPos: Vector2, text: string): void;
     renderStaticText(pos: Vector2, text: string): void;
     renderCircle(worldPos: Vector2, radius: number): void;
+    renderRectangle(worldPos: Vector2, width: number, height: number): void;
     connectPoints(points: Vector2[]): void;
     renderPolygon(worldPos: Vector2, polygon: Polygon2, angle: number, renderPoints?: boolean, renderOutline?: boolean): void;
     private calcPosOnScreen;

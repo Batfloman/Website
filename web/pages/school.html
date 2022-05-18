@@ -8,44 +8,46 @@
 
   <link rel="stylesheet" href="../css/style.css">
   <link rel="icon" href="../img/pp.jpg" type="image/jpg">
-  <script src="../index.js"></script>
+  <script src="../src/index.js"></script>
 </head>
 
 <body>
-  <div class="nav-bar">
-    <h1>My Website</h1>
-    <div class="nav-links">
-      <div class="nav-link"><a href="../index.html">Home</a></div>
-      <div class="nav-link"><a href="./games.html">Games</a></div>
-      <div class="nav-link"><a class="active" href="./school.html">School</a></div>
+  <header>
+    <div class="nav-bar">
+      <h1>My Website</h1>
+      <div class="nav-links">
+        <div class="nav-link"><a href="../index.html">Home</a></div>
+        <div class="nav-link"><a href="./games.html">Games</a></div>
+        <div class="nav-link"><a class="active" href="./school.html">School</a></div>
+      </div>
+      <div class="settings" id="settings-button"></div>
     </div>
-    <div class="settings" id="settings-button"></div>
-  </div>
-  <div class="settings-popup" id="settings-popup">
-    <div class="theme" id="theme-button">Theme</div>
-    <div class="theme" id="theme-button">Theme2</div>
-  </div>
-  <div id="content" class="container"></div>
+  </header>
+  
+  <section>
+    <div class="settings-popup" id="settings-popup">
+      <div class="theme" id="theme-button">change Theme</div>
+    </div>
+  </section>
+  
+  <section>
+    <div id="content" class="container"></div>
+  </section>
 
-  <script>
-    const gameContainer = document.getElementById("game-container");
+  <script type="module">
+    import loadContent from "../src/FileLoader.js";
 
-    const content = new Map([
-      ["Facharbeit", "../content/pdf/Florian_Hirche_Facharbeit.pdf"],
-      ["Kollision 2d", "../content/school/collision2d/index.html"],
-      ["Kollision 3d", "../content/school/collision3d/index.html"],
-      ["Universe", "../content/other/universe/index.html"],
-      ["MoneyTimer", "../content/other/moneyTimer/index.html"],
-    ]);
+    const content = await loadContent("../src/schoolPaths.json");
+    const keys = Object.keys(content);
 
-    for (let key of content.keys()) {
-      let contentDiv = document.createElement("div");
+    for (let key of keys) {
+      const contentDiv = document.createElement("div");
       contentDiv.setAttribute("class", "content");
 
-      let contentA = document.createElement("a");
-      contentA.setAttribute("href", content.get(key));
-
-      let contentImg = document.createElement("img");
+      const contentA = document.createElement("a");
+      contentA.setAttribute("href", content[key]);
+      
+      const contentImg = document.createElement("img");
       contentImg.setAttribute("src", "");
       contentImg.setAttribute("alt", key);
 

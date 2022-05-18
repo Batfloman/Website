@@ -4,7 +4,7 @@ import IMoveable from "../physic/property/IMoveable.js";
 import Vector2 from "../util/Vector2.js";
 import Canvas from "./Canvas";
 export default class Camara implements ICollideable, IMoveable {
-    canvas: Canvas;
+    private canvas;
     pos: Vector2;
     scale: number;
     hitBox: Polygon2;
@@ -19,4 +19,5 @@ export default class Camara implements ICollideable, IMoveable {
     isCollidingWith(other: ICollideable): boolean;
     translatePoints(): Vector2[];
     getOffset(): Vector2;
+    setScale(scale: number): void;
 }

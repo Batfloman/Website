@@ -26,6 +26,10 @@ export abstract class WorldObject<HitBoxType extends HitBox>
   }
 
   update(dt: number): void {
+    if(Util.distance(this.pos, this.game.getCamara().pos) > this.game.deleteDistance) {
+      this.game.removeObject(this);
+      return;
+    }
     this.alreadyTranslated = false;
     this.update2(dt);
   }

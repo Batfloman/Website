@@ -19,10 +19,6 @@ export default class SkyBody extends WorldObject {
         this.hitBox.farthestDistance = 0.6666 * radius;
         this.impulse = this.getImpulse();
     }
-    isCollidingWith(other) {
-        let collides = super.isCollidingWith(other);
-        return collides;
-    }
     update2(dt) {
         if (!(this.game instanceof Universe))
             return;

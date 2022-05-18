@@ -1,6 +1,6 @@
 import Vector2 from "../../util/Vector2.js";
 import Polygon from "./Polygon2.js";
-export default class Rectangel extends Polygon {
+export default class Rectangle extends Polygon {
     constructor(width, height) {
         let model = [
             new Vector2(0, 0),

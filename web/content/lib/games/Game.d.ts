@@ -28,4 +28,5 @@ export declare abstract class Game {
     setCamaraScaleLock(b: boolean): void;
     setCamaraMovementLock(b: boolean): void;
     setMaxUpdateDistance(distance: number): void;
+    setMaxDeleteDistance(distance: number): void;
 }

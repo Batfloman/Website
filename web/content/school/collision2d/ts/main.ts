@@ -10,9 +10,9 @@ window.onload = () => {
 
   s.setCamaraMovementLock(false);
   s.setCamaraScaleLock(false);
-  s.setMaxUpdateDistance(10000);
+  s.setMaxUpdateDistance(2000);
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < 500; i++) {
     s.addObject(createRandomShape());
   }
 

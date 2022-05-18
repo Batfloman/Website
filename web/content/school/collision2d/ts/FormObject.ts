@@ -55,7 +55,7 @@ export default class FormObject extends ControllableObject<Polygon2> {
     let objects = this.game.findObjects(FormObject, this) as Array<FormObject>;
 
     for (let obj of objects) {
-      this.collides = this.checkCollision(obj);
+      this.collides = this.isCollidingWith(obj);
       if (this.collides) break;
     }
   }

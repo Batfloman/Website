@@ -81,6 +81,16 @@ export default class Renderer {
         this.ctx.fill();
         this.ctx.stroke();
     }
+    renderRectangle(worldPos, width, height) {
+        this.updateValues();
+        const pos = this.calcPosOnScreen(worldPos);
+        const w = width * this.scale;
+        const h = height * this.scale;
+        this.ctx.beginPath();
+        this.ctx.strokeRect(pos.x - (w / 2), pos.y + (h / 2), w, h);
+        this.ctx.fill();
+        this.ctx.stroke();
+    }
     connectPoints(points) {
         this.updateValues();
         const positions = [];

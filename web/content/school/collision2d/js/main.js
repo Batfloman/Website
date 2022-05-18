@@ -8,8 +8,8 @@ window.onload = () => {
     let s = new System(new Canvas(document.querySelector("canvas")));
     s.setCamaraMovementLock(false);
     s.setCamaraScaleLock(false);
-    s.setMaxUpdateDistance(10000);
-    for (let i = 0; i < 1000; i++) {
+    s.setMaxUpdateDistance(2000);
+    for (let i = 0; i < 500; i++) {
         s.addObject(createRandomShape());
     }
     s.start();

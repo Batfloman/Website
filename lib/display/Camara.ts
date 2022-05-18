@@ -3,7 +3,7 @@ import Collision from "../physic/algorithms/Collision.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import SAT from "../physic/algorithms/SAT.js";
 import Polygon2 from "../physic/boundingBox/Polygon2.js";
-import Rectangel from "../physic/boundingBox/Rectangel.js";
+import Rectangle from "../physic/boundingBox/Rectangle.js";
 import ICollideable from "../physic/property/ICollideable.js";
 import IMoveable from "../physic/property/IMoveable.js";
 import Util from "../util/Util.js";
@@ -11,7 +11,7 @@ import Vector2 from "../util/Vector2.js";
 import Canvas from "./Canvas";
 
 export default class Camara implements ICollideable, IMoveable {
-  canvas: Canvas;
+  private canvas: Canvas;
 
   pos: Vector2;
   scale: number = 1;
@@ -28,7 +28,7 @@ export default class Camara implements ICollideable, IMoveable {
     this.canvas = canvas;
     this.pos = !pos ? new Vector2() : pos;
 
-    this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
+    this.hitBox = new Rectangle(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
     this.orientation = 0;
     this.translatePoints();
 
@@ -52,7 +52,7 @@ export default class Camara implements ICollideable, IMoveable {
       }
     });
     Input.newEventListener("resize", this, () => {
-      this.hitBox = new Rectangel(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
+      this.hitBox = new Rectangle(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
       this.alreadyTranslated = false;
     });
   }
@@ -84,5 +84,10 @@ export default class Camara implements ICollideable, IMoveable {
    */
   getOffset(): Vector2 {
     return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
+  }
+
+  setScale(scale: number): void {
+    this.scale = scale;
+    this.alreadyTranslated = false;
   }
 }

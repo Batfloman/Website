@@ -5,7 +5,6 @@ import Circle from "../../../lib/physic/boundingBox/Circle.js";
 import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 import { Color } from "../../../lib/util/Color.js";
-import CircleCollision from "../../../lib/physic/algorithms/CircleCollision.js";
 import ICollideable from "../../../lib/physic/property/ICollideable.js";
 
 export default class SkyBody extends WorldObject<Circle> {
@@ -29,13 +28,8 @@ export default class SkyBody extends WorldObject<Circle> {
     const radius = this.getRadius();
     this.volume = this.getVolume();
     this.hitBox.radius = radius;
-    this.hitBox.farthestDistance = 0.6666   * radius;
+    this.hitBox.farthestDistance = 0.6666 * radius;
     this.impulse = this.getImpulse();
-  }
-
-  isCollidingWith(other: ICollideable): boolean {
-    let collides = super.isCollidingWith(other);
-    return collides;
   }
 
   update2(dt: number): void {

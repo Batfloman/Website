@@ -118,11 +118,25 @@ export default class Renderer {
     this.ctx.stroke();
   }
 
+  renderRectangle(worldPos: Vector2, width: number, height: number) {
+    this.updateValues();
+
+    const pos = this.calcPosOnScreen(worldPos);
+
+    const w = width * this.scale;
+    const h = height * this.scale;
+
+    this.ctx.beginPath();
+    this.ctx.strokeRect(pos.x - (w / 2), pos.y + (h / 2), w, h);
+    this.ctx.fill();
+    this.ctx.stroke();
+  }
+
   connectPoints(points: Vector2[]) {
     this.updateValues();
 
-    const positions: Vector2[] = []
-    for(let point of points) {
+    const positions: Vector2[] = [];
+    for (let point of points) {
       positions.push(this.calcPosOnScreen(point));
     }
 

@@ -14,19 +14,19 @@ export default class Matrix2<T> {
     }
   }
 
-  get(x: number, y: number) {
+  get(x: number, y: number): T | string {
     return Util.array.getItem(Util.array.getItem(this.cells, x), y);
   }
 
-  set(x: number, y: number, content: string | T) {
+  set(x: number, y: number, content: string | T): void {
     this.cells[y][x] = content;
   }
 
-  getSizeX() {
+  getSizeX(): number {
     return this.cells[0].length;
   }
 
-  getSizeY() {
+  getSizeY(): number {
     return this.cells.length;
   }
 }
