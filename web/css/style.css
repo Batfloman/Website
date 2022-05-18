@@ -9,11 +9,14 @@
 html,
 body {
   width: 100%;
+  min-height: 100%;
   padding: 0;
   margin: 0;
   background-color: var(--theme-background);
   font-family: Consolas, sans-serif;
   color: var(--theme-font-color);
+  display: flex;
+  justify-content: center;
 }
 
 .nav-bar {
@@ -80,7 +83,7 @@ body {
   background-color: var(--theme);
   border: 2px var(--theme-font-color) solid;
   border-radius: 5%;
-  position: absolute;
+  position: fixed;
   right: 2%;
   top: 7.5%;
   visibility: var(--settings-hide-popup);
@@ -95,30 +98,35 @@ body {
   cursor: pointer;
 }
 
-.container {
+.main-body {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  margin-top: 15vh;
+}
+
+.about-me {
+  justify-self: center;
+  align-self: center;
+  width: 80%;
+  text-align: justify;
+  font-size: 24px;
+}
+
+.row-container {
+  display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  align-content: flex-start;
+  height: fit-content;
   row-gap: 5%;
   column-gap: 5%;
-  margin-left: 10%;
 }
 
 .content {
   width: 100px;
-  aspect-ratio: 1 / 1;
+  height: 100px;
+  align-self: 1 / 1;
   background-color: white;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.game-screen {
-  background-color: white;
-  width: 100%;
-  height: 100%;
+  border-radius: 7.5%;
+  word-wrap: break-word;
 }
 
 @media screen and (orientation: portrait) {
@@ -155,10 +163,8 @@ body {
     top: 9vh;
   }
 
-  .container {
-    margin-top: 27.5vh;
-    height: 70vh;
-    width: 90%;
+  .main-body {
+    width: 100vw;
   }
 }
 
@@ -174,9 +180,7 @@ body {
     margin-right: 4vw;
   }
 
-  .container {
-    margin-top: 17.5vh;
-    height: 80vh;
-    width: 80%;
+  .main-body {
+    width: 80vw;
   }
 }
