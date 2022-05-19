@@ -1,12 +1,13 @@
 import Canvas from "../display/Canvas.js";
-import { Player } from "../players/Player.js";
+import { TurnBasedPlayer } from "../players/TurnBasedPlayer.js";
 import { Game } from "./Game.js";
 export declare abstract class TurnBasedGame extends Game {
-    protected players: Player[];
-    protected currentPlayer: Player | undefined;
-    constructor(canvas: Canvas, ...players: Player[]);
-    addPlayer(player: Player): void;
-    randomPlayerTurn(): void;
+    protected players: TurnBasedPlayer[];
+    protected currentPlayer: TurnBasedPlayer;
+    constructor(canvas: Canvas, players?: TurnBasedPlayer | TurnBasedPlayer[]);
+    tick(): void;
+    addPlayer(player: TurnBasedPlayer): void;
+    randomPlayerTurn(): TurnBasedPlayer;
     mixPlayerOrder(): void;
-    nextPlayer(): void;
+    nextPlayer(): TurnBasedPlayer;
 }

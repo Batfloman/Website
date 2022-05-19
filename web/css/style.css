@@ -54,6 +54,10 @@ body {
   text-decoration: none;
 }
 
+.nav-link {
+  transition-duration: 166.5ms;
+}
+
 .nav-link:hover {
   cursor: pointer;
   transform: scale(1.1);
@@ -67,6 +71,7 @@ body {
   width: 50px;
   height: 50px;
   cursor: pointer;
+  transition-duration: 166.5ms;
 }
 
 .settings:hover {
@@ -81,8 +86,8 @@ body {
 
 .settings-popup {
   background-color: var(--theme);
-  border: 2px var(--theme-font-color) solid;
-  border-radius: 5%;
+  border: 3px var(--theme-font-color) solid;
+  padding: 0.33em;
   position: fixed;
   right: 2%;
   top: 7.5%;

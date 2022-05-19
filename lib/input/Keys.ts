@@ -43,4 +43,8 @@ type inputKey =
   | "6"
   | "7"
   | "8"
-  | "9";
+  | "9"
+  | "up"
+  | "left"
+  | "down"
+  | "right";

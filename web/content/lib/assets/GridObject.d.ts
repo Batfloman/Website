@@ -5,7 +5,9 @@ import Vector2 from "../util/Vector2.js";
 import { WorldObject } from "./WorldObject.js";
 export declare abstract class GridObject<Type> extends WorldObject<Rectangle> {
     grid: Matrix2<Type>;
-    constructor(pos: Vector2, width: number, height: number);
+    constructor(pos: Vector2, width: number, height: number, xSize: number, ySize: number);
+    update2(dt: number): void;
     render(renderer: Renderer): void;
     abstract renderCell(x: number, y: number, renderer: Renderer): void;
+    abstract updateCell(x: number, y: number, dt: number): void;
 }

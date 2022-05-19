@@ -1,9 +1,25 @@
+import { Player } from "../players/Player.js";
 import Util from "../util/Util.js";
 import { Game } from "./Game.js";
 export class TurnBasedGame extends Game {
-    constructor(canvas, ...players) {
+    constructor(canvas, players) {
         super(canvas);
-        this.players = players;
+        if (!players)
+            this.players = [];
+        else if (players instanceof Player)
+            this.players = [players];
+        else
+            this.players = players;
+        this.currentPlayer = this.randomPlayerTurn();
+    }
+    tick() {
+        super.tick();
+        if (Util.array.isEmpty(this.players))
+            return;
+        if (this.currentPlayer.turnFinished) {
+            this.nextPlayer();
+            this.currentPlayer.isUp();
+        }
     }
     addPlayer(player) {
         if (this.players.includes(player))
@@ -13,6 +29,7 @@ export class TurnBasedGame extends Game {
     }
     randomPlayerTurn() {
         this.currentPlayer = Util.array.getRandomItem(this.players);
+        return this.currentPlayer;
     }
     mixPlayerOrder() {
         let mixedPlayer = [];
@@ -22,9 +39,10 @@ export class TurnBasedGame extends Game {
         this.players = mixedPlayer;
     }
     nextPlayer() {
-        if (this.currentPlayer == undefined)
+        if (!this.currentPlayer)
             this.randomPlayerTurn();
         else
             this.currentPlayer = Util.array.getItem(this.players, this.players.indexOf(this.currentPlayer) + 1);
+        return this.currentPlayer;
     }
 }

@@ -6,20 +6,45 @@ import { WorldObject } from "./WorldObject.js";
 
 export abstract class GridObject<Type> extends WorldObject<Rectangle> {
   grid!: Matrix2<Type>;
-  
-  constructor(pos: Vector2, width: number, height: number) {
-    const hitBox = new Rectangle(width, height);
 
-    super(pos, hitBox);
+  constructor(pos: Vector2, width: number, height: number, xSize: number, ySize: number) {
+    super(pos, new Rectangle(width, height));
+
+    this.grid = new Matrix2(xSize, ySize);
+  }
+
+  update2(dt: number): void {
+    if (!this.grid) return;
+
+    const sizeX = this.grid.getSizeX();
+    const sizeY = this.grid.getSizeY();
+    const w = this.hitBox.width;
+    const h = this.hitBox.height;
+
+    for (let y = 0; y < this.grid.getSizeY(); y++) {
+      for (let x = 0; x < this.grid.getSizeX(); x++) {
+        const cell: Type | string = this.grid.get(x, y);
+        if (cell instanceof WorldObject) {
+          cell.pos.x = this.pos.x - w / 2 + (w / sizeX) * x + w / (2 * sizeX);
+          cell.pos.y = this.pos.y - h / 2 + (h / sizeY) * y + h / (2 * sizeY);
+          console.log(cell.pos);
+        }
+
+        this.updateCell(x, y, dt);
+      }
+    }
   }
 
   render(renderer: Renderer): void {
-    for(let y = 0; y < this.grid.getSizeY(); y++) {
-      for(let x = 0; x < this.grid.getSizeX(); x++) {
+    if (!this.grid) return;
+
+    for (let y = 0; y < this.grid.getSizeY(); y++) {
+      for (let x = 0; x < this.grid.getSizeX(); x++) {
         this.renderCell(x, y, renderer);
       }
     }
   }
 
   abstract renderCell(x: number, y: number, renderer: Renderer): void;
+  abstract updateCell(x: number, y: number, dt: number): void;
 }

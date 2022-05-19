@@ -1,26 +1,44 @@
 import Canvas from "../display/Canvas.js";
 import { Player } from "../players/Player.js";
+import { TurnBasedPlayer } from "../players/TurnBasedPlayer.js";
 import Util from "../util/Util.js";
 import { Game } from "./Game.js";
 
 export abstract class TurnBasedGame extends Game {
-  protected players: Player[];
-  protected currentPlayer: Player | undefined;
+  protected players: TurnBasedPlayer[];
+  protected currentPlayer: TurnBasedPlayer;
 
-  constructor(canvas: Canvas, ...players: Player[]) {
+  constructor(canvas: Canvas, players?: TurnBasedPlayer | TurnBasedPlayer[]) {
     super(canvas);
-    this.players = players;
+    
+    if (!players) this.players = [];
+    else if (players instanceof Player) this.players = [players];
+    else this.players = players;
+
+    this.currentPlayer = this.randomPlayerTurn();
   }
 
-  addPlayer(player: Player): void {
+  tick() {
+    super.tick();
+
+    if(Util.array.isEmpty(this.players)) return;
+
+    if(this.currentPlayer.turnFinished) {
+      this.nextPlayer();
+      this.currentPlayer.isUp();
+    }
+  }
+
+  addPlayer(player: TurnBasedPlayer): void {
     if (this.players.includes(player)) return;
 
     this.players.push(player);
     player.init(this);
   }
 
-  randomPlayerTurn(): void {
+  randomPlayerTurn(): TurnBasedPlayer {
     this.currentPlayer = Util.array.getRandomItem(this.players);
+    return this.currentPlayer;
   }
 
   mixPlayerOrder(): void {
@@ -36,12 +54,13 @@ export abstract class TurnBasedGame extends Game {
     this.players = mixedPlayer;
   }
 
-  nextPlayer(): void {
-    if (this.currentPlayer == undefined) this.randomPlayerTurn();
+  nextPlayer(): TurnBasedPlayer {
+    if (!this.currentPlayer) this.randomPlayerTurn();
     else
       this.currentPlayer = Util.array.getItem(
         this.players,
         this.players.indexOf(this.currentPlayer) + 1
       );
+    return this.currentPlayer;
   }
 }

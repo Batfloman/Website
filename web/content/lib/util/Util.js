@@ -79,6 +79,9 @@ Util.array = {
         }
         return null;
     },
+    isEmpty(arr) {
+        return arr.length == 0;
+    }
 };
 Util.math = {
     randomBetween(start, end, num_decimals = 0) {

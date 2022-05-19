@@ -46,6 +46,10 @@ const keys = new Map([
     ["control", "strg"],
     ["altgraph", "altRight"],
     ["alt", "alt"],
+    ["left", "left"],
+    ["right", "right"],
+    ["up", "up"],
+    ["down", "down"]
 ]);
 export default class Input {
     static staticConstructor() {

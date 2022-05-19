@@ -15,6 +15,8 @@ let currentTheme = "dark";
 let settingsActive = false;
 
 window.onload = () => {
+  if(!window.location.search) window.location.search = "theme=dark"; 
+
   const urlSearchParams = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(urlSearchParams.entries());
 
@@ -55,7 +57,7 @@ function updateTheme() {
   const root = document.querySelector(":root");
   const rs = root.style;
 
-  let theme = themes[currentTheme];
+  const theme = themes[currentTheme];
 
   rs.setProperty("--theme", theme.theme);
   rs.setProperty("--theme-background", theme.themeBackground);
@@ -65,6 +67,11 @@ function updateTheme() {
   ["btn-home", "btn-games", "btn-school"].forEach(btnID => {
     const btn = document.getElementById(btnID);
     const href = btn.getAttribute("href");
-    btn.setAttribute("href", href.replace(themePattern, "theme=" + currentTheme));
+
+    let newHref;
+    if(href == null) newHref = "theme" + currentTheme;
+    else newHref = href.replace(themePattern, "theme=" + currentTheme);
+    
+    btn.setAttribute("href", newHref);
   })
 }

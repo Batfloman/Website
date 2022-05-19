@@ -7,6 +7,7 @@ export default class Util {
         getRandomItem<T_2>(arr: T_2[]): T_2;
         removeItemAtIndex<T_3>(arr: T_3[], index: number): T_3;
         removeItem<T_4>(arr: T_4[], item: T_4): T_4 | null;
+        isEmpty<T_5>(arr: T_5[]): boolean;
     };
     static math: {
         randomBetween(start: number, end: number, num_decimals?: number): number;

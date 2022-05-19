@@ -47,6 +47,10 @@ const keys: Map<string, inputKey> = new Map([
   ["control", "strg"],
   ["altgraph", "altRight"],
   ["alt", "alt"],
+  ["left", "left"],
+  ["right", "right"],
+  ["up", "up"],
+  ["down", "down"]
 ]);
 
 export default class Input {
