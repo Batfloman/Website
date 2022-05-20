@@ -2,9 +2,13 @@ import { GridObject } from "../../../lib/assets/GridObject.js";
 import { WorldObject } from "../../../lib/assets/WorldObject.js";
 import { Color } from "../../../lib/util/Color.js";
 import Cell from "./Cell.js";
+import Input from "../../../lib/input/Input.js";
 export default class Board extends GridObject {
     constructor(pos, width, height, xSize, ySize) {
         super(pos, width, height, xSize, ySize);
+        Input.newEventListener("click", this, (event) => {
+            console.log(event.offsetX, event.offsetY);
+        });
     }
     render(renderer) {
         super.render(renderer);

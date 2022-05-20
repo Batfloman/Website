@@ -4,10 +4,15 @@ import Renderer from "../../../lib/display/Renderer.js";
 import { Color } from "../../../lib/util/Color.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import Cell from "./Cell.js";
+import Input from "../../../lib/input/Input.js";
 
 export default class Board extends GridObject<Cell> {
   constructor(pos: Vector2, width: number, height: number, xSize: number, ySize: number) {
     super(pos, width, height, xSize, ySize);
+
+    Input.newEventListener("click", this, (event: MouseEvent) => {
+      console.log(event.offsetX, event.offsetY);
+    })
   }
 
   render(renderer: Renderer): void {

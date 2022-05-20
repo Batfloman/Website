@@ -38,4 +38,6 @@ export class GridObject extends WorldObject {
             }
         }
     }
+    add(cell) {
+    }
 }

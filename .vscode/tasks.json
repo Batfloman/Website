@@ -6,8 +6,9 @@
       "dependsOn": [
         "tsc: watch – Lib",
         "tsc: watch – Game: TicTacToe",
+        "tsc: watch - Games: Tetris",
         "tsc: watch - School: Collision2d",
-        "tsc: watch - Other: Universe"
+        "tsc: watch - Other: Universe",
       ],
       "problemMatcher": []
     },
@@ -15,19 +16,23 @@
       "type": "typescript",
       "tsconfig": "web/content/games/TicTacToe/ts/tsconfig.json",
       "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
+      "problemMatcher": ["$tsc-watch"],
       "group": "build",
       "label": "tsc: watch – Game: TicTacToe"
     },
     {
       "type": "typescript",
+      "tsconfig": "web/content/games/Tetris/ts/tsconfig.json",
+      "option": "watch",
+      "problemMatcher": ["$tsc-watch"],
+      "group": "build",
+      "label": "tsc: watch - Games: Tetris"
+    },
+    {
+      "type": "typescript",
       "tsconfig": "lib/tsconfig.json",
       "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
+      "problemMatcher": ["$tsc-watch"],
       "group": "build",
       "label": "tsc: watch – Lib"
     },
@@ -35,9 +40,7 @@
       "type": "typescript",
       "tsconfig": "web/content/school/collision2d/ts/tsconfig.json",
       "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
+      "problemMatcher": ["$tsc-watch"],
       "group": "build",
       "label": "tsc: watch - School: Collision2d"
     },
@@ -45,9 +48,7 @@
       "type": "typescript",
       "tsconfig": "web/content/other/universe/ts/tsconfig.json",
       "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
+      "problemMatcher": ["$tsc-watch"],
       "group": "build",
       "label": "tsc: watch - Other: Universe"
     }

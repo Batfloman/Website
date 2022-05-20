@@ -2,9 +2,10 @@ import Renderer from "../display/Renderer.js";
 import Rectangle from "../physic/boundingBox/Rectangle.js";
 import Matrix2 from "../util/Matrix2.js";
 import Vector2 from "../util/Vector2.js";
+import { GridCell } from "./GridCell.js";
 import { WorldObject } from "./WorldObject.js";
 
-export abstract class GridObject<Type> extends WorldObject<Rectangle> {
+export abstract class GridObject<Type extends GridCell> extends WorldObject<Rectangle> {
   grid!: Matrix2<Type>;
 
   xSize: number;
@@ -24,6 +25,9 @@ export abstract class GridObject<Type> extends WorldObject<Rectangle> {
     this.xCellSize = width / xSize;
     this.yCellSize = height / ySize;
   }
+
+  // ==========================================================================================
+  // update + render  
 
   update2(dt: number): void {
     if (!this.grid) return;
@@ -57,6 +61,14 @@ export abstract class GridObject<Type> extends WorldObject<Rectangle> {
     }
   }
 
+  // ==========================================================================================
+  // unique methods
+
   abstract renderCell(x: number, y: number, renderer: Renderer): void;
   abstract updateCell(x: number, y: number, dt: number): void;
+
+  add(cell: Type) {
+    
+  }
+  
 }
