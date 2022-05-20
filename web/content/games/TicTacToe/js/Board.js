@@ -1,7 +1,17 @@
 import { GridObject } from "../../../lib/assets/GridObject.js";
 import { WorldObject } from "../../../lib/assets/WorldObject.js";
+import { Color } from "../../../lib/util/Color.js";
 import Cell from "./Cell.js";
 export default class Board extends GridObject {
+    constructor(pos, width, height, xSize, ySize) {
+        super(pos, width, height, xSize, ySize);
+    }
+    render(renderer) {
+        super.render(renderer);
+        renderer.setStrokeColor(Color.get("black"));
+        renderer.setLineWidth(5);
+        renderer.renderGrid(this.pos, this.xSize, this.ySize, this.xCellSize, this.yCellSize);
+    }
     renderCell(x, y, renderer) {
         const content = this.grid.get(x, y);
         if (content instanceof WorldObject) {

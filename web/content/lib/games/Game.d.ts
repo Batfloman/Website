@@ -25,6 +25,7 @@ export declare abstract class Game {
     start(): void;
     stop(): void;
     getCamara(): Camara;
+    getRenderer(): Renderer;
     setCamaraScaleLock(b: boolean): void;
     setCamaraMovementLock(b: boolean): void;
     setMaxUpdateDistance(distance: number): void;

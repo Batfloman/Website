@@ -5,6 +5,10 @@ export class GridObject extends WorldObject {
     constructor(pos, width, height, xSize, ySize) {
         super(pos, new Rectangle(width, height));
         this.grid = new Matrix2(xSize, ySize);
+        this.xSize = xSize;
+        this.ySize = ySize;
+        this.xCellSize = width / xSize;
+        this.yCellSize = height / ySize;
     }
     update2(dt) {
         if (!this.grid)

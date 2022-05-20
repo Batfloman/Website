@@ -35,65 +35,69 @@ export default class Renderer {
     this.ctx.lineWidth = this.lineWidth * this.camara.scale;
   }
 
+  private calcPosOnScreen(worldPos: Vector2): Vector2 {
+    const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
+
+    distance.y = -distance.y;
+
+    return distance.add(this.offSet);
+
+    // return new Vector2(distance.x + this.offSet.x, distance.y + this.offSet.y);
+  }
+
+  // ==========================================================================================
+  // render
+
   clear() {
+    this.updateValues();
+
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  renderGrid(worldPos: Vector2, xSize: number, ySize: number, cellXSize: number, cellYSize: number) {
+  renderGrid(
+    worldPos: Vector2,
+    xSize: number,
+    ySize: number,
+    cellXSize: number,
+    cellYSize: number
+  ): void {
+    this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize);
+  }
+
+  renderStaticGrid(
+    pos: Vector2,
+    xSize: number,
+    ySize: number,
+    cellXSize: number,
+    cellYSize: number
+  ): void {
     this.updateValues();
 
-    let pos = worldPos.subtract(this.offSet);
-    cellXSize *= this.scale;
-    cellYSize *= this.scale;
-    let w = xSize * cellXSize;
-    let h = ySize * cellYSize;
+    const w = cellXSize * xSize * this.scale;
+    const h = cellYSize * ySize * this.scale;
 
-    // center Model
-    pos = pos.subtract(new Vector2(w / 2, -h / 2));
+    const topLeft = new Vector2(
+      pos.x - w / 2,
+      pos.y - h / 2
+    );
 
-    // begin Draw
-    this.ctx.beginPath();
-
-    // senkrecht
-    for (let i = 0; i <= xSize; i++) {
-      this.ctx.moveTo(pos.x + i * cellXSize, -pos.y);
-      this.ctx.lineTo(pos.x + i * cellXSize, -pos.y + h);
+    // vertical
+    for(let x = 0; x <= xSize; x++) {
+      this.ctx.moveTo(topLeft.x + x * cellXSize * this.scale, topLeft.y);
+      this.ctx.lineTo(topLeft.x + x * cellXSize * this.scale, topLeft.y + h);
       this.ctx.stroke();
     }
 
     // horizontal
-    for (let i = 0; i <= ySize; i++) {
-      this.ctx.moveTo(pos.x, -pos.y + i * cellYSize);
-      this.ctx.lineTo(pos.x + w, -pos.y + i * cellYSize);
+    for(let y = 0; y <= ySize; y++) {
+      this.ctx.moveTo(topLeft.x, topLeft.y + y * cellYSize * this.scale);
+      this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
       this.ctx.stroke();
     }
   }
 
-  renderPoints(points: Vector2[], radius: number) {
-    this.updateValues();
-
-    radius *= this.scale;
-
-    points.forEach((point) => {
-      let pos = this.calcPosOnScreen(point);
-      this.ctx.beginPath();
-      this.ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
-      this.ctx.fill();
-      this.ctx.stroke();
-    });
-  }
-
   renderText(worldPos: Vector2, text: string) {
-    this.updateValues();
-
-    let pos = this.calcPosOnScreen(worldPos);
-
-    this.ctx.beginPath();
-    this.ctx.textAlign = "center";
-    this.ctx.textBaseline = "middle";
-    this.ctx.font = "20px Arial";
-    this.ctx.fillText(text, pos.x, pos.y);
-    this.ctx.stroke();
+    this.renderStaticText(this.calcPosOnScreen(worldPos), text);
   }
 
   renderStaticText(pos: Vector2, text: string) {
@@ -107,10 +111,18 @@ export default class Renderer {
     this.ctx.stroke();
   }
 
-  renderCircle(worldPos: Vector2, radius: number) {
-    this.updateValues();
+  renderPoints(points: Vector2[], radius: number): void {
+    for (let point of points) {
+      this.renderCircle(point, radius);
+    }
+  }
 
-    let pos = this.calcPosOnScreen(worldPos);
+  renderCircle(worldPos: Vector2, radius: number): void {
+    this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius);
+  }
+
+  renderStaticCirle(pos: Vector2, radius: number): void {
+    this.updateValues();
 
     this.ctx.beginPath();
     this.ctx.arc(pos.x, pos.y, radius * this.scale, 0, Math.PI * 2);
@@ -119,15 +131,17 @@ export default class Renderer {
   }
 
   renderRectangle(worldPos: Vector2, width: number, height: number) {
-    this.updateValues();
+    this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width, height);
+  }
 
-    const pos = this.calcPosOnScreen(worldPos);
+  renderStaticRectangle(pos: Vector2, width: number, height: number): void {
+    this.updateValues();
 
     const w = width * this.scale;
     const h = height * this.scale;
 
     this.ctx.beginPath();
-    this.ctx.strokeRect(pos.x - (w / 2), pos.y + (h / 2), w, h);
+    this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
     this.ctx.fill();
     this.ctx.stroke();
   }
@@ -160,27 +174,20 @@ export default class Renderer {
     renderPoints: boolean = true,
     renderOutline: boolean = true
   ) {
-    this.updateValues();
-
     let translated = Polygon2Helper.translatePoints(polygon.model, worldPos, angle);
 
     if (renderOutline) this.connectPoints(translated);
     if (renderPoints) this.renderPoints(translated, 1);
   }
 
-  private calcPosOnScreen(worldPos: Vector2): Vector2 {
-    let distance = worldPos.subtract(this.camara.pos).scale(this.scale);
+  // ==========================================================================================
+  // setter
 
-    let pos = new Vector2(distance.x + this.offSet.x, -distance.y + this.offSet.y);
-
-    return pos;
-  }
-
-  setStrokeColor(color: Color | undefined) {
+  setStrokeColor(color: Color | undefined = Color.none) {
     if (!color) color = Color.none;
     this.strokeColor = color;
   }
-  setFillColor(color: Color | undefined) {
+  setFillColor(color: Color | undefined = Color.none) {
     if (!color) color = Color.none;
     this.fillColor = color;
   }

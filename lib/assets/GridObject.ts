@@ -7,10 +7,22 @@ import { WorldObject } from "./WorldObject.js";
 export abstract class GridObject<Type> extends WorldObject<Rectangle> {
   grid!: Matrix2<Type>;
 
+  xSize: number;
+  ySize: number;
+
+  xCellSize: number;
+  yCellSize: number;
+
   constructor(pos: Vector2, width: number, height: number, xSize: number, ySize: number) {
     super(pos, new Rectangle(width, height));
 
     this.grid = new Matrix2(xSize, ySize);
+
+    this.xSize = xSize;
+    this.ySize = ySize;
+
+    this.xCellSize = width / xSize;
+    this.yCellSize = height / ySize;
   }
 
   update2(dt: number): void {

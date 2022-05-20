@@ -1,0 +1,134 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rechnen | Florian</title>
+
+  <link href="./css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="grid">
+    <div id="math-problem" class="math-problem">10 + 10</div>
+    <div class="input-block">
+      <input id="input" class="input" onsubmit="checkAnswer();">
+    </div>
+  </div>
+
+  <script>
+    let activeOperators = ["+"];
+
+    let currentOperator;
+    let answer;
+
+    let level = 1;
+
+    function newMathProblem() {
+      updateActiveOperators();
+      currentOperator = activeOperators[Math.floor(Math.random() * activeOperators.length)];
+
+      const numbers = getRandomNumbers();
+      const problemText = `${numbers.number1} ${currentOperator} ${numbers.number2}`;
+
+      answer = findAnswer(numbers.number1, numbers.number2);
+
+      updateProblemText(problemText);
+    }
+
+    function getRandomNumbers() {
+      let num1;
+      let num2;
+
+      switch (currentOperator) {
+        case "+":
+          num1 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
+          num2 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
+          break;
+        case "-":
+          num1 = randomBetween(Math.pow(1.2, level), level, Math.round(level / 20));
+          num2 = randomBetween(level, Math.pow(1.2, level), Math.round(level / 20));
+          break;
+        case "*":
+          num1 = randomBetween(level, level, Math.round(level / 20));
+          num2 = randomBetween(level, level, Math.round(level / 20));
+          break;
+        case "/":
+          num1 = randomBetween(level, level, Math.round(level / 20));
+          num2 = randomBetween(level, level, Math.round(level / 20));
+          break;
+        case "^":
+          num1 = randomBetween(level, level, Math.round(level / 20));
+          num2 = randomBetween(level, level, Math.round(level / 20));
+          break;
+      }
+
+      return {
+        number1: num1,
+        number2: num2
+      }
+    }
+
+    function randomBetween(start, end, amountDeciamls) {
+      return round((Math.random() * (end - start)) + start, amountDeciamls);
+    }
+
+    function updateActiveOperators() {
+      activeOperators = [];
+      activeOperators.push("+");
+      if (level >= 4) activeOperators.push("-");
+      if (level >= 10) activeOperators.push("*");
+      if (level >= 20) activeOperators.push("/");
+      if (level >= 30) activeOperators.push("^");
+    }
+
+    function round(number, amountDeciamls = 0) {
+      const factor = Math.pow(10, amountDeciamls);
+      return Math.round(number * factor) / factor;
+    }
+
+    function findAnswer(num1, num2) {
+      switch (currentOperator) {
+        case "+":
+          answer = num1 + num2;
+          break;
+        case "-":
+          answer = num1 - num2;
+          break;
+        case "*":
+          anwer = num1 * num2;
+          break;
+        case "/":
+          answer = num1 / num2;
+          break;
+        case "^":
+          answer = Math.pow(num1, num2);
+          break;
+      }
+    }
+
+    const input = document.getElementById("input");
+
+    function checkAnswer() {
+      let guessed = input.innerText;
+      console.log("test")
+
+      if (guessed == answer) {
+        setTimeout(() => {
+          console.log("right")
+        }, 1000)
+      }
+    }
+
+    const mathProblem = document.getElementById("math-problem");
+
+    function updateProblemText(text) {
+      mathProblem.innerText = text;
+    }
+
+    newMathProblem();
+  </script>
+</body>
+
+</html>

@@ -101,6 +101,9 @@ export class Game {
     getCamara() {
         return this.camara;
     }
+    getRenderer() {
+        return this.renderer;
+    }
     setCamaraScaleLock(b) {
         this.camara.lockScaling = b;
     }

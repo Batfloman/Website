@@ -20,49 +20,36 @@ export default class Renderer {
         this.ctx.fillStyle = this.fillColor.getRGBString();
         this.ctx.lineWidth = this.lineWidth * this.camara.scale;
     }
+    calcPosOnScreen(worldPos) {
+        const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
+        distance.y = -distance.y;
+        return distance.add(this.offSet);
+    }
     clear() {
+        this.updateValues();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
     renderGrid(worldPos, xSize, ySize, cellXSize, cellYSize) {
-        this.updateValues();
-        let pos = worldPos.subtract(this.offSet);
-        cellXSize *= this.scale;
-        cellYSize *= this.scale;
-        let w = xSize * cellXSize;
-        let h = ySize * cellYSize;
-        pos = pos.subtract(new Vector2(w / 2, -h / 2));
-        this.ctx.beginPath();
-        for (let i = 0; i <= xSize; i++) {
-            this.ctx.moveTo(pos.x + i * cellXSize, -pos.y);
-            this.ctx.lineTo(pos.x + i * cellXSize, -pos.y + h);
-            this.ctx.stroke();
-        }
-        for (let i = 0; i <= ySize; i++) {
-            this.ctx.moveTo(pos.x, -pos.y + i * cellYSize);
-            this.ctx.lineTo(pos.x + w, -pos.y + i * cellYSize);
-            this.ctx.stroke();
-        }
+        this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize);
     }
-    renderPoints(points, radius) {
+    renderStaticGrid(pos, xSize, ySize, cellXSize, cellYSize) {
         this.updateValues();
-        radius *= this.scale;
-        points.forEach((point) => {
-            let pos = this.calcPosOnScreen(point);
-            this.ctx.beginPath();
-            this.ctx.arc(pos.x, pos.y, radius, 0, Math.PI * 2);
-            this.ctx.fill();
+        const w = cellXSize * xSize * this.scale;
+        const h = cellYSize * ySize * this.scale;
+        const topLeft = new Vector2(pos.x - w / 2, pos.y - h / 2);
+        for (let x = 0; x <= xSize; x++) {
+            this.ctx.moveTo(topLeft.x + x * cellXSize * this.scale, topLeft.y);
+            this.ctx.lineTo(topLeft.x + x * cellXSize * this.scale, topLeft.y + h);
             this.ctx.stroke();
-        });
+        }
+        for (let y = 0; y <= ySize; y++) {
+            this.ctx.moveTo(topLeft.x, topLeft.y + y * cellYSize * this.scale);
+            this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
+            this.ctx.stroke();
+        }
     }
     renderText(worldPos, text) {
-        this.updateValues();
-        let pos = this.calcPosOnScreen(worldPos);
-        this.ctx.beginPath();
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "middle";
-        this.ctx.font = "20px Arial";
-        this.ctx.fillText(text, pos.x, pos.y);
-        this.ctx.stroke();
+        this.renderStaticText(this.calcPosOnScreen(worldPos), text);
     }
     renderStaticText(pos, text) {
         this.updateValues();
@@ -73,21 +60,30 @@ export default class Renderer {
         this.ctx.fillText(text, pos.x, pos.y);
         this.ctx.stroke();
     }
+    renderPoints(points, radius) {
+        for (let point of points) {
+            this.renderCircle(point, radius);
+        }
+    }
     renderCircle(worldPos, radius) {
+        this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius);
+    }
+    renderStaticCirle(pos, radius) {
         this.updateValues();
-        let pos = this.calcPosOnScreen(worldPos);
         this.ctx.beginPath();
         this.ctx.arc(pos.x, pos.y, radius * this.scale, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.stroke();
     }
     renderRectangle(worldPos, width, height) {
+        this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width, height);
+    }
+    renderStaticRectangle(pos, width, height) {
         this.updateValues();
-        const pos = this.calcPosOnScreen(worldPos);
         const w = width * this.scale;
         const h = height * this.scale;
         this.ctx.beginPath();
-        this.ctx.strokeRect(pos.x - (w / 2), pos.y + (h / 2), w, h);
+        this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
         this.ctx.fill();
         this.ctx.stroke();
     }
@@ -109,24 +105,18 @@ export default class Renderer {
         this.ctx.stroke();
     }
     renderPolygon(worldPos, polygon, angle, renderPoints = true, renderOutline = true) {
-        this.updateValues();
         let translated = Polygon2Helper.translatePoints(polygon.model, worldPos, angle);
         if (renderOutline)
             this.connectPoints(translated);
         if (renderPoints)
             this.renderPoints(translated, 1);
     }
-    calcPosOnScreen(worldPos) {
-        let distance = worldPos.subtract(this.camara.pos).scale(this.scale);
-        let pos = new Vector2(distance.x + this.offSet.x, -distance.y + this.offSet.y);
-        return pos;
-    }
-    setStrokeColor(color) {
+    setStrokeColor(color = Color.none) {
         if (!color)
             color = Color.none;
         this.strokeColor = color;
     }
-    setFillColor(color) {
+    setFillColor(color = Color.none) {
         if (!color)
             color = Color.none;
         this.fillColor = color;

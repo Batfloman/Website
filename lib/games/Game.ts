@@ -133,10 +133,15 @@ export abstract class Game {
     this.paused = true;
   }
 
+  // ==========================================================================================
+  // getter & setter
+
   getCamara(): Camara {
     return this.camara;
   }
-
+  getRenderer(): Renderer {
+    return this.renderer;
+  }
   setCamaraScaleLock(b: boolean) {
     this.camara.lockScaling = b;
   }

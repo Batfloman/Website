@@ -2,5 +2,6 @@
   "TicTacToe": "../content/games/TicTacToe/index.html",
   "MineSweepers": "../content/games/MineSweepers/index.html",
   "ConnectFour": "../content/games/ConnectFour/index.html",
-  "Clicker": "../content/games/Clicker/index.html"
+  "Clicker": "../content/games/Clicker/index.html",
+  "Rechnen": "../content/games/Rechnen/index.html"
 }
