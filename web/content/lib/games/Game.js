@@ -1,108 +1,118 @@
 import Camara from "../display/Camara.js";
 import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
+import World from "../Worlds/World.js";
 export class Game {
     constructor(canvas) {
-        this.paused = true;
-        this.pausedBecauseBlur = false;
-        this.timeElapsedBeforePause = 0;
-        this.lastTime = Date.now();
+        this.worlds = new Map();
+        this.isStopped = true;
+        this.stoppedBecauseBlur = false;
+        this.timeElapsedBeforeStop = 0;
+        this.lastTickTime = Date.now();
         this.maxUpdateDistance = 2000;
         this.deleteDistance = 10000;
         this.canvas = canvas;
-        this.objects = [];
         this.camara = new Camara(this.canvas);
         this.renderer = new Renderer(this.canvas, this.camara);
+        this.addWorld("main", new World());
         Input.newEventListener("blur", this, () => {
-            if (!this.paused) {
+            if (!this.isStopped) {
                 this.stop();
-                this.pausedBecauseBlur = true;
+                this.stoppedBecauseBlur = true;
             }
         });
         Input.newEventListener("focus", this, () => {
-            if (this.pausedBecauseBlur)
+            if (this.stoppedBecauseBlur)
                 this.start();
         });
         Input.newEventListener("resize", this, this.renderObjects);
         Game.testTick(this);
     }
     static testTick(game) {
-        if (!game.paused)
+        if (!game.isStopped)
             game.tick();
         window.requestAnimationFrame(() => {
             Game.testTick(game);
         });
     }
     tick() {
-        let before = Date.now();
         this.updateObjects();
-        const timeToUpdate = Date.now() - before;
-        before = Date.now();
         this.renderObjects();
-        const timeToRender = Date.now() - before;
     }
     updateObjects() {
         let dt = this.calc_dt();
-        this.lastTime = Date.now();
-        this.objects.forEach((obj) => {
-            if (obj.shouldUpdate())
+        this.lastTickTime = Date.now();
+        for (let world of Array.from(this.worlds.values())) {
+            for (let obj of world.objects) {
                 obj.update(dt);
-        });
+            }
+        }
     }
     renderObjects() {
-        let renderer = new Renderer(this.canvas, this.camara);
-        renderer.clear();
-        this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
-        this.objects.forEach((obj) => {
-            if (obj.shouldRender())
-                obj.render(renderer);
-        });
+        this.renderer.clear();
+        for (let world of Array.from(this.worlds.values())) {
+            world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
+            for (let obj of world.objects) {
+                obj.render(this.renderer);
+            }
+        }
     }
-    addObject(obj) {
-        if (this.objects.includes(obj))
-            return;
-        this.objects.push(obj);
+    addObject(obj, worldName = "main") {
+        const world = this.worlds.get(worldName);
+        if (!world)
+            throw new Error(`${worldName} is no World!`);
+        world.addObject(obj);
         obj.init(this, this.canvas);
     }
-    removeObject(obj) {
-        if (!this.objects.includes(obj))
-            return;
-        let removed = this.objects.splice(this.objects.indexOf(obj), 1);
-        return removed[0];
+    removeObject(obj, worldName = "main") {
+        const world = this.worlds.get(worldName);
+        if (!world)
+            throw new Error(`${worldName} is no World`);
+        return world.removeObject(obj);
     }
     findObjects(clas, exclude) {
         let found = [];
-        this.objects.forEach((obj) => {
-            if (exclude instanceof Array && exclude.includes(obj))
-                return;
-            if (exclude instanceof Object && exclude == obj)
-                return;
-            if (obj instanceof clas) {
-                found.push(obj);
+        for (let world of Array.from(this.worlds.values())) {
+            for (let obj of world.objects) {
+                if (exclude instanceof Array && exclude.includes(obj))
+                    continue;
+                if (exclude instanceof Object && exclude == obj)
+                    continue;
+                if (obj instanceof clas)
+                    found.push(obj);
             }
-        });
+        }
         return found;
     }
+    addWorld(name, world) {
+        this.worlds.set(name, world);
+    }
+    getWorld(name) {
+        return this.worlds.get(name);
+    }
     calc_dt() {
-        return Date.now() - this.lastTime;
+        return Date.now() - this.lastTickTime;
     }
     start() {
-        if (!this.paused)
+        if (!this.isStopped)
             return;
-        this.lastTime = Date.now() - this.timeElapsedBeforePause;
-        this.paused = false;
+        this.lastTickTime = Date.now() - this.timeElapsedBeforeStop;
+        this.isStopped = false;
     }
     stop() {
-        if (this.paused)
+        if (this.isStopped)
             return;
-        this.timeElapsedBeforePause = Date.now() - this.lastTime;
-        this.paused = true;
+        this.timeElapsedBeforeStop = Date.now() - this.lastTickTime;
+        this.isStopped = true;
     }
     getCamara() {
         return this.camara;
     }
     getRenderer() {
         return this.renderer;
+    }
+    getCanvas() {
+        return this.canvas;
     }
     setCamaraScaleLock(b) {
         this.camara.lockScaling = b;

@@ -1,4 +1,4 @@
-import Vector2 from "../../util/Vector2.js";
+import Vector2 from "../util/Vector2.js";
 import IPositionable from "./IPositionable.js";
 
 export default interface IMoveable extends IPositionable {

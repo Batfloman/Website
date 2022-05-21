@@ -1,5 +1,5 @@
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
+import Util from "../util/Util.js";
+import Vector2 from "../util/Vector2.js";
 import Polygon2Helper from "../algorithms/Polygon2Helper.js";
 import { HitBox } from "./HitBox.js";
 

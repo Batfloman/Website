@@ -1,4 +1,4 @@
-import Circle from "../boundingBox/Circle.js";
+import Circle from "../../boundingBox/Circle.js";
 import CircleCollision from "./CircleCollision.js";
 import SAT from "./SAT.js";
 import Triangulation from "./Triangulation.js";

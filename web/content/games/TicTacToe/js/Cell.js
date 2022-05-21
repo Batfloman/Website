@@ -1,6 +1,6 @@
-import { WorldObject } from "../../../lib/assets/WorldObject.js";
+import { GridCell } from "../../../lib/assets/GridCell.js";
 import Rectangel from "../../../lib/physic/boundingBox/Rectangel.js";
-export default class Cell extends WorldObject {
+export default class Cell extends GridCell {
     constructor(board) {
         const pos = board.pos;
         const hitBox = new Rectangel(board.hitBox.width / board.grid.getSizeX(), board.hitBox.height / board.grid.getSizeY());

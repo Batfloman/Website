@@ -3,43 +3,42 @@ import Camara from "../display/Camara.js";
 import Canvas from "../display/Canvas.js";
 import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
+import World from "../Worlds/World.js";
 
 export abstract class Game {
+  // display
   protected canvas: Canvas;
-  protected objects: SceneObject[];
   protected camara: Camara;
   protected renderer: Renderer;
 
-  // game is paused?
-  private paused: boolean = true;
-  // changed Tab? auto pause
-  private pausedBecauseBlur: boolean = false;
-  // if paused saves elapsed time
-  private timeElapsedBeforePause = 0;
+  // contents
+  protected worlds: Map<string, World> = new Map();
 
-  // saves the time form the latest game-tick
-  private lastTime = Date.now();
+  // time
+  private isStopped: boolean = true;
+  private stoppedBecauseBlur: boolean = false;
+  private timeElapsedBeforeStop = 0;
+  private lastTickTime = Date.now();
 
-  // max distance at which Object will be updated
   maxUpdateDistance = 2000;
-  // max distance that an Object can have to the Camara before it is deleted
   deleteDistance = 10000;
 
   constructor(canvas: Canvas) {
     this.canvas = canvas;
-    this.objects = [];
 
     this.camara = new Camara(this.canvas);
     this.renderer = new Renderer(this.canvas, this.camara);
 
+    this.addWorld("main", new World());
+
     Input.newEventListener("blur", this, () => {
-      if (!this.paused) {
+      if (!this.isStopped) {
         this.stop();
-        this.pausedBecauseBlur = true;
+        this.stoppedBecauseBlur = true;
       }
     });
     Input.newEventListener("focus", this, () => {
-      if (this.pausedBecauseBlur) this.start();
+      if (this.stoppedBecauseBlur) this.start();
     });
     Input.newEventListener("resize", this, this.renderObjects);
 
@@ -47,9 +46,12 @@ export abstract class Game {
     Game.testTick(this);
   }
 
-  // only ticks the game when not paused
+  // ==========================================================================================
+  // game Tick
+
+  // only tick's game when running
   private static testTick(game: Game): void {
-    if (!game.paused) game.tick();
+    if (!game.isStopped) game.tick();
 
     window.requestAnimationFrame(() => {
       Game.testTick(game);
@@ -57,80 +59,101 @@ export abstract class Game {
   }
 
   tick(): void {
-    let before = Date.now();
+    // let before = Date.now();
     this.updateObjects();
-    const timeToUpdate = Date.now() - before;
-    
-    before = Date.now();
+    // const timeToUpdate = Date.now() - before;
+
+    // before = Date.now();
     this.renderObjects();
-    const timeToRender = Date.now() - before;
+    // const timeToRender = Date.now() - before;
 
     // console.log("update", timeToUpdate, "render", timeToRender);
   }
 
   private updateObjects() {
     let dt = this.calc_dt();
-    this.lastTime = Date.now();
+    this.lastTickTime = Date.now();
 
-    this.objects.forEach((obj) => {
-      if (obj.shouldUpdate()) obj.update(dt);
-    });
+    for(let world of Array.from(this.worlds.values())) {
+      for(let obj of world.objects) {
+        obj.update(dt);
+      }
+    }
   }
 
   private renderObjects() {
-    let renderer = new Renderer(this.canvas, this.camara);
+    this.renderer.clear();
+    
+    for(let world of Array.from(this.worlds.values())) {
+      world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
 
-    renderer.clear();
-
-    this.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
-
-    this.objects.forEach((obj) => {
-      if (obj.shouldRender()) obj.render(renderer);
-    });
+      for(let obj of world.objects) {
+        obj.render(this.renderer);
+      }
+    }
   }
 
-  addObject(obj: SceneObject): void {
-    if (this.objects.includes(obj)) return;
+  // ==========================================================================================
+  // objects
 
-    this.objects.push(obj);
+  addObject(obj: SceneObject, worldName: string = "main"): void {
+    const world = this.worlds.get(worldName);
+    if(!world) throw new Error(`${worldName} is no World!`);
+
+    world.addObject(obj);
     obj.init(this, this.canvas);
   }
 
-  removeObject(obj: SceneObject): SceneObject | undefined {
-    if (!this.objects.includes(obj)) return;
+  removeObject(obj: SceneObject, worldName: string = "main"): SceneObject | undefined {
+    const world = this.worlds.get(worldName);
+    if(!world) throw new Error(`${worldName} is no World`);
 
-    let removed = this.objects.splice(this.objects.indexOf(obj), 1);
-    return removed[0];
+    return world.removeObject(obj);
   }
 
   findObjects<T extends SceneObject>(clas: Function, exclude?: T | T[]): T[] {
     let found: T[] = [];
 
-    this.objects.forEach((obj) => {
-      if (exclude instanceof Array && exclude.includes(obj as T)) return;
-      if (exclude instanceof Object && exclude == obj) return;
-      if (obj instanceof clas) {
-        found.push(obj as T);
+    for(let world of Array.from(this.worlds.values())) {
+      for(let obj of world.objects) {
+        if(exclude instanceof Array && exclude.includes(obj as T)) continue;
+        if(exclude instanceof Object && exclude == obj) continue;
+
+        if(obj instanceof clas) found.push(obj as T);
       }
-    });
+    }
 
     return found;
   }
 
+  // ==========================================================================================
+  // worlds
+
+  addWorld(name: string, world: World) {
+    this.worlds.set(name, world);
+  }
+
+  getWorld(name: string): World | undefined {
+    return this.worlds.get(name);
+  }
+
+  // ==========================================================================================
+  // time
+
   private calc_dt(): number {
-    return Date.now() - this.lastTime;
+    return Date.now() - this.lastTickTime;
   }
   start(): void {
-    if (!this.paused) return;
+    if (!this.isStopped) return;
 
-    this.lastTime = Date.now() - this.timeElapsedBeforePause;
-    this.paused = false;
+    this.lastTickTime = Date.now() - this.timeElapsedBeforeStop;
+    this.isStopped = false;
   }
   stop(): void {
-    if (this.paused) return;
+    if (this.isStopped) return;
 
-    this.timeElapsedBeforePause = Date.now() - this.lastTime;
-    this.paused = true;
+    this.timeElapsedBeforeStop = Date.now() - this.lastTickTime;
+    this.isStopped = true;
   }
 
   // ==========================================================================================
@@ -141,6 +164,9 @@ export abstract class Game {
   }
   getRenderer(): Renderer {
     return this.renderer;
+  }
+  getCanvas(): Canvas {
+    return this.canvas;
   }
   setCamaraScaleLock(b: boolean) {
     this.camara.lockScaling = b;

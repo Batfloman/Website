@@ -1,10 +1,10 @@
-import { WorldObject } from "../../../lib/assets/WorldObject.js";
+import { GridCell } from "../../../lib/assets/GridCell.js";
 import Renderer from "../../../lib/display/Renderer.js";
 import Rectangel from "../../../lib/physic/boundingBox/Rectangel.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import Board from "./Board.js";
 
-export default class Cell extends WorldObject<Rectangel> {
+export default class Cell extends GridCell {
   board: Board;
 
   constructor(board: Board) {

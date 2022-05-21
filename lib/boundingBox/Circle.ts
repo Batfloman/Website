@@ -1,5 +1,5 @@
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
+import Util from "../util/Util.js";
+import Vector2 from "../util/Vector2.js";
 import { HitBox } from "./HitBox.js";
 
 export default class Circle extends HitBox {

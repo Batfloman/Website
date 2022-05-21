@@ -1,6 +1,6 @@
-import Camara from "../../display/Camara.js";
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
+import Camara from "../display/Camara.js";
+import Util from "../util/Util.js";
+import Vector2 from "../util/Vector2.js";
 import ICollideable from "../property/ICollideable.js";
 
 export default class CircleCollision {

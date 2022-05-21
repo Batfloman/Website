@@ -1,4 +1,4 @@
-import Vector2 from "../../util/Vector2.js";
+import Vector2 from "../util/Vector2.js";
 import Polygon from "./Polygon2.js";
 
 export default class Rectangle extends Polygon {

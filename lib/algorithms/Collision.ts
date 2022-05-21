@@ -1,4 +1,4 @@
-import Camara from "../../display/Camara.js";
+import Camara from "../display/Camara.js";
 import Circle from "../boundingBox/Circle.js";
 import ICollideable from "../property/ICollideable.js";
 import CircleCollision from "./CircleCollision.js";
