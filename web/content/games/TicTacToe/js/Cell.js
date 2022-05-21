@@ -1,5 +1,5 @@
-import { GridCell } from "../../../lib/assets/GridCell.js";
-import Rectangel from "../../../lib/physic/boundingBox/Rectangel.js";
+import { GridCell } from "../../../lib/assets/Objects/GridCell.js";
+import Rectangel from "../../../lib/physic/boundingBox/Rectangle.js";
 export default class Cell extends GridCell {
     constructor(board) {
         const pos = board.pos;

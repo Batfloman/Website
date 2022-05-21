@@ -1,4 +1,4 @@
-import { WorldObject } from "../../../lib/assets/WorldObject.js";
+import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import Circle from "../../../lib/physic/boundingBox/Circle.js";
 import Universe from "./Universe.js";

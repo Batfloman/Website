@@ -1,5 +1,5 @@
-import { GridObject } from "../../../lib/assets/GridObject.js";
-import { WorldObject } from "../../../lib/assets/WorldObject.js";
+import { GridObject } from "../../../lib/assets/Objects/GridObject.js";
+import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
 import Renderer from "../../../lib/display/Renderer.js";
 import { Color } from "../../../lib/util/Color.js";
 import Vector2 from "../../../lib/util/Vector2.js";

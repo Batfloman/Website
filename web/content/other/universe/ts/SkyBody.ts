@@ -1,11 +1,10 @@
-import { WorldObject } from "../../../lib/assets/WorldObject.js";
+import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
 import Renderer from "../../../lib/display/Renderer.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import Circle from "../../../lib/physic/boundingBox/Circle.js";
 import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 import { Color } from "../../../lib/util/Color.js";
-import ICollideable from "../../../lib/physic/property/ICollideable.js";
 
 export default class SkyBody extends WorldObject<Circle> {
   mass: number;

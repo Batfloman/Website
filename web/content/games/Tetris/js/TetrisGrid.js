@@ -1,4 +1,4 @@
-import { GridObject } from "../../../lib/assets/GridObject.js";
+import { GridObject } from "../../../lib/assets/Objects/GridObject.js";
 import { Color } from "../../../lib/util/Color.js";
 export default class TetrisGrid extends GridObject {
     renderCell(x, y, renderer) {

@@ -1,4 +1,4 @@
-import { TurnBasedPlayer } from "../../../lib/players/TurnBasedPlayer.js";
+import { TurnBasedPlayer } from "../../../lib/assets/players/TurnBasedPlayer.js";
 
 type playerSymbol = "x" | "o";
 

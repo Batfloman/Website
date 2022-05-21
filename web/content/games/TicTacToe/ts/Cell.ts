@@ -1,7 +1,6 @@
-import { GridCell } from "../../../lib/assets/GridCell.js";
+import { GridCell } from "../../../lib/assets/Objects/GridCell.js";
 import Renderer from "../../../lib/display/Renderer.js";
-import Rectangel from "../../../lib/physic/boundingBox/Rectangel.js";
-import Vector2 from "../../../lib/util/Vector2.js";
+import Rectangel from "../../../lib/physic/boundingBox/Rectangle.js";
 import Board from "./Board.js";
 
 export default class Cell extends GridCell {

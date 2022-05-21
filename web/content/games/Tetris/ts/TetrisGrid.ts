@@ -1,4 +1,4 @@
-import { GridObject } from "../../../lib/assets/GridObject.js";
+import { GridObject } from "../../../lib/assets/Objects/GridObject.js";
 import Renderer from "../../../lib/display/Renderer.js";
 import { Color } from "../../../lib/util/Color.js";
 import Block from "./Block.js";

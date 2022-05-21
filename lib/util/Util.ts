@@ -33,7 +33,7 @@ export default class Util {
 
     isEmpty<T>(arr: T[]): boolean {
       return arr.length == 0;
-    }
+    },
   };
 
   static math = {
@@ -54,8 +54,8 @@ export default class Util {
     },
     toRadian(degree: number) {
       return (degree * Math.PI) / 180;
-    }
-  }
+    },
+  };
 
   static shapes = {
     cricle: {
@@ -66,8 +66,8 @@ export default class Util {
     polygon: {
       area(polygon: Polygon2): number {
         return Polygon2Helper.findArea(polygon);
-      } 
-    }
+      },
+    },
   };
 
   /**
@@ -167,11 +167,10 @@ export default class Util {
    */
   static rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2 {
     const rad = Util.math.toRadian(angle);
-    const xRotated =
-      Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x;
-    const yRotated =
-      Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y;
 
-    return new Vector2(xRotated, yRotated);
+    return new Vector2(
+      Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x,
+      Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y
+    );
   }
 }

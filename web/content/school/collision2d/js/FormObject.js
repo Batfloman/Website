@@ -1,4 +1,4 @@
-import { ControllableObject } from "../../../lib/assets/ControllableObject.js";
+import { ControllableObject } from "../../../lib/assets/Objects/ControllableObject.js";
 import { Color } from "../../../lib/util/Color.js";
 import Triangulation from "../../../lib/physic/algorithms/Triangulation.js";
 import Util from "../../../lib/util/Util.js";

@@ -51,9 +51,7 @@ export default class Util {
     }
     static rotateAroundCenter(center, point, angle) {
         const rad = Util.math.toRadian(angle);
-        const xRotated = Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x;
-        const yRotated = Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y;
-        return new Vector2(xRotated, yRotated);
+        return new Vector2(Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x, Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y);
     }
 }
 Util.array = {
@@ -81,7 +79,7 @@ Util.array = {
     },
     isEmpty(arr) {
         return arr.length == 0;
-    }
+    },
 };
 Util.math = {
     randomBetween(start, end, num_decimals = 0) {
@@ -101,7 +99,7 @@ Util.math = {
     },
     toRadian(degree) {
         return (degree * Math.PI) / 180;
-    }
+    },
 };
 Util.shapes = {
     cricle: {
@@ -112,6 +110,6 @@ Util.shapes = {
     polygon: {
         area(polygon) {
             return Polygon2Helper.findArea(polygon);
-        }
-    }
+        },
+    },
 };
