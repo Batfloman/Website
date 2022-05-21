@@ -41,9 +41,11 @@ export class Color {
 Color.none = new Color(0, 0, 0, 0);
 const colors = new Map([
     ["red", new Color(255, 0, 0)],
+    ["orange", new Color(255, 165, 0)],
+    ["yellow", new Color(255, 255, 0)],
     ["green", new Color(0, 255, 0)],
     ["blue", new Color(0, 0, 255)],
     ["black", new Color(0, 0, 0)],
     ["white", new Color(255, 255, 255)],
-    ["yellow", new Color(255, 255, 0)],
+    ["grey", new Color(128, 128, 128)],
 ]);

@@ -87,7 +87,7 @@ body {
 .settings-popup {
   background-color: var(--theme);
   border: 3px var(--theme-font-color) solid;
-  padding: 0.33em;
+  padding: 0.5em;
   position: fixed;
   right: 2%;
   top: 7.5%;
@@ -99,8 +99,14 @@ body {
   flex-direction: column;
 }
 
-.settings-popup div {
+.settings-popup > div {
   cursor: pointer;
+  transition-duration: 166.5ms;
+}
+
+.settings-popup > div:hover {
+  transform: scale(1.075);
+  transition-duration: 333ms;
 }
 
 .main-body {

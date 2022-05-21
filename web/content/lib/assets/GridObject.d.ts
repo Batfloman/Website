@@ -6,6 +6,7 @@ import { GridCell } from "./GridCell.js";
 import { WorldObject } from "./WorldObject.js";
 export declare abstract class GridObject<Type extends GridCell> extends WorldObject<Rectangle> {
     grid: Matrix2<Type>;
+    cells: GridCell[];
     xSize: number;
     ySize: number;
     xCellSize: number;

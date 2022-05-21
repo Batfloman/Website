@@ -7,6 +7,7 @@ import { WorldObject } from "./WorldObject.js";
 
 export abstract class GridObject<Type extends GridCell> extends WorldObject<Rectangle> {
   grid!: Matrix2<Type>;
+  cells!: GridCell[];
 
   xSize: number;
   ySize: number;
@@ -68,7 +69,8 @@ export abstract class GridObject<Type extends GridCell> extends WorldObject<Rect
   abstract updateCell(x: number, y: number, dt: number): void;
 
   add(cell: Type) {
-    
+    this.cells.push(cell);
+    cell.setGrid(this);
   }
   
 }

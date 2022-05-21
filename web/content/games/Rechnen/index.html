@@ -13,61 +13,89 @@
   <div class="grid">
     <div id="math-problem" class="math-problem">10 + 10</div>
     <div class="input-block">
-      <input id="input" class="input" onsubmit="checkAnswer();">
+      <form onsubmit="return test()">
+        <input id="input" class="input" type="text" autocomplete="off">
+      </form>
     </div>
   </div>
 
   <script>
+    const startPoints = 2;
+    const pointsPerLevel = 5;
+
     let activeOperators = ["+"];
 
     let currentOperator;
     let answer;
 
-    let level = 1;
+    let level = 0;
+    let points = startPoints;
+
+    let lockInput = false;
+
+    let lastNumbers;
+
+
+    function test() {
+      checkAnswer();
+      return false;
+    }
 
     function newMathProblem() {
+      input.style.background = "white";
+      input.value = "";
+      lockInput = false;
+
       updateActiveOperators();
       currentOperator = activeOperators[Math.floor(Math.random() * activeOperators.length)];
 
       const numbers = getRandomNumbers();
-      const problemText = `${numbers.number1} ${currentOperator} ${numbers.number2}`;
+      lastNumbers = numbers;
+      const problemText = `${numbers.num1} ${currentOperator} ${numbers.num2}`;
 
-      answer = findAnswer(numbers.number1, numbers.number2);
+      answer = findAnswer(numbers.num1, numbers.num2);
 
       updateProblemText(problemText);
     }
 
     function getRandomNumbers() {
-      let num1;
-      let num2;
+      let numbers = {
+        "num1": 0,
+        "num2": 0
+      };
 
       switch (currentOperator) {
         case "+":
-          num1 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
-          num2 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
+          numbers.num1 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
+          numbers.num2 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
           break;
         case "-":
-          num1 = randomBetween(Math.pow(1.2, level), level, Math.round(level / 20));
-          num2 = randomBetween(level, Math.pow(1.2, level), Math.round(level / 20));
+          n1 = randomBetween(level, Math.pow(1.2, level), Math.round(level / 20));
+          n2 = randomBetween(level / 2, Math.pow(1.1, level), Math.round(level / 20));
+          numbers.num1 = Math.max(n1, n2);
+          numbers.num2 = Math.min(n1, n2);
           break;
         case "*":
-          num1 = randomBetween(level, level, Math.round(level / 20));
-          num2 = randomBetween(level, level, Math.round(level / 20));
+          numbers.num1 = randomBetween(level / 5, level / 2, Math.round(level / 50));
+          numbers.num2 = randomBetween(level / 5, level / 2, Math.round(level / 50));
           break;
         case "/":
-          num1 = randomBetween(level, level, Math.round(level / 20));
-          num2 = randomBetween(level, level, Math.round(level / 20));
+          numbers.num1 = randomBetween(level, level, Math.round(level / 50));
+          numbers.num2 = randomBetween(level, level, Math.round(level / 50));
           break;
         case "^":
-          num1 = randomBetween(level, level, Math.round(level / 20));
-          num2 = randomBetween(level, level, Math.round(level / 20));
+          numbers.num1 = randomBetween(level, level, Math.round(level / 50));
+          numbers.num2 = randomBetween(1, level / 10, 1);
           break;
       }
 
-      return {
-        number1: num1,
-        number2: num2
-      }
+      console.log(numbers, lastNumbers);
+      console.log(numbers == lastNumbers);
+
+      if(!lastNumbers) return numbers;
+
+      if(numbers.num1 == lastNumbers.num1 && numbers.num2 == lastNumbers.num2) return getRandomNumbers();
+      else return numbers;
     }
 
     function randomBetween(start, end, amountDeciamls) {
@@ -91,33 +119,54 @@
     function findAnswer(num1, num2) {
       switch (currentOperator) {
         case "+":
-          answer = num1 + num2;
-          break;
+          return round(num1 + num2, Math.round(level / 20));
         case "-":
-          answer = num1 - num2;
-          break;
+          return round(num1 - num2, Math.round(level / 20));
         case "*":
-          anwer = num1 * num2;
-          break;
+          return round(num1 * num2, Math.round(level / 50));
         case "/":
-          answer = num1 / num2;
-          break;
+          return round(num1 / num2, Math.round(level / 50));
         case "^":
-          answer = Math.pow(num1, num2);
-          break;
+          return round(Math.pow(num1, num2), Math.round(level / 50));
       }
     }
 
     const input = document.getElementById("input");
 
     function checkAnswer() {
-      let guessed = input.innerText;
-      console.log("test")
+      if (lockInput) return;
 
-      if (guessed == answer) {
+      const guessed = Number.parseFloat(input.value.replace(",", "."));
+
+      if (Number.isNaN(guessed)) return;
+
+      if (answer == guessed) {
+        input.style.background = "green";
+        points++;
+        if (points >= pointsPerLevel) {
+          level++;
+          points = 0;
+        }
+        lockInput = true;
         setTimeout(() => {
-          console.log("right")
+          newMathProblem();
         }, 1000)
+      } else {
+        input.style.background = "red";
+        mathProblem.innerText = answer;
+        points--;
+        if (points < pointsPerLevel) {
+          level--;
+          if (level < 0) {
+            level = 0;
+            points = 0;
+          }
+          else points = startPoints;
+        }
+        lockInput = true;
+        setTimeout(() => {
+          newMathProblem();
+        }, 3000);
       }
     }
 

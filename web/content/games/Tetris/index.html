@@ -10,5 +10,12 @@
 </head>
 <body>
   <canvas id="game-screen"></canvas>
+
+  <script>
+    const canvas = document.getElementById("game-screen");
+
+    // disable right click popup
+    canvas.setAttribute("oncontextmenu", "return false;");
+  </script>
 </body>
 </html>

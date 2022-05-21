@@ -39,5 +39,7 @@ export class GridObject extends WorldObject {
         }
     }
     add(cell) {
+        this.cells.push(cell);
+        cell.setGrid(this);
     }
 }

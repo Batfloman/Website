@@ -15,8 +15,6 @@ let currentTheme = "dark";
 let settingsActive = false;
 
 window.onload = () => {
-  if(!window.location.search) window.location.search = "theme=dark"; 
-
   const urlSearchParams = new URLSearchParams(window.location.search);
   const params = Object.fromEntries(urlSearchParams.entries());
 
@@ -24,12 +22,12 @@ window.onload = () => {
     currentTheme = params.theme;
     updateTheme();
   }
-  
+
   // ==========================================================================================
   // css changes
   const root = document.querySelector(":root");
   const rs = root.style;
-  
+
   // theme style change on button click
   const theme_button = document.getElementById("theme-button");
   theme_button.addEventListener("click", () => {
@@ -64,14 +62,30 @@ function updateTheme() {
   rs.setProperty("--theme-font-color", theme.themeFontColor);
 
   const themePattern = /theme=(\w)+/;
-  ["btn-home", "btn-games", "btn-school"].forEach(btnID => {
+
+  // changeVarInUrl("theme", currentTheme);
+
+  ["btn-home", "btn-games", "btn-school"].forEach((btnID) => {
     const btn = document.getElementById(btnID);
     const href = btn.getAttribute("href");
 
     let newHref;
-    if(href == null) newHref = "theme" + currentTheme;
+    if (href == null) newHref = "theme" + currentTheme;
     else newHref = href.replace(themePattern, "theme=" + currentTheme);
-    
+
     btn.setAttribute("href", newHref);
-  })
+  });
+}
+
+function changeVarInUrl(varName, value) {
+  const pattern = new RegExp(`${varName}=\\w*`);
+
+  let urlParams = window.location.search;
+
+  if (!urlParams.match(pattern)) urlParams += "theme=" + value;
+  else urlParams = urlParams.replace(pattern, "theme=" + value);
+
+  if(window.location.search == urlParams) return;
+
+  window.location.search = urlParams;
 }

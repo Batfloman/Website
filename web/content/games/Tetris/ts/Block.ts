@@ -1,11 +1,15 @@
 import { GridCell } from "../../../lib/assets/GridCell.js";
 import Renderer from "../../../lib/display/Renderer.js";
+import Rectangle from "../../../lib/physic/boundingBox/Rectangle.js";
+import Vector2 from "../../../lib/util/Vector2.js";
 
 export default class Block extends GridCell {
+  constructor() {
+    super(new Vector2(), new Rectangle(0,0), 0);
+  }
+
   update2(dt: number): void {
-    throw new Error("Method not implemented.");
   }
   render(renderer: Renderer): void {
-    throw new Error("Method not implemented.");
   }
 }
