@@ -12,6 +12,7 @@
 <body>
   <div class="grid">
     <div id="math-problem" class="math-problem">10 + 10</div>
+    <div id="stats" class="stats">Test</div>
     <div class="input-block">
       <form onsubmit="return test()">
         <input id="input" class="input" type="text" autocomplete="off">
@@ -56,6 +57,7 @@
       answer = findAnswer(numbers.num1, numbers.num2);
 
       updateProblemText(problemText);
+      updateStats();
     }
 
     function getRandomNumbers() {
@@ -70,7 +72,7 @@
           numbers.num2 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
           break;
         case "-":
-          n1 = randomBetween(level, Math.pow(1.2, level), Math.round(level / 20));
+          n1 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
           n2 = randomBetween(level / 2, Math.pow(1.1, level), Math.round(level / 20));
           numbers.num1 = Math.max(n1, n2);
           numbers.num2 = Math.min(n1, n2);
@@ -88,9 +90,6 @@
           numbers.num2 = randomBetween(1, level / 10, 1);
           break;
       }
-
-      console.log(numbers, lastNumbers);
-      console.log(numbers == lastNumbers);
 
       if (!lastNumbers) return numbers;
 
@@ -145,7 +144,7 @@
         points++;
         if (points >= pointsPerLevel) {
           level++;
-          points = 0;
+          points = startPoints;
         }
         lockInput = true;
         setTimeout(() => {
@@ -155,7 +154,7 @@
         input.style.background = "red";
         mathProblem.innerText = answer;
         points--;
-        if (points < pointsPerLevel) {
+        if (points < 0) {
           level--;
           if (level < 0) {
             level = 0;
@@ -174,6 +173,12 @@
 
     function updateProblemText(text) {
       mathProblem.innerText = text;
+    }
+
+    const stats = document.getElementById("stats");
+
+    function updateStats() {
+      stats.innerText = `Level: ${level}  Points: ${points}`;
     }
 
     newMathProblem();

@@ -2,6 +2,9 @@ export default class World {
     constructor() {
         this.objects = [];
     }
+    isInsideWorld(point) {
+        return true;
+    }
     addObject(obj) {
         if (this.objects.includes(obj))
             return;

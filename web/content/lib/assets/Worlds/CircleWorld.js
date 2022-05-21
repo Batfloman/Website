@@ -1,0 +1,12 @@
+import Util from "../../util/Util";
+import Vector2 from "../../util/Vector2";
+import World from "./World";
+export default class CircleWorld extends World {
+    constructor(radius) {
+        super();
+        this.radius = radius;
+    }
+    isInsideWorld(point) {
+        return Util.distance(new Vector2(), point) < this.radius;
+    }
+}

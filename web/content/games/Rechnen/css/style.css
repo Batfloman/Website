@@ -23,6 +23,12 @@ body {
   text-align: center;
 }
 
+.stats {
+  text-align: center;
+  margin-top: -7vh;
+  font-size: 2em;
+}
+
 .input-block {
   display: grid;
   place-content: center;
@@ -30,7 +36,18 @@ body {
 
 .input {
   text-align: center;
-  width: 25vw;
   aspect-ratio: 10 / 3;
   font-size: 5em;
+}
+
+@media screen and (orientation: portrait) {
+  .input {
+    width: 75vw;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .input {
+    width: 30vw;
+  }
 }
