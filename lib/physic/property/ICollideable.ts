@@ -1,4 +1,4 @@
-import Vector2 from "../util/Vector2.js";
+import Vector2 from "../../util/Vector2.js";
 import { HitBox } from "../boundingBox/HitBox.js";
 import IPositionable from "./IPositionable.js";
 

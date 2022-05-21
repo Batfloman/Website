@@ -1,5 +1,5 @@
 import Util from "../../util/Util.js";
-import Polygon2 from "../../boundingBox/Polygon2.js";
+import Polygon2 from "../boundingBox/Polygon2.js";
 import Polygon2Helper from "./Polygon2Helper.js";
 export default class Triangulation {
     static triangulate(obj) {

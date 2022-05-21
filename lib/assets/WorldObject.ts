@@ -1,8 +1,8 @@
 import Camara from "../display/Camara.js";
-import Collision from "../algorithms/Collision.js";
-import { HitBox } from "../boundingBox/HitBox.js";
-import ICollideable from "../property/ICollideable.js";
-import IMoveable from "../property/IMoveable.js";
+import Collision from "../physic/algorithms/Collision.js";
+import { HitBox } from "../physic/boundingBox/HitBox.js";
+import ICollideable from "../physic/property/ICollideable.js";
+import IMoveable from "../physic/property/IMoveable.js";
 import Util from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
 import { SceneObject } from "./SceneObject.js";

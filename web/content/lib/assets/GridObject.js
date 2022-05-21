@@ -1,4 +1,4 @@
-import Rectangle from "../boundingBox/Rectangle.js";
+import Rectangle from "../physic/boundingBox/Rectangle.js";
 import Matrix2 from "../util/Matrix2.js";
 import { WorldObject } from "./WorldObject.js";
 export class GridObject extends WorldObject {

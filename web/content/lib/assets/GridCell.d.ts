@@ -1,4 +1,4 @@
-import Rectangle from "../boundingBox/Rectangle.js";
+import Rectangle from "../physic/boundingBox/Rectangle.js";
 import Vector2 from "../util/Vector2.js";
 import { GridObject } from "./GridObject.js";
 import { WorldObject } from "./WorldObject.js";

@@ -1,7 +1,7 @@
 import Input from "../input/Input.js";
-import Collision from "../algorithms/Collision.js";
-import Polygon2Helper from "../algorithms/Polygon2Helper.js";
-import Rectangle from "../boundingBox/Rectangle.js";
+import Collision from "../physic/algorithms/Collision.js";
+import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
+import Rectangle from "../physic/boundingBox/Rectangle.js";
 import Util from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
 export default class Camara {

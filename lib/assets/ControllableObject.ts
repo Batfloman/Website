@@ -1,5 +1,5 @@
 import Input from "../input/Input.js";
-import { HitBox } from "../boundingBox/HitBox.js";
+import { HitBox } from "../physic/boundingBox/HitBox.js";
 import { WorldObject } from "./WorldObject.js";
 
 export abstract class ControllableObject<HitBoxType extends HitBox> extends WorldObject<HitBoxType> {

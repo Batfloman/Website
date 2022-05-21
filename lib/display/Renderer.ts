@@ -1,5 +1,5 @@
-import Polygon2Helper from "../algorithms/Polygon2Helper.js";
-import Polygon2 from "../boundingBox/Polygon2.js";
+import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
+import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import { Color } from "../util/Color.js";
 import Util from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
