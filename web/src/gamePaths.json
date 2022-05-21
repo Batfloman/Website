@@ -1,7 +1,9 @@
 {
   "TicTacToe": "../content/games/TicTacToe/index.html",
+  "Tetris": "../content/games/Tetris/index.html",
   "MineSweepers": "../content/games/MineSweepers/index.html",
   "ConnectFour": "../content/games/ConnectFour/index.html",
   "Clicker": "../content/games/Clicker/index.html",
-  "Rechnen": "../content/games/Rechnen/index.html"
+  "Rechnen": "../content/games/Rechnen/index.html",
+  "LandingSim": "../content/games/LandingSim/index.html"
 }

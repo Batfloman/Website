@@ -2,9 +2,9 @@ import Canvas from "../../display/Canvas.js";
 import { Player } from "../players/Player.js";
 import { TurnBasedPlayer } from "../players/TurnBasedPlayer.js";
 import Util from "../../util/Util.js";
-import { Game } from "./Game.js";
+import Game from "./Game.js";
 
-export abstract class TurnBasedGame extends Game {
+export default class TurnBasedGame extends Game {
   protected players: TurnBasedPlayer[];
   protected currentPlayer: TurnBasedPlayer;
 

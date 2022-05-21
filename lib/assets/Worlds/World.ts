@@ -1,5 +1,5 @@
 import { SceneObject } from "./../Objects/SceneObject.js";
-import { Game } from "../games/Game.js";
+import Game from "../games/Game.js";
 
 export default class World {
   objects: SceneObject[] = [];

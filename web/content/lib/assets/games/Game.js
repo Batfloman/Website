@@ -2,7 +2,7 @@ import Camara from "../../display/Camara.js";
 import Renderer from "../../display/Renderer.js";
 import Input from "../../input/Input.js";
 import World from "../Worlds/World.js";
-export class Game {
+export default class Game {
     constructor(canvas) {
         this.worlds = new Map();
         this.isStopped = true;

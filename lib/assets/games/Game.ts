@@ -5,7 +5,7 @@ import Renderer from "../../display/Renderer.js";
 import Input from "../../input/Input.js";
 import World from "../Worlds/World.js";
 
-export abstract class Game {
+export default class Game {
   // display
   protected canvas: Canvas;
   protected camara: Camara;

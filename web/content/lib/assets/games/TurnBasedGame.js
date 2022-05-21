@@ -1,7 +1,7 @@
 import { Player } from "../players/Player.js";
 import Util from "../../util/Util.js";
-import { Game } from "./Game.js";
-export class TurnBasedGame extends Game {
+import Game from "./Game.js";
+export default class TurnBasedGame extends Game {
     constructor(canvas, players) {
         super(canvas);
         if (!players)

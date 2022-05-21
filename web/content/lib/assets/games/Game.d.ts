@@ -3,7 +3,7 @@ import Camara from "../../display/Camara.js";
 import Canvas from "../../display/Canvas.js";
 import Renderer from "../../display/Renderer.js";
 import World from "../Worlds/World.js";
-export declare abstract class Game {
+export default class Game {
     protected canvas: Canvas;
     protected camara: Camara;
     protected renderer: Renderer;
