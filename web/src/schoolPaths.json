@@ -1,7 +1,14 @@
 {
-  "Facharbeit": "../content/pdf/Florian_Hirche_Facharbeit.pdf",
-  "Kollision 2d": "../content/school/collision2d/index.html",
-  "Kollision 3d": "../content/school/collision3d/index.html",
-  "Universe": "../content/other/universe/index.html",
-  "MoneyTimer": "../content/other/moneyTimer/index.html"
+  "school": {
+    "Facharbeit": "../content/pdf/Florian_Hirche_Facharbeit.pdf",
+    "Kollision 2d": "../content/school/collision2d/index.html",
+    "Kollision 3d": "../content/school/collision3d/index.html"
+  },
+  "simulation": {
+    "Universe": "../content/other/universe/index.html",
+    "Ants": "../content/other/ants/index.html"
+  },
+  "other": {
+    "MoneyTimer": "../content/other/moneyTimer/index.html"
+  }
 }

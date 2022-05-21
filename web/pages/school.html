@@ -31,30 +31,51 @@
   </section>
 
   <section class="main-body">
-    <div class="row-container" id="content"></div>
+    <div class="column-container" id="content"></div>
   </section>
 
   <script type="module">
     import loadContent from "../src/FileLoader.js";
 
     const content = await loadContent("../src/schoolPaths.json");
-    const keys = Object.keys(content);
+    const categories = Object.keys(content);
 
-    for (let key of keys) {
+    const contentContainer = document.getElementById("content");
+
+    for (let category of categories) {
+      const labelDiv = document.createElement("div");
+      labelDiv.setAttribute("class", "content-label");
+      labelDiv.innerText = category;
+
+      contentContainer.appendChild(labelDiv);
+
       const contentDiv = document.createElement("div");
-      contentDiv.setAttribute("class", "content");
+      contentDiv.setAttribute("class", "row-container");
+      contentDiv.setAttribute("style", "width: 95%; align-self: center");
 
-      const contentA = document.createElement("a");
-      contentA.setAttribute("href", content[key]);
+      contentContainer.appendChild(contentDiv)
 
-      const contentImg = document.createElement("img");
-      contentImg.setAttribute("src", "");
-      contentImg.setAttribute("alt", key);
+      for (let key of Object.keys(content[category])) {
+        const linkDiv = document.createElement("div");
+        linkDiv.setAttribute("class", "content");
 
-      contentA.appendChild(contentImg);
-      contentDiv.appendChild(contentA);
+        const linkA = document.createElement("a");
+        linkA.setAttribute("href", content[category][key]);
 
-      document.getElementById("content").appendChild(contentDiv);
+        const linkImg = document.createElement("img");
+        linkImg.setAttribute("src", "");
+        linkImg.setAttribute("alt", key);
+
+        linkA.appendChild(linkImg);
+        linkDiv.appendChild(linkA);
+
+        contentDiv.appendChild(linkDiv);
+      }
+
+      const hr = document.createElement("hr");
+      hr.setAttribute("style", "border: 1px var(--theme-font-color) dashed; margin-top: 2%; background-color: var(--theme-font-color)");
+
+      contentContainer.appendChild(hr);
     }
   </script>
 </body>

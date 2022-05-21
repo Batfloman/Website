@@ -24,6 +24,9 @@ export default class Camara implements ICollideable, IMoveable {
   lockScaling: boolean = true;
   lockMovement: boolean = true;
 
+  minScale = 0.1;
+  maxScale = 50;
+
   constructor(canvas: Canvas, pos?: Vector2) {
     this.canvas = canvas;
     this.pos = !pos ? new Vector2() : pos;
@@ -36,8 +39,11 @@ export default class Camara implements ICollideable, IMoveable {
       if (this.lockScaling) return;
       if (!(event.target == this.canvas.htmlCanvas)) return;
 
-      if (event.deltaY < 0) this.scale *= 1.15;
-      else if (event.deltaY > 0) this.scale *= 1 / 1.15;
+      if (event.deltaY < 0) {
+        if (this.scale < this.maxScale) this.scale = Util.math.round(this.scale * 1.15, 2);
+      } else if (event.deltaY > 0) {
+        if(this.scale > this.minScale) this.scale = Util.math.round(this.scale * 1 / 1.15, 2);
+      }
 
       this.alreadyTranslated = false;
     });
@@ -73,7 +79,9 @@ export default class Camara implements ICollideable, IMoveable {
           Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation)
         );
       });
-      this.hitBox.farthestDistance = this.getOffset().scale(1/this.scale).getMagnitude();
+      this.hitBox.farthestDistance = this.getOffset()
+        .scale(1 / this.scale)
+        .getMagnitude();
       this.alreadyTranslated = true;
     }
     return this.translatedPoints;

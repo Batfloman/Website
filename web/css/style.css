@@ -90,7 +90,7 @@ body {
   padding: 0.5em;
   position: fixed;
   right: 2%;
-  top: 7.5%;
+  top: 8%;
   visibility: var(--settings-hide-popup);
   width: fit-content;
   max-width: max-content;
@@ -129,6 +129,33 @@ body {
   height: fit-content;
   row-gap: 5%;
   column-gap: 5%;
+}
+
+.column-container {
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  row-gap: 5%;
+  column-gap: 5%;
+}
+
+.row-container > hr {
+  width: 100%;
+  padding: 0.1;
+  margin: 1em;
+}
+
+.column-container > hr {
+  width: 100%;
+  padding: 0.1;
+  margin: 1em;
+}
+
+.content-label {
+  font-size: 1.75em;
+  margin: 0.25em;
+  text-decoration: underline;
+  margin-bottom: 0.75em;
 }
 
 .content {

@@ -16,6 +16,7 @@ export default class Game {
     deleteDistance: number;
     constructor(canvas: Canvas);
     private static testTick;
+    logTickTime: boolean;
     tick(): void;
     private updateObjects;
     private renderObjects;
@@ -27,6 +28,7 @@ export default class Game {
     private calc_dt;
     start(): void;
     stop(): void;
+    setLogTickTime(b: boolean): void;
     getCamara(): Camara;
     getRenderer(): Renderer;
     getCanvas(): Canvas;

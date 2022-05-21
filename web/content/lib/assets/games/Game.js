@@ -11,6 +11,7 @@ export default class Game {
         this.lastTickTime = Date.now();
         this.maxUpdateDistance = 2000;
         this.deleteDistance = 10000;
+        this.logTickTime = false;
         this.canvas = canvas;
         this.camara = new Camara(this.canvas);
         this.renderer = new Renderer(this.canvas, this.camara);
@@ -42,7 +43,8 @@ export default class Game {
         before = Date.now();
         this.renderObjects();
         const timeToRender = Date.now() - before;
-        console.log("update", timeToUpdate, "render", timeToRender);
+        if (this.logTickTime)
+            console.log("update", timeToUpdate, "render", timeToRender);
     }
     updateObjects() {
         let dt = this.calc_dt();
@@ -111,6 +113,9 @@ export default class Game {
             return;
         this.timeElapsedBeforeStop = Date.now() - this.lastTickTime;
         this.isStopped = true;
+    }
+    setLogTickTime(b) {
+        this.logTickTime = b;
     }
     getCamara() {
         return this.camara;

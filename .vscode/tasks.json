@@ -9,7 +9,8 @@
         "tsc: watch - Games: Tetris",
         "tsc: watch - Games: MineSweepers",
         "tsc: watch - School: Collision2d",
-        "tsc: watch - Other: Universe"
+        "tsc: watch - Other: Universe",
+        "tsc: watch - Other: Ants"
       ],
       "problemMatcher": []
     },
@@ -72,6 +73,16 @@
       ],
       "group": "build",
       "label": "tsc: watch - Games: MineSweepers"
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "web/content/other/ants/ts/tsconfig.json",
+      "option": "watch",
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "group": "build",
+      "label": "tsc: watch - Other: Ants"
     }
   ]
 }

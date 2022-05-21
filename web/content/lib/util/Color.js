@@ -48,4 +48,5 @@ const colors = new Map([
     ["black", new Color(0, 0, 0)],
     ["white", new Color(255, 255, 255)],
     ["grey", new Color(128, 128, 128)],
+    ["brown", new Color(165, 42, 42)],
 ]);

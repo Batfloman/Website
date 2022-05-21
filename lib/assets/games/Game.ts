@@ -58,6 +58,8 @@ export default class Game {
     });
   }
 
+  logTickTime: boolean = false;
+
   tick(): void {
     let before = Date.now();
     this.updateObjects();
@@ -67,7 +69,7 @@ export default class Game {
     this.renderObjects();
     const timeToRender = Date.now() - before;
 
-    console.log("update", timeToUpdate, "render", timeToRender);
+    if(this.logTickTime) console.log("update", timeToUpdate, "render", timeToRender);
   }
 
   private updateObjects() {
@@ -158,6 +160,10 @@ export default class Game {
 
   // ==========================================================================================
   // getter & setter
+
+  setLogTickTime(b: boolean): void {
+    this.logTickTime = b;
+  }
 
   getCamara(): Camara {
     return this.camara;
