@@ -89,11 +89,11 @@ export default class Game {
 
   private renderObjects() {
     this.renderer.clear();
+    console.log("clear");
     
-    console.log("test");
     for(let world of Array.from(this.worlds.values())) {
       world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
-
+      
       world.render(this.renderer);
 
       for(let obj of world.objects) {

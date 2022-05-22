@@ -61,7 +61,7 @@ export default class Game {
     }
     renderObjects() {
         this.renderer.clear();
-        console.log("test");
+        console.log("clear");
         for (let world of Array.from(this.worlds.values())) {
             world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
             world.render(this.renderer);

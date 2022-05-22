@@ -1,4 +1,4 @@
-import { GridObject } from "../../../lib/assets/Objects/GridObject.js";
+import { GridObject } from "../../../lib/assets/Objects/G";
 import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
 import { Color } from "../../../lib/util/Color.js";
 import Cell from "./Cell.js";

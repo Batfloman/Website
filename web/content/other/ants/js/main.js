@@ -1,4 +1,4 @@
-import Game from "../../../lib/assets/games/Game.js";
+import Game from "../../../lib/games/Game.js";
 import Canvas from "../../../lib/display/Canvas.js";
 import Util from "../../../lib/util/Util.js";
 import Vector2 from "../../../lib/util/Vector2.js";

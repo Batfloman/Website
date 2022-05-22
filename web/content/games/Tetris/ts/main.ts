@@ -6,5 +6,8 @@ window.onload = () => {
   const canvas = new Canvas(document.querySelector("canvas"));
   const game = new TetrisGame(canvas);
 
-  game.tick();
+  game.setCamaraMovementLock(false);
+  game.setCamaraScaleLock(false);
+
+  game.start();
 };

@@ -30,7 +30,6 @@ export default class GridWorld extends RechtangleWorld {
   }
 
   render(renderer: Renderer): void {
-    console.log("WArum du nicht rendern!");
     renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.xCellSize, this.yCellSize);
   }
 }
