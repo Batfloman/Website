@@ -18,6 +18,7 @@ export default class Game {
     private static testTick;
     logTickTime: boolean;
     tick(): void;
+    private logDT;
     private updateObjects;
     private renderObjects;
     addObject(obj: SceneObject, worldName?: string): void;
@@ -29,6 +30,7 @@ export default class Game {
     start(): void;
     stop(): void;
     setLogTickTime(b: boolean): void;
+    setLogDT(b: boolean): void;
     getCamara(): Camara;
     getRenderer(): Renderer;
     getCanvas(): Canvas;

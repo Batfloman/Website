@@ -20,4 +20,10 @@ export default class GridWorld extends RechtangleWorld {
     this.xCellSize = width / xSize;
     this.yCellSize = height / ySize;
   }
+
+  addCell(cell: GridCell) {
+    this.addObject(cell);
+
+    cell.setGrid(this);
+  }
 }

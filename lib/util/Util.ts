@@ -34,6 +34,10 @@ export default class Util {
     isEmpty<T>(arr: T[]): boolean {
       return arr.length == 0;
     },
+
+    sum(arr: number[]): number {
+      return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
+    },
   };
 
   static math = {
@@ -55,12 +59,24 @@ export default class Util {
     toRadian(degree: number) {
       return (degree * Math.PI) / 180;
     },
+    toDegree(rad: number) {
+      return (180 * rad) / Math.PI;
+    },
+    cos(degree: number): number {
+      return Math.cos(Util.math.toRadian(degree));
+    },
+    arccos(num: number): number {
+      return Util.math.toDegree(Math.acos(num));
+    },
   };
 
   static shapes = {
     cricle: {
       area(radius: number): number {
         return Math.PI * Math.pow(radius, 2);
+      },
+      radius(volume: number): number {
+        return Math.sqrt(volume / Math.PI);
       },
     },
     polygon: {
@@ -69,6 +85,23 @@ export default class Util {
       },
     },
   };
+
+  static toVector(angle: number, lenght: number): Vector2 {
+    const rad = Util.math.toRadian(angle);
+    return new Vector2(Math.sin(rad) * lenght, Math.cos(rad) * lenght);
+  }
+
+  static findAngleLine(startPoint: Vector2, endPoint: Vector2): number {
+    const zeroDegreeVector = new Vector2(0, 1);
+    const vec = endPoint.subtract(startPoint);
+
+    const dot = zeroDegreeVector.dotProduct(vec);
+    const mag1 = zeroDegreeVector.getMagnitude();
+    const mag2 = vec.getMagnitude();
+
+    const angle = Util.math.arccos(dot / (mag1 * mag2));
+    return endPoint.x < startPoint.x ? -angle : angle;
+  }
 
   /**
    * Returns the Hypothenuse of a Triangle

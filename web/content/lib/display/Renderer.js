@@ -22,7 +22,8 @@ export default class Renderer {
     }
     calcPosOnScreen(worldPos) {
         const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
-        distance.y = -distance.y;
+        distance.x = Util.math.round(distance.x, 2);
+        distance.y = Util.math.round(-distance.y, 2);
         return distance.add(this.offSet);
     }
     clear() {
@@ -66,22 +67,22 @@ export default class Renderer {
         }
     }
     renderCircle(worldPos, radius) {
-        this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius);
+        this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius * this.scale);
     }
     renderStaticCirle(pos, radius) {
         this.updateValues();
         this.ctx.beginPath();
-        this.ctx.arc(pos.x, pos.y, radius * this.scale, 0, Math.PI * 2);
+        this.ctx.arc(pos.x, pos.y, radius, 0, 360);
         this.ctx.fill();
         this.ctx.stroke();
     }
     renderRectangle(worldPos, width, height) {
-        this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width, height);
+        this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width * this.scale, height * this.scale);
     }
     renderStaticRectangle(pos, width, height) {
         this.updateValues();
-        const w = width * this.scale;
-        const h = height * this.scale;
+        const w = width;
+        const h = height;
         this.ctx.beginPath();
         this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
         this.ctx.fill();

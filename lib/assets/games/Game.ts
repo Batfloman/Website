@@ -72,9 +72,13 @@ export default class Game {
     if(this.logTickTime) console.log("update", timeToUpdate, "render", timeToRender);
   }
 
+  private logDT: boolean = false;
+
   private updateObjects() {
     let dt = this.calc_dt();
     this.lastTickTime = Date.now();
+
+    if(this.logDT) console.log(dt);
 
     for(let world of Array.from(this.worlds.values())) {
       for(let obj of world.objects) {
@@ -117,12 +121,7 @@ export default class Game {
     let found: T[] = [];
 
     for(let world of Array.from(this.worlds.values())) {
-      for(let obj of world.objects) {
-        if(exclude instanceof Array && exclude.includes(obj as T)) continue;
-        if(exclude instanceof Object && exclude == obj) continue;
-
-        if(obj instanceof clas) found.push(obj as T);
-      }
+      found = found.concat(world.findObjects(clas.name, exclude));
     }
 
     return found;
@@ -163,6 +162,9 @@ export default class Game {
 
   setLogTickTime(b: boolean): void {
     this.logTickTime = b;
+  }
+  setLogDT(b: boolean): void {
+    this.logDT = b;
   }
 
   getCamara(): Camara {

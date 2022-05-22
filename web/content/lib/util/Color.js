@@ -23,7 +23,7 @@ export class Color {
         return c;
     }
     getRGBString() {
-        return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+        return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a / 100})`;
     }
     setR(r) {
         this.r = r - (1 % 255) + 1;

@@ -10,4 +10,5 @@ export default class Vector2 {
     vectorTo(point: Vector2): Vector2;
     getNormal(): Vector2;
     getMagnitude(): number;
+    angle(vec2: Vector2): number;
 }

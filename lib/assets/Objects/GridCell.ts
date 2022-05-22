@@ -1,10 +1,10 @@
 import Rectangle from "../../physic/boundingBox/Rectangle.js";
 import Vector2 from "../../util/Vector2.js";
-import { GridObject } from "./GridObject.js";
+import GridWorld from "../Worlds/GridWorld.js";
 import { WorldObject } from "./WorldObject.js";
 
 export abstract class GridCell extends WorldObject<Rectangle> {
-  grid!: GridObject<GridCell>;
+  grid!: GridWorld;
 
   gridPos!: Vector2;
   
@@ -19,7 +19,7 @@ export abstract class GridCell extends WorldObject<Rectangle> {
     this.gridPos.y += y;
   }
 
-  setGrid(grid: GridObject<GridCell>) {
+  setGrid(grid: GridWorld) {
     this.grid = grid;
   }
 

@@ -36,7 +36,7 @@ export class Color {
    * @returns {String} - a String "rgb(r, g, bm a)" with r/g/b/a values for rendering
    */
   getRGBString(): string {
-    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a})`;
+    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a / 100})`;
   }
 
   setR(r: number) {

@@ -1,3 +1,4 @@
+import Util from "./Util.js";
 export default class Vector2 {
     constructor(x, y) {
         this.x = !x ? 0 : x;
@@ -26,5 +27,9 @@ export default class Vector2 {
     }
     getMagnitude() {
         return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+    }
+    angle(vec2) {
+        const angleBetween = Util.math.arccos(this.dotProduct(vec2) / (this.getMagnitude() * vec2.getMagnitude()));
+        return vec2.crossProduct(this) >= 0 ? angleBetween : -angleBetween;
     }
 }

@@ -8,4 +8,5 @@ export default class GridWorld extends RechtangleWorld {
     xCellSize: number;
     yCellSize: number;
     constructor(width: number, height: number, xSize: number, ySize: number);
+    addCell(cell: GridCell): void;
 }

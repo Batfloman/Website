@@ -8,6 +8,7 @@ export default class Util {
         removeItemAtIndex<T_3>(arr: T_3[], index: number): T_3;
         removeItem<T_4>(arr: T_4[], item: T_4): T_4 | null;
         isEmpty<T_5>(arr: T_5[]): boolean;
+        sum(arr: number[]): number;
     };
     static math: {
         randomBetween(start: number, end: number, num_decimals?: number): number;
@@ -16,15 +17,21 @@ export default class Util {
         floor(number: number, num_decimals?: number): number;
         ceil(number: number, num_decimals?: number): number;
         toRadian(degree: number): number;
+        toDegree(rad: number): number;
+        cos(degree: number): number;
+        arccos(num: number): number;
     };
     static shapes: {
         cricle: {
             area(radius: number): number;
+            radius(volume: number): number;
         };
         polygon: {
             area(polygon: Polygon2): number;
         };
     };
+    static toVector(angle: number, lenght: number): Vector2;
+    static findAngleLine(startPoint: Vector2, endPoint: Vector2): number;
     static calcHypothenuse(side1: number, side2: number): number;
     static distance(point1: Vector2, point2: Vector2): number;
     static closestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[]): Vector2;

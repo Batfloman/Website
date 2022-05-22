@@ -3,27 +3,169 @@ import Circle from "../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../lib/util/Color.js";
 import Util from "../../../lib/util/Util.js";
 import Vector2 from "../../../lib/util/Vector2.js";
-const antSize = 3;
+import AntHill from "./AntHill.js";
+import Food from "./Food.js";
+import Pheromon from "./Pheromon.js";
+const taskColors = new Map([
+    ["searchFood", Color.get("white")],
+    ["bringFoodHome", Color.get("green")],
+    ["runHome", Color.get("yellow")],
+]);
+const antSize = 2;
 const antOrientationChange = 10;
+const timeBetweenPheromon = 200;
+const maxFood = 100;
+const foodLoss = 5;
+const minDistance = 5;
+const sensoryDistance = 100;
+const senseAngle = 45;
+const carryAmount = 100;
 export default class Ant extends WorldObject {
-    constructor() {
-        super(new Vector2(), new Circle(antSize), Util.math.randomBetween(0, 360, 2));
+    constructor(pos = new Vector2(), task = "searchFood") {
+        super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
         this.task = "searchFood";
+        this.carry = 0;
+        this.timeElapsed = 0;
+        this.timeElapsed2 = 0;
         this.zIndex = 10;
+        this.food = maxFood;
+        this.task = task;
     }
     update2(dt) {
-        switch (this.task) {
-            case "goHome":
+        const homes = this.game.findObjects(AntHill);
+        const foodStuffs = this.game.findObjects(Food);
+        switchTask: switch (this.task) {
+            case "runHome":
+                for (let home of homes) {
+                    const distance = Util.distance(this.pos, home.pos);
+                    const radius = home.hitBox.radius;
+                    if (distance < radius) {
+                        const foodNeeded = maxFood - this.food;
+                        this.food += foodNeeded;
+                        this.task = "searchFood";
+                        break switchTask;
+                    }
+                    else if (distance < radius + sensoryDistance) {
+                        this.orientation = Util.findAngleLine(this.pos, home.pos) + this.randomRotation();
+                        break switchTask;
+                    }
+                }
+                this.rotate(this.followPhermons("home") + this.randomRotation());
+                break;
+            case "bringFoodHome":
+                for (let home of homes) {
+                    const distance = Util.distance(this.pos, home.pos);
+                    const radius = home.hitBox.radius;
+                    if (distance < radius) {
+                        const foodNeeded = maxFood - this.food;
+                        this.food += foodNeeded;
+                    }
+                    if (distance < radius / 2) {
+                        home.food += this.carry;
+                        this.carry = 0;
+                        this.task = "searchFood";
+                        this.orientation += Util.math.randomBetween(160, 200, 2);
+                        break switchTask;
+                    }
+                    else if (distance < radius + sensoryDistance) {
+                        this.orientation = Util.findAngleLine(this.pos, home.pos);
+                        break switchTask;
+                    }
+                }
+                this.rotate(this.followPhermons("home") + this.randomRotation() / 3);
                 break;
             case "searchFood":
-                this.rotate(Util.math.randomBetween(-antOrientationChange, antOrientationChange, 2));
-                this.moveDirection(this.orientation, this.calc_valueChangeForDT(50, dt));
+                for (let food of foodStuffs) {
+                    const distance = Util.distance(this.pos, food.pos);
+                    const radius = food.hitBox.radius;
+                    if (distance < radius) {
+                        food.amountFood -= carryAmount;
+                        this.carry = carryAmount;
+                        this.task = "bringFoodHome";
+                        this.orientation += Util.math.randomBetween(160, 200, 2);
+                        break switchTask;
+                    }
+                    else if (distance < radius + sensoryDistance) {
+                        this.orientation = Util.findAngleLine(this.pos, food.pos) + this.randomRotation();
+                        break switchTask;
+                    }
+                }
+                this.rotate(this.followPhermons("food") + this.randomRotation());
                 break;
+        }
+        const moveSpeed = this.task == "runHome" ? 100 : 50;
+        this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
+        this.timeElapsed += dt;
+        if (this.timeElapsed > timeBetweenPheromon) {
+            this.timeElapsed -= timeBetweenPheromon;
+            this.createPheromon();
+        }
+        this.timeElapsed2 += dt;
+        if (this.timeElapsed2 > 1000) {
+            this.timeElapsed2 -= 1000;
+            this.food -= foodLoss;
+            if (this.food <= (maxFood / 100) * 45 && this.task == "searchFood") {
+                if (this.carry > 0) {
+                    const foodNeeded = Math.min(maxFood - this.food, this.carry);
+                    this.food += foodNeeded;
+                    this.carry -= foodNeeded;
+                    if (this.carry == 0)
+                        this.task = "searchFood";
+                }
+                else {
+                    this.task = "runHome";
+                    this.orientation += Util.math.randomBetween(160, 200, 2);
+                }
+            }
+            if (this.food <= 0) {
+                this.game.removeObject(this);
+            }
         }
     }
     render(renderer) {
-        renderer.setStrokeColor(Color.get("white"));
+        const color = taskColors.get(this.task);
+        if (!color)
+            return;
+        renderer.setStrokeColor(color);
         renderer.setFillColor(Color.none);
         renderer.renderCircle(this.pos, antSize);
+    }
+    createPheromon() {
+        let message;
+        switch (this.task) {
+            case "searchFood":
+                message = "home";
+                break;
+            case "bringFoodHome":
+                message = "food";
+                break;
+            case "runHome":
+                return;
+        }
+        this.game.addObject(new Pheromon(this.pos, message));
+    }
+    followPhermons(message) {
+        const pheromons = this.game.findObjects(Pheromon).filter((pheromon) => Util.distance(this.pos, pheromon.pos) < sensoryDistance);
+        let sumWeightedAngles = 0;
+        let sumWeights = 0;
+        for (let pheromon of pheromons) {
+            const distance = Util.distance(this.pos, pheromon.pos);
+            if (distance > sensoryDistance)
+                continue;
+            if (!(pheromon.message == message))
+                continue;
+            const vecToPheromon = pheromon.pos.subtract(this.pos);
+            const moveVec = Util.toVector(this.orientation, 1);
+            const angle = moveVec.angle(vecToPheromon);
+            if (angle > senseAngle || angle < -senseAngle)
+                continue;
+            const weight = (1 - distance / sensoryDistance) * ((200 - pheromon.strength) / 200);
+            sumWeightedAngles += angle * weight;
+            sumWeights += weight;
+        }
+        return isNaN(sumWeightedAngles / sumWeights) ? 0 : sumWeightedAngles / sumWeights;
+    }
+    randomRotation() {
+        return Util.math.randomBetween(-antOrientationChange, antOrientationChange, 2);
     }
 }

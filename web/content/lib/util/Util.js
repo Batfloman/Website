@@ -1,6 +1,19 @@
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import Vector2 from "./Vector2.js";
 export default class Util {
+    static toVector(angle, lenght) {
+        const rad = Util.math.toRadian(angle);
+        return new Vector2(Math.sin(rad) * lenght, Math.cos(rad) * lenght);
+    }
+    static findAngleLine(startPoint, endPoint) {
+        const zeroDegreeVector = new Vector2(0, 1);
+        const vec = endPoint.subtract(startPoint);
+        const dot = zeroDegreeVector.dotProduct(vec);
+        const mag1 = zeroDegreeVector.getMagnitude();
+        const mag2 = vec.getMagnitude();
+        const angle = Util.math.arccos(dot / (mag1 * mag2));
+        return endPoint.x < startPoint.x ? -angle : angle;
+    }
     static calcHypothenuse(side1, side2) {
         return Math.sqrt(Math.pow(side1, 2) + Math.pow(side2, 2));
     }
@@ -80,6 +93,9 @@ Util.array = {
     isEmpty(arr) {
         return arr.length == 0;
     },
+    sum(arr) {
+        return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
+    },
 };
 Util.math = {
     randomBetween(start, end, num_decimals = 0) {
@@ -100,11 +116,23 @@ Util.math = {
     toRadian(degree) {
         return (degree * Math.PI) / 180;
     },
+    toDegree(rad) {
+        return (180 * rad) / Math.PI;
+    },
+    cos(degree) {
+        return Math.cos(Util.math.toRadian(degree));
+    },
+    arccos(num) {
+        return Util.math.toDegree(Math.acos(num));
+    },
 };
 Util.shapes = {
     cricle: {
         area(radius) {
             return Math.PI * Math.pow(radius, 2);
+        },
+        radius(volume) {
+            return Math.sqrt(volume / Math.PI);
         },
     },
     polygon: {

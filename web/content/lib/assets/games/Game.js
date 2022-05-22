@@ -12,6 +12,7 @@ export default class Game {
         this.maxUpdateDistance = 2000;
         this.deleteDistance = 10000;
         this.logTickTime = false;
+        this.logDT = false;
         this.canvas = canvas;
         this.camara = new Camara(this.canvas);
         this.renderer = new Renderer(this.canvas, this.camara);
@@ -49,6 +50,8 @@ export default class Game {
     updateObjects() {
         let dt = this.calc_dt();
         this.lastTickTime = Date.now();
+        if (this.logDT)
+            console.log(dt);
         for (let world of Array.from(this.worlds.values())) {
             for (let obj of world.objects) {
                 if (obj.shouldUpdate())
@@ -82,14 +85,7 @@ export default class Game {
     findObjects(clas, exclude) {
         let found = [];
         for (let world of Array.from(this.worlds.values())) {
-            for (let obj of world.objects) {
-                if (exclude instanceof Array && exclude.includes(obj))
-                    continue;
-                if (exclude instanceof Object && exclude == obj)
-                    continue;
-                if (obj instanceof clas)
-                    found.push(obj);
-            }
+            found = found.concat(world.findObjects(clas.name, exclude));
         }
         return found;
     }
@@ -116,6 +112,9 @@ export default class Game {
     }
     setLogTickTime(b) {
         this.logTickTime = b;
+    }
+    setLogDT(b) {
+        this.logDT = b;
     }
     getCamara() {
         return this.camara;
