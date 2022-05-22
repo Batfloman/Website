@@ -16,8 +16,7 @@ const antOrientationChange = 10;
 const timeBetweenPheromon = 200;
 const maxFood = 100;
 const foodLoss = 5;
-const minDistance = 5;
-const sensoryDistance = 100;
+const sensoryDistance = 25;
 const senseAngle = 45;
 const carryAmount = 100;
 export default class Ant extends WorldObject {
@@ -72,7 +71,7 @@ export default class Ant extends WorldObject {
                         break switchTask;
                     }
                 }
-                this.rotate(this.followPhermons("home") + this.randomRotation() / 3);
+                this.rotate(this.followPhermons("home") + this.randomRotation());
                 break;
             case "searchFood":
                 for (let food of foodStuffs) {

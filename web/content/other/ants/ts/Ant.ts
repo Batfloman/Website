@@ -23,8 +23,7 @@ const timeBetweenPheromon = 200;
 const maxFood = 100;
 const foodLoss = 5;
 
-const minDistance = 5;
-const sensoryDistance = 100;
+const sensoryDistance = 25;
 const senseAngle = 45;
 
 const carryAmount = 100;
@@ -105,7 +104,7 @@ export default class Ant extends WorldObject<Circle> {
 
         // follow Pheromones to Home 
         // random / 3 to not change Direction to much
-        this.rotate(this.followPhermons("home") + this.randomRotation() / 3);
+        this.rotate(this.followPhermons("home") + this.randomRotation());
         break;
       case "searchFood":
         // Food in Range ?

@@ -18,6 +18,8 @@ export default class AntHill extends WorldObject<Circle> {
     super(pos, new Circle(hillSize));
 
     this.food = foodStorage;
+
+    this.zIndex = 100;
   }
   update2(dt: number): void {
     if(this.food > (this.antCounter * saveFoodPerAnt)) {
