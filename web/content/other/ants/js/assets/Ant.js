@@ -1,8 +1,8 @@
-import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
-import Circle from "../../../lib/physic/boundingBox/Circle.js";
-import { Color } from "../../../lib/util/Color.js";
-import Util from "../../../lib/util/Util.js";
-import Vector2 from "../../../lib/util/Vector2.js";
+import { WorldObject } from "../../../../lib/assets/Objects/WorldObject.js";
+import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Color } from "../../../../lib/util/Color.js";
+import Util from "../../../../lib/util/Util.js";
+import Vector2 from "../../../../lib/util/Vector2.js";
 import AntHill from "./AntHill.js";
 import Food from "./Food.js";
 import Pheromon from "./Pheromon.js";

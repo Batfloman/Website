@@ -2,8 +2,8 @@ import Game from "../../../lib/assets/games/Game.js";
 import Canvas from "../../../lib/display/Canvas.js";
 import Util from "../../../lib/util/Util.js";
 import Vector2 from "../../../lib/util/Vector2.js";
-import AntHill from "./AntHill.js";
-import Food from "./Food.js";
+import AntHill from "./assets/AntHill.js";
+import Food from "./assets/Food.js";
 window.onload = () => {
     const canvas = new Canvas(document.querySelector("canvas"));
     const game = new Game(canvas);

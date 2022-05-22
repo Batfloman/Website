@@ -1,9 +1,9 @@
-import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
-import Renderer from "../../../lib/display/Renderer.js";
-import Circle from "../../../lib/physic/boundingBox/Circle.js";
-import { Color } from "../../../lib/util/Color.js";
-import Util from "../../../lib/util/Util.js";
-import Vector2 from "../../../lib/util/Vector2.js";
+import { WorldObject } from "../../../../lib/assets/Objects/WorldObject.js";
+import Renderer from "../../../../lib/display/Renderer.js";
+import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Color } from "../../../../lib/util/Color.js";
+import Util from "../../../../lib/util/Util.js";
+import Vector2 from "../../../../lib/util/Vector2.js";
 import AntHill from "./AntHill.js";
 import Food from "./Food.js";
 import Pheromon, { Message } from "./Pheromon.js";
@@ -17,7 +17,7 @@ const taskColors = new Map<Task, Color>([
 ]);
 
 const antSize = 2;
-const antOrientationChange = 10;
+const antOrientationChange = 7.5;
 const timeBetweenPheromon = 200;
 
 const maxFood = 100;
@@ -26,7 +26,9 @@ const foodLoss = 5;
 const sensoryDistance = 25;
 const senseAngle = 45;
 
-const carryAmount = 100;
+const carryAmount = 500;
+
+const antSpeed = 50;
 
 export default class Ant extends WorldObject<Circle> {
   task: Task = "searchFood";
@@ -36,7 +38,7 @@ export default class Ant extends WorldObject<Circle> {
   constructor(pos: Vector2 = new Vector2(), task: Task = "searchFood") {
     super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
 
-    this.zIndex = 10;
+    this.zIndex = 50;
     this.food = maxFood;
     this.task = task;
   }
@@ -66,13 +68,14 @@ export default class Ant extends WorldObject<Circle> {
             break switchTask;
           } else if (distance < radius + sensoryDistance) {
             // go strait to home
-            this.orientation = Util.findAngleLine(this.pos, home.pos) + this.randomRotation();
+            this.orientation = Util.findAngleLine(this.pos, home.pos);
             break switchTask;
           }
         }
 
         // follow Pheromones to Home
-        this.rotate(this.followPhermons("home") + this.randomRotation());
+        // if no Pheromones turn around
+        this.rotate(this.followPhermons("home"));
         break;
       case "bringFoodHome":
         // Home in Range ?
@@ -102,9 +105,9 @@ export default class Ant extends WorldObject<Circle> {
           }
         }
 
-        // follow Pheromones to Home 
+        // follow Pheromones to Home
         // random / 3 to not change Direction to much
-        this.rotate(this.followPhermons("home") + this.randomRotation());
+        this.rotate(this.followPhermons("home"));
         break;
       case "searchFood":
         // Food in Range ?
@@ -119,25 +122,27 @@ export default class Ant extends WorldObject<Circle> {
             this.orientation += Util.math.randomBetween(160, 200, 2); // turn around after food pickup
             break switchTask;
           } else if (distance < radius + sensoryDistance) {
-            this.orientation = Util.findAngleLine(this.pos, food.pos) + this.randomRotation();
+            this.orientation = Util.findAngleLine(this.pos, food.pos);
             break switchTask;
           }
         }
 
         // follow Food Pheromons (if none are there => value = 0 => move Random)
-        this.rotate(this.followPhermons("food") + this.randomRotation());
+        this.rotate(this.followPhermons("food"));
         break;
     }
 
+    this.orientation += this.randomRotation();
+
     // move
     // doubled when starving
-    const moveSpeed = this.task == "runHome" ? 100 : 50;
+    const moveSpeed = this.task == "runHome" ? antSpeed * 2 : antSpeed;
     this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
 
     // creates Pheromon every x ms;
     this.timeElapsed += dt;
     if (this.timeElapsed > timeBetweenPheromon) {
-      this.timeElapsed -= timeBetweenPheromon;
+      this.timeElapsed = 0;
       this.createPheromon();
     }
 
@@ -147,14 +152,14 @@ export default class Ant extends WorldObject<Circle> {
       this.timeElapsed2 -= 1000;
       // foodLoss / 2 because less activity when starving;
       this.food -= foodLoss;
-      // should worry about food ? 
+      // should worry about food ?
       if (this.food <= (maxFood / 100) * 45 && this.task == "searchFood") {
         if (this.carry > 0) {
           const foodNeeded = Math.min(maxFood - this.food, this.carry);
 
           this.food += foodNeeded;
           this.carry -= foodNeeded;
-          if(this.carry == 0) this.task = "searchFood";
+          if (this.carry == 0) this.task = "searchFood";
         } else {
           this.task = "runHome";
           this.orientation += Util.math.randomBetween(160, 200, 2);
@@ -213,13 +218,26 @@ export default class Ant extends WorldObject<Circle> {
 
       const angle = moveVec.angle(vecToPheromon);
       if (angle > senseAngle || angle < -senseAngle) continue;
-      const weight = (1 - distance / sensoryDistance) * ((200 - pheromon.strength) / 200);
+
+      const weight = this.weightPheromon(distance, pheromon.strength);
 
       sumWeightedAngles += angle * weight;
       sumWeights += weight;
     }
 
-    return isNaN(sumWeightedAngles / sumWeights) ? 0 : sumWeightedAngles / sumWeights;
+    const rotation = sumWeightedAngles / sumWeights;
+
+    return isNaN(rotation) ? 0 : rotation;
+  }
+
+  private weightPheromon(distance: number, strength: number): number {
+    const distanceWeight = 2 * (1 - distance / sensoryDistance); // closer => to 1 | further => to 0
+    const strengthWeight = this.weightStrength(strength); // older => to 1 | newer => to 0
+    return distanceWeight * strengthWeight;
+  }
+
+  private weightStrength(strength: number): number {
+    return -4 * Math.pow(1 - strength / 100 - 0.5, 2) + 1;
   }
 
   // Returns a random Rotation to match ant behaviour

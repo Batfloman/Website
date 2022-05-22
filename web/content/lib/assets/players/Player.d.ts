@@ -1,4 +1,4 @@
-import Game from "../games/Game";
+import Game from "../../games/Game";
 export declare abstract class Player {
     static counter: number;
     game: Game;

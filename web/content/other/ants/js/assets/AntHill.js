@@ -1,8 +1,8 @@
-import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
-import Circle from "../../../lib/physic/boundingBox/Circle.js";
-import { Color } from "../../../lib/util/Color.js";
-import Vector2 from "../../../lib/util/Vector2.js";
-import Ant from "./assets/Ant.js";
+import { WorldObject } from "../../../../lib/assets/Objects/WorldObject.js";
+import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Color } from "../../../../lib/util/Color.js";
+import Vector2 from "../../../../lib/util/Vector2.js";
+import Ant from "./Ant.js";
 const antFoodCost = 25;
 const saveFoodPerAnt = 100;
 const hillSize = 50;

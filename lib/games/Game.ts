@@ -1,9 +1,9 @@
-import { SceneObject } from "../Objects/SceneObject.js";
-import Camara from "../../display/Camara.js";
-import Canvas from "../../display/Canvas.js";
-import Renderer from "../../display/Renderer.js";
-import Input from "../../input/Input.js";
-import World from "../Worlds/World.js";
+import { SceneObject } from "../assets/Objects/SceneObject.js";
+import Camara from "../display/Camara.js";
+import Canvas from "../display/Canvas.js";
+import Renderer from "../display/Renderer.js";
+import Input from "../input/Input.js";
+import World from "../assets/Worlds/World.js";
 
 export default class Game {
   // display

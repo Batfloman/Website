@@ -1,9 +1,9 @@
-import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
-import Renderer from "../../../lib/display/Renderer.js";
-import Circle from "../../../lib/physic/boundingBox/Circle.js";
-import { Color } from "../../../lib/util/Color.js";
-import Util from "../../../lib/util/Util.js";
-import Vector2 from "../../../lib/util/Vector2.js";
+import { WorldObject } from "../../../../lib/assets/Objects/WorldObject.js";
+import Renderer from "../../../../lib/display/Renderer.js";
+import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Color } from "../../../../lib/util/Color.js";
+import Util from "../../../../lib/util/Util.js";
+import Vector2 from "../../../../lib/util/Vector2.js";
 
 export default class Food extends WorldObject<Circle> {
   amountFood: number;

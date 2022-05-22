@@ -1,7 +1,7 @@
-import Canvas from "../../display/Canvas.js";
-import { Player } from "../players/Player.js";
-import { TurnBasedPlayer } from "../players/TurnBasedPlayer.js";
-import Util from "../../util/Util.js";
+import Canvas from "../display/Canvas.js";
+import { Player } from "../assets/players/Player.js";
+import { TurnBasedPlayer } from "../assets/players/TurnBasedPlayer.js";
+import Util from "../util/Util.js";
 import Game from "./Game.js";
 
 export default class TurnBasedGame extends Game {

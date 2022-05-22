@@ -1,11 +1,11 @@
-import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
-import Renderer from "../../../lib/display/Renderer.js";
-import Circle from "../../../lib/physic/boundingBox/Circle.js";
-import { Color } from "../../../lib/util/Color.js";
-import Vector2 from "../../../lib/util/Vector2.js";
+import { WorldObject } from "../../../../lib/assets/Objects/WorldObject.js";
+import Renderer from "../../../../lib/display/Renderer.js";
+import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Color } from "../../../../lib/util/Color.js";
+import Vector2 from "../../../../lib/util/Vector2.js";
 
 const pheromonSize = 1;
-const duration = 10000;
+const duration = 30000;
 
 export type Message = "home" | "food";
 
