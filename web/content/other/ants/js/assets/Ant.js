@@ -13,7 +13,7 @@ const taskColors = new Map([
 ]);
 const antSize = 2;
 const antOrientationChange = 7.5;
-const timeBetweenPheromon = 200;
+const timeBetweenPheromon = 75;
 const maxFood = 100;
 const foodLoss = 5;
 const sensoryDistance = 25;
@@ -82,7 +82,7 @@ export default class Ant extends WorldObject {
                         food.amountFood -= carryAmount;
                         this.carry = carryAmount;
                         this.task = "bringFoodHome";
-                        this.orientation += Util.math.randomBetween(160, 200, 2);
+                        this.orientation += Util.math.randomBetween(170, 180, 2);
                         break switchTask;
                     }
                     else if (distance < radius + sensoryDistance) {
@@ -94,7 +94,7 @@ export default class Ant extends WorldObject {
                 break;
         }
         this.orientation += this.randomRotation();
-        const moveSpeed = this.task == "runHome" ? antSpeed * 2 : antSpeed;
+        const moveSpeed = this.task == "runHome" ? antSpeed * 1.5 : antSpeed;
         this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
         this.timeElapsed += dt;
         if (this.timeElapsed > timeBetweenPheromon) {
@@ -115,7 +115,7 @@ export default class Ant extends WorldObject {
                 }
                 else {
                     this.task = "runHome";
-                    this.orientation += Util.math.randomBetween(160, 200, 2);
+                    this.orientation += Util.math.randomBetween(170, 190, 2);
                 }
             }
             if (this.food <= 0) {

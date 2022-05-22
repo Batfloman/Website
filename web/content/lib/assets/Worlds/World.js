@@ -1,11 +1,19 @@
 import Util from "../../util/Util.js";
+import { Color } from "../../util/Color.js";
 export default class World {
     constructor() {
         this.objects = [];
         this.objectMap = new Map();
+        this.backgroundColor = new Color(45, 45, 45);
     }
     isInsideWorld(point) {
         return true;
+    }
+    shouldRender() {
+        return true;
+    }
+    render(renderer) {
+        renderer.renderStaticRectangle("center", "100%", "100%");
     }
     addObject(obj) {
         if (this.objects.includes(obj))

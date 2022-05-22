@@ -33,33 +33,8 @@ export default class Renderer {
     renderGrid(worldPos, xSize, ySize, cellXSize, cellYSize) {
         this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize);
     }
-    renderStaticGrid(pos, xSize, ySize, cellXSize, cellYSize) {
-        this.updateValues();
-        const w = cellXSize * xSize * this.scale;
-        const h = cellYSize * ySize * this.scale;
-        const topLeft = new Vector2(pos.x - w / 2, pos.y - h / 2);
-        for (let x = 0; x <= xSize; x++) {
-            this.ctx.moveTo(topLeft.x + x * cellXSize * this.scale, topLeft.y);
-            this.ctx.lineTo(topLeft.x + x * cellXSize * this.scale, topLeft.y + h);
-            this.ctx.stroke();
-        }
-        for (let y = 0; y <= ySize; y++) {
-            this.ctx.moveTo(topLeft.x, topLeft.y + y * cellYSize * this.scale);
-            this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
-            this.ctx.stroke();
-        }
-    }
     renderText(worldPos, text) {
         this.renderStaticText(this.calcPosOnScreen(worldPos), text);
-    }
-    renderStaticText(pos, text) {
-        this.updateValues();
-        this.ctx.beginPath();
-        this.ctx.textAlign = "center";
-        this.ctx.textBaseline = "middle";
-        this.ctx.font = "20px Arial";
-        this.ctx.fillText(text, pos.x, pos.y);
-        this.ctx.stroke();
     }
     renderPoints(points, radius) {
         for (let point of points) {
@@ -69,24 +44,8 @@ export default class Renderer {
     renderCircle(worldPos, radius) {
         this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius * this.scale);
     }
-    renderStaticCirle(pos, radius) {
-        this.updateValues();
-        this.ctx.beginPath();
-        this.ctx.arc(pos.x, pos.y, radius, 0, 360);
-        this.ctx.fill();
-        this.ctx.stroke();
-    }
     renderRectangle(worldPos, width, height) {
         this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width * this.scale, height * this.scale);
-    }
-    renderStaticRectangle(pos, width, height) {
-        this.updateValues();
-        const w = width;
-        const h = height;
-        this.ctx.beginPath();
-        this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
-        this.ctx.fill();
-        this.ctx.stroke();
     }
     connectPoints(points) {
         this.updateValues();
@@ -111,6 +70,87 @@ export default class Renderer {
             this.connectPoints(translated);
         if (renderPoints)
             this.renderPoints(translated, 1);
+    }
+    convertStaticPosInValue(pos) {
+        switch (pos) {
+            case "center":
+                return this.offSet;
+                break;
+            default:
+                return new Vector2();
+        }
+    }
+    convertPercentInValue(widthPercent, heightPercent) {
+        return new Vector2(this.convertWidthPercentInValue(widthPercent), this.convertHeightPercentInValue(heightPercent));
+    }
+    convertWidthPercentInValue(percent) {
+        const number = (Number.parseFloat(percent) / 100) * this.canvas.width;
+        return isNaN(number) ? 0 : number;
+    }
+    convertHeightPercentInValue(percent) {
+        const number = (Number.parseFloat(percent) / 100) * this.canvas.height;
+        return isNaN(number) ? 0 : number;
+    }
+    renderStaticGrid(pos, xSize, ySize, cellXSize, cellYSize) {
+        this.updateValues();
+        if (!(pos instanceof Vector2))
+            pos = this.convertStaticPosInValue(pos);
+        if (!(typeof xSize == "number"))
+            xSize = this.convertWidthPercentInValue(xSize);
+        if (!(typeof ySize == "number"))
+            ySize = this.convertWidthPercentInValue(ySize);
+        if (!(typeof cellXSize == "number"))
+            cellXSize = this.convertWidthPercentInValue(cellXSize);
+        if (!(typeof cellYSize == "number"))
+            cellYSize = this.convertWidthPercentInValue(cellYSize);
+        const w = cellXSize * xSize * this.scale;
+        const h = cellYSize * ySize * this.scale;
+        const topLeft = new Vector2(pos.x - w / 2, pos.y - h / 2);
+        for (let x = 0; x <= xSize; x++) {
+            this.ctx.moveTo(topLeft.x + x * cellXSize * this.scale, topLeft.y);
+            this.ctx.lineTo(topLeft.x + x * cellXSize * this.scale, topLeft.y + h);
+            this.ctx.stroke();
+        }
+        for (let y = 0; y <= ySize; y++) {
+            this.ctx.moveTo(topLeft.x, topLeft.y + y * cellYSize * this.scale);
+            this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
+            this.ctx.stroke();
+        }
+    }
+    renderStaticText(pos, text) {
+        this.updateValues();
+        if (!(pos instanceof Vector2))
+            pos = this.convertStaticPosInValue(pos);
+        this.ctx.beginPath();
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.font = "20px Arial";
+        this.ctx.fillText(text, pos.x, pos.y);
+        this.ctx.stroke();
+    }
+    renderStaticCirle(pos, radius) {
+        this.updateValues();
+        if (!(pos instanceof Vector2))
+            pos = this.convertStaticPosInValue(pos);
+        this.ctx.beginPath();
+        this.ctx.arc(pos.x, pos.y, radius, 0, 360);
+        this.ctx.fill();
+        this.ctx.stroke();
+    }
+    renderStaticRectangle(pos, width, height) {
+        this.updateValues();
+        if (!(pos instanceof Vector2))
+            pos = this.convertStaticPosInValue(pos);
+        if (!(typeof width == "number"))
+            width = this.convertWidthPercentInValue(width);
+        if (!(typeof height == "number"))
+            height = this.convertWidthPercentInValue(height);
+        const w = width;
+        const h = height;
+        this.ctx.beginPath();
+        this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
+        this.ctx.fill();
+        this.ctx.stroke();
     }
     setStrokeColor(color = Color.none) {
         if (!color)

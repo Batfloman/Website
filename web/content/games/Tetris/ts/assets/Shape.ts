@@ -1,6 +1,6 @@
-import Vector2 from "../../../lib/util/Vector2.js";
+import Vector2 from "../../../../lib/util/Vector2.js";
 import Block from "./Block.js";
-import Util from "../../../lib/util/Util.js";
+import Util from "../../../../lib/util/Util.js";
 
 type Forms = "square" | "t-shape" | "l-shape" | "l-reverse" | "z-shape" | "z-reverse" | "line";
 

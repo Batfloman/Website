@@ -18,7 +18,7 @@ const taskColors = new Map<Task, Color>([
 
 const antSize = 2;
 const antOrientationChange = 7.5;
-const timeBetweenPheromon = 200;
+const timeBetweenPheromon = 75;
 
 const maxFood = 100;
 const foodLoss = 5;
@@ -119,7 +119,7 @@ export default class Ant extends WorldObject<Circle> {
             food.amountFood -= carryAmount;
             this.carry = carryAmount;
             this.task = "bringFoodHome";
-            this.orientation += Util.math.randomBetween(160, 200, 2); // turn around after food pickup
+            this.orientation += Util.math.randomBetween(170, 180, 2); // turn around after food pickup
             break switchTask;
           } else if (distance < radius + sensoryDistance) {
             this.orientation = Util.findAngleLine(this.pos, food.pos);
@@ -136,7 +136,7 @@ export default class Ant extends WorldObject<Circle> {
 
     // move
     // doubled when starving
-    const moveSpeed = this.task == "runHome" ? antSpeed * 2 : antSpeed;
+    const moveSpeed = this.task == "runHome" ? antSpeed * 1.5 : antSpeed;
     this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
 
     // creates Pheromon every x ms;
@@ -162,7 +162,7 @@ export default class Ant extends WorldObject<Circle> {
           if (this.carry == 0) this.task = "searchFood";
         } else {
           this.task = "runHome";
-          this.orientation += Util.math.randomBetween(160, 200, 2);
+          this.orientation += Util.math.randomBetween(170, 190, 2);
         }
       }
       // is Dead ?
@@ -190,7 +190,7 @@ export default class Ant extends WorldObject<Circle> {
         message = "food";
         break;
       case "runHome":
-        // don't create Pheromon when dying!
+        // don't create Pheromon when dying! Saves energy or something
         return;
     }
 

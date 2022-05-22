@@ -1,5 +1,6 @@
-import Vector2 from "../../util/Vector2";
-import World from "./World";
+import Renderer from "../../display/Renderer.js";
+import Vector2 from "../../util/Vector2.js";
+import World from "./World.js";
 
 export default class RechtangleWorld extends World {
   width: number;
@@ -17,5 +18,9 @@ export default class RechtangleWorld extends World {
     const rightY = point.y > -this.height/2 && point.y < this.width / 2;
 
     return rightX && rightY;
+  }
+
+  render(renderer: Renderer): void {
+      renderer.renderRectangle(new Vector2(), this.width, this.height);
   }
 }

@@ -6,6 +6,8 @@ import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
 
+type staticPosition = "center";
+
 export default class Renderer {
   private fillColor: Color = Color.none;
   private strokeColor: Color = Color.get("black");
@@ -35,6 +37,9 @@ export default class Renderer {
     this.ctx.lineWidth = this.lineWidth * this.camara.scale;
   }
 
+  // ==========================================================================================
+  //#region math: not-static rendering
+
   private calcPosOnScreen(worldPos: Vector2): Vector2 {
     const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
 
@@ -44,8 +49,10 @@ export default class Renderer {
     return distance.add(this.offSet);
   }
 
+  //#endregion
+
   // ==========================================================================================
-  // render
+  //#region render: worldPosition
 
   clear() {
     this.updateValues();
@@ -62,52 +69,8 @@ export default class Renderer {
   ): void {
     this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize);
   }
-
-  renderStaticGrid(
-    pos: Vector2,
-    xSize: number,
-    ySize: number,
-    cellXSize: number,
-    cellYSize: number
-  ): void {
-    this.updateValues();
-
-    const w = cellXSize * xSize * this.scale;
-    const h = cellYSize * ySize * this.scale;
-
-    const topLeft = new Vector2(
-      pos.x - w / 2,
-      pos.y - h / 2
-    );
-
-    // vertical
-    for(let x = 0; x <= xSize; x++) {
-      this.ctx.moveTo(topLeft.x + x * cellXSize * this.scale, topLeft.y);
-      this.ctx.lineTo(topLeft.x + x * cellXSize * this.scale, topLeft.y + h);
-      this.ctx.stroke();
-    }
-
-    // horizontal
-    for(let y = 0; y <= ySize; y++) {
-      this.ctx.moveTo(topLeft.x, topLeft.y + y * cellYSize * this.scale);
-      this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
-      this.ctx.stroke();
-    }
-  }
-
   renderText(worldPos: Vector2, text: string) {
     this.renderStaticText(this.calcPosOnScreen(worldPos), text);
-  }
-
-  renderStaticText(pos: Vector2, text: string) {
-    this.updateValues();
-
-    this.ctx.beginPath();
-    this.ctx.textAlign = "center";
-    this.ctx.textBaseline = "middle";
-    this.ctx.font = "20px Arial";
-    this.ctx.fillText(text, pos.x, pos.y);
-    this.ctx.stroke();
   }
 
   renderPoints(points: Vector2[], radius: number): void {
@@ -120,29 +83,12 @@ export default class Renderer {
     this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius * this.scale);
   }
 
-  renderStaticCirle(pos: Vector2, radius: number): void {
-    this.updateValues();
-
-    this.ctx.beginPath();
-    this.ctx.arc(pos.x, pos.y, radius, 0, 360);
-    this.ctx.fill();
-    this.ctx.stroke();
-  }
-
   renderRectangle(worldPos: Vector2, width: number, height: number) {
-    this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width  * this.scale, height * this.scale);
-  }
-
-  renderStaticRectangle(pos: Vector2, width: number, height: number): void {
-    this.updateValues();
-
-    const w = width;
-    const h = height;
-
-    this.ctx.beginPath();
-    this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
-    this.ctx.fill();
-    this.ctx.stroke();
+    this.renderStaticRectangle(
+      this.calcPosOnScreen(worldPos),
+      width * this.scale,
+      height * this.scale
+    );
   }
 
   connectPoints(points: Vector2[]) {
@@ -179,8 +125,122 @@ export default class Renderer {
     if (renderPoints) this.renderPoints(translated, 1);
   }
 
+  //#endregion
+
   // ==========================================================================================
-  // setter
+  //#region math: static Rendering
+
+  private convertStaticPosInValue(pos: staticPosition): Vector2 {
+    switch (pos) {
+      case "center":
+        return this.offSet;
+        break;
+      default:
+        return new Vector2();
+    }
+  }
+
+  private convertPercentInValue(widthPercent: string, heightPercent: string): Vector2 {
+    return new Vector2(
+      this.convertWidthPercentInValue(widthPercent),
+      this.convertHeightPercentInValue(heightPercent)
+    );
+  }
+
+  private convertWidthPercentInValue(percent: string): number {
+    const number = (Number.parseFloat(percent) / 100) * this.canvas.width;
+    return isNaN(number) ? 0 : number;
+  }
+
+  private convertHeightPercentInValue(percent: string): number {
+    const number = (Number.parseFloat(percent) / 100) * this.canvas.height;
+    return isNaN(number) ? 0 : number;
+  }
+
+  //#endregion
+
+  // ==========================================================================================
+  //#region render: static Position
+
+  renderStaticGrid(
+    pos: Vector2 | staticPosition,
+    xSize: number | string,
+    ySize: number | string,
+    cellXSize: number | string,
+    cellYSize: number | string
+  ): void {
+    this.updateValues();
+
+    if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
+    if (!(typeof xSize == "number")) xSize = this.convertWidthPercentInValue(xSize);
+    if (!(typeof ySize == "number")) ySize = this.convertWidthPercentInValue(ySize);
+    if (!(typeof cellXSize == "number")) cellXSize = this.convertWidthPercentInValue(cellXSize);
+    if (!(typeof cellYSize == "number")) cellYSize = this.convertWidthPercentInValue(cellYSize);
+
+    const w = cellXSize * xSize * this.scale;
+    const h = cellYSize * ySize * this.scale;
+
+    const topLeft = new Vector2(pos.x - w / 2, pos.y - h / 2);
+
+    // vertical
+    for (let x = 0; x <= xSize; x++) {
+      this.ctx.moveTo(topLeft.x + x * cellXSize * this.scale, topLeft.y);
+      this.ctx.lineTo(topLeft.x + x * cellXSize * this.scale, topLeft.y + h);
+      this.ctx.stroke();
+    }
+
+    // horizontal
+    for (let y = 0; y <= ySize; y++) {
+      this.ctx.moveTo(topLeft.x, topLeft.y + y * cellYSize * this.scale);
+      this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
+      this.ctx.stroke();
+    }
+  }
+
+  renderStaticText(pos: Vector2 | staticPosition, text: string) {
+    this.updateValues();
+
+    if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
+
+    this.ctx.beginPath();
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.font = "20px Arial";
+    this.ctx.fillText(text, pos.x, pos.y);
+    this.ctx.stroke();
+  }
+
+  renderStaticCirle(pos: Vector2 | staticPosition, radius: number): void {
+    this.updateValues();
+
+    if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
+
+    this.ctx.beginPath();
+    this.ctx.arc(pos.x, pos.y, radius, 0, 360);
+    this.ctx.fill();
+    this.ctx.stroke();
+  }
+
+  renderStaticRectangle(pos: Vector2 | staticPosition, width: number | string, height: number | string): void {
+    this.updateValues();
+
+    if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
+    if (!(typeof width == "number")) width = this.convertWidthPercentInValue(width);
+    if (!(typeof height == "number")) height = this.convertWidthPercentInValue(height);
+
+    const w = width;
+    const h = height;
+
+    this.ctx.beginPath();
+    this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
+    this.ctx.fill();
+    this.ctx.stroke();
+  }
+
+  //#endregion
+
+  // ==========================================================================================
+  // #region setter
 
   setStrokeColor(color: Color | undefined = Color.none) {
     if (!color) color = Color.none;
@@ -193,4 +253,6 @@ export default class Renderer {
   setLineWidth(width: number) {
     this.lineWidth = width;
   }
+
+  //#endregion
 }

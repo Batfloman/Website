@@ -9,4 +9,7 @@ export default class CircleWorld extends World {
     isInsideWorld(point) {
         return Util.distance(new Vector2(), point) < this.radius;
     }
+    render(renderer) {
+        renderer.renderCircle(new Vector2(), this.radius);
+    }
 }

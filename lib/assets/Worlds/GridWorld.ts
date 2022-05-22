@@ -1,4 +1,6 @@
+import Renderer from "../../display/Renderer.js";
 import Matrix2 from "../../util/Matrix2.js";
+import Vector2 from "../../util/Vector2.js";
 import { GridCell } from "../Objects/GridCell";
 import RechtangleWorld from "./RectangleWorld.js";
 
@@ -25,5 +27,10 @@ export default class GridWorld extends RechtangleWorld {
     this.addObject(cell);
 
     cell.setGrid(this);
+  }
+
+  render(renderer: Renderer): void {
+    console.log("WArum du nicht rendern!");
+    renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.xCellSize, this.yCellSize);
   }
 }
