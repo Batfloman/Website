@@ -49,9 +49,20 @@ export default class World implements IRenderable {
   }
 
   findObjects<T extends SceneObject>(clasName: string, exclude?: T | T[]): T[] {
-    const values = this.objectMap.get(clasName);
-    // TODO include exclude!
-    if (!values) return [];
+    const objects = this.objectMap.get(clasName);
+    if (!objects) return [];
+    
+    // copy and work with values
+    const values = [...objects];
+
+    if (exclude instanceof Object && values?.includes(exclude as T)) {
+      Util.array.removeItem(values, exclude as T);
+    } else if (exclude instanceof Array) {
+      for (let ex of exclude) {
+        Util.array.removeItem(values, ex);
+      }
+    }
+
     return values as Array<T>;
   }
 

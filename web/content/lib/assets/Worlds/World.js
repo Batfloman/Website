@@ -27,9 +27,18 @@ export default class World {
         return this.objects.splice(index, 1)[0];
     }
     findObjects(clasName, exclude) {
-        const values = this.objectMap.get(clasName);
-        if (!values)
+        const objects = this.objectMap.get(clasName);
+        if (!objects)
             return [];
+        const values = [...objects];
+        if (exclude instanceof Object && (values === null || values === void 0 ? void 0 : values.includes(exclude))) {
+            Util.array.removeItem(values, exclude);
+        }
+        else if (exclude instanceof Array) {
+            for (let ex of exclude) {
+                Util.array.removeItem(values, ex);
+            }
+        }
         return values;
     }
     addToMap(obj) {

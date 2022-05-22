@@ -9,11 +9,9 @@ export default class Util {
 
       return arr[index % arr.length];
     },
-
     getLastItem<T>(arr: T[]): T {
       return arr[arr.length - 1];
     },
-
     getRandomItem<T>(arr: T[]): T {
       return Util.array.getItem(arr, Util.math.randomBetween(0, arr.length - 1));
     },
@@ -23,7 +21,6 @@ export default class Util {
 
       return arr.splice(index, 1)[0];
     },
-
     removeItem<T>(arr: T[], item: T): T | null {
       if (arr.includes(item)) {
         return arr.splice(arr.indexOf(item), 1)[0];
@@ -31,12 +28,15 @@ export default class Util {
       return null;
     },
 
+    sum(arr: number[]): number {
+      return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
+    },
+
     isEmpty<T>(arr: T[]): boolean {
       return arr.length == 0;
     },
-
-    sum(arr: number[]): number {
-      return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
+    copy<T>(arr: T[]): T[] {
+      return [...arr];
     },
   };
 

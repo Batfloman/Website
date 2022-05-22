@@ -14,7 +14,6 @@ export default class Collision {
     [obj1, obj2].forEach((obj) => obj.translatePoints());
 
     if (!CircleCollision.potentialCollision(obj1, obj2)) return false;
-    
 
     if (!obj1.hitBox.isConvex) {
       const parts = Triangulation.triangulate(obj1);

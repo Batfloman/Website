@@ -90,11 +90,14 @@ Util.array = {
         }
         return null;
     },
+    sum(arr) {
+        return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
+    },
     isEmpty(arr) {
         return arr.length == 0;
     },
-    sum(arr) {
-        return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
+    copy(arr) {
+        return [...arr];
     },
 };
 Util.math = {
