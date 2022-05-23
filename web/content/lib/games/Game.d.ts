@@ -1,8 +1,8 @@
-import { SceneObject } from "../assets/Objects/SceneObject.js";
+import { SceneObject } from "../assets/objects/SceneObject.js";
 import Camara from "../display/Camara.js";
 import Canvas from "../display/Canvas.js";
 import Renderer from "../display/Renderer.js";
-import World from "../assets/Worlds/World.js";
+import World from "../assets/worlds/World.js";
 import { Color } from "../util/Color.js";
 export default class Game {
     protected canvas: Canvas;

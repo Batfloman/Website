@@ -1,4 +1,4 @@
-import { SceneObject } from "./../Objects/SceneObject.js";
+import { SceneObject } from "../objects/SceneObject.js";
 import Vector2 from "../../util/Vector2.js";
 import Util from "../../util/Util.js";
 import IRenderable from "../../display/IRenderable.js";

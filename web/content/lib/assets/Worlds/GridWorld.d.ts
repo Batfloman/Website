@@ -1,6 +1,6 @@
 import Renderer from "../../display/Renderer.js";
 import Matrix2 from "../../util/Matrix2.js";
-import { GridCell } from "../Objects/GridCell";
+import { GridCell } from "../objects/GridCell";
 import RectangleWorld from "./RectangleWorld.js";
 export default class GridWorld extends RectangleWorld {
     grid: Matrix2<Array<GridCell>>;

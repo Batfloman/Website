@@ -27,7 +27,6 @@ export default class Renderer {
         return distance.add(this.offSet);
     }
     clear() {
-        console.log("clear please im begging you!!!");
         this.updateValues();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -104,7 +103,6 @@ export default class Renderer {
             cellXSize = this.convertWidthPercentInValue(cellXSize);
         if (!(typeof cellYSize == "number"))
             cellYSize = this.convertWidthPercentInValue(cellYSize);
-        console.log(pos, xSize, ySize, cellXSize, cellYSize);
         const w = cellXSize * xSize * this.scale;
         const h = cellYSize * ySize * this.scale;
         const topLeft = new Vector2(pos.x - w / 2, pos.y - h / 2);

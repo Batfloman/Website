@@ -1,4 +1,4 @@
-import GridWorld from "../../../../lib/assets/Worlds/GridWorld.js";
+import GridWorld from "../../../../lib/assets/worlds/GridWorld.js";
 import Renderer from "../../../../lib/display/Renderer.js";
 import { Color } from "../../../../lib/util/Color.js";
 import Vector2 from "../../../../lib/util/Vector2.js";

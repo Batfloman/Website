@@ -1,6 +1,6 @@
 import Rectangle from "../../physic/boundingBox/Rectangle.js";
 import Vector2 from "../../util/Vector2.js";
-import GridWorld from "../Worlds/GridWorld.js";
+import GridWorld from "../worlds/GridWorld.js";
 import { WorldObject } from "./WorldObject.js";
 
 export abstract class GridCell extends WorldObject<Rectangle> {

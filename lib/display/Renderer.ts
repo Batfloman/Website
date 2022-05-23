@@ -55,7 +55,6 @@ export default class Renderer {
   //#region render: worldPosition
 
   clear() {
-    console.log("clear please im begging you!!!")
     this.updateValues();
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -178,8 +177,6 @@ export default class Renderer {
     if (!(typeof ySize == "number")) ySize = this.convertWidthPercentInValue(ySize);
     if (!(typeof cellXSize == "number")) cellXSize = this.convertWidthPercentInValue(cellXSize);
     if (!(typeof cellYSize == "number")) cellYSize = this.convertWidthPercentInValue(cellYSize);
-
-    console.log(pos, xSize, ySize, cellXSize, cellYSize);
 
     const w = cellXSize * xSize * this.scale;
     const h = cellYSize * ySize * this.scale;

@@ -10,7 +10,7 @@ export default class Canvas {
     updateSize() {
         this.htmlCanvas.width = this.htmlCanvas.getBoundingClientRect().width;
         this.htmlCanvas.height = this.htmlCanvas.getBoundingClientRect().height;
-        this.width = this.htmlCanvas.width;
-        this.height = this.htmlCanvas.height;
+        this.width = this.htmlCanvas.getBoundingClientRect().width;
+        this.height = this.htmlCanvas.getBoundingClientRect().height;
     }
 }

@@ -1,7 +1,7 @@
 import Camara from "../display/Camara.js";
 import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
-import World from "../assets/Worlds/World.js";
+import World from "../assets/worlds/World.js";
 import Util from "../util/Util.js";
 export default class Game {
     constructor(canvas) {

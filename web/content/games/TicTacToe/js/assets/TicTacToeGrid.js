@@ -1,7 +1,7 @@
-import GridWorld from "../../../lib/assets/Worlds/GridWorld.js";
-import { Color } from "../../../lib/util/Color.js";
-import Input from "../../../lib/input/Input.js";
-export default class Board extends GridWorld {
+import GridWorld from "../../../../lib/assets/Worlds/GridWorld.js";
+import { Color } from "../../../../lib/util/Color.js";
+import Input from "../../../../lib/input/Input.js";
+export default class TicTacToeGrid extends GridWorld {
     constructor(canvas, xSize, ySize) {
         super(canvas.width, canvas.height, xSize, ySize);
         this.canvas = canvas;
@@ -14,6 +14,7 @@ export default class Board extends GridWorld {
     }
     render(renderer) {
         renderer.setStrokeColor(Color.get("black"));
+        renderer.setLineWidth(5);
         super.render(renderer);
     }
 }
