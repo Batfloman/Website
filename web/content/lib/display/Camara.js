@@ -64,7 +64,6 @@ export default class Camara {
         this.hitBox.farthestDistance = this.getOffset()
             .scale(1 / this.scale)
             .getMagnitude();
-        console.log(this.scale, this.hitBox.farthestDistance);
         this.alreadyTranslated = true;
         return this.translatedPoints;
     }

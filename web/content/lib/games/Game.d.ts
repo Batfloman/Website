@@ -3,6 +3,7 @@ import Camara from "../display/Camara.js";
 import Canvas from "../display/Canvas.js";
 import Renderer from "../display/Renderer.js";
 import World from "../assets/Worlds/World.js";
+import { Color } from "../util/Color.js";
 export default class Game {
     protected canvas: Canvas;
     protected camara: Camara;
@@ -26,6 +27,7 @@ export default class Game {
     findObjects<T extends SceneObject>(clas: Function, exclude?: T | T[]): T[];
     addWorld(name: string, world: World): void;
     getWorld(name: string): World | undefined;
+    setWorldBackground(name: string, color: Color): void;
     private calc_dt;
     start(): void;
     stop(): void;

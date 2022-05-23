@@ -16,8 +16,8 @@ const antOrientationChange = 5;
 const timeBetweenPheromon = 75;
 const maxFood = 100;
 const foodLoss = 5;
-const sensoryDistance = 25;
-const senseAngle = 90;
+const sensoryDistance = 33;
+const senseAngle = 100;
 const carryAmount = 500;
 const antSpeed = 50;
 export default class Ant extends WorldObject {
@@ -34,6 +34,7 @@ export default class Ant extends WorldObject {
     update2(dt) {
         const homes = this.game.findObjects(AntHill);
         const foodStuffs = this.game.findObjects(Food);
+        let rotation;
         switchTask: switch (this.task) {
             case "runHome":
                 for (let home of homes) {
@@ -50,7 +51,8 @@ export default class Ant extends WorldObject {
                         break switchTask;
                     }
                 }
-                this.rotate(this.followPhermons("home"));
+                rotation = this.followPhermons("home");
+                this.rotate(!rotation ? 180 : rotation);
                 break;
             case "bringFoodHome":
                 for (let home of homes) {
@@ -72,7 +74,8 @@ export default class Ant extends WorldObject {
                         break switchTask;
                     }
                 }
-                this.rotate(this.followPhermons("home"));
+                rotation = this.followPhermons("home");
+                this.rotate(!rotation ? 180 : rotation);
                 break;
             case "searchFood":
                 for (let food of foodStuffs) {
@@ -90,7 +93,8 @@ export default class Ant extends WorldObject {
                         break switchTask;
                     }
                 }
-                this.rotate(this.followPhermons("food"));
+                rotation = this.followPhermons("food");
+                this.rotate(!rotation ? 0 : rotation);
                 break;
         }
         this.orientation += this.randomRotation();
@@ -146,26 +150,26 @@ export default class Ant extends WorldObject {
         this.game.addObject(new Pheromon(this.pos, message));
     }
     followPhermons(message) {
-        const pheromons = this.game.findObjects(Pheromon).filter((pheromon) => Util.distance(this.pos, pheromon.pos) < sensoryDistance);
         let sumWeightedAngles = 0;
         let sumWeights = 0;
-        for (let pheromon of pheromons) {
+        this.game.findObjects(Pheromon).forEach((pheromon) => {
+            if (pheromon.message != message)
+                return;
             const distance = Util.distance(this.pos, pheromon.pos);
             if (distance > sensoryDistance)
-                continue;
-            if (!(pheromon.message == message))
-                continue;
+                return;
             const vecToPheromon = pheromon.pos.subtract(this.pos);
             const moveVec = Util.toVector(this.orientation, 1);
             const angle = moveVec.angle(vecToPheromon);
             if (angle > senseAngle || angle < -senseAngle)
-                continue;
+                return;
             const weight = this.weightPheromon(distance, pheromon.strength);
             sumWeightedAngles += angle * weight;
             sumWeights += weight;
-        }
-        const rotation = sumWeightedAngles / sumWeights;
-        return isNaN(rotation) ? 0 : rotation;
+        });
+        if (sumWeights == 0)
+            return undefined;
+        return sumWeightedAngles / sumWeights;
     }
     weightPheromon(distance, strength) {
         const distanceWeight = 2 * (1 - distance / sensoryDistance);

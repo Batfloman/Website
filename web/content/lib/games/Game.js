@@ -101,6 +101,11 @@ export default class Game {
     getWorld(name) {
         return this.worlds.get(name);
     }
+    setWorldBackground(name, color) {
+        const map = this.worlds.get(name);
+        if (map)
+            map.backgroundColor = color;
+    }
     calc_dt() {
         return Date.now() - this.lastTickTime;
     }

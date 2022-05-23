@@ -231,14 +231,14 @@ export default class Renderer {
 
     if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
     if (!(typeof width == "number")) width = this.convertWidthPercentInValue(width);
-    if (!(typeof height == "number")) height = this.convertWidthPercentInValue(height);
+    if (!(typeof height == "number")) height = this.convertHeightPercentInValue(height);
 
     const w = width;
     const h = height;
 
     this.ctx.beginPath();
-    this.ctx.strokeRect(pos.x - w / 2, pos.y + h / 2, w, h);
-    this.ctx.fill();
+    this.ctx.strokeRect(pos.x - w / 2, pos.y - h / 2, w, h);
+    this.ctx.fillRect(pos.x - w / 2, pos.y - h / 2, w, h);
     this.ctx.stroke();
   }
 

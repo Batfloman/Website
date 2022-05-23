@@ -7,16 +7,19 @@ import { Color } from "../../util/Color.js";
 
 export default class World implements IRenderable {
   objects: SceneObject[] = [];
+  
+  // style
+  backgroundColor: Color;
 
-  backgroundColor;
-
+  // sorted Objects after class: <className, [Objects]>
   private objectMap: Map<string, SceneObject[]> = new Map();
 
   constructor() {
-    this.backgroundColor = new Color(45, 45, 45);
+    this.backgroundColor = Color.get("white");
   }
 
   isInsideWorld(point: Vector2): boolean {
+    // this World is infinit
     return true;
   }
 
@@ -28,11 +31,13 @@ export default class World implements IRenderable {
   }
 
   render(renderer: Renderer): void {
+    renderer.setStrokeColor(this.backgroundColor);
+    renderer.setFillColor(this.backgroundColor);
     renderer.renderStaticRectangle("center", "100%", "100%");
   }
 
   // ==========================================================================================
-  // manage Objects
+  //#region manage Objects
 
   addObject(obj: SceneObject): void {
     if (this.objects.includes(obj)) return;
@@ -51,7 +56,7 @@ export default class World implements IRenderable {
   findObjects<T extends SceneObject>(clasName: string, exclude?: T | T[]): T[] {
     const objects = this.objectMap.get(clasName);
     if (!objects) return [];
-    
+
     // copy and work with values
     const values = Util.array.copyOf(objects);
 
@@ -66,8 +71,11 @@ export default class World implements IRenderable {
     return values as Array<T>;
   }
 
+  //#endregion
+
   // ==========================================================================================
-  // handle map
+  //#region handle map
+
   private addToMap(obj: SceneObject): void {
     let values: SceneObject[] = [];
 
@@ -85,4 +93,6 @@ export default class World implements IRenderable {
 
     Util.array.removeItem(values, obj);
   }
+
+  //#endregion
 }

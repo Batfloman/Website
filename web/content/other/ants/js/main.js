@@ -4,12 +4,17 @@ import Util from "../../../lib/util/Util.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import AntHill from "./assets/AntHill.js";
 import Food from "./assets/Food.js";
+import { Color } from "../../../lib/util/Color.js";
+import Ant from "./assets/Ant.js";
 window.onload = () => {
     const canvas = new Canvas(document.querySelector("canvas"));
     const game = new Game(canvas);
+    game.setWorldBackground("main", new Color(45, 45, 45));
     game.setCamaraMovementLock(false);
-    game.setCamaraScaleLock(false);
-    game.addObject(new AntHill(new Vector2(), 10000));
+    game.addObject(new AntHill(new Vector2(), 0));
+    for (let i = 0; i < 100; i++) {
+        game.addObject(new Ant());
+    }
     game.addObject(randomFood());
     game.addObject(randomFood());
     setInterval(() => {

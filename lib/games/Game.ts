@@ -5,6 +5,7 @@ import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
 import World from "../assets/Worlds/World.js";
 import Util from "../util/Util.js";
+import { Color } from "../util/Color.js";
 
 export default class Game {
   // display
@@ -48,7 +49,7 @@ export default class Game {
   }
 
   // ==========================================================================================
-  // game Tick
+  //#region game Tick
 
   // only tick's game when running
   private static testTick(game: Game): void {
@@ -107,6 +108,8 @@ export default class Game {
     }
   }
 
+  //#endregion
+
   // ==========================================================================================
   // #region objects
 
@@ -138,7 +141,7 @@ export default class Game {
   // #endregion
 
   // ==========================================================================================
-  // worlds
+  // #region worlds
 
   addWorld(name: string, world: World) {
     this.worlds.set(name, world);
@@ -148,8 +151,15 @@ export default class Game {
     return this.worlds.get(name);
   }
 
+  setWorldBackground(name: string, color: Color): void {
+    const map = this.worlds.get(name);
+    if(map) map.backgroundColor = color;
+  }
+
+  //#endregion
+
   // ==========================================================================================
-  // time
+  // #region time
 
   private calc_dt(): number {
     return Date.now() - this.lastTickTime;
@@ -167,8 +177,10 @@ export default class Game {
     this.isStopped = true;
   }
 
+  //#endregion
+
   // ==========================================================================================
-  // getter & setter
+  // #region getter & setter
 
   setLogTickTime(b: boolean): void {
     this.logTickTime = b;
@@ -198,4 +210,6 @@ export default class Game {
   setMaxDeleteDistance(distance: number) {
     this.deleteDistance = distance;
   }
+
+  //#endregion
 }

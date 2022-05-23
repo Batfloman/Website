@@ -4,6 +4,7 @@ import System from "./System.js";
 import Util from "../../../lib/util/Util.js";
 import Vector2 from "../../../lib/util/Vector2.js";
 import Form from "./Form.js";
+import { Color } from "../../../lib/util/Color.js";
 
 window.onload = () => {
   let s = new System(new Canvas(document.querySelector("canvas")));

@@ -4,7 +4,7 @@ export default class World {
     constructor() {
         this.objects = [];
         this.objectMap = new Map();
-        this.backgroundColor = new Color(45, 45, 45);
+        this.backgroundColor = Color.get("white");
     }
     isInsideWorld(point) {
         return true;
@@ -13,6 +13,8 @@ export default class World {
         return true;
     }
     render(renderer) {
+        renderer.setStrokeColor(this.backgroundColor);
+        renderer.setFillColor(this.backgroundColor);
         renderer.renderStaticRectangle("center", "100%", "100%");
     }
     addObject(obj) {
