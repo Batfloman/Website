@@ -1,6 +1,6 @@
 import Vector2 from "../../util/Vector2.js";
 import World from "./World.js";
-export default class RechtangleWorld extends World {
+export default class RectangleWorld extends World {
     constructor(width, height) {
         super();
         this.width = width;

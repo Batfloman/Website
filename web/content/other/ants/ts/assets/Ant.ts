@@ -22,6 +22,7 @@ const timeBetweenPheromon = 75;
 
 const maxFood = 100;
 const foodLoss = 5;
+const foodPercentageLeftRunsHome = 50;
 
 const sensoryDistance = 33;
 const senseAngle = 100;
@@ -118,7 +119,8 @@ export default class Ant extends WorldObject<Circle> {
           const distance = Util.distance(this.pos, food.pos);
           const radius = food.hitBox.radius;
 
-          if (distance < radius) {
+          if (distance < radius / 2) {
+            // pick up Food
             food.amountFood -= carryAmount;
             this.carry = carryAmount;
             this.task = "bringFoodHome";
@@ -154,15 +156,16 @@ export default class Ant extends WorldObject<Circle> {
     this.timeElapsed2 += dt;
     if (this.timeElapsed2 > 1000) {
       this.timeElapsed2 -= 1000;
-      // foodLoss / 2 because less activity when starving;
-      this.food -= foodLoss;
-      // should worry about food ?
-      if (this.food <= (maxFood / 100) * 45 && this.task == "searchFood") {
-        if (this.carry > 0) {
-          const foodNeeded = Math.min(maxFood - this.food, this.carry);
 
-          this.food += foodNeeded;
-          this.carry -= foodNeeded;
+      this.food -= foodLoss;
+      
+      // should worry about food ?
+      if (this.food <= (maxFood / 100) * foodPercentageLeftRunsHome && this.task == "searchFood") {
+        if (this.carry > 0) {
+          const foodEaten = Math.min(maxFood - this.food, this.carry);
+
+          this.food += foodEaten;
+          this.carry -= foodEaten;
           if (this.carry == 0) this.task = "searchFood";
         } else {
           this.task = "runHome";

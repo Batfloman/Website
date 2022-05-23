@@ -1,7 +1,7 @@
 import Matrix2 from "../../util/Matrix2.js";
 import Vector2 from "../../util/Vector2.js";
-import RechtangleWorld from "./RectangleWorld.js";
-export default class GridWorld extends RechtangleWorld {
+import RectangleWorld from "./RectangleWorld.js";
+export default class GridWorld extends RectangleWorld {
     constructor(width, height, xSize, ySize) {
         super(width, height);
         this.grid = new Matrix2(xSize, ySize);

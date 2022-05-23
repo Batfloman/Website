@@ -1,7 +1,7 @@
 import Renderer from "../../display/Renderer.js";
 import Vector2 from "../../util/Vector2.js";
 import World from "./World.js";
-export default class RechtangleWorld extends World {
+export default class RectangleWorld extends World {
     width: number;
     height: number;
     constructor(width: number, height: number);

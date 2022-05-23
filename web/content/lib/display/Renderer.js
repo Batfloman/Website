@@ -27,6 +27,7 @@ export default class Renderer {
         return distance.add(this.offSet);
     }
     clear() {
+        console.log("clear please im begging you!!!");
         this.updateValues();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -103,9 +104,11 @@ export default class Renderer {
             cellXSize = this.convertWidthPercentInValue(cellXSize);
         if (!(typeof cellYSize == "number"))
             cellYSize = this.convertWidthPercentInValue(cellYSize);
+        console.log(pos, xSize, ySize, cellXSize, cellYSize);
         const w = cellXSize * xSize * this.scale;
         const h = cellYSize * ySize * this.scale;
         const topLeft = new Vector2(pos.x - w / 2, pos.y - h / 2);
+        this.ctx.beginPath();
         for (let x = 0; x <= xSize; x++) {
             this.ctx.moveTo(topLeft.x + x * cellXSize * this.scale, topLeft.y);
             this.ctx.lineTo(topLeft.x + x * cellXSize * this.scale, topLeft.y + h);
@@ -116,6 +119,7 @@ export default class Renderer {
             this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
             this.ctx.stroke();
         }
+        this.ctx.stroke();
     }
     renderStaticText(pos, text) {
         this.updateValues();

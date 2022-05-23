@@ -55,6 +55,7 @@ export default class Renderer {
   //#region render: worldPosition
 
   clear() {
+    console.log("clear please im begging you!!!")
     this.updateValues();
 
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -178,10 +179,14 @@ export default class Renderer {
     if (!(typeof cellXSize == "number")) cellXSize = this.convertWidthPercentInValue(cellXSize);
     if (!(typeof cellYSize == "number")) cellYSize = this.convertWidthPercentInValue(cellYSize);
 
+    console.log(pos, xSize, ySize, cellXSize, cellYSize);
+
     const w = cellXSize * xSize * this.scale;
     const h = cellYSize * ySize * this.scale;
 
     const topLeft = new Vector2(pos.x - w / 2, pos.y - h / 2);
+
+    this.ctx.beginPath();
 
     // vertical
     for (let x = 0; x <= xSize; x++) {
@@ -196,6 +201,8 @@ export default class Renderer {
       this.ctx.lineTo(topLeft.x + w, topLeft.y + y * cellYSize * this.scale);
       this.ctx.stroke();
     }
+
+    this.ctx.stroke();
   }
 
   renderStaticText(pos: Vector2 | staticPosition, text: string) {
