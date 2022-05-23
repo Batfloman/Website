@@ -1,4 +1,4 @@
-import { WorldObject } from "../../../../lib/assets/Objects/WorldObject.js";
+import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
 import Circle from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
 import Util from "../../../../lib/util/Util.js";

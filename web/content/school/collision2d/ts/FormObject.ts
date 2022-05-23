@@ -1,4 +1,4 @@
-import { ControllableObject } from "../../../lib/assets/Objects/ControllableObject.js";
+import { ControllableObject } from "../../../lib/assets/objects/ControllableObject.js";
 import Renderer from "../../../lib/display/Renderer.js";
 import Polygon2 from "../../../lib/physic/boundingBox/Polygon2.js";
 import { Color } from "../../../lib/util/Color.js";
