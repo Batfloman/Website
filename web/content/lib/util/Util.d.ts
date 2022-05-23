@@ -9,7 +9,7 @@ export default class Util {
         removeItem<T_4>(arr: T_4[], item: T_4): T_4 | null;
         sum(arr: number[]): number;
         isEmpty<T_5>(arr: T_5[]): boolean;
-        copy<T_6>(arr: T_6[]): T_6[];
+        copyOf<T_6>(arr: T_6[]): T_6[];
     };
     static math: {
         randomBetween(start: number, end: number, num_decimals?: number): number;
@@ -23,7 +23,7 @@ export default class Util {
         arccos(num: number): number;
     };
     static shapes: {
-        cricle: {
+        circle: {
             area(radius: number): number;
             radius(volume: number): number;
         };

@@ -1,3 +1,4 @@
+import Util from "../../util/Util.js";
 import { HitBox } from "./HitBox.js";
 export default class Circle extends HitBox {
     constructor(radius = 0) {
@@ -7,7 +8,10 @@ export default class Circle extends HitBox {
         this.farthestDistance = radius;
     }
     translatePoints(pos, orientation) {
-        throw new Error("HOW TF DO I TRANSLATE A CIRCLE??????");
+        return [
+            Util.moveDirection(pos, orientation, this.radius),
+            Util.moveDirection(pos, 360 - orientation, this.radius)
+        ];
     }
     scale(scalar) {
         this.radius *= scalar;

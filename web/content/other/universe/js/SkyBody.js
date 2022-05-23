@@ -26,16 +26,16 @@ export default class SkyBody extends WorldObject {
         const g = this.game.getGConst();
         this.forces = new Vector2();
         let objects = this.game.findObjects(SkyBody, this);
-        objects.forEach((obj) => {
-            if (this.isCollidingWith(obj)) {
-                const bigger = this.mass >= obj.mass ? this : obj;
-                const smaller = bigger == this ? obj : this;
-                const imp = bigger.getImpulse().add(smaller.getImpulse());
-                bigger.mass += smaller.mass;
-                this.velocity = this.getVelocityFromImpule(imp);
-                this.game.removeObject(smaller);
-            }
-        });
+        for (let obj of objects) {
+            if (!this.isCollidingWith(obj))
+                continue;
+            const bigger = this.mass >= obj.mass ? this : obj;
+            const smaller = bigger == this ? obj : this;
+            const imp = bigger.getImpulse().add(smaller.getImpulse());
+            bigger.mass += smaller.mass;
+            this.velocity = this.getVelocityFromImpule(imp);
+            this.game.removeObject(smaller);
+        }
         objects.forEach((obj) => {
             const force = (g * this.mass * obj.mass) / Math.pow(Util.distance(this.pos, obj.pos), 2);
             const distance = obj.pos.subtract(this.pos);

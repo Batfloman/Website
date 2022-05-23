@@ -4,9 +4,6 @@ export default class Universe extends Game {
         super(...arguments);
         this.gConst = 10;
     }
-    tick() {
-        super.tick();
-    }
     setGConst(gConst) {
         this.gConst = gConst;
     }

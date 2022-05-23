@@ -24,9 +24,6 @@ export default class Camara implements ICollideable, IMoveable {
   lockScaling: boolean = true;
   lockMovement: boolean = true;
 
-  minScale = 0.1;
-  maxScale = 50;
-
   constructor(canvas: Canvas, pos?: Vector2) {
     this.canvas = canvas;
     this.pos = !pos ? new Vector2() : pos;
@@ -38,13 +35,13 @@ export default class Camara implements ICollideable, IMoveable {
     Input.newEventListener("wheel", this, (event: WheelEvent) => {
       if (this.lockScaling) return;
       if (!(event.target == this.canvas.htmlCanvas)) return;
-
+      
       if (event.deltaY < 0) {
-        if (this.scale < this.maxScale) this.scale = Util.math.round(this.scale * 1.15, 2);
+        this.scale = Util.math.round(this.scale * 1.15, 6);
       } else if (event.deltaY > 0) {
-        if(this.scale > this.minScale) this.scale = Util.math.round(this.scale * 1 / 1.15, 2);
+        this.scale = Util.math.round((this.scale * 1) / 1.15, 6);
       }
-
+      
       this.alreadyTranslated = false;
     });
     Input.newEventListener("mousemove", this, (event: MouseEvent) => {
@@ -72,18 +69,22 @@ export default class Camara implements ICollideable, IMoveable {
     return Collision.testCollision(this, other);
   }
   translatePoints(): Vector2[] {
-    if (!this.alreadyTranslated) {
-      this.translatedPoints = [];
-      this.hitBox.model.forEach((point) => {
-        this.translatedPoints.push(
-          Polygon2Helper.translatePoint(point.scale(1 / this.scale), this.pos, this.orientation)
-        );
-      });
-      this.hitBox.farthestDistance = this.getOffset()
-        .scale(1 / this.scale)
-        .getMagnitude();
-      this.alreadyTranslated = true;
+    if (this.alreadyTranslated) return this.translatedPoints;
+
+    this.translatedPoints = [];
+
+    for (let point of this.hitBox.model) {
+      point = point.scale(1 / this.scale);
+      this.translatedPoints.push(Polygon2Helper.translatePoint(point, this.pos, this.orientation));
     }
+    
+    this.hitBox.farthestDistance = this.getOffset()
+    .scale(1 / this.scale)
+    .getMagnitude();
+    console.log(this.scale, this.hitBox.farthestDistance)
+    
+    this.alreadyTranslated = true;
+
     return this.translatedPoints;
   }
 

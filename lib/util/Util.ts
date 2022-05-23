@@ -35,7 +35,7 @@ export default class Util {
     isEmpty<T>(arr: T[]): boolean {
       return arr.length == 0;
     },
-    copy<T>(arr: T[]): T[] {
+    copyOf<T>(arr: T[]): T[] {
       return [...arr];
     },
   };
@@ -71,7 +71,7 @@ export default class Util {
   };
 
   static shapes = {
-    cricle: {
+    circle: {
       area(radius: number): number {
         return Math.PI * Math.pow(radius, 2);
       },

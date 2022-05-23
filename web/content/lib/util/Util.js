@@ -96,7 +96,7 @@ Util.array = {
     isEmpty(arr) {
         return arr.length == 0;
     },
-    copy(arr) {
+    copyOf(arr) {
         return [...arr];
     },
 };
@@ -130,7 +130,7 @@ Util.math = {
     },
 };
 Util.shapes = {
-    cricle: {
+    circle: {
         area(radius) {
             return Math.PI * Math.pow(radius, 2);
         },

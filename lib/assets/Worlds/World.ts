@@ -53,7 +53,7 @@ export default class World implements IRenderable {
     if (!objects) return [];
     
     // copy and work with values
-    const values = [...objects];
+    const values = Util.array.copyOf(objects);
 
     if (exclude instanceof Object && values?.includes(exclude as T)) {
       Util.array.removeItem(values, exclude as T);

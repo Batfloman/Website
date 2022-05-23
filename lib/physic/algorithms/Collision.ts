@@ -7,11 +7,11 @@ import Triangulation from "./Triangulation.js";
 
 export default class Collision {
   static testCollision(obj1: ICollideable, obj2: ICollideable): boolean {
-    if(obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle) {
-      return true;
-    }
-
     [obj1, obj2].forEach((obj) => obj.translatePoints());
+    
+    if (obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle) {
+      return CircleCollision.potentialCollision(obj1, obj2);
+    }
 
     if (!CircleCollision.potentialCollision(obj1, obj2)) return false;
 

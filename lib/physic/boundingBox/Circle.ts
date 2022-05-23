@@ -16,7 +16,10 @@ export default class Circle extends HitBox {
   // from Super classes
 
   translatePoints(pos: Vector2, orientation: number): Vector2[] {
-    throw new Error("HOW TF DO I TRANSLATE A CIRCLE??????");
+    return [
+      Util.moveDirection(pos, orientation, this.radius),
+      Util.moveDirection(pos, 360-orientation, this.radius)
+    ]
   }
   scale(scalar: number): void {
     this.radius *= scalar;

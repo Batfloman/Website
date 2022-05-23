@@ -2,6 +2,7 @@ import Camara from "../display/Camara.js";
 import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
 import World from "../assets/Worlds/World.js";
+import Util from "../util/Util.js";
 export default class Game {
     constructor(canvas) {
         this.worlds = new Map();
@@ -52,7 +53,8 @@ export default class Game {
         this.lastTickTime = Date.now();
         if (this.logDT)
             console.log(dt);
-        for (let world of Array.from(this.worlds.values())) {
+        const worlds = Array.from(this.worlds.values());
+        for (let world of Util.array.copyOf(worlds)) {
             for (let obj of world.objects) {
                 if (obj.shouldUpdate())
                     obj.update(dt);
@@ -61,10 +63,12 @@ export default class Game {
     }
     renderObjects() {
         this.renderer.clear();
-        console.log("clear");
-        for (let world of Array.from(this.worlds.values())) {
+        const worlds = Array.from(this.worlds.values());
+        for (let world of worlds) {
             world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
             world.render(this.renderer);
+        }
+        for (let world of worlds) {
             for (let obj of world.objects) {
                 if (obj.shouldRender())
                     obj.render(this.renderer);
@@ -89,7 +93,7 @@ export default class Game {
         for (let world of Array.from(this.worlds.values())) {
             found = found.concat(world.findObjects(clas.name, exclude));
         }
-        return found;
+        return Util.array.copyOf(found);
     }
     addWorld(name, world) {
         this.worlds.set(name, world);

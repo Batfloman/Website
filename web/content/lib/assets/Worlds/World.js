@@ -30,7 +30,7 @@ export default class World {
         const objects = this.objectMap.get(clasName);
         if (!objects)
             return [];
-        const values = [...objects];
+        const values = Util.array.copyOf(objects);
         if (exclude instanceof Object && (values === null || values === void 0 ? void 0 : values.includes(exclude))) {
             Util.array.removeItem(values, exclude);
         }

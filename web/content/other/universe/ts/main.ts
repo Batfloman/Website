@@ -5,7 +5,7 @@ import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 
 const maxDistance = 250000;
-const spawnAmount = Math.pow(maxDistance, 1 / 4) * Math.pow(maxDistance, 1 / 4);
+const spawnAmount = Util.math.round(Math.pow(maxDistance, 1 / 4) * Math.pow(maxDistance, 1 / 4), 0);
 
 window.onload = () => {
   const universe = new Universe(new Canvas(document.querySelector("canvas")));
@@ -15,7 +15,7 @@ window.onload = () => {
   universe.setMaxUpdateDistance(500000);
   universe.setMaxDeleteDistance(250000);
 
-  universe.getCamara().setScale(0.025);
+  universe.getCamara().setScale(0.1);
 
   for (let i = 0; i < spawnAmount; i++) {
     universe.addObject(createSkyBody());
@@ -40,7 +40,7 @@ window.onload = () => {
     for (let i = 0; i < spawnAmount / 3; i++) {
       universe.addObject(createSkyBody());
     }
-  }, 15000);
+  }, 30000);
 };
 
 function createSkyBody() {

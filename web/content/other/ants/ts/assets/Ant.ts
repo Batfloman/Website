@@ -17,14 +17,14 @@ const taskColors = new Map<Task, Color>([
 ]);
 
 const antSize = 2;
-const antOrientationChange = 7.5;
+const antOrientationChange = 5;
 const timeBetweenPheromon = 75;
 
 const maxFood = 100;
 const foodLoss = 5;
 
 const sensoryDistance = 25;
-const senseAngle = 45;
+const senseAngle = 90;
 
 const carryAmount = 500;
 

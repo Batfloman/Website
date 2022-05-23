@@ -5,6 +5,8 @@ import Circle from "../../../lib/physic/boundingBox/Circle.js";
 import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 import { Color } from "../../../lib/util/Color.js";
+import ICollideable from "../../../lib/physic/property/ICollideable.js";
+import Camara from "../../../lib/display/Camara.js";
 
 export default class SkyBody extends WorldObject<Circle> {
   mass: number;
@@ -42,18 +44,18 @@ export default class SkyBody extends WorldObject<Circle> {
 
     let objects: SkyBody[] = this.game.findObjects(SkyBody, this);
 
-    objects.forEach((obj) => {
-      if (this.isCollidingWith(obj)) {
-        const bigger = this.mass >= obj.mass ? this : obj;
-        const smaller = bigger == this ? obj : this;
+    for(let obj of objects) {
+      if(!this.isCollidingWith(obj)) continue;
 
-        const imp = bigger.getImpulse().add(smaller.getImpulse());
-        bigger.mass += smaller.mass;
-        this.velocity = this.getVelocityFromImpule(imp);
-        
-        this.game.removeObject(smaller);
-      }
-    });
+      const bigger = this.mass >= obj.mass ? this : obj;
+      const smaller = bigger == this ? obj : this;
+
+      const imp = bigger.getImpulse().add(smaller.getImpulse());
+      bigger.mass += smaller.mass;
+      this.velocity = this.getVelocityFromImpule(imp);
+
+      this.game.removeObject(smaller);
+    }
 
     objects.forEach((obj) => {
       const force = (g * this.mass * obj.mass) / Math.pow(Util.distance(this.pos, obj.pos), 2);
@@ -82,8 +84,6 @@ export default class SkyBody extends WorldObject<Circle> {
     return [this.pos];
   }
 
-  
-
   // ==========================================================================================
   // physics
 
@@ -105,18 +105,10 @@ export default class SkyBody extends WorldObject<Circle> {
   }
 
   private getImpulse(): Vector2 {
-    return new Vector2(
-      this.mass * this.velocity.x,
-      this.mass * this.velocity.y
-    )
+    return new Vector2(this.mass * this.velocity.x, this.mass * this.velocity.y);
   }
 
   private getVelocityFromImpule(impulse: Vector2) {
-    return new Vector2(
-      impulse.x / this.mass,
-      impulse.y / this.mass
-    )
+    return new Vector2(impulse.x / this.mass, impulse.y / this.mass);
   }
-
-  // private gForce(obj: SkyBody): Vector2 {}
 }

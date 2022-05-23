@@ -13,8 +13,6 @@ export default class Camara implements ICollideable, IMoveable {
     alreadyTranslated: boolean;
     lockScaling: boolean;
     lockMovement: boolean;
-    minScale: number;
-    maxScale: number;
     constructor(canvas: Canvas, pos?: Vector2);
     moveDirection(direction: number, distance: number): void;
     move(move: Vector2): void;

@@ -9,7 +9,7 @@ export default class Food extends WorldObject<Circle> {
   amountFood: number;
 
   constructor(pos: Vector2, amountFood: number) {
-    super(pos, new Circle(Util.shapes.cricle.radius(amountFood)));
+    super(pos, new Circle(Util.shapes.circle.radius(amountFood)));
 
     this.amountFood = amountFood;
   }
@@ -20,7 +20,7 @@ export default class Food extends WorldObject<Circle> {
     }
   }
   render(renderer: Renderer): void {
-    this.hitBox.radius = Util.shapes.cricle.radius(this.amountFood) / 5;
+    this.hitBox.radius = Util.shapes.circle.radius(this.amountFood) / 5;
 
     renderer.setFillColor(Color.get("green"));
     renderer.setStrokeColor(Color.get("green"));

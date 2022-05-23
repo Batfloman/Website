@@ -69,6 +69,7 @@ export default class Renderer {
   ): void {
     this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize);
   }
+
   renderText(worldPos: Vector2, text: string) {
     this.renderStaticText(this.calcPosOnScreen(worldPos), text);
   }
@@ -221,7 +222,11 @@ export default class Renderer {
     this.ctx.stroke();
   }
 
-  renderStaticRectangle(pos: Vector2 | staticPosition, width: number | string, height: number | string): void {
+  renderStaticRectangle(
+    pos: Vector2 | staticPosition,
+    width: number | string,
+    height: number | string
+  ): void {
     this.updateValues();
 
     if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
