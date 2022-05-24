@@ -7,9 +7,6 @@ window.onload = () => {
   const canvas = new Canvas(document.querySelector("canvas"));
   const game = new TicTacToeGame(canvas);
 
-  game.setCamaraScaleLock(false);
-  game.setCamaraMovementLock(false);
-
   // const player1 = new TicTacToePlayer();
   // game.addPlayer(player1);
 
@@ -18,6 +15,5 @@ window.onload = () => {
 
   game.randomPlayerTurn();
 
-  game.tick();
-  // game.start();
+  game.start();
 }

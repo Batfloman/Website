@@ -69,6 +69,11 @@ export default class Camara {
     updateScaleValue() {
         this.scaleValue = Math.pow(this.zoomFactor, this.scaleAmount);
     }
+    setScale(scale) {
+        this.scaleAmount = scale;
+        this.updateScaleValue();
+        this.alreadyTranslated = false;
+    }
     setMaxZoomInAmount(amount) {
         this.maxZoomInAmount = amount;
     }
@@ -77,6 +82,7 @@ export default class Camara {
     }
     setZoomingFactor(factor) {
         this.zoomFactor = factor;
+        this.alreadyTranslated = false;
     }
     setLockScaling(b) {
         this.lockScaling = b;
@@ -95,9 +101,5 @@ export default class Camara {
     }
     getOffset() {
         return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
-    }
-    setScale(scale) {
-        this.scaleAmount = scale;
-        this.alreadyTranslated = false;
     }
 }

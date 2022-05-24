@@ -15,7 +15,7 @@ window.onload = () => {
   universe.setMaxUpdateDistance(500000);
   universe.setMaxDeleteDistance(250000);
 
-  universe.getCamara().setScale(Math.pow((1 / 1.15), 25));
+  universe.getCamara().setScale(-25);
 
   for (let i = 0; i < spawnAmount; i++) {
     universe.addObject(createSkyBody());

@@ -63,8 +63,6 @@ function updateTheme() {
 
   const themePattern = /theme=(\w)+/;
 
-  // changeVarInUrl("theme", currentTheme);
-
   ["btn-home", "btn-games", "btn-school"].forEach((btnID) => {
     const btn = document.getElementById(btnID);
     const href = btn.getAttribute("href");

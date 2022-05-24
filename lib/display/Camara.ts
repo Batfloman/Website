@@ -100,6 +100,11 @@ export default class Camara implements ICollideable, IMoveable {
     this.scaleValue = Math.pow(this.zoomFactor, this.scaleAmount);
   }
 
+  setScale(scale: number): void {
+    this.scaleAmount = scale;
+    this.updateScaleValue();
+    this.alreadyTranslated = false;
+  }
   setMaxZoomInAmount(amount: number) {
     this.maxZoomInAmount = amount;
   }
@@ -108,6 +113,7 @@ export default class Camara implements ICollideable, IMoveable {
   }
   setZoomingFactor(factor: number) {
     this.zoomFactor = factor;
+    this.alreadyTranslated = false;
   }
   setLockScaling(b: boolean): void {
     this.lockScaling = b;
@@ -149,10 +155,5 @@ export default class Camara implements ICollideable, IMoveable {
    */
   getOffset(): Vector2 {
     return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
-  }
-
-  setScale(scale: number): void {
-    this.scaleAmount = scale;
-    this.alreadyTranslated = false;
   }
 }

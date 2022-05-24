@@ -11,4 +11,12 @@ export default class TetrisGame extends Game {
 
     this.worlds.set("main", new TetrisGrid(400, 800, 10, 20));
   }
+
+  tick(): void {
+    super.tick();
+
+    if(!this.currentShape) {
+      this.currentShape = Shape.getRandom();
+    }
+  }
 }

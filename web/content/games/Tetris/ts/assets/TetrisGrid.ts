@@ -8,7 +8,5 @@ export default class TetrisGrid extends GridWorld {
     renderer.setStrokeColor(Color.get("white"));
     renderer.setLineWidth(1.5);
     super.render(renderer);
-
-    // TODO why TF doesn't clear 
   }
 }

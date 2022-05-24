@@ -1,5 +1,4 @@
 import Canvas from "../../../lib/display/Canvas.js";
-import Vector2 from "../../../lib/util/Vector2.js";
 import TetrisGame from "./assets/TetrisGame.js";
 
 window.onload = () => {

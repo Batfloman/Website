@@ -1,6 +1,9 @@
 import Vector2 from "../../../../lib/util/Vector2.js";
 import Block from "./Block.js";
 import Util from "../../../../lib/util/Util.js";
+import { ControllableObject } from "../../../../lib/assets/objects/ControllableObject.js";
+import Rectangle from "../../../../lib/physic/boundingBox/Rectangle.js";
+import Renderer from "../../../../lib/display/Renderer.js";
 
 type Forms = "square" | "t-shape" | "l-shape" | "l-reverse" | "z-shape" | "z-reverse" | "line";
 
@@ -14,11 +17,12 @@ const forms = new Map<Forms, Vector2[]>([
   ["line", [new Vector2(), new Vector2(0, 1), new Vector2(0, -1), new Vector2(0, -2)]],
 ]);
 
-export default class Shape {
+export default class Shape extends ControllableObject<Rectangle> {
   center!: Block;
   blocks: Block[] = [];
 
   constructor(form: Forms, gridPos: Vector2 = new Vector2()) {
+    super(new Vector2(), new Rectangle(10, 10));
     const positions = forms.get(form);
     if (!positions) return;
 
@@ -34,6 +38,13 @@ export default class Shape {
       }
     }
     console.log(this.blocks);
+  }
+
+  update2(dt: number): void {
+    throw new Error("Method not implemented.");
+  }
+  render(renderer: Renderer): void {
+    throw new Error("Method not implemented.");
   }
 
   static getRandom(): Shape {

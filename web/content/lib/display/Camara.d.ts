@@ -24,6 +24,7 @@ export default class Camara implements ICollideable, IMoveable {
     private zoomIn;
     private zoomOut;
     private updateScaleValue;
+    setScale(scale: number): void;
     setMaxZoomInAmount(amount: number): void;
     setMaxZoomOutAmount(amount: number): void;
     setZoomingFactor(factor: number): void;
@@ -33,5 +34,4 @@ export default class Camara implements ICollideable, IMoveable {
     private mouseMove;
     setLockMovement(b: boolean): void;
     getOffset(): Vector2;
-    setScale(scale: number): void;
 }
