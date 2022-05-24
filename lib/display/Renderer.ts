@@ -31,10 +31,10 @@ export default class Renderer {
 
   private updateValues() {
     this.offSet = this.camara.getOffset();
-    this.scale = this.camara.scale;
+    this.scale = this.camara.scaleValue;
     this.ctx.strokeStyle = this.strokeColor.getRGBString();
     this.ctx.fillStyle = this.fillColor.getRGBString();
-    this.ctx.lineWidth = this.lineWidth * this.camara.scale;
+    this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
   }
 
   // ==========================================================================================

@@ -8,5 +8,8 @@ window.onload = () => {
 
   game.addWorld("main", new Board(canvas, 25, 25));
 
+  game.setCamaraMovementLock(false);
+  game.setCamaraScaleLock(false);
+
   game.start();
 }

@@ -6,7 +6,7 @@ import Vector2 from "../../../lib/util/Vector2.js";
 import Triangulation from "../../../lib/physic/algorithms/Triangulation.js";
 import Util from "../../../lib/util/Util.js";
 import Polygon2Helper from "../../../lib/physic/algorithms/Polygon2Helper.js";
-import { WorldObject } from "../../../lib/assets/Objects/WorldObject.js";
+import { WorldObject } from "../../../lib/assets/objects/WorldObject.js";
 
 export default class FormObject extends ControllableObject<Polygon2> {
   collides: boolean = false;
@@ -19,25 +19,25 @@ export default class FormObject extends ControllableObject<Polygon2> {
 
     this.controlles.set("w", (dt: number) => {
       if (!this.selected) return;
-      this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt));
+      this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
     });
     this.controlles.set("a", (dt: number) => {
       if (!this.selected) return;
       this.moveDirection(
         -90,
-        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt)
+        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt)
       );
     });
     this.controlles.set("s", (dt: number) => {
       if (!this.selected) return;
       this.moveDirection(
         180,
-        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt)
+        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt)
       );
     });
     this.controlles.set("d", (dt: number) => {
       if (!this.selected) return;
-      this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt));
+      this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
     });
     this.controlles.set("q", (dt: number) => {
       if (!this.selected) return;

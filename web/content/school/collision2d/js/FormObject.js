@@ -12,22 +12,22 @@ export default class FormObject extends ControllableObject {
         this.controlles.set("w", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt));
+            this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
         });
         this.controlles.set("a", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(-90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt));
+            this.moveDirection(-90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
         });
         this.controlles.set("s", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(180, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt));
+            this.moveDirection(180, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
         });
         this.controlles.set("d", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scale, dt));
+            this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
         });
         this.controlles.set("q", (dt) => {
             if (!this.selected)
