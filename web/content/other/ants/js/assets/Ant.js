@@ -17,8 +17,9 @@ const timeBetweenPheromon = 75;
 const maxFood = 100;
 const foodLoss = 5;
 const foodPercentageLeftRunsHome = 50;
+const panicSpeedBoost = 1.5;
 const sensoryDistance = 33;
-const senseAngle = 100;
+const senseAngle = 65;
 const carryAmount = 500;
 const antSpeed = 50;
 export default class Ant extends WorldObject {
@@ -28,6 +29,7 @@ export default class Ant extends WorldObject {
         this.carry = 0;
         this.timeElapsed = 0;
         this.timeElapsed2 = 0;
+        this.pheromonsFoundBefore = false;
         this.zIndex = 50;
         this.food = maxFood;
         this.task = task;
@@ -35,7 +37,6 @@ export default class Ant extends WorldObject {
     update2(dt) {
         const homes = this.game.findObjects(AntHill);
         const foodStuffs = this.game.findObjects(Food);
-        let rotation;
         switchTask: switch (this.task) {
             case "runHome":
                 for (let home of homes) {
@@ -52,8 +53,7 @@ export default class Ant extends WorldObject {
                         break switchTask;
                     }
                 }
-                rotation = this.followPhermons("home");
-                this.rotate(!rotation ? 180 : rotation);
+                this.rotate(this.findRotation("home"));
                 break;
             case "bringFoodHome":
                 for (let home of homes) {
@@ -75,8 +75,7 @@ export default class Ant extends WorldObject {
                         break switchTask;
                     }
                 }
-                rotation = this.followPhermons("home");
-                this.rotate(!rotation ? 180 : rotation);
+                this.rotate(this.findRotation("home"));
                 break;
             case "searchFood":
                 for (let food of foodStuffs) {
@@ -94,12 +93,11 @@ export default class Ant extends WorldObject {
                         break switchTask;
                     }
                 }
-                rotation = this.followPhermons("food");
-                this.rotate(!rotation ? 0 : rotation);
+                this.rotate(this.findRotation("food", false));
                 break;
         }
         this.orientation += this.randomRotation();
-        const moveSpeed = this.task == "runHome" ? antSpeed * 1.5 : antSpeed;
+        const moveSpeed = this.task == "runHome" ? antSpeed * panicSpeedBoost : antSpeed;
         this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
         this.timeElapsed += dt;
         if (this.timeElapsed > timeBetweenPheromon) {
@@ -150,7 +148,26 @@ export default class Ant extends WorldObject {
         }
         this.game.addObject(new Pheromon(this.pos, message));
     }
+    findRotation(pheromonType, shouldTurnAround = true) {
+        let rotation = this.followPhermons(pheromonType);
+        if (rotation == undefined) {
+            let returnValue = this.pheromonsFoundBefore
+                ? shouldTurnAround
+                    ? Util.math.randomBetween(160, 200, 2)
+                    : 0
+                : 0;
+            this.pheromonsFoundBefore = false;
+            return returnValue;
+        }
+        else {
+            this.pheromonsFoundBefore = true;
+            return rotation;
+        }
+    }
     followPhermons(message) {
+        let pheromons = [];
+        let angles = [];
+        let weights = [];
         let sumWeightedAngles = 0;
         let sumWeights = 0;
         this.game.findObjects(Pheromon).forEach((pheromon) => {
@@ -165,11 +182,16 @@ export default class Ant extends WorldObject {
             if (angle > senseAngle || angle < -senseAngle)
                 return;
             const weight = this.weightPheromon(distance, pheromon.strength);
+            pheromons.push(pheromon);
+            angles.push(angle * weight);
+            weights.push(weight);
             sumWeightedAngles += angle * weight;
             sumWeights += weight;
         });
         if (sumWeights == 0)
             return undefined;
+        if (isNaN(sumWeightedAngles / sumWeights))
+            console.log(sumWeightedAngles, sumWeights);
         return sumWeightedAngles / sumWeights;
     }
     weightPheromon(distance, strength) {

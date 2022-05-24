@@ -19,13 +19,14 @@ window.onload = () => {
 
   game.addObject(new AntHill(new Vector2(), 0));
 
+  const amountAnts = 50;
   let counter = 0;
   let interval: number;
   interval = setInterval(() => {
+    if(++counter >= amountAnts) clearInterval(interval);
+    
     game.addObject(new Ant());
-
-    if(counter++ > 100) clearInterval(interval);
-  }, 100)
+  }, 150)
 
   game.addObject(randomFood());
   game.addObject(randomFood());

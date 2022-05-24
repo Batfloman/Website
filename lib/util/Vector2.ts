@@ -46,6 +46,7 @@ export default class Vector2 {
 
   angle(vec2: Vector2): number {
     const angleBetween = Util.math.arccos(this.dotProduct(vec2) / (this.getMagnitude() * vec2.getMagnitude()));
+    if(isNaN(angleBetween)) return 0;
     return vec2.crossProduct(this) >= 0 ? angleBetween : -angleBetween;
   }
 }

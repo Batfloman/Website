@@ -100,6 +100,7 @@ export default class Util {
     const mag2 = vec.getMagnitude();
 
     const angle = Util.math.arccos(dot / (mag1 * mag2));
+    
     return endPoint.x < startPoint.x ? -angle : angle;
   }
 

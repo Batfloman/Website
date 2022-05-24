@@ -23,9 +23,10 @@ const timeBetweenPheromon = 75;
 const maxFood = 100;
 const foodLoss = 5;
 const foodPercentageLeftRunsHome = 50;
+const panicSpeedBoost = 1.5;
 
 const sensoryDistance = 33;
-const senseAngle = 100;
+const senseAngle = 65;
 
 const carryAmount = 500;
 
@@ -51,7 +52,6 @@ export default class Ant extends WorldObject<Circle> {
     const homes = this.game.findObjects(AntHill) as Array<AntHill>;
     const foodStuffs = this.game.findObjects(Food) as Array<Food>;
 
-    let rotation;
     // set Direction to move fitting for task
     switchTask: switch (this.task) {
       case "runHome":
@@ -76,9 +76,7 @@ export default class Ant extends WorldObject<Circle> {
         }
 
         // follow Pheromones to Home
-        // if no Pheromones turn around
-        rotation = this.followPhermons("home");
-        this.rotate(!rotation ? 180 : rotation);
+        this.rotate(this.findRotation("home"));
         break;
       case "bringFoodHome":
         // Home in Range ?
@@ -90,8 +88,8 @@ export default class Ant extends WorldObject<Circle> {
             // eat
             const foodNeeded = maxFood - this.food;
 
-            // TODO remove Food from AntHill
             this.food += foodNeeded;
+            // TODO remove Food from AntHill
           }
 
           // put food ?
@@ -109,9 +107,7 @@ export default class Ant extends WorldObject<Circle> {
         }
 
         // follow Pheromones to Home
-        // random / 3 to not change Direction to much
-        rotation = this.followPhermons("home");
-        this.rotate(!rotation ? 180 : rotation);
+        this.rotate(this.findRotation("home"));
         break;
       case "searchFood":
         // Food in Range ?
@@ -133,16 +129,16 @@ export default class Ant extends WorldObject<Circle> {
         }
 
         // follow Food Pheromons (if none are there => value = 0 => move Random)
-        rotation = this.followPhermons("food")
-        this.rotate(!rotation ? 0 : rotation);
+        this.rotate(this.findRotation("food", false));
         break;
     }
 
+    // add random Rotation (realism)
     this.orientation += this.randomRotation();
 
     // move
     // doubled when starving
-    const moveSpeed = this.task == "runHome" ? antSpeed * 1.5 : antSpeed;
+    const moveSpeed = this.task == "runHome" ? antSpeed * panicSpeedBoost : antSpeed;
     this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
 
     // creates Pheromon every x ms;
@@ -158,7 +154,7 @@ export default class Ant extends WorldObject<Circle> {
       this.timeElapsed2 -= 1000;
 
       this.food -= foodLoss;
-      
+
       // should worry about food ?
       if (this.food <= (maxFood / 100) * foodPercentageLeftRunsHome && this.task == "searchFood") {
         if (this.carry > 0) {
@@ -204,8 +200,31 @@ export default class Ant extends WorldObject<Circle> {
     this.game.addObject(new Pheromon(this.pos, message));
   }
 
+  private pheromonsFoundBefore: boolean = false;
+  findRotation(pheromonType: Message, shouldTurnAround = true): number {
+    let rotation = this.followPhermons(pheromonType);
+
+    if (rotation == undefined) {
+      let returnValue = this.pheromonsFoundBefore
+        ? shouldTurnAround
+          ? Util.math.randomBetween(160, 200, 2)
+          : 0
+        : 0;
+      this.pheromonsFoundBefore = false;
+      return returnValue;
+    } else {
+      this.pheromonsFoundBefore = true;
+      return rotation;
+    }
+  }
+
   // Returns a rotation value to follow the pheromon type
+  // undefined when no pheromons found
   followPhermons(message: Message): number | undefined {
+    let pheromons: Pheromon[] = [];
+    let angles: number[] = [];
+    let weights: number[] = [];
+
     let sumWeightedAngles: number = 0;
     let sumWeights: number = 0;
 
@@ -225,14 +244,19 @@ export default class Ant extends WorldObject<Circle> {
 
       // everything right!
 
-      const weight = this.weightPheromon(distance, pheromon.strength)
+      const weight = this.weightPheromon(distance, pheromon.strength);
+
+      pheromons.push(pheromon);
+      angles.push(angle * weight);
+      weights.push(weight);
 
       sumWeightedAngles += angle * weight;
       sumWeights += weight;
     });
 
-    if(sumWeights == 0) return undefined;
+    if (sumWeights == 0) return undefined;
 
+    if (isNaN(sumWeightedAngles / sumWeights)) console.log(sumWeightedAngles, sumWeights);
 
     return sumWeightedAngles / sumWeights;
   }

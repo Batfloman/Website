@@ -12,13 +12,14 @@ window.onload = () => {
     game.setWorldBackground("main", new Color(45, 45, 45));
     game.setCamaraMovementLock(false);
     game.addObject(new AntHill(new Vector2(), 0));
+    const amountAnts = 50;
     let counter = 0;
     let interval;
     interval = setInterval(() => {
-        game.addObject(new Ant());
-        if (counter++ > 100)
+        if (++counter >= amountAnts)
             clearInterval(interval);
-    }, 100);
+        game.addObject(new Ant());
+    }, 150);
     game.addObject(randomFood());
     game.addObject(randomFood());
     setInterval(() => {
