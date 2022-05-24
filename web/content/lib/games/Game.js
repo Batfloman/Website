@@ -137,10 +137,10 @@ export default class Game {
         return this.canvas;
     }
     setCamaraScaleLock(b) {
-        this.camara.lockScaling = b;
+        this.camara.setLockScaling(b);
     }
     setCamaraMovementLock(b) {
-        this.camara.lockMovement = b;
+        this.camara.setLockMovement(b);
     }
     setMaxUpdateDistance(distance) {
         this.maxUpdateDistance = distance;
