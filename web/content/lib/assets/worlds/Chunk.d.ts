@@ -6,7 +6,7 @@ export declare class Chunk {
         x: number;
         y: number;
     };
-    constructor(...objects: WorldObject<HitBox>[]);
+    constructor(x?: number, y?: number, ...objects: WorldObject<HitBox>[]);
     setKeys(x: number, y: number): void;
     addObject(obj: WorldObject<HitBox>): void;
     removeObject(obj: WorldObject<HitBox>): WorldObject<HitBox> | undefined;

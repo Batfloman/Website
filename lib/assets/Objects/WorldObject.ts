@@ -45,7 +45,7 @@ export abstract class WorldObject<HitBoxType extends HitBox>
   //#region world
 
   protected world!: World;
-  protected chunk!: Chunk;
+  protected chunk: Chunk = new Chunk();
 
   setWorld(world: World): void {
     this.world = world;

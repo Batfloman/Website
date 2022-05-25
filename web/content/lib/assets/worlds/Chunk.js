@@ -1,12 +1,14 @@
 import Util from "../../util/Util.js";
 export class Chunk {
-    constructor(...objects) {
+    constructor(x = 0, y = 0, ...objects) {
         this.objects = [];
         this.keys = {
             x: 0,
             y: 0
         };
         this.objectMap = new Map();
+        this.keys.x = x;
+        this.keys.y = y;
         this.objects = objects;
         for (let obj of objects) {
             this.addToMap(obj);

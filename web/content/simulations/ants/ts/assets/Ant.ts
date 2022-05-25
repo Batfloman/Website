@@ -38,8 +38,7 @@ export default class Ant extends WorldObject<Circle> {
   carry: number = 0;
 
   constructor(pos: Vector2 = new Vector2(), task: Task = "searchFood") {
-    // super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
-    super(pos, new Circle(antSize), Util.math.randomBetween(0, 0, 2));
+    super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
 
     this.zIndex = 50;
     this.food = maxFood;

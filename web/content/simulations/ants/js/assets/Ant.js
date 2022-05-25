@@ -24,7 +24,7 @@ const carryAmount = 500;
 const antSpeed = 50;
 export default class Ant extends WorldObject {
     constructor(pos = new Vector2(), task = "searchFood") {
-        super(pos, new Circle(antSize), Util.math.randomBetween(0, 0, 2));
+        super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
         this.task = "searchFood";
         this.carry = 0;
         this.timeElapsed = 0;

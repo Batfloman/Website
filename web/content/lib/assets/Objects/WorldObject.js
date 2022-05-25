@@ -1,9 +1,11 @@
 import Collision from "../../physic/algorithms/Collision.js";
 import Util from "../../util/Util.js";
+import { Chunk } from "../worlds/Chunk.js";
 import { SceneObject } from "./SceneObject.js";
 export class WorldObject extends SceneObject {
     constructor(pos, hitBox, angle = 0) {
         super();
+        this.chunk = new Chunk();
         this.alreadyTranslated = false;
         this.pos = pos;
         this.hitBox = hitBox;

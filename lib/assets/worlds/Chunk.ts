@@ -10,7 +10,10 @@ export class Chunk {
     y: 0
   }
 
-  constructor(...objects: WorldObject<HitBox>[]) {
+  constructor(x: number = 0, y: number = 0, ...objects: WorldObject<HitBox>[]) {
+    this.keys.x = x;
+    this.keys.y = y;
+
     this.objects = objects;
 
     for(let obj of objects) {

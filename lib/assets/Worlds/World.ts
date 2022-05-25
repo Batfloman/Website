@@ -139,7 +139,7 @@ export default class World implements IRenderable {
     let content = this.chunks.get(x, y);
 
     if (!(content instanceof Chunk)) {
-      content = new Chunk(obj);
+      content = new Chunk(x, y, obj);
       this.chunks.set(x, y, content);
       content.setKeys(x, y);
     }
@@ -162,6 +162,8 @@ export default class World implements IRenderable {
     }
 
     const found: Chunk[] = [];
+
+    if(chunk == undefined) console.log(chunk);
 
     for (let x = -distance + chunk.keys.x; x <= distance + chunk.keys.x; x++) {
       for (let y = -distance + chunk.keys.y; y <= distance + chunk.keys.y; y++) {
