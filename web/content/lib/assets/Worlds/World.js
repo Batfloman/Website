@@ -1,10 +1,14 @@
+import Vector2 from "../../util/Vector2.js";
 import Util from "../../util/Util.js";
 import { Color } from "../../util/Color.js";
 export default class World {
-    constructor() {
+    constructor(pos = new Vector2(), backgroundColor = Color.get("white")) {
         this.objects = [];
         this.objectMap = new Map();
-        this.backgroundColor = Color.get("white");
+        this.chunkSize = 100;
+        this.chunks = new Map();
+        this.pos = pos;
+        this.backgroundColor = backgroundColor;
     }
     isInsideWorld(point) {
         return true;
@@ -16,6 +20,9 @@ export default class World {
         renderer.setStrokeColor(this.backgroundColor);
         renderer.setFillColor(this.backgroundColor);
         renderer.renderStaticRectangle("center", "100%", "100%");
+    }
+    setBackground(color) {
+        this.backgroundColor = color;
     }
     addObject(obj) {
         if (this.objects.includes(obj))
@@ -56,5 +63,30 @@ export default class World {
         if (!values)
             return;
         Util.array.removeItem(values, obj);
+    }
+    findChunkOf(obj) {
+        console.warn("not implemented!");
+        return new Vector2();
+    }
+    addToChunks(obj) {
+        const chunk = this.findChunkOf(obj);
+        this.addToChunk(chunk.x, chunk.y, obj);
+    }
+    addToChunk(x, y, obj) {
+        const vec = new Vector2(x, y);
+        const content = this.chunks.get(vec);
+        if (!content) {
+            this.chunks.set(vec, [obj]);
+            return;
+        }
+        if (content.includes(obj))
+            return;
+        content.push(obj);
+    }
+    getChunk(x, y) {
+        return this.chunks.get(new Vector2(x, y));
+    }
+    setChunkSize(size) {
+        this.chunkSize = this.chunkSize;
     }
 }

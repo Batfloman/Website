@@ -46,7 +46,7 @@
     },
     {
       "type": "typescript",
-      "tsconfig": "web/content/school/collision2d/ts/tsconfig.json",
+      "tsconfig": "web/content/school/Facharbeit/collision2d/ts/tsconfig.json",
       "option": "watch",
       "problemMatcher": [
         "$tsc-watch"

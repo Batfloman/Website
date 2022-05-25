@@ -6,25 +6,27 @@ import Renderer from "../../display/Renderer.js";
 import { Color } from "../../util/Color.js";
 
 export default class World implements IRenderable {
-  objects: SceneObject[] = [];
-  
-  // style
-  backgroundColor: Color;
+  public pos: Vector2;
 
-  // sorted Objects after class: <className, [Objects]>
-  private objectMap: Map<string, SceneObject[]> = new Map();
-
-  constructor() {
-    this.backgroundColor = Color.get("white");
+  constructor(pos: Vector2 = new Vector2(), backgroundColor: Color = Color.get("white")) {
+    this.pos = pos;
+    this.backgroundColor = backgroundColor;
   }
+
+  // ==========================================================================================
+  // #region positioning, collision...
 
   isInsideWorld(point: Vector2): boolean {
     // this World is infinit
     return true;
   }
 
+  //#endregion
+
   // ==========================================================================================
-  // render
+  // #region render
+
+  private backgroundColor: Color;
 
   shouldRender(): boolean {
     return true;
@@ -36,8 +38,16 @@ export default class World implements IRenderable {
     renderer.renderStaticRectangle("center", "100%", "100%");
   }
 
+  setBackground(color: Color) {
+    this.backgroundColor = color;
+  }
+
+  //#endregion
+
   // ==========================================================================================
-  //#region manage Objects
+  // #region objects
+
+  public objects: SceneObject[] = [];
 
   addObject(obj: SceneObject): void {
     if (this.objects.includes(obj)) return;
@@ -74,7 +84,10 @@ export default class World implements IRenderable {
   //#endregion
 
   // ==========================================================================================
-  //#region handle map
+  // #region map
+
+  // sorted Objects after class: <className, [Objects]>
+  private objectMap: Map<string, SceneObject[]> = new Map();
 
   private addToMap(obj: SceneObject): void {
     let values: SceneObject[] = [];
@@ -95,4 +108,45 @@ export default class World implements IRenderable {
   }
 
   //#endregion
+
+  // ==========================================================================================
+  // #region chunks
+
+  private chunkSize: number = 100;
+  private chunks: Map<Vector2, SceneObject[]> = new Map();
+
+  findChunkOf(obj: SceneObject): Vector2 {
+    console.warn("not implemented!");
+    return new Vector2();
+  }
+
+  addToChunks(obj: SceneObject): void {
+    const chunk = this.findChunkOf(obj);
+    this.addToChunk(chunk.x, chunk.y, obj);
+  }
+
+  // adds Object at specific chunk
+  addToChunk(x: number, y: number, obj: SceneObject): void {
+    const vec = new Vector2(x, y);
+    const content = this.chunks.get(vec);
+    if (!content) {
+      this.chunks.set(vec, [obj]);
+      return;
+    }
+
+    if (content.includes(obj)) return;
+
+    content.push(obj);
+  }
+
+  getChunk(x: number, y: number): SceneObject[] | undefined {
+    return this.chunks.get(new Vector2(x, y));
+  }
+
+  setChunkSize(size: number) {
+    this.chunkSize = this.chunkSize;
+  }
+
+  //#endregion
+
 }

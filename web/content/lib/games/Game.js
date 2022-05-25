@@ -104,7 +104,7 @@ export default class Game {
     setWorldBackground(name, color) {
         const map = this.worlds.get(name);
         if (map)
-            map.backgroundColor = color;
+            map.setBackground(color);
     }
     calc_dt() {
         return Date.now() - this.lastTickTime;

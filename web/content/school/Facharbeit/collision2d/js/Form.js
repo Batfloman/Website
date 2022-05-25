@@ -1,6 +1,6 @@
-import Polygon2 from "../../../lib/physic/boundingBox/Polygon2.js";
-import Util from "../../../lib/util/Util.js";
-import Vector2 from "../../../lib/util/Vector2.js";
+import Polygon2 from "../../../../lib/physic/boundingBox/Polygon2.js";
+import Util from "../../../../lib/util/Util.js";
+import Vector2 from "../../../../lib/util/Vector2.js";
 export default class Form extends Polygon2 {
     constructor(numVertices, radius, irregularity = 0) {
         let model = [];

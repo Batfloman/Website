@@ -153,7 +153,7 @@ export default class Game {
 
   setWorldBackground(name: string, color: Color): void {
     const map = this.worlds.get(name);
-    if(map) map.backgroundColor = color;
+    if(map) map.setBackground(color);
   }
 
   //#endregion
