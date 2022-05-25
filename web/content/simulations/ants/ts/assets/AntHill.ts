@@ -6,7 +6,7 @@ import Util from "../../../../lib/util/Util.js";
 import Vector2 from "../../../../lib/util/Vector2.js";
 import Ant from "./Ant.js";
 
-const antFoodCost = 25;
+const antFoodCost = 250;
 const saveFoodPerAnt = 100;
 const hillSize = 50;
 const timeBetweenAntSpawn = 250;

@@ -121,7 +121,7 @@ export default class World implements IRenderable {
   // private chunks: Map<Vector2, WorldObject<HitBox>[]> = new Map();
   private chunks: TwoKeyMap<number, number, Chunk> = new TwoKeyMap();
 
-  putObjectsInCuncks(): void {
+  putObjectsInCunks(): void {
     this.chunks.clear();
 
     for (let obj of this.objects) {

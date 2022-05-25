@@ -23,7 +23,7 @@ export default class World implements IRenderable {
     private removeFromMap;
     private chunkSize;
     private chunks;
-    putObjectsInCuncks(): void;
+    putObjectsInCunks(): void;
     addToChunks(obj: WorldObject<HitBox>): void;
     addToChunk(x: number, y: number, obj: WorldObject<HitBox>): void;
     findChunkOf(obj: WorldObject<HitBox>): Vector2;

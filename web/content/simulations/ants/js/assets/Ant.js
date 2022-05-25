@@ -13,14 +13,14 @@ const taskColors = new Map([
 ]);
 const antSize = 3.5;
 const antOrientationChange = 5;
-const timeBetweenPheromon = 75;
+const timeBetweenPheromon = 150;
 const maxFood = 100;
-const foodLoss = 5;
+const foodLoss = 1;
 const foodPercentageLeftRunsHome = 50;
 const panicSpeedBoost = 1.5;
 const sensoryDistance = 33;
 const senseAngle = 65;
-const carryAmount = 500;
+const carryAmount = 150;
 const antSpeed = 50;
 export default class Ant extends WorldObject {
     constructor(pos = new Vector2(), task = "searchFood") {

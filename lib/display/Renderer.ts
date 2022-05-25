@@ -1,3 +1,4 @@
+import Input from "../input/Input.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import { Color } from "../util/Color.js";
@@ -27,9 +28,15 @@ export default class Renderer {
     let ctx = this.canvas.htmlCanvas.getContext("2d");
     this.ctx = !ctx ? new CanvasRenderingContext2D() : ctx;
     this.updateValues();
+
+    Input.newEventListener("wheel", this, () => this.valuesChanged = true)
   }
 
+  private valuesChanged: boolean = false;
+
   private updateValues() {
+    if(!this.valuesChanged) return;
+
     this.offSet = this.camara.getOffset();
     this.scale = this.camara.scaleValue;
     this.ctx.strokeStyle = this.strokeColor.getRGBString();
@@ -252,15 +259,24 @@ export default class Renderer {
   // #region setter
 
   setStrokeColor(color: Color | undefined = Color.none) {
+    if(this.strokeColor == color) return;
     if (!color) color = Color.none;
     this.strokeColor = color;
+
+    this.valuesChanged = true;
   }
   setFillColor(color: Color | undefined = Color.none) {
+    if(this.fillColor == color) return;
     if (!color) color = Color.none;
     this.fillColor = color;
+
+    this.valuesChanged = true;
   }
   setLineWidth(width: number) {
+    if(this.lineWidth == width) return;
     this.lineWidth = width;
+
+    this.valuesChanged = true;
   }
 
   //#endregion

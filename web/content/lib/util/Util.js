@@ -99,6 +99,13 @@ Util.array = {
     copyOf(arr) {
         return [...arr];
     },
+    connectArray(arrays) {
+        let connected = [];
+        for (let arr of arrays) {
+            connected = connected.concat(arr);
+        }
+        return connected;
+    }
 };
 Util.math = {
     randomBetween(start, end, num_decimals = 0) {

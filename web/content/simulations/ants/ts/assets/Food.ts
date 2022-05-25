@@ -21,7 +21,7 @@ export default class Food extends WorldObject<Circle> {
     }
   }
   render(renderer: Renderer): void {
-    this.hitBox.radius = Util.shapes.circle.radius(this.amountFood) / 5;
+    this.hitBox.radius = Util.shapes.circle.radius(this.amountFood) / 3;
 
     renderer.setFillColor(Color.get("green"));
     renderer.setStrokeColor(Color.get("green"));

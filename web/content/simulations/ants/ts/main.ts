@@ -8,43 +8,53 @@ import { Color } from "../../../lib/util/Color.js";
 import Ant from "./assets/Ant.js";
 import Pheromon from "./assets/Pheromon.js";
 
+const boardSize = 5000;
+
 window.onload = () => {
   const canvas = new Canvas(document.querySelector("canvas"));
   const game = new Game(canvas);
 
-  game.setWorldBackground("main", new Color(45, 45, 45));
+  let arr = [[1, 2,3], [3,4,5]];
+  console.log(Util.array.connectArray(arr));
 
+  // settings
+  game.setWorldBackground("main", new Color(45, 45, 45));
+  game.getWorld()?.setChunkSize(33);
   game.setCamaraMovementLock(false);
   // Bug when zooming in => frames go DED
   game.setCamaraScaleLock(false);
   game.getCamara().setMaxZoomInAmount(0);
+  game.getCamara().setMaxZoomOutAmount(8);
+  game.setMaxUpdateDistance(3333);
 
-  game.addObject(new AntHill(new Vector2(), 0));
-
-  const amountAnts = 50;
-  let counter = 0;
-  let interval: number;
-  interval = setInterval(() => {
-    if (++counter >= amountAnts) clearInterval(interval);
-
-    game.addObject(new Ant());
-  }, 150);
-
-  game.addObject(randomFood());
-  game.addObject(randomFood());
+  game.addObject(new AntHill(new Vector2(), 3000))
+  
+  for(let i = 0; i < 50; i++) {
+    game.addObject(randomFood());
+  }
 
   setInterval(() => {
     game.addObject(randomFood());
-  }, 15000);
+  }, 20000);
 
   game.start();
 };
 
-function randomFood(): Food {
-  const pos = new Vector2(
-    Util.math.randomBetween(100, 400, 2) * Util.math.postiveOrNegative(),
-    Util.math.randomBetween(100, 400, 2) * Util.math.postiveOrNegative()
+function randomPosition(): Vector2 {
+  return new Vector2(
+    Util.math.randomBetween(0, boardSize / 2, 2) * Util.math.postiveOrNegative(),
+    Util.math.randomBetween(0, boardSize / 2, 2) * Util.math.postiveOrNegative()
   );
+}
+
+function randomFood(): Food {
+  const pos = randomPosition();
   const amount = Util.math.randomBetween(7500, 20000);
   return new Food(pos, amount);
+}
+
+function randomAntHill(): AntHill {
+  const pos = randomPosition();
+  const food = 1000;
+  return new AntHill(pos, food);
 }

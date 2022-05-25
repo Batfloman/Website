@@ -35,6 +35,13 @@ export default class Util {
     copyOf<T>(arr: T[]): T[] {
       return [...arr];
     },
+    connectArray<T>(arrays: T[]): T[] {
+      let connected: T[] = [];
+      for(let arr of arrays) {
+        connected = connected.concat(arr);
+      }
+      return connected;
+    }
   };
 
   static math = {

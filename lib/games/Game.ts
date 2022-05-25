@@ -85,7 +85,7 @@ export default class Game {
     const worlds = Array.from(this.worlds.values());
 
     for(let world of Util.array.copyOf(worlds)) {
-      world.putObjectsInCuncks();
+      world.putObjectsInCunks();
 
       for(let obj of world.objects) {
         if(obj.shouldUpdate()) obj.update(dt);

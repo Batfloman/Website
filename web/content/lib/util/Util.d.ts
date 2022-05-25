@@ -10,6 +10,7 @@ export default class Util {
         sum(arr: number[]): number;
         isEmpty<T_5>(arr: T_5[]): boolean;
         copyOf<T_6>(arr: T_6[]): T_6[];
+        connectArray<T_7>(arrays: T_7[]): T_7[];
     };
     static math: {
         randomBetween(start: number, end: number, num_decimals?: number): number;

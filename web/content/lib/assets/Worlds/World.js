@@ -69,7 +69,7 @@ export default class World {
             return;
         Util.array.removeItem(values, obj);
     }
-    putObjectsInCuncks() {
+    putObjectsInCunks() {
         this.chunks.clear();
         for (let obj of this.objects) {
             if (obj instanceof WorldObject)

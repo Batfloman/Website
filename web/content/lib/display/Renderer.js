@@ -1,3 +1,4 @@
+import Input from "../input/Input.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import { Color } from "../util/Color.js";
 import Util from "../util/Util.js";
@@ -7,13 +8,17 @@ export default class Renderer {
         this.fillColor = Color.none;
         this.strokeColor = Color.get("black");
         this.lineWidth = 1;
+        this.valuesChanged = false;
         this.canvas = canvas;
         this.camara = camara;
         let ctx = this.canvas.htmlCanvas.getContext("2d");
         this.ctx = !ctx ? new CanvasRenderingContext2D() : ctx;
         this.updateValues();
+        Input.newEventListener("wheel", this, () => this.valuesChanged = true);
     }
     updateValues() {
+        if (!this.valuesChanged)
+            return;
         this.offSet = this.camara.getOffset();
         this.scale = this.camara.scaleValue;
         this.ctx.strokeStyle = this.strokeColor.getRGBString();
@@ -155,16 +160,25 @@ export default class Renderer {
         this.ctx.stroke();
     }
     setStrokeColor(color = Color.none) {
+        if (this.strokeColor == color)
+            return;
         if (!color)
             color = Color.none;
         this.strokeColor = color;
+        this.valuesChanged = true;
     }
     setFillColor(color = Color.none) {
+        if (this.fillColor == color)
+            return;
         if (!color)
             color = Color.none;
         this.fillColor = color;
+        this.valuesChanged = true;
     }
     setLineWidth(width) {
+        if (this.lineWidth == width)
+            return;
         this.lineWidth = width;
+        this.valuesChanged = true;
     }
 }
