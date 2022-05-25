@@ -5,17 +5,15 @@ import ICollideable from "../../physic/property/ICollideable.js";
 import IMoveable from "../../physic/property/IMoveable.js";
 import Util from "../../util/Util.js";
 import Vector2 from "../../util/Vector2.js";
+import { Chunk } from "../worlds/Chunk.js";
+import World from "../worlds/World.js";
 import { SceneObject } from "./SceneObject.js";
 
 export abstract class WorldObject<HitBoxType extends HitBox>
   extends SceneObject
   implements ICollideable, IMoveable
 {
-  pos: Vector2;
-  hitBox: HitBoxType;
-  orientation: number;
-  translatedPoints!: Vector2[];
-  alreadyTranslated: boolean = false;
+ 
 
   constructor(pos: Vector2, hitBox: HitBoxType, angle = 0) {
     super();
@@ -43,6 +41,31 @@ export abstract class WorldObject<HitBoxType extends HitBox>
     return this.isCollidingWith(this.game.getCamara());
   }
 
+  // ==========================================================================================
+  //#region world
+
+  protected world!: World;
+  protected chunk!: Chunk;
+
+  setWorld(world: World): void {
+    this.world = world;
+  }
+
+  setChunk(chunk: Chunk): void {
+    this.chunk = chunk;
+  }
+
+  //#endregion
+
+  // ==========================================================================================
+  // #region collision and so
+
+  pos: Vector2;
+  hitBox: HitBoxType;
+  orientation: number;
+  translatedPoints!: Vector2[];
+  alreadyTranslated: boolean = false;
+
   translatePoints(): Vector2[] {
     if (this.alreadyTranslated) return this.translatedPoints;
 
@@ -54,8 +77,10 @@ export abstract class WorldObject<HitBoxType extends HitBox>
     return Collision.testCollision(this, other);
   }
 
+  //#endregion
+
   // ==========================================================================================
-  // move Object
+  // #region move Object
 
   rotate(angle: number) {
     this.orientation += angle;
@@ -73,4 +98,6 @@ export abstract class WorldObject<HitBoxType extends HitBox>
 
     this.alreadyTranslated = false;
   }
+
+  //#endregion
 }

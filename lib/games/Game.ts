@@ -85,6 +85,8 @@ export default class Game {
     const worlds = Array.from(this.worlds.values());
 
     for(let world of Util.array.copyOf(worlds)) {
+      world.putObjectsInCuncks();
+
       for(let obj of world.objects) {
         if(obj.shouldUpdate()) obj.update(dt);
       }
@@ -147,7 +149,7 @@ export default class Game {
     this.worlds.set(name, world);
   }
 
-  getWorld(name: string): World | undefined {
+  getWorld(name: string = "main"): World | undefined {
     return this.worlds.get(name);
   }
 

@@ -4,9 +4,14 @@ import Util from "../../util/Util.js";
 import IRenderable from "../../display/IRenderable.js";
 import Renderer from "../../display/Renderer.js";
 import { Color } from "../../util/Color.js";
+import { WorldObject } from "../objects/WorldObject.js";
+import { HitBox } from "../../physic/boundingBox/HitBox.js";
+import { TwoKeyMap } from "../../util/TwoKeyMap.js";
+import { Chunk } from "./Chunk.js";
 
 export default class World implements IRenderable {
   public pos: Vector2;
+  public objects: SceneObject[] = [];
 
   constructor(pos: Vector2 = new Vector2(), backgroundColor: Color = Color.get("white")) {
     this.pos = pos;
@@ -47,13 +52,13 @@ export default class World implements IRenderable {
   // ==========================================================================================
   // #region objects
 
-  public objects: SceneObject[] = [];
-
   addObject(obj: SceneObject): void {
     if (this.objects.includes(obj)) return;
 
     this.objects.push(obj);
     this.addToMap(obj);
+
+    if (obj instanceof WorldObject) obj.setWorld(this);
   }
 
   removeObject(obj: SceneObject): SceneObject | undefined {
@@ -113,40 +118,69 @@ export default class World implements IRenderable {
   // #region chunks
 
   private chunkSize: number = 100;
-  private chunks: Map<Vector2, SceneObject[]> = new Map();
+  // private chunks: Map<Vector2, WorldObject<HitBox>[]> = new Map();
+  private chunks: TwoKeyMap<number, number, Chunk> = new TwoKeyMap();
 
-  findChunkOf(obj: SceneObject): Vector2 {
-    console.warn("not implemented!");
-    return new Vector2();
+  putObjectsInCuncks(): void {
+    this.chunks.clear();
+
+    for (let obj of this.objects) {
+      if (obj instanceof WorldObject) this.addToChunks(obj);
+    }
   }
 
-  addToChunks(obj: SceneObject): void {
+  addToChunks(obj: WorldObject<HitBox>): void {
     const chunk = this.findChunkOf(obj);
     this.addToChunk(chunk.x, chunk.y, obj);
   }
 
   // adds Object at specific chunk
-  addToChunk(x: number, y: number, obj: SceneObject): void {
-    const vec = new Vector2(x, y);
-    const content = this.chunks.get(vec);
-    if (!content) {
-      this.chunks.set(vec, [obj]);
-      return;
+  addToChunk(x: number, y: number, obj: WorldObject<HitBox>): void {
+    let content = this.chunks.get(x, y);
+
+    if (!(content instanceof Chunk)) {
+      content = new Chunk(obj);
+      this.chunks.set(x, y, content);
+      content.setKeys(x, y);
     }
 
-    if (content.includes(obj)) return;
-
-    content.push(obj);
+    content.addObject(obj);
+    obj.setChunk(content);
   }
 
-  getChunk(x: number, y: number): SceneObject[] | undefined {
-    return this.chunks.get(new Vector2(x, y));
+  findChunkOf(obj: WorldObject<HitBox>): Vector2 {
+    return new Vector2(
+      Math.floor(obj.pos.x / this.chunkSize),
+      Math.floor(obj.pos.y / this.chunkSize)
+    );
+  }
+
+  findNeighbourChunksOf(chunk: Chunk, distance: number = 1, rectangleStlye = true): Chunk[] {
+    if (!rectangleStlye) {
+      console.warn("Circle Style not implemented!");
+      return [];
+    }
+
+    const found: Chunk[] = [];
+
+    for (let x = -distance + chunk.keys.x; x <= distance + chunk.keys.x; x++) {
+      for (let y = -distance + chunk.keys.y; y <= distance + chunk.keys.y; y++) {
+        const chunk = this.chunks.get(x, y);
+        if (!chunk) continue;
+        found.push(chunk);
+      }
+    }
+
+    return found;
+  }
+
+  getChunk(x: number, y: number): Chunk | undefined {
+    return this.chunks.get(x, y);
   }
 
   setChunkSize(size: number) {
-    this.chunkSize = this.chunkSize;
+    this.chunkSize = size;
   }
 
   //#endregion
-
 }

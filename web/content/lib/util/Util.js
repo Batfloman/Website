@@ -88,7 +88,7 @@ Util.array = {
         if (arr.includes(item)) {
             return arr.splice(arr.indexOf(item), 1)[0];
         }
-        return null;
+        return undefined;
     },
     sum(arr) {
         return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));

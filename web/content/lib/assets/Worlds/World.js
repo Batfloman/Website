@@ -1,12 +1,15 @@
 import Vector2 from "../../util/Vector2.js";
 import Util from "../../util/Util.js";
 import { Color } from "../../util/Color.js";
+import { WorldObject } from "../objects/WorldObject.js";
+import { TwoKeyMap } from "../../util/TwoKeyMap.js";
+import { Chunk } from "./Chunk.js";
 export default class World {
     constructor(pos = new Vector2(), backgroundColor = Color.get("white")) {
         this.objects = [];
         this.objectMap = new Map();
         this.chunkSize = 100;
-        this.chunks = new Map();
+        this.chunks = new TwoKeyMap();
         this.pos = pos;
         this.backgroundColor = backgroundColor;
     }
@@ -29,6 +32,8 @@ export default class World {
             return;
         this.objects.push(obj);
         this.addToMap(obj);
+        if (obj instanceof WorldObject)
+            obj.setWorld(this);
     }
     removeObject(obj) {
         const index = this.objects.indexOf(obj);
@@ -64,29 +69,50 @@ export default class World {
             return;
         Util.array.removeItem(values, obj);
     }
-    findChunkOf(obj) {
-        console.warn("not implemented!");
-        return new Vector2();
+    putObjectsInCuncks() {
+        this.chunks.clear();
+        for (let obj of this.objects) {
+            if (obj instanceof WorldObject)
+                this.addToChunks(obj);
+        }
     }
     addToChunks(obj) {
         const chunk = this.findChunkOf(obj);
         this.addToChunk(chunk.x, chunk.y, obj);
     }
     addToChunk(x, y, obj) {
-        const vec = new Vector2(x, y);
-        const content = this.chunks.get(vec);
-        if (!content) {
-            this.chunks.set(vec, [obj]);
-            return;
+        let content = this.chunks.get(x, y);
+        if (!(content instanceof Chunk)) {
+            content = new Chunk(obj);
+            this.chunks.set(x, y, content);
+            content.setKeys(x, y);
         }
-        if (content.includes(obj))
-            return;
-        content.push(obj);
+        content.addObject(obj);
+        obj.setChunk(content);
+    }
+    findChunkOf(obj) {
+        return new Vector2(Math.floor(obj.pos.x / this.chunkSize), Math.floor(obj.pos.y / this.chunkSize));
+    }
+    findNeighbourChunksOf(chunk, distance = 1, rectangleStlye = true) {
+        if (!rectangleStlye) {
+            console.warn("Circle Style not implemented!");
+            return [];
+        }
+        const found = [];
+        for (let x = -distance + chunk.keys.x; x <= distance + chunk.keys.x; x++) {
+            for (let y = -distance + chunk.keys.y; y <= distance + chunk.keys.y; y++) {
+                const chunk = this.chunks.get(x, y);
+                if (!chunk)
+                    continue;
+                found.push(chunk);
+            }
+        }
+        return found;
     }
     getChunk(x, y) {
-        return this.chunks.get(new Vector2(x, y));
+        return this.chunks.get(x, y);
     }
     setChunkSize(size) {
-        this.chunkSize = this.chunkSize;
+        this.chunkSize = size;
     }
 }

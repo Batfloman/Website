@@ -6,6 +6,7 @@ import AntHill from "./assets/AntHill.js";
 import Food from "./assets/Food.js";
 import { Color } from "../../../lib/util/Color.js";
 import Ant from "./assets/Ant.js";
+import Pheromon from "./assets/Pheromon.js";
 window.onload = () => {
     const canvas = new Canvas(document.querySelector("canvas"));
     const game = new Game(canvas);
@@ -13,6 +14,14 @@ window.onload = () => {
     game.setCamaraMovementLock(false);
     game.setCamaraScaleLock(false);
     game.getCamara().setMaxZoomInAmount(0);
+    game.addObject(new Ant());
+    game.addObject(new Pheromon(new Vector2(10, 30), "food"));
+    game.addObject(new Pheromon(new Vector2(20, 60), "food"));
+    game.addObject(new Pheromon(new Vector2(30, 90), "food"));
+    game.addObject(new Pheromon(new Vector2(40, 120), "food"));
+    game.addObject(new Pheromon(new Vector2(50, 150), "food"));
+    game.start();
+    return;
     game.addObject(new AntHill(new Vector2(), 0));
     const amountAnts = 50;
     let counter = 0;

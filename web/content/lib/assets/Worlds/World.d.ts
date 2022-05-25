@@ -3,15 +3,18 @@ import Vector2 from "../../util/Vector2.js";
 import IRenderable from "../../display/IRenderable.js";
 import Renderer from "../../display/Renderer.js";
 import { Color } from "../../util/Color.js";
+import { WorldObject } from "../objects/WorldObject.js";
+import { HitBox } from "../../physic/boundingBox/HitBox.js";
+import { Chunk } from "./Chunk.js";
 export default class World implements IRenderable {
     pos: Vector2;
+    objects: SceneObject[];
     constructor(pos?: Vector2, backgroundColor?: Color);
     isInsideWorld(point: Vector2): boolean;
     private backgroundColor;
     shouldRender(): boolean;
     render(renderer: Renderer): void;
     setBackground(color: Color): void;
-    objects: SceneObject[];
     addObject(obj: SceneObject): void;
     removeObject(obj: SceneObject): SceneObject | undefined;
     findObjects<T extends SceneObject>(clasName: string, exclude?: T | T[]): T[];
@@ -20,9 +23,11 @@ export default class World implements IRenderable {
     private removeFromMap;
     private chunkSize;
     private chunks;
-    findChunkOf(obj: SceneObject): Vector2;
-    addToChunks(obj: SceneObject): void;
-    addToChunk(x: number, y: number, obj: SceneObject): void;
-    getChunk(x: number, y: number): SceneObject[] | undefined;
+    putObjectsInCuncks(): void;
+    addToChunks(obj: WorldObject<HitBox>): void;
+    addToChunk(x: number, y: number, obj: WorldObject<HitBox>): void;
+    findChunkOf(obj: WorldObject<HitBox>): Vector2;
+    findNeighbourChunksOf(chunk: Chunk, distance?: number, rectangleStlye?: boolean): Chunk[];
+    getChunk(x: number, y: number): Chunk | undefined;
     setChunkSize(size: number): void;
 }

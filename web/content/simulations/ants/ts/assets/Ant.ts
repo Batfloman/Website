@@ -38,7 +38,8 @@ export default class Ant extends WorldObject<Circle> {
   carry: number = 0;
 
   constructor(pos: Vector2 = new Vector2(), task: Task = "searchFood") {
-    super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
+    // super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
+    super(pos, new Circle(antSize), Util.math.randomBetween(0, 0, 2));
 
     this.zIndex = 50;
     this.food = maxFood;
@@ -221,38 +222,36 @@ export default class Ant extends WorldObject<Circle> {
   // Returns a rotation value to follow the pheromon type
   // undefined when no pheromons found
   followPhermons(message: Message): number | undefined {
-    let pheromons: Pheromon[] = [];
-    let angles: number[] = [];
-    let weights: number[] = [];
-
     let sumWeightedAngles: number = 0;
     let sumWeights: number = 0;
 
-    (this.game.findObjects(Pheromon) as Array<Pheromon>).forEach((pheromon) => {
-      // right message ?
-      if (pheromon.message != message) return;
+    const chunks = this.world.findNeighbourChunksOf(this.chunk, 1);
 
-      const distance = Util.distance(this.pos, pheromon.pos);
-      // right Distance ?
-      if (distance > sensoryDistance) return;
+    for (let chunk of chunks) {
+      const pheromones = chunk.findObjects(Pheromon) as Array<Pheromon>;
 
-      // right Angle ?
-      const vecToPheromon = pheromon.pos.subtract(this.pos);
-      const moveVec = Util.toVector(this.orientation, 1);
-      const angle = moveVec.angle(vecToPheromon);
-      if (angle > senseAngle || angle < -senseAngle) return;
+      for (let pheromon of pheromones) {
+        // right message ?
+        if (pheromon.message != message) continue;
 
-      // everything right!
+        const distance = Util.distance(this.pos, pheromon.pos);
+        // right Distance ?
+        if (distance > sensoryDistance) continue;
 
-      const weight = this.weightPheromon(distance, pheromon.strength);
+        // right Angle ?
+        const vecToPheromon = pheromon.pos.subtract(this.pos);
+        const moveVec = Util.toVector(this.orientation, 1);
+        const angle = moveVec.angle(vecToPheromon);
+        if (angle > senseAngle || angle < -senseAngle) continue;
 
-      pheromons.push(pheromon);
-      angles.push(angle * weight);
-      weights.push(weight);
+        // everything right!
 
-      sumWeightedAngles += angle * weight;
-      sumWeights += weight;
-    });
+        const weight = this.weightPheromon(distance, pheromon.strength);
+
+        sumWeightedAngles += angle * weight;
+        sumWeights += weight;
+      }
+    }
 
     if (sumWeights == 0) return undefined;
 
@@ -271,7 +270,7 @@ export default class Ant extends WorldObject<Circle> {
     return -4 * Math.pow(1 - strength / 100 - 0.5, 2) + 1;
   }
 
-  // Returns a random Rotation to match ant behaviour
+  // Returns a random Rotation to match ant "behaviour"
   randomRotation(): number {
     return Util.math.randomBetween(-antOrientationChange, antOrientationChange, 2);
   }

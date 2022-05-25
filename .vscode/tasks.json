@@ -9,8 +9,8 @@
         "tsc: watch - Games: Tetris",
         "tsc: watch - Games: MineSweepers",
         "tsc: watch - School: Collision2d",
-        "tsc: watch - Other: Universe",
-        "tsc: watch - Other: Ants"
+        "tsc: watch - Simulation: Universe",
+        "tsc: watch - Simulation: Ants"
       ],
       "problemMatcher": []
     },
@@ -56,13 +56,13 @@
     },
     {
       "type": "typescript",
-      "tsconfig": "web/content/other/universe/ts/tsconfig.json",
+      "tsconfig": "web/content/simulations/universe/ts/tsconfig.json",
       "option": "watch",
       "problemMatcher": [
         "$tsc-watch"
       ],
       "group": "build",
-      "label": "tsc: watch - Other: Universe"
+      "label": "tsc: watch - Simulation: Universe"
     },
     {
       "type": "typescript",
@@ -76,13 +76,13 @@
     },
     {
       "type": "typescript",
-      "tsconfig": "web/content/other/ants/ts/tsconfig.json",
+      "tsconfig": "web/content/simulations/ants/ts/tsconfig.json",
       "option": "watch",
       "problemMatcher": [
         "$tsc-watch"
       ],
       "group": "build",
-      "label": "tsc: watch - Other: Ants"
+      "label": "tsc: watch - Simulation: Ants"
     }
   ]
 }

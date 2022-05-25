@@ -15,23 +15,20 @@ export default class Util {
     getRandomItem<T>(arr: T[]): T {
       return Util.array.getItem(arr, Util.math.randomBetween(0, arr.length - 1));
     },
-
     removeItemAtIndex<T>(arr: T[], index: number): T {
       if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`);
 
       return arr.splice(index, 1)[0];
     },
-    removeItem<T>(arr: T[], item: T): T | null {
+    removeItem<T>(arr: T[], item: T): T | undefined {
       if (arr.includes(item)) {
         return arr.splice(arr.indexOf(item), 1)[0];
       }
-      return null;
+      return undefined;
     },
-
     sum(arr: number[]): number {
       return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
     },
-
     isEmpty<T>(arr: T[]): boolean {
       return arr.length == 0;
     },

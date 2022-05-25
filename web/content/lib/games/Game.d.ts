@@ -26,7 +26,7 @@ export default class Game {
     removeObject(obj: SceneObject, worldName?: string): SceneObject | undefined;
     findObjects<T extends SceneObject>(clas: Function, exclude?: T | T[]): T[];
     addWorld(name: string, world: World): void;
-    getWorld(name: string): World | undefined;
+    getWorld(name?: string): World | undefined;
     setWorldBackground(name: string, color: Color): void;
     private calc_dt;
     start(): void;

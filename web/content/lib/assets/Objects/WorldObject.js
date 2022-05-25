@@ -22,6 +22,12 @@ export class WorldObject extends SceneObject {
     shouldRender() {
         return this.isCollidingWith(this.game.getCamara());
     }
+    setWorld(world) {
+        this.world = world;
+    }
+    setChunk(chunk) {
+        this.chunk = chunk;
+    }
     translatePoints() {
         if (this.alreadyTranslated)
             return this.translatedPoints;
