@@ -15,7 +15,8 @@ window.onload = () => {
 
   game.setCamaraMovementLock(false);
   // Bug when zooming in => frames go DED
-  // game.setCamaraScaleLock(false);
+  game.setCamaraScaleLock(false);
+  game.getCamara().setMaxZoomInAmount(0);
 
   game.addObject(new AntHill(new Vector2(), 0));
 

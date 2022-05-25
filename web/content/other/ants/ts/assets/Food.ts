@@ -12,6 +12,7 @@ export default class Food extends WorldObject<Circle> {
     super(pos, new Circle(Util.shapes.circle.radius(amountFood)));
 
     this.amountFood = amountFood;
+    this.zIndex = 100;
   }
 
   update2(dt: number): void {

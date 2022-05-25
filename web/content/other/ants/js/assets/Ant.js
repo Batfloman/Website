@@ -11,7 +11,7 @@ const taskColors = new Map([
     ["bringFoodHome", Color.get("green")],
     ["runHome", Color.get("yellow")],
 ]);
-const antSize = 2;
+const antSize = 3.5;
 const antOrientationChange = 5;
 const timeBetweenPheromon = 75;
 const maxFood = 100;
@@ -131,7 +131,7 @@ export default class Ant extends WorldObject {
         if (!color)
             return;
         renderer.setStrokeColor(color);
-        renderer.setFillColor(Color.none);
+        renderer.setFillColor(color);
         renderer.renderCircle(this.pos, antSize);
     }
     createPheromon() {

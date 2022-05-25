@@ -11,6 +11,8 @@ window.onload = () => {
     const game = new Game(canvas);
     game.setWorldBackground("main", new Color(45, 45, 45));
     game.setCamaraMovementLock(false);
+    game.setCamaraScaleLock(false);
+    game.getCamara().setMaxZoomInAmount(0);
     game.addObject(new AntHill(new Vector2(), 0));
     const amountAnts = 50;
     let counter = 0;

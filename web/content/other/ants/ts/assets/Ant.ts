@@ -16,7 +16,7 @@ const taskColors = new Map<Task, Color>([
   ["runHome", Color.get("yellow")],
 ]);
 
-const antSize = 2;
+const antSize = 3.5;
 const antOrientationChange = 5;
 const timeBetweenPheromon = 75;
 
@@ -179,7 +179,7 @@ export default class Ant extends WorldObject<Circle> {
     if (!color) return;
 
     renderer.setStrokeColor(color);
-    renderer.setFillColor(Color.none);
+    renderer.setFillColor(color);
     renderer.renderCircle(this.pos, antSize);
   }
 

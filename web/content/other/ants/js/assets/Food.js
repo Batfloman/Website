@@ -6,6 +6,7 @@ export default class Food extends WorldObject {
     constructor(pos, amountFood) {
         super(pos, new Circle(Util.shapes.circle.radius(amountFood)));
         this.amountFood = amountFood;
+        this.zIndex = 100;
     }
     update2(dt) {
         if (this.amountFood <= 0) {
