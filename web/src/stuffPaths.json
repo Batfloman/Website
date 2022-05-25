@@ -5,8 +5,8 @@
     "Kollision 3d": "../content/school/Facharbeit/collision3d/index.html"
   },
   "simulation": {
-    "Universe": "../content/other/universe/index.html",
-    "Ants": "../content/other/ants/index.html"
+    "Universe": "../content/simulations/universe/index.html",
+    "Ants": "../content/simulations/ants/index.html"
   },
   "other": {
     "MoneyTimer": "../content/other/moneyTimer/index.html"
