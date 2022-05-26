@@ -1,0 +1,30 @@
+.game-container {
+  justify-self: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 2rem;
+}
+
+.game {
+  flex-grow: 1;
+  min-width: 5rem;
+  max-width: 10rem;
+  width: 7rem;
+  height: 7rem;
+  background-color: white;
+  border-radius: 5%;
+}
+
+@media screen and (orientation: landscape) {
+  .game-container {
+    width: 70%;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .game-container {
+    width: 90%;
+  }
+}

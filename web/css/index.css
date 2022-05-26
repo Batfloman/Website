@@ -1,0 +1,16 @@
+.about-me {
+  justify-self: center;
+  font-size: 1.25rem;
+}
+
+@media screen and (orientation: landscape) {
+  .about-me {
+    width: 60%;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .about-me {
+    width: 90%;
+  }
+}

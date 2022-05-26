@@ -1,0 +1,187 @@
+:root {
+  --theme: rgb(30, 30, 30);
+  --theme-background: rgb(45, 45, 45);
+  --theme-font-color: white;
+  --settings-rotation: rotate(60deg);
+  --settings-hide-popup: hidden;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--theme-background);
+  color: var(--theme-font-color);
+  font-family: Consolas;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: grid;
+}
+
+.clickable {
+  transition-duration: 165.5ms;
+  cursor: pointer;
+}
+
+.clickable:hover {
+  transform: scale(1.075);
+  transition-duration: 333ms;
+}
+
+/* Header */
+/* #region */
+.header {
+  background-color: var(--theme);
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  /* position: fixed; */
+}
+
+.title {
+  font-style: italic;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 33vw;
+  font-size: 1.45rem;
+}
+
+.nav-link {
+  color: rgb(25, 125, 225);
+  text-decoration: none;
+}
+
+.active {
+  border-bottom: green solid 0.25rem;
+}
+
+.setting-btn {
+  width: 3rem;
+  aspect-ratio: 1 / 1;
+  background-image: url("../img/settings.png");
+  background-size: contain;
+}
+
+.setting-btn:active {
+  transform: var(--settings-rotation);
+  transition-duration: 0ms;
+}
+
+.settings-popup {
+  background-color: var(--theme);
+  border: 3px var(--theme-font-color) solid;
+  padding: 0.5em;
+  position: fixed;
+  right: 3.5%;
+  top: 9%;
+  visibility: var(--settings-hide-popup);
+  width: fit-content;
+  max-width: max-content;
+  aspect-ratio: 1 / 3;
+  display: flex;
+  flex-direction: column;
+}
+
+/* #endregion */
+
+/* Main Body */
+
+.main-body {
+  overflow-y: auto;
+  display: grid;
+}
+
+.main-body::-webkit-scrollbar {
+  background-color: var(--theme-background);
+  border-left: 0.1rem var(--theme) solid;
+}
+
+.main-body::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.main-body::-webkit-scrollbar-thumb {
+  background-color: var(--theme);
+  outline: 0.1rem solid var(--theme-font-color);
+}
+
+@media screen and (orientation: landscape) {
+  html,
+  body {
+    font-size: calc(10vmin / 5);
+  }
+
+  /* Header */
+  /* #region */
+  .header {
+    height: 10vh;
+  }
+
+  .title {
+    margin-left: -4vw;
+  }
+
+  .setting-btn {
+    margin-right: -4vw;
+  }
+
+  /* #endregion */
+
+  .main-body {
+    padding-top: 3vh;
+    min-height: 87vh;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  html,
+  body {
+    font-size: calc(10vmin / 2.66);
+  }
+
+  /* Header */
+  /* #region */
+  .header {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    height: 20vh;
+    grid-auto-rows: 50%;
+    grid-template-columns: 70% 30%;
+    grid-auto-columns: 50%;
+  }
+
+  .title {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .nav-bar {
+    width: 90%;
+    grid-row: 2;
+    grid-column: 1/3;
+  }
+
+  .setting-btn {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  /* #endregion */
+
+  .main-body {
+    padding-top: 3vh;
+    min-height: 77vh;
+  }
+}

@@ -6,33 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stuff | Florian</title>
 
-  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/main-style.css">
+  <link rel="stylesheet" href="../css/stuff.css">
   <link rel="icon" href="../img/pp.jpg" type="image/jpg">
   <script src="../src/index.js"></script>
 </head>
 
 <body>
-  <header>
-    <div class="nav-bar">
-      <h1>My Website</h1>
-      <div class="nav-links">
-        <div class="nav-link"><a id="btn-home" href="../index.html?theme=black">Home</a></div>
-        <div class="nav-link"><a id="btn-games" href="./games.html?theme=black">Games</a></div>
-        <div class="nav-link"><a id="btn-school" href="./stuff.html?theme=black" class="active">Stuff</a></div>
-      </div>
-      <div class="settings" id="settings-button"></div>
+  <div class="wrapper">
+    <!-- Header -->
+    <div id="header" class="header">
+      <h1 id="title" class="title">My Website</h1>
+      <nav id="nav-bar" class="nav-bar">
+        <a id="home-btn" class="nav-link clickable" href="../index.html">Home</a>
+        <a id="games-btn" class="nav-link clickable" href="./games.html">Games</a>
+        <a id="stuff-btn" class="nav-link clickable active" href="./stuff.html">Stuff</a>
+      </nav>
+      <div id="setting-btn" class="setting-btn clickable"></div>
     </div>
-  </header>
 
-  <section>
-    <div class="settings-popup" id="settings-popup">
-      <div class="theme" id="theme-button">change Theme</div>
+    <!-- Main -->
+    <div id="main-body" class="main-body">
+      <div id="content" class="stuff-container"></div>
     </div>
-  </section>
+  </div>
 
-  <section class="main-body">
-    <div class="column-container" id="content"></div>
-  </section>
+  <div id="settings-popup" class="settings-popup">
+    <div id="theme-button" class="theme clickable">change Theme</div>
+  </div>
 
   <script type="module">
     import loadContent from "../src/FileLoader.js";
@@ -73,7 +74,7 @@
       }
 
       const hr = document.createElement("hr");
-      hr.setAttribute("style", "border: 1px var(--theme-font-color) dashed; margin-top: 2%; background-color: var(--theme-font-color)");
+      hr.setAttribute("style", "border: 1px var(--theme-font-color) dashed; margin-top: 2%; background-color: var(--theme-font-color); width: 100%");
 
       contentContainer.appendChild(hr);
     }

@@ -5,8 +5,6 @@ import Vector2 from "../../../lib/util/Vector2.js";
 import AntHill from "./assets/AntHill.js";
 import Food from "./assets/Food.js";
 import { Color } from "../../../lib/util/Color.js";
-import Ant from "./assets/Ant.js";
-import Pheromon from "./assets/Pheromon.js";
 
 const boardSize = 5000;
 
@@ -14,16 +12,13 @@ window.onload = () => {
   const canvas = new Canvas(document.querySelector("canvas"));
   const game = new Game(canvas);
 
-  let arr = [[1, 2,3], [3,4,5]];
-  console.log(Util.array.connectArray(arr));
-
   // settings
   game.setWorldBackground("main", new Color(45, 45, 45));
   game.getWorld()?.setChunkSize(33);
   game.setCamaraMovementLock(false);
   // Bug when zooming in => frames go DED
   game.setCamaraScaleLock(false);
-  game.getCamara().setMaxZoomInAmount(0);
+  game.getCamara().setMaxZoomInAmount(10);
   game.getCamara().setMaxZoomOutAmount(8);
   game.setMaxUpdateDistance(3333);
 

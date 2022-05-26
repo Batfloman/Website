@@ -24,8 +24,8 @@ export default class World implements IRenderable {
     private chunkSize;
     private chunks;
     putObjectsInCunks(): void;
-    addToChunks(obj: WorldObject<HitBox>): void;
-    addToChunk(x: number, y: number, obj: WorldObject<HitBox>): void;
+    private addToChunks;
+    private addToChunk;
     findChunkOf(obj: WorldObject<HitBox>): Vector2;
     findNeighbourChunksOf(chunk: Chunk, distance?: number, rectangleStlye?: boolean): Chunk[];
     getChunk(x: number, y: number): Chunk | undefined;

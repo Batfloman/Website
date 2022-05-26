@@ -129,13 +129,13 @@ export default class World implements IRenderable {
     }
   }
 
-  addToChunks(obj: WorldObject<HitBox>): void {
+  private addToChunks(obj: WorldObject<HitBox>): void {
     const chunk = this.findChunkOf(obj);
     this.addToChunk(chunk.x, chunk.y, obj);
   }
 
   // adds Object at specific chunk
-  addToChunk(x: number, y: number, obj: WorldObject<HitBox>): void {
+  private addToChunk(x: number, y: number, obj: WorldObject<HitBox>): void {
     let content = this.chunks.get(x, y);
 
     if (!(content instanceof Chunk)) {

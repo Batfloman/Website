@@ -1,0 +1,38 @@
+.stuff-container {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 2rem;
+}
+
+.content-label {
+  font-size: 1.75rem;
+  text-decoration: underline;
+}
+
+.row-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.content {
+  width: 7rem;
+  height: 7rem;
+  background-color: white;
+  border-radius: 5%;
+}
+
+@media screen and (orientation: landscape) {
+  .stuff-container {
+    width: 70%;
+  }
+}
+
+@media screen and (orientation: portrait) {
+  .stuff-container {
+    width: 90%;
+  }
+}

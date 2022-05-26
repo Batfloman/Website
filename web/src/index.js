@@ -38,7 +38,7 @@ window.onload = () => {
   });
 
   // show option panel and reverse rotation of button
-  const settings_button = document.getElementById("settings-button");
+  const settings_button = document.getElementById("setting-btn");
   settings_button.onclick = () => {
     if (settingsActive) {
       rs.setProperty("--settings-hide-popup", "hidden");
@@ -63,13 +63,20 @@ function updateTheme() {
 
   const themePattern = /theme=(\w)+/;
 
-  ["btn-home", "btn-games", "btn-school"].forEach((btnID) => {
+  ["home-btn", "games-btn", "stuff-btn"].forEach((btnID) => {
     const btn = document.getElementById(btnID);
     const href = btn.getAttribute("href");
 
+    if(!href) return;
+
     let newHref;
-    if (href == null) newHref = "theme" + currentTheme;
-    else newHref = href.replace(themePattern, "theme=" + currentTheme);
+
+    if(href.match(themePattern)) {
+      newHref = href.replace(themePattern, "theme=" + currentTheme);
+    } else {
+      if(href.match(/\?/)) newHref = href + "theme=" + currentTheme;
+      else newHref = href + "?theme=" + currentTheme;
+    }
 
     btn.setAttribute("href", newHref);
   });
