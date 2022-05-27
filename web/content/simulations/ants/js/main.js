@@ -19,12 +19,12 @@ window.onload = () => {
     for (let i = 0; i < 5; i++) {
         game.addObject(randomAntHill());
     }
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 75; i++) {
         game.addObject(randomFood());
     }
     setInterval(() => {
         game.addObject(randomFood());
-    }, 20000);
+    }, 5000);
     game.start();
 };
 function randomPosition() {
