@@ -22,6 +22,7 @@ const sensoryDistance = 33;
 const senseAngle = 65;
 const carryAmount = 150;
 const antSpeed = 75;
+const maxRotationAngle = 33;
 export default class Ant extends WorldObject {
     constructor(pos = new Vector2(), task = "searchFood") {
         super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
@@ -60,11 +61,11 @@ export default class Ant extends WorldObject {
                         home.food += this.carry;
                         this.carry = 0;
                         this.task = "searchFood";
-                        this.orientation += Util.math.randomBetween(160, 200, 2);
+                        this.turnAround();
                         break switchTask;
                     }
                     else if (isInRange) {
-                        this.orientation = Util.findAngleLine(this.pos, home.pos);
+                        this.orientation = Util.findAngleLine(this.pos, home.pos) + this.randomRotation();
                         break switchTask;
                     }
                 }
@@ -80,19 +81,19 @@ export default class Ant extends WorldObject {
                         food.amountFood -= carryAmount;
                         this.carry = carryAmount;
                         this.task = "bringFoodHome";
-                        this.orientation += Util.math.randomBetween(170, 180, 2);
+                        this.turnAround();
                         break switchTask;
                     }
                     else if (isInRange) {
-                        this.orientation = Util.findAngleLine(this.pos, food.pos);
+                        this.orientation = Util.findAngleLine(this.pos, food.pos) + this.randomRotation();
                         break switchTask;
                     }
                 }
                 this.rotate(this.findRotation("food", false));
-                this.rotate(-this.findRotation("home", false) / 10);
+                this.rotate(-this.findRotation("home", false) / 3.33);
                 break switchTask;
         }
-        this.orientation += this.randomRotation();
+        this.rotate(this.randomRotation());
         for (let home of homes) {
             const distance = Util.distance(this.pos, home.pos);
             const radius = home.hitBox.radius;
@@ -142,6 +143,12 @@ export default class Ant extends WorldObject {
         renderer.setStrokeColor(color);
         renderer.setFillColor(color);
         renderer.renderCircle(this.pos, antSize);
+    }
+    rotate(angle) {
+        super.rotate(Math.min(angle, maxRotationAngle));
+    }
+    turnAround() {
+        this.orientation += 180 + this.randomRotation();
     }
     createPheromon() {
         let message;

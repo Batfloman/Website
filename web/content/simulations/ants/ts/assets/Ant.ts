@@ -31,6 +31,7 @@ const senseAngle = 65;
 const carryAmount = 150;
 
 const antSpeed = 75;
+const maxRotationAngle = 33;
 
 export default class Ant extends WorldObject<Circle> {
   task: Task = "searchFood";
@@ -86,10 +87,12 @@ export default class Ant extends WorldObject<Circle> {
             home.food += this.carry;
             this.carry = 0;
             this.task = "searchFood";
-            this.orientation += Util.math.randomBetween(160, 200, 2); // turn around after food deposit
+            this.turnAround() // turn around after food deposit
+
             break switchTask;
           } else if (isInRange) {
-            this.orientation = Util.findAngleLine(this.pos, home.pos);
+            this.orientation = Util.findAngleLine(this.pos, home.pos) + this.randomRotation();
+
             break switchTask;
           }
         }
@@ -111,10 +114,11 @@ export default class Ant extends WorldObject<Circle> {
             food.amountFood -= carryAmount;
             this.carry = carryAmount;
             this.task = "bringFoodHome";
-            this.orientation += Util.math.randomBetween(170, 180, 2); // turn around after food pickup
+            this.turnAround() // turn around after food pickup
+
             break switchTask;
           } else if (isInRange) {
-            this.orientation = Util.findAngleLine(this.pos, food.pos);
+            this.orientation = Util.findAngleLine(this.pos, food.pos) + this.randomRotation();
             break switchTask;
           }
         }
@@ -122,12 +126,12 @@ export default class Ant extends WorldObject<Circle> {
         // follow Food Pheromons (if none are there => value = 0 => move Random)
         this.rotate(this.findRotation("food", false));
         // go slightly away from home markers
-        this.rotate(-this.findRotation("home", false) / 10);
+        this.rotate(-this.findRotation("home", false) / 3.33);
         break switchTask;
     }
 
     // add random Rotation (realism)
-    this.orientation += this.randomRotation();
+    this.rotate(this.randomRotation());
 
     // eat ?
     for (let home of homes) {
@@ -194,6 +198,14 @@ export default class Ant extends WorldObject<Circle> {
     renderer.setFillColor(color);
     renderer.renderCircle(this.pos, antSize);
   }
+
+  rotate(angle: number): void {
+    super.rotate(Math.min(angle, maxRotationAngle));
+  }
+
+  turnAround(): void {
+    this.orientation += 180 + this.randomRotation();
+  } 
 
   createPheromon() {
     let message: Message;
