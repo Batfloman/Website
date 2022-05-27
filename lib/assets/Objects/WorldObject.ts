@@ -13,8 +13,6 @@ export abstract class WorldObject<HitBoxType extends HitBox>
   extends SceneObject
   implements ICollideable, IMoveable
 {
- 
-
   constructor(pos: Vector2, hitBox: HitBoxType, angle = 0) {
     super();
 
@@ -29,7 +27,6 @@ export abstract class WorldObject<HitBoxType extends HitBox>
       this.game.removeObject(this);
       return;
     }
-    this.recentlyMoved = false;
     this.update2(dt);
   }
 
@@ -47,13 +44,16 @@ export abstract class WorldObject<HitBoxType extends HitBox>
 
   protected world!: World;
   protected chunk: Chunk = new Chunk();
+  recentlyMoved: boolean = true;
 
   setWorld(world: World): void {
     this.world = world;
+    this.recentlyMoved = true;
   }
 
   setChunk(chunk: Chunk): void {
     this.chunk = chunk;
+    this.recentlyMoved = false;
   }
 
   getChunk(): Chunk {
@@ -87,7 +87,7 @@ export abstract class WorldObject<HitBoxType extends HitBox>
   // ==========================================================================================
   // #region move Object
 
-  recentlyMoved: boolean = true;
+  
 
   rotate(angle: number) {
     this.orientation += angle;

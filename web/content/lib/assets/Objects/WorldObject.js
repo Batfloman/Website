@@ -6,8 +6,8 @@ export class WorldObject extends SceneObject {
     constructor(pos, hitBox, angle = 0) {
         super();
         this.chunk = new Chunk();
-        this.alreadyTranslated = false;
         this.recentlyMoved = true;
+        this.alreadyTranslated = false;
         this.pos = pos;
         this.hitBox = hitBox;
         this.orientation = angle;
@@ -17,7 +17,6 @@ export class WorldObject extends SceneObject {
             this.game.removeObject(this);
             return;
         }
-        this.recentlyMoved = false;
         this.update2(dt);
     }
     shouldUpdate() {
@@ -28,9 +27,11 @@ export class WorldObject extends SceneObject {
     }
     setWorld(world) {
         this.world = world;
+        this.recentlyMoved = true;
     }
     setChunk(chunk) {
         this.chunk = chunk;
+        this.recentlyMoved = false;
     }
     getChunk() {
         return this.chunk;
