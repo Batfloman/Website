@@ -68,7 +68,8 @@ export default class World implements IRenderable {
     return this.objects.splice(index, 1)[0];
   }
 
-  findObjects<T extends SceneObject>(clasName: string, exclude?: T | T[]): T[] {
+  findObjects<T extends SceneObject>(clas: string | Function, exclude?: T | T[]): T[] {
+    const clasName = clas instanceof Function ? clas.name : clas;
     const objects = this.objectMap.get(clasName);
     if (!objects) return [];
 
@@ -95,21 +96,33 @@ export default class World implements IRenderable {
   private objectMap: Map<string, SceneObject[]> = new Map();
 
   private addToMap(obj: SceneObject): void {
-    let values: SceneObject[] = [];
+    let className = Util.object.findClassName(obj);
+    let clas = Util.object.findClass(obj);
+    do {
+      const previousValues = this.objectMap.get(className)
+      let values: SceneObject[] = !previousValues ? [] : previousValues;
+      values.push(obj);
+      this.objectMap.set(className, values);
 
-    const arr = this.objectMap.get(obj.constructor.name);
-    if (arr) values = values.concat(arr);
-
-    values.push(obj);
-
-    this.objectMap.set(obj.constructor.name, values);
+      // loop for superclasses (exclude SceneObject)
+      clas = Util.object.findSuperClass(clas);
+      className = Util.object.findClassName(clas);
+    } while (className != "SceneObject");
   }
 
   private removeFromMap(obj: SceneObject): void {
-    const values = this.objectMap.get(obj.constructor.name);
-    if (!values) return;
+    let className = Util.object.findClassName(obj);
+    let clas = Util.object.findClass(obj);
+    do {
+      const values = this.objectMap.get(obj.constructor.name);
+      if (!values) continue;
+  
+      Util.array.removeItem(values, obj);
 
-    Util.array.removeItem(values, obj);
+      // loop for superclasses (exclude SceneObject)
+      clas = Util.object.findSuperClass(clas);
+      className = Util.object.findClassName(clas);
+    } while (className != "SceneObject");
   }
 
   //#endregion
@@ -122,16 +135,28 @@ export default class World implements IRenderable {
   private chunks: TwoKeyMap<number, number, Chunk> = new TwoKeyMap();
 
   putObjectsInCunks(): void {
-    this.chunks.clear();
+    const worldObjects: WorldObject<HitBox>[] = this.findObjects<WorldObject<HitBox>>(WorldObject);
 
-    for (let obj of this.objects) {
-      if (obj instanceof WorldObject) this.addToChunks(obj);
+    for (let obj of worldObjects) {
+      if(obj.recentlyMoved) {
+        this.removeFromChunks(obj);
+        this.addToChunks(obj);
+      }
     }
   }
 
   private addToChunks(obj: WorldObject<HitBox>): void {
     const chunk = this.findChunkOf(obj);
     this.addToChunk(chunk.x, chunk.y, obj);
+  }
+
+  private removeFromChunks(obj: WorldObject<HitBox>) {
+    const chunk = obj.getChunk();
+    chunk.removeObject(obj);
+
+    if(!chunk.objects || Util.array.isEmpty(chunk.objects)) {
+      this.chunks.delete(chunk.keys.x, chunk.keys.y);
+    }
   }
 
   // adds Object at specific chunk
@@ -163,7 +188,7 @@ export default class World implements IRenderable {
 
     const found: Chunk[] = [];
 
-    if(chunk == undefined) console.log(chunk);
+    if (chunk == undefined) console.log(chunk);
 
     for (let x = -distance + chunk.keys.x; x <= distance + chunk.keys.x; x++) {
       for (let y = -distance + chunk.keys.y; y <= distance + chunk.keys.y; y++) {

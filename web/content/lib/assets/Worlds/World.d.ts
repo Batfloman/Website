@@ -17,7 +17,7 @@ export default class World implements IRenderable {
     setBackground(color: Color): void;
     addObject(obj: SceneObject): void;
     removeObject(obj: SceneObject): SceneObject | undefined;
-    findObjects<T extends SceneObject>(clasName: string, exclude?: T | T[]): T[];
+    findObjects<T extends SceneObject>(clas: string | Function, exclude?: T | T[]): T[];
     private objectMap;
     private addToMap;
     private removeFromMap;
@@ -25,6 +25,7 @@ export default class World implements IRenderable {
     private chunks;
     putObjectsInCunks(): void;
     private addToChunks;
+    private removeFromChunks;
     private addToChunk;
     findChunkOf(obj: WorldObject<HitBox>): Vector2;
     findNeighbourChunksOf(chunk: Chunk, distance?: number, rectangleStlye?: boolean): Chunk[];
