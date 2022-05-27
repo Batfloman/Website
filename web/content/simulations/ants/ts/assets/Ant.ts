@@ -60,15 +60,9 @@ export default class Ant extends WorldObject<Circle> {
           const distance = Util.distance(this.pos, home.pos);
           const radius = home.hitBox.radius;
 
-          if (distance < radius) {
-            // eat
-            const foodNeeded = maxFood - this.food;
+          const isInRange = distance < radius + sensoryDistance;
 
-            this.food += foodNeeded;
-            // TODO remove Food from AntHill
-            this.task = "searchFood";
-            break switchTask;
-          } else if (distance < radius + sensoryDistance) {
+          if (isInRange) {
             // go strait to home
             this.orientation = Util.findAngleLine(this.pos, home.pos);
             break switchTask;
@@ -77,30 +71,24 @@ export default class Ant extends WorldObject<Circle> {
 
         // follow Pheromones to Home
         this.rotate(this.findRotation("home"));
-        break;
+        break switchTask;
       case "bringFoodHome":
         // Home in Range ?
         for (let home of homes) {
           const distance = Util.distance(this.pos, home.pos);
           const radius = home.hitBox.radius;
 
-          if (distance < radius) {
-            // eat
-            const foodNeeded = maxFood - this.food;
+          const canPutFood = distance < radius / 2;
+          const isInRange = distance < radius + sensoryDistance
 
-            this.food += foodNeeded;
-            // TODO remove Food from AntHill
-          }
-
-          // put food ?
-          if (distance < radius / 2) {
+          if (canPutFood) {
             // put food in Anthill
             home.food += this.carry;
             this.carry = 0;
             this.task = "searchFood";
             this.orientation += Util.math.randomBetween(160, 200, 2); // turn around after food deposit
             break switchTask;
-          } else if (distance < radius + sensoryDistance) {
+          } else if (isInRange) {
             this.orientation = Util.findAngleLine(this.pos, home.pos);
             break switchTask;
           }
@@ -108,21 +96,24 @@ export default class Ant extends WorldObject<Circle> {
 
         // follow Pheromones to Home
         this.rotate(this.findRotation("home"));
-        break;
+        break switchTask;
       case "searchFood":
         // Food in Range ?
         for (let food of foodStuffs) {
           const distance = Util.distance(this.pos, food.pos);
           const radius = food.hitBox.radius;
 
-          if (distance < radius / 2) {
+          const canPickUp = distance < radius / 2;
+          const isInRange = distance < radius + sensoryDistance;
+
+          if (canPickUp) {
             // pick up Food
             food.amountFood -= carryAmount;
             this.carry = carryAmount;
             this.task = "bringFoodHome";
             this.orientation += Util.math.randomBetween(170, 180, 2); // turn around after food pickup
             break switchTask;
-          } else if (distance < radius + sensoryDistance) {
+          } else if (isInRange) {
             this.orientation = Util.findAngleLine(this.pos, food.pos);
             break switchTask;
           }
@@ -130,25 +121,45 @@ export default class Ant extends WorldObject<Circle> {
 
         // follow Food Pheromons (if none are there => value = 0 => move Random)
         this.rotate(this.findRotation("food", false));
-        break;
+        // go slightly away from home markers
+        this.rotate(-this.findRotation("home", false) / 10);
+        break switchTask;
     }
 
     // add random Rotation (realism)
     this.orientation += this.randomRotation();
+
+    // eat ?
+    for (let home of homes) {
+      const distance = Util.distance(this.pos, home.pos);
+      const radius = home.hitBox.radius;
+
+      const isInside = distance < radius;
+
+      if (isInside) {
+        // eat
+        const foodNeeded = maxFood - this.food;
+
+        this.food += foodNeeded;
+        // TODO remove Food from AntHill
+
+        if(this.task == "runHome") this.task = "searchFood";
+      }
+    }
 
     // move
     // doubled when starving
     const moveSpeed = this.task == "runHome" ? antSpeed * panicSpeedBoost : antSpeed;
     this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
 
-    // creates Pheromon every x ms;
+    // creates Pheromon every ... ms;
     this.timeElapsed += dt;
     if (this.timeElapsed > timeBetweenPheromon) {
       this.timeElapsed = 0;
       this.createPheromon();
     }
 
-    //
+    // looses ... food every second
     this.timeElapsed2 += dt;
     if (this.timeElapsed2 > 1000) {
       this.timeElapsed2 -= 1000;
@@ -162,7 +173,8 @@ export default class Ant extends WorldObject<Circle> {
 
           this.food += foodEaten;
           this.carry -= foodEaten;
-          if (this.carry == 0) this.task = "searchFood";
+          if (this.carry >= carryAmount / 3) this.task = "searchFood";
+          else this.task = "runHome";
         } else {
           this.task = "runHome";
           this.orientation += Util.math.randomBetween(170, 190, 2);

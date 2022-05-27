@@ -8,7 +8,7 @@ export default class Universe extends Game {
   constructor(canvas: Canvas) {
     super(canvas);
 
-    this.setWorldBackground("main", Color.get("black"));
+    this.setWorldBackground(Color.get("black"));
   }
 
   setGConst(gConst: number) {

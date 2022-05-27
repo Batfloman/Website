@@ -42,61 +42,68 @@ export default class Ant extends WorldObject {
                 for (let home of homes) {
                     const distance = Util.distance(this.pos, home.pos);
                     const radius = home.hitBox.radius;
-                    if (distance < radius) {
-                        const foodNeeded = maxFood - this.food;
-                        this.food += foodNeeded;
-                        this.task = "searchFood";
-                        break switchTask;
-                    }
-                    else if (distance < radius + sensoryDistance) {
+                    const isInRange = distance < radius + sensoryDistance;
+                    if (isInRange) {
                         this.orientation = Util.findAngleLine(this.pos, home.pos);
                         break switchTask;
                     }
                 }
                 this.rotate(this.findRotation("home"));
-                break;
+                break switchTask;
             case "bringFoodHome":
                 for (let home of homes) {
                     const distance = Util.distance(this.pos, home.pos);
                     const radius = home.hitBox.radius;
-                    if (distance < radius) {
-                        const foodNeeded = maxFood - this.food;
-                        this.food += foodNeeded;
-                    }
-                    if (distance < radius / 2) {
+                    const canPutFood = distance < radius / 2;
+                    const isInRange = distance < radius + sensoryDistance;
+                    if (canPutFood) {
                         home.food += this.carry;
                         this.carry = 0;
                         this.task = "searchFood";
                         this.orientation += Util.math.randomBetween(160, 200, 2);
                         break switchTask;
                     }
-                    else if (distance < radius + sensoryDistance) {
+                    else if (isInRange) {
                         this.orientation = Util.findAngleLine(this.pos, home.pos);
                         break switchTask;
                     }
                 }
                 this.rotate(this.findRotation("home"));
-                break;
+                break switchTask;
             case "searchFood":
                 for (let food of foodStuffs) {
                     const distance = Util.distance(this.pos, food.pos);
                     const radius = food.hitBox.radius;
-                    if (distance < radius / 2) {
+                    const canPickUp = distance < radius / 2;
+                    const isInRange = distance < radius + sensoryDistance;
+                    if (canPickUp) {
                         food.amountFood -= carryAmount;
                         this.carry = carryAmount;
                         this.task = "bringFoodHome";
                         this.orientation += Util.math.randomBetween(170, 180, 2);
                         break switchTask;
                     }
-                    else if (distance < radius + sensoryDistance) {
+                    else if (isInRange) {
                         this.orientation = Util.findAngleLine(this.pos, food.pos);
                         break switchTask;
                     }
                 }
                 this.rotate(this.findRotation("food", false));
-                break;
+                this.rotate(-this.findRotation("home", false) / 10);
+                break switchTask;
         }
         this.orientation += this.randomRotation();
+        for (let home of homes) {
+            const distance = Util.distance(this.pos, home.pos);
+            const radius = home.hitBox.radius;
+            const isInside = distance < radius;
+            if (isInside) {
+                const foodNeeded = maxFood - this.food;
+                this.food += foodNeeded;
+                if (this.task == "runHome")
+                    this.task = "searchFood";
+            }
+        }
         const moveSpeed = this.task == "runHome" ? antSpeed * panicSpeedBoost : antSpeed;
         this.moveDirection(this.orientation, this.calc_valueChangeForDT(moveSpeed, dt));
         this.timeElapsed += dt;
@@ -113,8 +120,10 @@ export default class Ant extends WorldObject {
                     const foodEaten = Math.min(maxFood - this.food, this.carry);
                     this.food += foodEaten;
                     this.carry -= foodEaten;
-                    if (this.carry == 0)
+                    if (this.carry >= carryAmount / 3)
                         this.task = "searchFood";
+                    else
+                        this.task = "runHome";
                 }
                 else {
                     this.task = "runHome";

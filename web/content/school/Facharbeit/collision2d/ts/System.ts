@@ -6,6 +6,6 @@ export default class System extends Game {
   constructor(canvas: Canvas) {
     super(canvas);
 
-    this.setWorldBackground("main", Color.get("red"));
+    this.setWorldBackground(Color.get("red"));
   }
 }
