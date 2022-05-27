@@ -23,7 +23,11 @@ window.onload = () => {
   game.getCamara().setMaxZoomOutAmount(8);
   game.setMaxUpdateDistance(3333);
 
-  game.addObject(new AntHill(new Vector2(), 3000))
+  // game.addObject(new AntHill(new Vector2(), 5000))
+
+  for(let i = 0; i < 3; i++) {
+    game.addObject(randomAntHill());
+  }
 
   for(let i = 0; i < 50; i++) {
     game.addObject(randomFood());
@@ -45,12 +49,12 @@ function randomPosition(): Vector2 {
 
 function randomFood(): Food {
   const pos = randomPosition();
-  const amount = Util.math.randomBetween(7500, 20000);
+  const amount = Util.math.randomBetween(2500, 10000);
   return new Food(pos, amount);
 }
 
 function randomAntHill(): AntHill {
   const pos = randomPosition();
-  const food = 1000;
+  const food = 3000;
   return new AntHill(pos, food);
 }

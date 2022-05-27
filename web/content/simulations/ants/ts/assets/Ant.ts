@@ -21,7 +21,7 @@ const antOrientationChange = 5;
 const timeBetweenPheromon = 150;
 
 const maxFood = 100;
-const foodLoss = 1;
+const foodLoss = 3;
 const foodPercentageLeftRunsHome = 50;
 const panicSpeedBoost = 1.5;
 

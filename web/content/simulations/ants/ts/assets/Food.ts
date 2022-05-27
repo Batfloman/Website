@@ -5,6 +5,9 @@ import { Color } from "../../../../lib/util/Color.js";
 import Util from "../../../../lib/util/Util.js";
 import Vector2 from "../../../../lib/util/Vector2.js";
 
+const minRadius = 5;
+const foodScaleFactor = .5;
+
 export default class Food extends WorldObject<Circle> {
   amountFood: number;
 
@@ -16,13 +19,13 @@ export default class Food extends WorldObject<Circle> {
   }
 
   update2(dt: number): void {
-    if (this.amountFood <= 0) {
-      this.game.removeObject(this);
-    }
+    this.hitBox.radius = Math.max(minRadius, Util.shapes.circle.radius(this.amountFood) * foodScaleFactor);
+
+    if (this.amountFood > 0) return;
+
+    this.game.removeObject(this);
   }
   render(renderer: Renderer): void {
-    this.hitBox.radius = Util.shapes.circle.radius(this.amountFood) / 3;
-
     renderer.setFillColor(Color.get("green"));
     renderer.setStrokeColor(Color.get("green"));
     renderer.renderCircle(this.pos, this.hitBox.radius);
