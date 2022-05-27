@@ -233,8 +233,8 @@ export default class Ant extends WorldObject<Circle> {
         // right message ?
         if (pheromon.message != message) continue;
 
-        const distance = Util.distance(this.pos, pheromon.pos);
         // right Distance ?
+        const distance = Util.distance(this.pos, pheromon.pos);
         if (distance > sensoryDistance) continue;
 
         // right Angle ?
