@@ -1,6 +1,7 @@
 :root {
   --theme: rgb(30, 30, 30);
   --theme-background: rgb(45, 45, 45);
+  --theme-outline-color: rgb(245, 245, 245);
   --theme-font-color: white;
   --settings-rotation: rotate(60deg);
   --settings-hide-popup: hidden;
@@ -80,7 +81,7 @@ body {
 
 .settings-popup {
   background-color: var(--theme);
-  border: 3px var(--theme-font-color) solid;
+  border: 3px var(--theme-outline-color) solid;
   padding: 0.5em;
   position: fixed;
   right: 3.5%;
@@ -105,6 +106,7 @@ body {
 .main-body::-webkit-scrollbar {
   background-color: var(--theme-background);
   border-left: 0.1rem var(--theme) solid;
+  width: 0.7rem;
 }
 
 .main-body::-webkit-scrollbar-track {
@@ -112,8 +114,8 @@ body {
 }
 
 .main-body::-webkit-scrollbar-thumb {
-  background-color: var(--theme);
-  outline: 0.1rem solid var(--theme-font-color);
+  background-color: var(--theme-outline-color);
+  border-radius: 0.45rem;
 }
 
 @media screen and (orientation: landscape) {

@@ -14,6 +14,7 @@ window.onload = () => {
   universe.setCamaraScaleLock(false);
   universe.setMaxUpdateDistance(500000);
   universe.setMaxDeleteDistance(250000);
+  universe.getWorld()?.setChunkSize(10000);
 
   universe.getCamara().setScale(-25);
 

@@ -49,8 +49,8 @@ export default class Ant extends WorldObject<Circle> {
   timeElapsed2: number = 0;
 
   update2(dt: number): void {
-    const homes = this.game.findObjects(AntHill) as Array<AntHill>;
-    const foodStuffs = this.game.findObjects(Food) as Array<Food>;
+    const homes = this.world.findObjectsInNeighbouringChunks<AntHill>(this.chunk, AntHill);
+    const foodStuffs = this.world.findObjectsInNeighbouringChunks<Food>(this.chunk, Food);
 
     // set Direction to move fitting for task
     switchTask: switch (this.task) {
@@ -219,42 +219,36 @@ export default class Ant extends WorldObject<Circle> {
   }
 
   // Returns a rotation value to follow the pheromon type
-  // undefined when no pheromons found
+  // Returns undefined when no pheromons found
   followPhermons(message: Message): number | undefined {
     let sumWeightedAngles: number = 0;
     let sumWeights: number = 0;
 
-    const chunks = this.world.findNeighbourChunksOf(this.chunk, 1);
+    const pheromones = this.world.findObjectsInNeighbouringChunks<Pheromon>(this.chunk, Pheromon);
 
-    for (let chunk of chunks) {
-      const pheromones = chunk.findObjects(Pheromon) as Array<Pheromon>;
+    for (let pheromon of pheromones) {
+      // right message ?
+      if (pheromon.message != message) continue;
 
-      for (let pheromon of pheromones) {
-        // right message ?
-        if (pheromon.message != message) continue;
+      // right Distance ?
+      const distance = Util.distance(this.pos, pheromon.pos);
+      if (distance > sensoryDistance) continue;
 
-        // right Distance ?
-        const distance = Util.distance(this.pos, pheromon.pos);
-        if (distance > sensoryDistance) continue;
+      // right Angle ?
+      const vecToPheromon = pheromon.pos.subtract(this.pos);
+      const moveVec = Util.toVector(this.orientation, 1);
+      const angle = moveVec.angle(vecToPheromon);
+      if (angle > senseAngle || angle < -senseAngle) continue;
 
-        // right Angle ?
-        const vecToPheromon = pheromon.pos.subtract(this.pos);
-        const moveVec = Util.toVector(this.orientation, 1);
-        const angle = moveVec.angle(vecToPheromon);
-        if (angle > senseAngle || angle < -senseAngle) continue;
+      // everything right!
 
-        // everything right!
+      const weight = this.weightPheromon(distance, pheromon.strength);
 
-        const weight = this.weightPheromon(distance, pheromon.strength);
-
-        sumWeightedAngles += angle * weight;
-        sumWeights += weight;
-      }
+      sumWeightedAngles += angle * weight;
+      sumWeights += weight;
     }
 
     if (sumWeights == 0) return undefined;
-
-    if (isNaN(sumWeightedAngles / sumWeights)) console.log(sumWeightedAngles, sumWeights);
 
     return sumWeightedAngles / sumWeights;
   }

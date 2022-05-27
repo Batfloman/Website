@@ -44,8 +44,8 @@ export default class SkyBody extends WorldObject<Circle> {
 
     let objects: SkyBody[] = this.game.findObjects(SkyBody, this);
 
-    for(let obj of objects) {
-      if(!this.isCollidingWith(obj)) continue;
+    for (let obj of objects) {
+      if (!this.isCollidingWith(obj)) continue;
 
       const bigger = this.mass >= obj.mass ? this : obj;
       const smaller = bigger == this ? obj : this;

@@ -87,6 +87,23 @@ export default class World implements IRenderable {
     return values as Array<T>;
   }
 
+  findObjectsInNeighbouringChunks<T extends WorldObject<HitBox>>(
+    chunk: Chunk,
+    clas: string | Function,
+    exclude?: T | T[],
+    distance: number = 1,
+    rectStyle = true
+  ): T[] {
+    const neighbours = this.findNeighbourChunksOf(chunk, distance, rectStyle);
+    let found: T[] = [];
+
+    for (let chunk of neighbours) {
+      found = found.concat(chunk.findObjects(clas, exclude));
+    }
+
+    return found as Array<T>;
+  }
+
   //#endregion
 
   // ==========================================================================================
@@ -99,7 +116,7 @@ export default class World implements IRenderable {
     let className = Util.object.findClassName(obj);
     let clas = Util.object.findClass(obj);
     do {
-      const previousValues = this.objectMap.get(className)
+      const previousValues = this.objectMap.get(className);
       let values: SceneObject[] = !previousValues ? [] : previousValues;
       values.push(obj);
       this.objectMap.set(className, values);
@@ -116,7 +133,7 @@ export default class World implements IRenderable {
     do {
       const values = this.objectMap.get(obj.constructor.name);
       if (!values) continue;
-  
+
       Util.array.removeItem(values, obj);
 
       // loop for superclasses (exclude SceneObject)
@@ -138,7 +155,7 @@ export default class World implements IRenderable {
     const worldObjects: WorldObject<HitBox>[] = this.findObjects<WorldObject<HitBox>>(WorldObject);
 
     for (let obj of worldObjects) {
-      if(obj.recentlyMoved) {
+      if (obj.recentlyMoved) {
         this.removeFromChunks(obj);
         this.addToChunks(obj);
       }
@@ -154,7 +171,7 @@ export default class World implements IRenderable {
     const chunk = obj.getChunk();
     chunk.removeObject(obj);
 
-    if(!chunk.objects || Util.array.isEmpty(chunk.objects)) {
+    if (!chunk.objects || Util.array.isEmpty(chunk.objects)) {
       this.chunks.delete(chunk.keys.x, chunk.keys.y);
     }
   }

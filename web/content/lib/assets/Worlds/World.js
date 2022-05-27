@@ -56,6 +56,14 @@ export default class World {
         }
         return values;
     }
+    findObjectsInNeighbouringChunks(chunk, clas, exclude, distance = 1, rectStyle = true) {
+        const neighbours = this.findNeighbourChunksOf(chunk, distance, rectStyle);
+        let found = [];
+        for (let chunk of neighbours) {
+            found = found.concat(chunk.findObjects(clas, exclude));
+        }
+        return found;
+    }
     addToMap(obj) {
         let className = Util.object.findClassName(obj);
         let clas = Util.object.findClass(obj);

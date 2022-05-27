@@ -3,11 +3,13 @@ const themes = {
     theme: "rgb(205, 205, 205)",
     themeBackground: "rgb(225, 225, 225)",
     themeFontColor: "black",
+    themeOutlineColor: "rgb(45, 45, 45)",
   },
   dark: {
     theme: "rgb(30, 30, 30)",
     themeBackground: "rgb(45, 45, 45)",
     themeFontColor: "white",
+    themeOutlineColor: "rgb(245, 245, 245)",
   },
 };
 
@@ -20,8 +22,8 @@ window.onload = () => {
 
   if (themes[params.theme]) {
     currentTheme = params.theme;
-    updateTheme();
   }
+  updateTheme();
 
   // ==========================================================================================
   // css changes
@@ -60,6 +62,7 @@ function updateTheme() {
   rs.setProperty("--theme", theme.theme);
   rs.setProperty("--theme-background", theme.themeBackground);
   rs.setProperty("--theme-font-color", theme.themeFontColor);
+  rs.setProperty("--theme-outline-color", theme.themeOutlineColor);
 
   const themePattern = /theme=(\w)+/;
 

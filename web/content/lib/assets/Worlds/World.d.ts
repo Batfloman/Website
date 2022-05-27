@@ -18,6 +18,7 @@ export default class World implements IRenderable {
     addObject(obj: SceneObject): void;
     removeObject(obj: SceneObject): SceneObject | undefined;
     findObjects<T extends SceneObject>(clas: string | Function, exclude?: T | T[]): T[];
+    findObjectsInNeighbouringChunks<T extends WorldObject<HitBox>>(chunk: Chunk, clas: string | Function, exclude?: T | T[], distance?: number, rectStyle?: boolean): T[];
     private objectMap;
     private addToMap;
     private removeFromMap;
