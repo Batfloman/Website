@@ -40,7 +40,8 @@ export default class World {
         this.removeFromMap(obj);
         return this.objects.splice(index, 1)[0];
     }
-    findObjects(clasName, exclude) {
+    findObjects(clas, exclude) {
+        const clasName = clas instanceof Function ? clas.name : clas;
         const objects = this.objectMap.get(clasName);
         if (!objects)
             return [];
@@ -56,29 +57,48 @@ export default class World {
         return values;
     }
     addToMap(obj) {
-        let values = [];
-        const arr = this.objectMap.get(obj.constructor.name);
-        if (arr)
-            values = values.concat(arr);
-        values.push(obj);
-        this.objectMap.set(obj.constructor.name, values);
+        let className = Util.object.findClassName(obj);
+        let clas = Util.object.findClass(obj);
+        do {
+            const previousValues = this.objectMap.get(className);
+            let values = !previousValues ? [] : previousValues;
+            values.push(obj);
+            this.objectMap.set(className, values);
+            clas = Util.object.findSuperClass(clas);
+            className = Util.object.findClassName(clas);
+        } while (className != "SceneObject");
     }
     removeFromMap(obj) {
-        const values = this.objectMap.get(obj.constructor.name);
-        if (!values)
-            return;
-        Util.array.removeItem(values, obj);
+        let className = Util.object.findClassName(obj);
+        let clas = Util.object.findClass(obj);
+        do {
+            const values = this.objectMap.get(obj.constructor.name);
+            if (!values)
+                continue;
+            Util.array.removeItem(values, obj);
+            clas = Util.object.findSuperClass(clas);
+            className = Util.object.findClassName(clas);
+        } while (className != "SceneObject");
     }
     putObjectsInCunks() {
-        this.chunks.clear();
-        for (let obj of this.objects) {
-            if (obj instanceof WorldObject)
+        const worldObjects = this.findObjects(WorldObject);
+        for (let obj of worldObjects) {
+            if (obj.recentlyMoved) {
+                this.removeFromChunks(obj);
                 this.addToChunks(obj);
+            }
         }
     }
     addToChunks(obj) {
         const chunk = this.findChunkOf(obj);
         this.addToChunk(chunk.x, chunk.y, obj);
+    }
+    removeFromChunks(obj) {
+        const chunk = obj.getChunk();
+        chunk.removeObject(obj);
+        if (!chunk.objects || Util.array.isEmpty(chunk.objects)) {
+            this.chunks.delete(chunk.keys.x, chunk.keys.y);
+        }
     }
     addToChunk(x, y, obj) {
         let content = this.chunks.get(x, y);
