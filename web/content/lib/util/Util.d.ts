@@ -32,6 +32,12 @@ export default class Util {
             area(polygon: Polygon2): number;
         };
     };
+    static object: {
+        findClassName(obj: Object | Function): string;
+        findSuperClassName(obj: Object | Function): string;
+        findClass(obj: Object | Function): Function;
+        findSuperClass(obj: Object | Function): Function;
+    };
     static toVector(angle: number, lenght: number): Vector2;
     static findAngleLine(startPoint: Vector2, endPoint: Vector2): number;
     static calcHypothenuse(side1: number, side2: number): number;

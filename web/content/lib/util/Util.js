@@ -105,7 +105,7 @@ Util.array = {
             connected = connected.concat(arr);
         }
         return connected;
-    }
+    },
 };
 Util.math = {
     randomBetween(start, end, num_decimals = 0) {
@@ -149,5 +149,27 @@ Util.shapes = {
         area(polygon) {
             return Polygon2Helper.findArea(polygon);
         },
+    },
+};
+Util.object = {
+    findClassName(obj) {
+        if (obj instanceof Function)
+            return obj.name;
+        return obj.constructor.name;
+    },
+    findSuperClassName(obj) {
+        if (obj instanceof Function)
+            return Object.getPrototypeOf(obj).name;
+        return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor.name;
+    },
+    findClass(obj) {
+        if (obj instanceof Function)
+            return obj;
+        return Object.getPrototypeOf(obj).constructor;
+    },
+    findSuperClass(obj) {
+        if (obj instanceof Function)
+            return Object.getPrototypeOf(obj);
+        return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor;
     },
 };

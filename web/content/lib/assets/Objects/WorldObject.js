@@ -7,6 +7,7 @@ export class WorldObject extends SceneObject {
         super();
         this.chunk = new Chunk();
         this.alreadyTranslated = false;
+        this.recentlyMoved = true;
         this.pos = pos;
         this.hitBox = hitBox;
         this.orientation = angle;
@@ -16,6 +17,7 @@ export class WorldObject extends SceneObject {
             this.game.removeObject(this);
             return;
         }
+        this.recentlyMoved = false;
         this.update2(dt);
     }
     shouldUpdate() {
@@ -29,6 +31,9 @@ export class WorldObject extends SceneObject {
     }
     setChunk(chunk) {
         this.chunk = chunk;
+    }
+    getChunk() {
+        return this.chunk;
     }
     translatePoints() {
         if (this.alreadyTranslated)
@@ -45,11 +50,11 @@ export class WorldObject extends SceneObject {
         this.alreadyTranslated = false;
     }
     moveDirection(direction, distance) {
-        this.pos = Util.moveDirection(this.pos, direction, distance);
-        this.alreadyTranslated = false;
+        this.move(Util.toVector(direction, distance));
     }
     move(move) {
         this.pos = this.pos.add(move);
         this.alreadyTranslated = false;
+        this.recentlyMoved = true;
     }
 }

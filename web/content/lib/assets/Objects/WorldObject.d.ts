@@ -15,6 +15,7 @@ export declare abstract class WorldObject<HitBoxType extends HitBox> extends Sce
     protected chunk: Chunk;
     setWorld(world: World): void;
     setChunk(chunk: Chunk): void;
+    getChunk(): Chunk;
     pos: Vector2;
     hitBox: HitBoxType;
     orientation: number;
@@ -22,6 +23,7 @@ export declare abstract class WorldObject<HitBoxType extends HitBox> extends Sce
     alreadyTranslated: boolean;
     translatePoints(): Vector2[];
     isCollidingWith(other: ICollideable): boolean;
+    recentlyMoved: boolean;
     rotate(angle: number): void;
     moveDirection(direction: number, distance: number): void;
     move(move: Vector2): void;
