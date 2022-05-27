@@ -10,8 +10,8 @@ export default class Game {
         this.stoppedBecauseBlur = false;
         this.timeElapsedBeforeStop = 0;
         this.lastTickTime = Date.now();
-        this.maxUpdateDistance = 2000;
-        this.deleteDistance = 10000;
+        this.maxUpdateDistance = Infinity;
+        this.deleteDistance = Infinity;
         this.logTickTime = false;
         this.logDT = false;
         this.canvas = canvas;
@@ -32,8 +32,7 @@ export default class Game {
         Game.testTick(this);
     }
     static testTick(game) {
-        if (!game.isStopped)
-            game.tick();
+        game.tick();
         window.requestAnimationFrame(() => {
             Game.testTick(game);
         });
@@ -51,6 +50,8 @@ export default class Game {
     updateObjects() {
         let dt = this.calc_dt();
         this.lastTickTime = Date.now();
+        if (this.isStopped)
+            dt = 0;
         if (this.logDT)
             console.log(dt);
         const worlds = Array.from(this.worlds.values());
@@ -91,7 +92,8 @@ export default class Game {
     }
     findObjects(clas, exclude) {
         let found = [];
-        for (let world of Array.from(this.worlds.values())) {
+        const worlds = Array.from(this.worlds.values());
+        for (let world of worlds) {
             found = found.concat(world.findObjects(clas.name, exclude));
         }
         return Util.array.copyOf(found);
@@ -102,10 +104,15 @@ export default class Game {
     getWorld(name = "main") {
         return this.worlds.get(name);
     }
-    setWorldBackground(name, color) {
+    setWorldBackground(color, name = "main") {
         const map = this.worlds.get(name);
         if (map)
             map.setBackground(color);
+    }
+    setWorldChunkSize(size, name = "main") {
+        const map = this.worlds.get(name);
+        if (map)
+            map.setChunkSize(size);
     }
     calc_dt() {
         return Date.now() - this.lastTickTime;

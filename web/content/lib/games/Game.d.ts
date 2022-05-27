@@ -27,7 +27,8 @@ export default class Game {
     findObjects<T extends SceneObject>(clas: Function, exclude?: T | T[]): T[];
     addWorld(name: string, world: World): void;
     getWorld(name?: string): World | undefined;
-    setWorldBackground(name: string, color: Color): void;
+    setWorldBackground(color: Color, name?: string): void;
+    setWorldChunkSize(size: number, name?: string): void;
     private calc_dt;
     start(): void;
     stop(): void;

@@ -21,11 +21,6 @@ export class Chunk {
     }
   }
 
-  setKeys(x: number, y: number) {
-    this.keys.x = x;
-    this.keys.y = y;
-  }
-
   // ==========================================================================================
   // #region objects
 
@@ -71,23 +66,27 @@ export class Chunk {
   private objectMap: Map<string, WorldObject<HitBox>[]> = new Map();
 
   private addToMap(obj: WorldObject<HitBox>): void {
-    let values: WorldObject<HitBox>[] = [];
+    const classes = Util.object.findAllClassNames(obj);
 
-    const arr = this.objectMap.get(obj.constructor.name);
-    if (arr) values = values.concat(arr);
-
-    values.push(obj);
-
-    this.objectMap.set(obj.constructor.name, values);
+    for (let clasz of classes) {
+      const previousValues = this.objectMap.get(clasz);
+      let values: WorldObject<HitBox>[] = !previousValues ? [] : previousValues;
+      values.push(obj);
+      this.objectMap.set(clasz, values);
+    }
   }
 
   private removeFromMap(obj: WorldObject<HitBox>): void {
-    const values = this.objectMap.get(obj.constructor.name);
-    if (!values) return;
+    const classes = Util.object.findAllClassNames(obj);
 
-    Util.array.removeItem(values, obj);
+    for (let clasz of classes) {
+      const values = this.objectMap.get(clasz);
+      if (!values) continue;
 
-    if(Util.array.isEmpty(values)) this.objectMap.delete(obj.constructor.name);
+      Util.array.removeItem(values, obj);
+
+      if (Util.array.isEmpty(values)) this.objectMap.delete(clasz);
+    }
   }
 
   //#endregion

@@ -57,16 +57,17 @@ export default class World implements IRenderable {
 
     this.objects.push(obj);
     this.addToMap(obj);
-    if(obj instanceof WorldObject) this.addToChunks(obj);
 
-    if (obj instanceof WorldObject) obj.setWorld(this);
+    if (obj instanceof WorldObject) {
+      this.addToChunks(obj);
+      obj.setWorld(this);
+    }
   }
 
   removeObject(obj: SceneObject): SceneObject | undefined {
-    const index = this.objects.indexOf(obj);
     this.removeFromMap(obj);
 
-    return this.objects.splice(index, 1)[0];
+    return Util.array.removeItem(this.objects, obj);
   }
 
   findObjects<T extends SceneObject>(clas: string | Function, exclude?: T | T[]): T[] {
@@ -114,35 +115,27 @@ export default class World implements IRenderable {
   private objectMap: Map<string, SceneObject[]> = new Map();
 
   private addToMap(obj: SceneObject): void {
-    let className = Util.object.findClassName(obj);
-    let clas = Util.object.findClass(obj);
-    do {
-      const previousValues = this.objectMap.get(className);
+    const classes = Util.object.findAllClassNames(obj);
+
+    for (let clasz of classes) {
+      const previousValues = this.objectMap.get(clasz);
       let values: SceneObject[] = !previousValues ? [] : previousValues;
       values.push(obj);
-      this.objectMap.set(className, values);
-
-      // loop for superclasses (exclude SceneObject)
-      clas = Util.object.findSuperClass(clas);
-      className = Util.object.findClassName(clas);
-    } while (className != "SceneObject");
+      this.objectMap.set(clasz, values);
+    }
   }
 
   private removeFromMap(obj: SceneObject): void {
-    let className = Util.object.findClassName(obj);
-    let clas = Util.object.findClass(obj);
-    do {
-      const values = this.objectMap.get(obj.constructor.name);
+    const classes = Util.object.findAllClassNames(obj);
+
+    for (let clasz of classes) {
+      const values = this.objectMap.get(clasz);
       if (!values) continue;
 
       Util.array.removeItem(values, obj);
 
-      if(Util.array.isEmpty(values)) this.objectMap.delete(obj.constructor.name);
-
-      // loop for superclasses (exclude SceneObject)
-      clas = Util.object.findSuperClass(clas);
-      className = Util.object.findClassName(clas);
-    } while (className != "SceneObject");
+      if (Util.array.isEmpty(values)) this.objectMap.delete(clasz);
+    }
   }
 
   //#endregion
@@ -151,17 +144,16 @@ export default class World implements IRenderable {
   // #region chunks
 
   private chunkSize: number = 100;
-  // private chunks: Map<Vector2, WorldObject<HitBox>[]> = new Map();
   private chunks: TwoKeyMap<number, number, Chunk> = new TwoKeyMap();
 
   putObjectsInCunks(): void {
     const worldObjects: WorldObject<HitBox>[] = this.findObjects<WorldObject<HitBox>>(WorldObject);
 
     for (let obj of worldObjects) {
-      if (obj.recentlyMoved) {
-        this.removeFromChunks(obj);
-        this.addToChunks(obj);
-      }
+      if (!obj.recentlyMoved) continue;
+
+      this.removeFromChunks(obj);
+      this.addToChunks(obj);
     }
   }
 
@@ -186,7 +178,6 @@ export default class World implements IRenderable {
     if (!(content instanceof Chunk)) {
       content = new Chunk(x, y, obj);
       this.chunks.set(x, y, content);
-      content.setKeys(x, y);
     }
 
     content.addObject(obj);

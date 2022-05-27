@@ -5,14 +5,14 @@ import { GridCell } from "../objects/GridCell";
 import RectangleWorld from "./RectangleWorld.js";
 
 export default class GridWorld extends RectangleWorld {
-  grid: Matrix2<Array<GridCell>>
-  
+  grid: Matrix2<Array<GridCell>>;
+
   xSize: number;
   ySize: number;
 
   xCellSize: number;
   yCellSize: number;
-  
+
   constructor(width: number, height: number, xSize: number, ySize: number) {
     super(width, height);
 

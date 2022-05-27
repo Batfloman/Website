@@ -14,18 +14,15 @@ window.onload = () => {
   const game = new Game(canvas);
 
   // settings
-  game.setWorldBackground("main", new Color(45, 45, 45));
+  game.setWorldBackground(new Color(45, 45, 45));
   game.getWorld()?.setChunkSize(33);
   game.setCamaraMovementLock(false);
   // Bug when zooming in => frames go DED
   game.setCamaraScaleLock(false);
   game.getCamara().setMaxZoomInAmount(10);
   game.getCamara().setMaxZoomOutAmount(8);
-  game.setMaxUpdateDistance(3333);
 
-  // game.addObject(new AntHill(new Vector2(), 5000))
-
-  for(let i = 0; i < 3; i++) {
+  for(let i = 0; i < 5; i++) {
     game.addObject(randomAntHill());
   }
 

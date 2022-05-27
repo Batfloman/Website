@@ -14,13 +14,13 @@ export default class RectangleWorld extends World {
   }
 
   isInsideWorld(point: Vector2): boolean {
-    const rightX = point.x > -this.width/2 && point.x < this.width / 2;
-    const rightY = point.y > -this.height/2 && point.y < this.width / 2;
+    const rightX = point.x > -this.width / 2 && point.x < this.width / 2;
+    const rightY = point.y > -this.height / 2 && point.y < this.width / 2;
 
     return rightX && rightY;
   }
 
   render(renderer: Renderer): void {
-      renderer.renderRectangle(new Vector2(), this.width, this.height);
+    renderer.renderRectangle(new Vector2(), this.width, this.height);
   }
 }

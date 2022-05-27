@@ -152,24 +152,60 @@ Util.shapes = {
     },
 };
 Util.object = {
-    findClassName(obj) {
-        if (obj instanceof Function)
-            return obj.name;
-        return obj.constructor.name;
+    findClassName(clas) {
+        if (clas instanceof Function)
+            return clas.name;
+        return clas.constructor.name;
     },
-    findSuperClassName(obj) {
-        if (obj instanceof Function)
-            return Object.getPrototypeOf(obj).name;
-        return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor.name;
+    findSuperClassName(clas) {
+        if (clas instanceof Function)
+            return Object.getPrototypeOf(clas).name;
+        return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor.name;
     },
-    findClass(obj) {
-        if (obj instanceof Function)
-            return obj;
-        return Object.getPrototypeOf(obj).constructor;
+    findClass(clas) {
+        if (clas instanceof Function)
+            return clas;
+        return Object.getPrototypeOf(clas).constructor;
     },
-    findSuperClass(obj) {
-        if (obj instanceof Function)
-            return Object.getPrototypeOf(obj);
-        return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor;
+    findSuperClass(clas) {
+        if (clas instanceof Function)
+            return Object.getPrototypeOf(clas);
+        return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor;
     },
+    findAllClassNames(clas) {
+        const superClasses = [];
+        let currentClass = this.findClass(clas);
+        while (currentClass.name != "") {
+            superClasses.push(currentClass.name);
+            currentClass = this.findSuperClass(currentClass);
+        }
+        return superClasses;
+    },
+    findAllClasses(clas) {
+        const superClasses = [];
+        let currentClass = this.findClass(clas);
+        while (currentClass.name != "") {
+            superClasses.push(currentClass);
+            currentClass = this.findSuperClass(currentClass);
+        }
+        return superClasses;
+    },
+    findAllSuperClassNames(clas) {
+        const superClasses = [];
+        let currentClass = this.findSuperClass(clas);
+        while (currentClass.name != "") {
+            superClasses.push(currentClass.name);
+            currentClass = this.findSuperClass(currentClass);
+        }
+        return superClasses;
+    },
+    findAllSuperClasses(clas) {
+        const superClasses = [];
+        let currentClass = this.findSuperClass(clas);
+        while (currentClass.name != "") {
+            superClasses.push(currentClass);
+            currentClass = this.findSuperClass(currentClass);
+        }
+        return superClasses;
+    }
 };

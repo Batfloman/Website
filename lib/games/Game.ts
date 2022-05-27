@@ -22,8 +22,8 @@ export default class Game {
   private timeElapsedBeforeStop = 0;
   private lastTickTime = Date.now();
 
-  maxUpdateDistance = 2000;
-  deleteDistance = 10000;
+  maxUpdateDistance = Infinity;
+  deleteDistance = Infinity;
 
   constructor(canvas: Canvas) {
     this.canvas = canvas;
@@ -53,7 +53,8 @@ export default class Game {
 
   // only tick's game when running
   private static testTick(game: Game): void {
-    if (!game.isStopped) game.tick();
+    // if (!game.isStopped) game.tick();
+    game.tick();
 
     window.requestAnimationFrame(() => {
       Game.testTick(game);
@@ -71,7 +72,7 @@ export default class Game {
     this.renderObjects();
     const timeToRender = Date.now() - before;
 
-    if(this.logTickTime) console.log("update", timeToUpdate, "render", timeToRender);
+    if (this.logTickTime) console.log("update", timeToUpdate, "render", timeToRender);
   }
 
   private logDT: boolean = false;
@@ -80,32 +81,34 @@ export default class Game {
     let dt = this.calc_dt();
     this.lastTickTime = Date.now();
 
-    if(this.logDT) console.log(dt);
+    if (this.isStopped) dt = 0;
+
+    if (this.logDT) console.log(dt);
 
     const worlds = Array.from(this.worlds.values());
 
-    for(let world of Util.array.copyOf(worlds)) {
+    for (let world of Util.array.copyOf(worlds)) {
       world.putObjectsInCunks();
 
-      for(let obj of world.objects) {
-        if(obj.shouldUpdate()) obj.update(dt);
+      for (let obj of world.objects) {
+        if (obj.shouldUpdate()) obj.update(dt);
       }
     }
   }
 
   private renderObjects() {
     this.renderer.clear();
-    
+
     const worlds = Array.from(this.worlds.values());
-    
-    for(let world of worlds) {
+
+    for (let world of worlds) {
       world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
       world.render(this.renderer);
     }
-    
-    for(let world of worlds) {
-      for(let obj of world.objects) {
-        if(obj.shouldRender()) obj.render(this.renderer);
+
+    for (let world of worlds) {
+      for (let obj of world.objects) {
+        if (obj.shouldRender()) obj.render(this.renderer);
       }
     }
   }
@@ -117,7 +120,7 @@ export default class Game {
 
   addObject(obj: SceneObject, worldName: string = "main"): void {
     const world = this.worlds.get(worldName);
-    if(!world) throw new Error(`${worldName} is no World!`);
+    if (!world) throw new Error(`${worldName} is no World!`);
 
     world.addObject(obj);
     obj.init(this, this.canvas);
@@ -125,7 +128,7 @@ export default class Game {
 
   removeObject(obj: SceneObject, worldName: string = "main"): SceneObject | undefined {
     const world = this.worlds.get(worldName);
-    if(!world) throw new Error(`${worldName} is no World`);
+    if (!world) throw new Error(`${worldName} is no World`);
 
     return world.removeObject(obj);
   }
@@ -133,7 +136,8 @@ export default class Game {
   findObjects<T extends SceneObject>(clas: Function, exclude?: T | T[]): T[] {
     let found: T[] = [];
 
-    for(let world of Array.from(this.worlds.values())) {
+    const worlds = Array.from(this.worlds.values());
+    for (let world of worlds) {
       found = found.concat(world.findObjects(clas.name, exclude));
     }
 
@@ -153,9 +157,14 @@ export default class Game {
     return this.worlds.get(name);
   }
 
-  setWorldBackground(name: string, color: Color): void {
+  setWorldBackground(color: Color, name: string = "main"): void {
     const map = this.worlds.get(name);
-    if(map) map.setBackground(color);
+    if (map) map.setBackground(color);
+  }
+
+  setWorldChunkSize(size: number, name: string = "main"): void {
+    const map = this.worlds.get(name);
+    if(map) map.setChunkSize(size);
   }
 
   //#endregion

@@ -10,14 +10,13 @@ window.onload = () => {
     var _a;
     const canvas = new Canvas(document.querySelector("canvas"));
     const game = new Game(canvas);
-    game.setWorldBackground("main", new Color(45, 45, 45));
+    game.setWorldBackground(new Color(45, 45, 45));
     (_a = game.getWorld()) === null || _a === void 0 ? void 0 : _a.setChunkSize(33);
     game.setCamaraMovementLock(false);
     game.setCamaraScaleLock(false);
     game.getCamara().setMaxZoomInAmount(10);
     game.getCamara().setMaxZoomOutAmount(8);
-    game.setMaxUpdateDistance(3333);
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 5; i++) {
         game.addObject(randomAntHill());
     }
     for (let i = 0; i < 50; i++) {

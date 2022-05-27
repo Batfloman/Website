@@ -14,10 +14,6 @@ export class Chunk {
             this.addToMap(obj);
         }
     }
-    setKeys(x, y) {
-        this.keys.x = x;
-        this.keys.y = y;
-    }
     addObject(obj) {
         if (this.objects.includes(obj))
             return;
@@ -45,19 +41,23 @@ export class Chunk {
         return values;
     }
     addToMap(obj) {
-        let values = [];
-        const arr = this.objectMap.get(obj.constructor.name);
-        if (arr)
-            values = values.concat(arr);
-        values.push(obj);
-        this.objectMap.set(obj.constructor.name, values);
+        const classes = Util.object.findAllClassNames(obj);
+        for (let clasz of classes) {
+            const previousValues = this.objectMap.get(clasz);
+            let values = !previousValues ? [] : previousValues;
+            values.push(obj);
+            this.objectMap.set(clasz, values);
+        }
     }
     removeFromMap(obj) {
-        const values = this.objectMap.get(obj.constructor.name);
-        if (!values)
-            return;
-        Util.array.removeItem(values, obj);
-        if (Util.array.isEmpty(values))
-            this.objectMap.delete(obj.constructor.name);
+        const classes = Util.object.findAllClassNames(obj);
+        for (let clasz of classes) {
+            const values = this.objectMap.get(clasz);
+            if (!values)
+                continue;
+            Util.array.removeItem(values, obj);
+            if (Util.array.isEmpty(values))
+                this.objectMap.delete(clasz);
+        }
     }
 }

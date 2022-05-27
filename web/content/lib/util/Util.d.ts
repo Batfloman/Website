@@ -33,10 +33,14 @@ export default class Util {
         };
     };
     static object: {
-        findClassName(obj: Object | Function): string;
-        findSuperClassName(obj: Object | Function): string;
-        findClass(obj: Object | Function): Function;
-        findSuperClass(obj: Object | Function): Function;
+        findClassName(clas: Object | Function): string;
+        findSuperClassName(clas: Object | Function): string;
+        findClass(clas: Object | Function): Function;
+        findSuperClass(clas: Object | Function): Function;
+        findAllClassNames(clas: Object | Function): string[];
+        findAllClasses(clas: Object | Function): Function[];
+        findAllSuperClassNames(clas: Object | Function): string[];
+        findAllSuperClasses(clas: Object | Function): Function[];
     };
     static toVector(angle: number, lenght: number): Vector2;
     static findAngleLine(startPoint: Vector2, endPoint: Vector2): number;

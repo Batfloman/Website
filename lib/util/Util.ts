@@ -91,23 +91,65 @@ export default class Util {
   };
 
   static object = {
-    findClassName(obj: Object | Function): string {
-      if (obj instanceof Function) return obj.name;
-      return obj.constructor.name;
+    findClassName(clas: Object | Function): string {
+      if (clas instanceof Function) return clas.name;
+      return clas.constructor.name;
     },
-    findSuperClassName(obj: Object | Function): string {
-      if (obj instanceof Function) return Object.getPrototypeOf(obj).name;
-      return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor.name;
+    findSuperClassName(clas: Object | Function): string {
+      if (clas instanceof Function) return Object.getPrototypeOf(clas).name;
+      return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor.name;
     },
-    findClass(obj: Object | Function): Function {
-      if (obj instanceof Function) return obj;
-      return Object.getPrototypeOf(obj).constructor;
+    findClass(clas: Object | Function): Function {
+      if (clas instanceof Function) return clas;
+      return Object.getPrototypeOf(clas).constructor;
     },
-    findSuperClass(obj: Object | Function): Function {
-      if (obj instanceof Function) return Object.getPrototypeOf(obj);
+    findSuperClass(clas: Object | Function): Function {
+      if (clas instanceof Function) return Object.getPrototypeOf(clas);
       // if can't access .constructor => Max superclass Found!
-      return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor;
+      return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor;
     },
+    findAllClassNames(clas: Object | Function): string[] {
+      const superClasses: string[] = [];
+
+      let currentClass = this.findClass(clas);
+      while (currentClass.name != "") {
+        superClasses.push(currentClass.name);
+        currentClass = this.findSuperClass(currentClass);
+      }
+      return superClasses;
+    },
+    findAllClasses(clas: Object | Function): Function[] {
+      const superClasses: Function[] = [];
+
+      let currentClass = this.findClass(clas);
+      while(currentClass.name != "") {
+        superClasses.push(currentClass);
+        currentClass = this.findSuperClass(currentClass);
+      }
+
+      return superClasses;
+    },
+    findAllSuperClassNames(clas: Object | Function): string[] {
+      const superClasses: string[] = [];
+
+      let currentClass = this.findSuperClass(clas);
+      while (currentClass.name != "") {
+        superClasses.push(currentClass.name);
+        currentClass = this.findSuperClass(currentClass);
+      }
+      return superClasses;
+    },
+    findAllSuperClasses(clas: Object | Function): Function[] {
+      const superClasses: Function[] = [];
+
+      let currentClass = this.findSuperClass(clas);
+      while(currentClass.name != "") {
+        superClasses.push(currentClass);
+        currentClass = this.findSuperClass(currentClass);
+      }
+
+      return superClasses;
+    }
   };
 
   static toVector(angle: number, lenght: number): Vector2 {
