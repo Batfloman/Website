@@ -22,4 +22,10 @@ export class TwoKeyMap<K, K2, V> {
   clear(): void {
     this.map.clear();
   }
+
+  delete(key: K, key2: K2) {
+    const nestedMap = this.map.get(key);
+    if(!nestedMap) return;
+    else nestedMap.delete(key2);
+  }
 }
