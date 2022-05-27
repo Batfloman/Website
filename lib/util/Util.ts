@@ -37,11 +37,11 @@ export default class Util {
     },
     connectArray<T>(arrays: T[]): T[] {
       let connected: T[] = [];
-      for(let arr of arrays) {
+      for (let arr of arrays) {
         connected = connected.concat(arr);
       }
       return connected;
-    }
+    },
   };
 
   static math = {
@@ -90,6 +90,26 @@ export default class Util {
     },
   };
 
+  static object = {
+    findClassName(obj: Object | Function): string {
+      if (obj instanceof Function) return obj.name;
+      return obj.constructor.name;
+    },
+    findSuperClassName(obj: Object | Function): string {
+      if (obj instanceof Function) return Object.getPrototypeOf(obj).name;
+      return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor.name;
+    },
+    findClass(obj: Object | Function): Function {
+      if (obj instanceof Function) return obj;
+      return Object.getPrototypeOf(obj).constructor;
+    },
+    findSuperClass(obj: Object | Function): Function {
+      if (obj instanceof Function) return Object.getPrototypeOf(obj);
+      // if can't access .constructor => Max superclass Found!
+      return Object.getPrototypeOf(Object.getPrototypeOf(obj)).constructor;
+    },
+  };
+
   static toVector(angle: number, lenght: number): Vector2 {
     const rad = Util.math.toRadian(angle);
     return new Vector2(Math.sin(rad) * lenght, Math.cos(rad) * lenght);
@@ -104,7 +124,7 @@ export default class Util {
     const mag2 = vec.getMagnitude();
 
     const angle = Util.math.arccos(dot / (mag1 * mag2));
-    
+
     return endPoint.x < startPoint.x ? -angle : angle;
   }
 
