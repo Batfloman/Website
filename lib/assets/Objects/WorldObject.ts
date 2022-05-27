@@ -29,6 +29,7 @@ export abstract class WorldObject<HitBoxType extends HitBox>
       this.game.removeObject(this);
       return;
     }
+    this.recentlyMoved = false;
     this.update2(dt);
   }
 
@@ -53,6 +54,10 @@ export abstract class WorldObject<HitBoxType extends HitBox>
 
   setChunk(chunk: Chunk): void {
     this.chunk = chunk;
+  }
+
+  getChunk(): Chunk {
+    return this.chunk;
   }
 
   //#endregion
@@ -82,6 +87,8 @@ export abstract class WorldObject<HitBoxType extends HitBox>
   // ==========================================================================================
   // #region move Object
 
+  recentlyMoved: boolean = true;
+
   rotate(angle: number) {
     this.orientation += angle;
     this.orientation %= 360;
@@ -89,14 +96,13 @@ export abstract class WorldObject<HitBoxType extends HitBox>
     this.alreadyTranslated = false;
   }
   moveDirection(direction: number, distance: number): void {
-    this.pos = Util.moveDirection(this.pos, direction, distance);
-
-    this.alreadyTranslated = false;
+    this.move(Util.toVector(direction, distance));
   }
   move(move: Vector2): void {
     this.pos = this.pos.add(move);
 
     this.alreadyTranslated = false;
+    this.recentlyMoved = true;
   }
 
   //#endregion
