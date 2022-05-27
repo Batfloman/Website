@@ -21,7 +21,7 @@ const panicSpeedBoost = 1.5;
 const sensoryDistance = 33;
 const senseAngle = 65;
 const carryAmount = 150;
-const antSpeed = 50;
+const antSpeed = 75;
 export default class Ant extends WorldObject {
     constructor(pos = new Vector2(), task = "searchFood") {
         super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));

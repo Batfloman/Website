@@ -30,7 +30,7 @@ const senseAngle = 65;
 
 const carryAmount = 150;
 
-const antSpeed = 50;
+const antSpeed = 75;
 
 export default class Ant extends WorldObject<Circle> {
   task: Task = "searchFood";
