@@ -57,6 +57,7 @@ export default class World implements IRenderable {
 
     this.objects.push(obj);
     this.addToMap(obj);
+    if(obj instanceof WorldObject) this.addToChunks(obj);
 
     if (obj instanceof WorldObject) obj.setWorld(this);
   }
@@ -135,6 +136,8 @@ export default class World implements IRenderable {
       if (!values) continue;
 
       Util.array.removeItem(values, obj);
+
+      if(Util.array.isEmpty(values)) this.objectMap.delete(obj.constructor.name);
 
       // loop for superclasses (exclude SceneObject)
       clas = Util.object.findSuperClass(clas);

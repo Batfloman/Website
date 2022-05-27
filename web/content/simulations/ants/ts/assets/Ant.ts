@@ -49,8 +49,8 @@ export default class Ant extends WorldObject<Circle> {
   timeElapsed2: number = 0;
 
   update2(dt: number): void {
-    const homes = this.world.findObjectsInNeighbouringChunks<AntHill>(this.chunk, AntHill);
-    const foodStuffs = this.world.findObjectsInNeighbouringChunks<Food>(this.chunk, Food);
+    const homes = this.world.findObjectsInNeighbouringChunks<AntHill>(this.chunk, AntHill, [], 5);
+    const foodStuffs = this.world.findObjectsInNeighbouringChunks<Food>(this.chunk, Food, [], 5);
 
     // set Direction to move fitting for task
     switchTask: switch (this.task) {

@@ -57,5 +57,7 @@ export class Chunk {
         if (!values)
             return;
         Util.array.removeItem(values, obj);
+        if (Util.array.isEmpty(values))
+            this.objectMap.delete(obj.constructor.name);
     }
 }

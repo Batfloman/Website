@@ -35,8 +35,8 @@ export default class Ant extends WorldObject {
         this.task = task;
     }
     update2(dt) {
-        const homes = this.world.findObjectsInNeighbouringChunks(this.chunk, AntHill);
-        const foodStuffs = this.world.findObjectsInNeighbouringChunks(this.chunk, Food);
+        const homes = this.world.findObjectsInNeighbouringChunks(this.chunk, AntHill, [], 5);
+        const foodStuffs = this.world.findObjectsInNeighbouringChunks(this.chunk, Food, [], 5);
         switchTask: switch (this.task) {
             case "runHome":
                 for (let home of homes) {

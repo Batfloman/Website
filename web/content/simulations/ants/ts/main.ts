@@ -5,6 +5,7 @@ import Vector2 from "../../../lib/util/Vector2.js";
 import AntHill from "./assets/AntHill.js";
 import Food from "./assets/Food.js";
 import { Color } from "../../../lib/util/Color.js";
+import Ant from "./assets/Ant.js";
 
 const boardSize = 5000;
 
@@ -23,7 +24,7 @@ window.onload = () => {
   game.setMaxUpdateDistance(3333);
 
   game.addObject(new AntHill(new Vector2(), 3000))
-  
+
   for(let i = 0; i < 50; i++) {
     game.addObject(randomFood());
   }

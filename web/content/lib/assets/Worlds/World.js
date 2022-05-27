@@ -33,6 +33,8 @@ export default class World {
         this.objects.push(obj);
         this.addToMap(obj);
         if (obj instanceof WorldObject)
+            this.addToChunks(obj);
+        if (obj instanceof WorldObject)
             obj.setWorld(this);
     }
     removeObject(obj) {
@@ -84,6 +86,8 @@ export default class World {
             if (!values)
                 continue;
             Util.array.removeItem(values, obj);
+            if (Util.array.isEmpty(values))
+                this.objectMap.delete(obj.constructor.name);
             clas = Util.object.findSuperClass(clas);
             className = Util.object.findClassName(clas);
         } while (className != "SceneObject");
