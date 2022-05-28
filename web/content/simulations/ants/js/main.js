@@ -16,7 +16,7 @@ window.onload = () => {
     game.setCamaraScaleLock(false);
     game.getCamara().setMaxZoomInAmount(10);
     game.getCamara().setMaxZoomOutAmount(8);
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 25; i++) {
         game.addObject(randomAntHill());
     }
     for (let i = 0; i < 75; i++) {
@@ -37,6 +37,6 @@ function randomFood() {
 }
 function randomAntHill() {
     const pos = randomPosition();
-    const food = 3000;
+    const food = 1500;
     return new AntHill(pos, food);
 }

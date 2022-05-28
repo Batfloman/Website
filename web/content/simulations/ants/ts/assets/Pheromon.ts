@@ -5,7 +5,7 @@ import { Color } from "../../../../lib/util/Color.js";
 import Vector2 from "../../../../lib/util/Vector2.js";
 
 const pheromonSize = 1;
-const duration = 17500 * 2.5;
+const duration = 17500 * 2;
 
 export type Message = "home" | "food";
 

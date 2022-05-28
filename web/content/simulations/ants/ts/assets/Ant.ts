@@ -123,7 +123,7 @@ export default class Ant extends WorldObject<Circle> {
           }
         }
 
-        // follow Food Pheromons (if none are there => value = 0 => move Random)
+        // follow Food Pheromons 
         this.rotate(this.findRotation("food", false));
         // go slightly away from home markers
         this.rotate(-this.findRotation("home", false) / 3.33);
