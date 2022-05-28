@@ -52,7 +52,6 @@ export default class Game {
   // ==========================================================================================
   //#region game Tick
 
-  // only tick's game when running
   private static gameLoop(game: Game): void {
     game.tick();
 
@@ -64,8 +63,6 @@ export default class Game {
   logTickTime: boolean = false;
 
   tick(): void {
-    let thread = new Thread((e: MessageEvent) => {postMessage(e.data)});
-    
     let before = Date.now();
     this.updateObjects();
     const timeToUpdate = Date.now() - before;
