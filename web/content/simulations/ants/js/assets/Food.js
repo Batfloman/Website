@@ -6,7 +6,7 @@ const minRadius = 5;
 const foodScaleFactor = .5;
 export default class Food extends WorldObject {
     constructor(pos, amountFood) {
-        super(pos, new Circle(Util.shapes.circle.radius(amountFood)));
+        super(pos, new Circle(Util.shapes.circle.radius(amountFood) * foodScaleFactor));
         this.amountFood = amountFood;
         this.zIndex = 99;
     }

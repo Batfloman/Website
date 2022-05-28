@@ -28,7 +28,6 @@ window.onload = () => {
   s.setCamaraScaleLock(false);
   s.setWorldChunkSize(500);
 
-  s.getCamara().setMaxZoomInAmount(0);
   s.getCamara().setMaxZoomOutAmount(12);
 
   for (let i = 0; i < amountShapes; i++) {

@@ -3,14 +3,16 @@ export class Thread {
   worker: Worker;
 
   constructor(func: Function) {
-    var blob = new Blob([`onmessage = ${func.toString()}`]);
+    var blob = new Blob([
+      `onmessage = ${func.toString()}`,
+    ], {type: "text/javascript"});
 
-    this.blobURL = window.URL.createObjectURL(blob)
+    this.blobURL = window.URL.createObjectURL(blob);
 
-    this.worker = new Worker(this.blobURL);
-    this.worker.onmessage = function(e) {
+    this.worker = new Worker(this.blobURL, {type:"module"});
+    this.worker.onmessage = function (e) {
       console.log("Received: " + e.data);
-    }
+    };
   }
 
   postMessage(message: any): void {

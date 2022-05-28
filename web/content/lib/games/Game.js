@@ -5,15 +5,13 @@ import World from "../assets/worlds/World.js";
 import Util from "../util/Util.js";
 export default class Game {
     constructor(canvas) {
-        this.worlds = new Map();
         this.isStopped = true;
         this.stoppedBecauseBlur = false;
         this.timeElapsedBeforeStop = 0;
-        this.lastTickTime = Date.now();
         this.maxUpdateDistance = Infinity;
         this.deleteDistance = Infinity;
-        this.logTickTime = false;
-        this.logDT = false;
+        this.worlds = new Map();
+        this.lastTickTime = Date.now();
         this.canvas = canvas;
         this.camara = new Camara(this.canvas);
         this.renderer = new Renderer(this.canvas, this.camara);
@@ -38,22 +36,14 @@ export default class Game {
         });
     }
     tick() {
-        let before = Date.now();
         this.updateObjects();
-        const timeToUpdate = Date.now() - before;
-        before = Date.now();
         this.renderObjects();
-        const timeToRender = Date.now() - before;
-        if (this.logTickTime)
-            console.log("update", timeToUpdate, "render", timeToRender);
     }
     updateObjects() {
         let dt = this.calc_dt();
         this.lastTickTime = Date.now();
         if (this.isStopped)
             dt = 0;
-        if (this.logDT)
-            console.log(dt);
         const worlds = Array.from(this.worlds.values());
         for (let world of Util.array.copyOf(worlds)) {
             world.putObjectsInCunks();
@@ -128,12 +118,6 @@ export default class Game {
             return;
         this.timeElapsedBeforeStop = Date.now() - this.lastTickTime;
         this.isStopped = true;
-    }
-    setLogTickTime(b) {
-        this.logTickTime = b;
-    }
-    setLogDT(b) {
-        this.logDT = b;
     }
     getCamara() {
         return this.camara;

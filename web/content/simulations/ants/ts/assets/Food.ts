@@ -12,7 +12,7 @@ export default class Food extends WorldObject<Circle> {
   amountFood: number;
 
   constructor(pos: Vector2, amountFood: number) {
-    super(pos, new Circle(Util.shapes.circle.radius(amountFood)));
+    super(pos, new Circle(Util.shapes.circle.radius(amountFood) * foodScaleFactor));
 
     this.amountFood = amountFood;
     this.zIndex = 99;

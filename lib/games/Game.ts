@@ -7,6 +7,7 @@ import World from "../assets/worlds/World.js";
 import Util from "../util/Util.js";
 import { Color } from "../util/Color.js";
 import { Thread } from "../multiThreading/Thread.js";
+import { WorldObject } from "../assets/objects/WorldObject.js";
 
 export default class Game {
   // display
@@ -15,13 +16,11 @@ export default class Game {
   protected renderer: Renderer;
 
   // contents
-  protected worlds: Map<string, World> = new Map();
 
   // time
   private isStopped: boolean = true;
   private stoppedBecauseBlur: boolean = false;
   private timeElapsedBeforeStop = 0;
-  private lastTickTime = Date.now();
 
   maxUpdateDistance = Infinity;
   deleteDistance = Infinity;
@@ -60,29 +59,17 @@ export default class Game {
     });
   }
 
-  logTickTime: boolean = false;
-
   tick(): void {
-    let before = Date.now();
     this.updateObjects();
-    const timeToUpdate = Date.now() - before;
 
-    before = Date.now();
     this.renderObjects();
-    const timeToRender = Date.now() - before;
-
-    if (this.logTickTime) console.log("update", timeToUpdate, "render", timeToRender);
   }
-
-  private logDT: boolean = false;
 
   private updateObjects() {
     let dt = this.calc_dt();
     this.lastTickTime = Date.now();
 
-    if (this.isStopped) dt = 0;
-
-    if (this.logDT) console.log(dt);
+    if(this.isStopped) dt = 0;
 
     const worlds = Array.from(this.worlds.values());
 
@@ -148,6 +135,8 @@ export default class Game {
   // ==========================================================================================
   // #region worlds
 
+  protected worlds: Map<string, World> = new Map();
+
   addWorld(name: string, world: World) {
     this.worlds.set(name, world);
   }
@@ -163,13 +152,15 @@ export default class Game {
 
   setWorldChunkSize(size: number, name: string = "main"): void {
     const map = this.worlds.get(name);
-    if(map) map.setChunkSize(size);
+    if (map) map.setChunkSize(size);
   }
 
   //#endregion
 
   // ==========================================================================================
   // #region time
+
+  private lastTickTime = Date.now();
 
   private calc_dt(): number {
     return Date.now() - this.lastTickTime;
@@ -191,13 +182,6 @@ export default class Game {
 
   // ==========================================================================================
   // #region getter & setter
-
-  setLogTickTime(b: boolean): void {
-    this.logTickTime = b;
-  }
-  setLogDT(b: boolean): void {
-    this.logDT = b;
-  }
 
   getCamara(): Camara {
     return this.camara;
