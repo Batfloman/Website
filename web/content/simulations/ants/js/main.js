@@ -16,7 +16,7 @@ window.onload = () => {
     game.setCamaraScaleLock(false);
     game.getCamara().setMaxZoomInAmount(10);
     game.getCamara().setMaxZoomOutAmount(8);
-    for (let i = 0; i < 25; i++) {
+    for (let i = 0; i < 10; i++) {
         game.addObject(randomAntHill());
     }
     for (let i = 0; i < 75; i++) {

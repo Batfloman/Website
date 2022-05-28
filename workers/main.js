@@ -1,16 +1,14 @@
-window.onload = setUp();
+import { Thread } from "./Thread.js";
 
-function setUp() {
-  if (typeof Worker !== "undefined") {
-    const w = new Worker("./worker.js", { type: "module" });
+// vars
+var threads = new Map();
 
-    w.onmessage = function (e) {
-      console.log("Message received from worker:", e.data);
-    };
+// start
+window.onload = () => {
+  tick();
+};
 
-    for(let i = 0; i < 10; i++) {
-      console.log("test" + i);
-      w.postMessage("test" + i);
-    }
-  }
-}
+function tick() {
+  threads.set("update", new Thread("./updateObjects.js", "test"));
+  threads.set("render", new Thread("./renderObjects.js", "lol"));
+} 

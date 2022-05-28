@@ -4,12 +4,9 @@ import { Counter } from "./Counter.js";
 // <link rel="modulepreload" href="worker.js">
 
 var counter;
-var running = false;
 
 onmessage = function(e) {
-  if(running) return;
   
-  running = true;
   console.log(e.data);
   
   this.postMessage(count())

@@ -16,7 +16,7 @@ export default class Game {
     maxUpdateDistance: number;
     deleteDistance: number;
     constructor(canvas: Canvas);
-    private static testTick;
+    private static gameLoop;
     logTickTime: boolean;
     tick(): void;
     private logDT;

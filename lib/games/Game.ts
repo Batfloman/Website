@@ -45,19 +45,18 @@ export default class Game {
     Input.newEventListener("resize", this, this.renderObjects);
 
     // start loop
-    Game.testTick(this);
+    Game.gameLoop(this);
   }
 
   // ==========================================================================================
   //#region game Tick
 
   // only tick's game when running
-  private static testTick(game: Game): void {
-    // if (!game.isStopped) game.tick();
+  private static gameLoop(game: Game): void {
     game.tick();
 
     window.requestAnimationFrame(() => {
-      Game.testTick(game);
+      Game.gameLoop(game);
     });
   }
 

@@ -29,12 +29,12 @@ export default class Game {
                 this.start();
         });
         Input.newEventListener("resize", this, this.renderObjects);
-        Game.testTick(this);
+        Game.gameLoop(this);
     }
-    static testTick(game) {
+    static gameLoop(game) {
         game.tick();
         window.requestAnimationFrame(() => {
-            Game.testTick(game);
+            Game.gameLoop(game);
         });
     }
     tick() {
