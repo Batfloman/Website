@@ -28,11 +28,11 @@ window.onload = () => {
     game.start();
 };
 function randomPosition() {
-    return new Vector2(Util.math.randomBetween(0, boardSize / 2, 2) * Util.math.postiveOrNegative(), Util.math.randomBetween(0, boardSize / 2, 2) * Util.math.postiveOrNegative());
+    return new Vector2(Util.math.random.between(0, boardSize / 2, 2) * Util.math.random.mathSign(), Util.math.random.between(0, boardSize / 2, 2) * Util.math.random.mathSign());
 }
 function randomFood() {
     const pos = randomPosition();
-    const amount = Util.math.randomBetween(2500, 10000);
+    const amount = Util.math.random.between(2500, 10000);
     return new Food(pos, amount);
 }
 function randomAntHill() {

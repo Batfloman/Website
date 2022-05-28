@@ -30,10 +30,7 @@ export default class Vector2 {
   }
 
   vectorTo(point: Vector2): Vector2 {
-    return new Vector2(
-      Math.round(point.x - this.x),
-      Math.round(point.y - this.y)
-    );
+    return new Vector2(Math.round(point.x - this.x), Math.round(point.y - this.y));
   }
 
   getNormal(): Vector2 {
@@ -45,8 +42,10 @@ export default class Vector2 {
   }
 
   angle(vec2: Vector2): number {
-    const angleBetween = Util.math.arccos(this.dotProduct(vec2) / (this.getMagnitude() * vec2.getMagnitude()));
-    if(isNaN(angleBetween)) return 0;
+    const angleBetween = Util.math.trigonomitry.arccos(
+      this.dotProduct(vec2) / (this.getMagnitude() * vec2.getMagnitude())
+    );
+    if (isNaN(angleBetween)) return 0;
     return vec2.crossProduct(this) >= 0 ? angleBetween : -angleBetween;
   }
 }

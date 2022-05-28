@@ -8,7 +8,7 @@ export default class FormObject extends ControllableObject {
         super(pos, hitBox, angle);
         this.collides = false;
         this.selected = false;
-        this.rotationSpeed = Util.math.randomBetween(45, 135);
+        this.rotationSpeed = Util.math.random.between(45, 135);
         this.controlles.set("w", (dt) => {
             if (!this.selected)
                 return;

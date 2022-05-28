@@ -10,18 +10,26 @@ export default class Util {
         sum(arr: number[]): number;
         isEmpty<T_5>(arr: T_5[]): boolean;
         copyOf<T_6>(arr: T_6[]): T_6[];
-        connectArray<T_7>(arrays: T_7[]): T_7[];
+        connectArrays<T_7>(arrays: T_7[]): T_7[];
     };
     static math: {
-        randomBetween(start: number, end: number, num_decimals?: number): number;
-        postiveOrNegative(): number;
-        round(number: number, num_decimals?: number): number;
-        floor(number: number, num_decimals?: number): number;
-        ceil(number: number, num_decimals?: number): number;
-        toRadian(degree: number): number;
-        toDegree(rad: number): number;
-        cos(degree: number): number;
-        arccos(num: number): number;
+        random: {
+            between(start: number, end: number, num_decimals?: number): number;
+            mathSign(): number;
+        };
+        round: {
+            round(number: number, num_decimals?: number): number;
+            floor(number: number, num_decimals?: number): number;
+            ceil(number: number, num_decimals?: number): number;
+        };
+        convert: {
+            DegToRad(degree: number): number;
+            RadToDeg(rad: number): number;
+        };
+        trigonomitry: {
+            cos(degree: number): number;
+            arccos(num: number): number;
+        };
     };
     static shapes: {
         circle: {

@@ -2,7 +2,7 @@ import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import Vector2 from "./Vector2.js";
 export default class Util {
     static toVector(angle, lenght) {
-        const rad = Util.math.toRadian(angle);
+        const rad = Util.math.convert.DegToRad(angle);
         return new Vector2(Math.sin(rad) * lenght, Math.cos(rad) * lenght);
     }
     static findAngleLine(startPoint, endPoint) {
@@ -11,7 +11,7 @@ export default class Util {
         const dot = zeroDegreeVector.dotProduct(vec);
         const mag1 = zeroDegreeVector.getMagnitude();
         const mag2 = vec.getMagnitude();
-        const angle = Util.math.arccos(dot / (mag1 * mag2));
+        const angle = Util.math.trigonomitry.arccos(dot / (mag1 * mag2));
         return endPoint.x < startPoint.x ? -angle : angle;
     }
     static calcHypothenuse(side1, side2) {
@@ -57,13 +57,13 @@ export default class Util {
         return farthest;
     }
     static moveDirection(start, direction, distance) {
-        const rad = Util.math.toRadian(direction);
+        const rad = Util.math.convert.DegToRad(direction);
         const moveX = Math.sin(rad) * distance;
         const moveY = Math.cos(rad) * distance;
         return new Vector2(start.x + moveX, start.y + moveY);
     }
     static rotateAroundCenter(center, point, angle) {
-        const rad = Util.math.toRadian(angle);
+        const rad = Util.math.convert.DegToRad(angle);
         return new Vector2(Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x, Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y);
     }
 }
@@ -77,7 +77,7 @@ Util.array = {
         return arr[arr.length - 1];
     },
     getRandomItem(arr) {
-        return Util.array.getItem(arr, Util.math.randomBetween(0, arr.length - 1));
+        return Util.array.getItem(arr, Util.math.random.between(0, arr.length - 1));
     },
     removeItemAtIndex(arr, index) {
         if (index < 0 || index >= arr.length)
@@ -85,10 +85,9 @@ Util.array = {
         return arr.splice(index, 1)[0];
     },
     removeItem(arr, item) {
-        if (arr.includes(item)) {
-            return arr.splice(arr.indexOf(item), 1)[0];
-        }
-        return undefined;
+        if (!arr.includes(item))
+            return undefined;
+        return arr.splice(arr.indexOf(item), 1)[0];
     },
     sum(arr) {
         return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
@@ -99,7 +98,7 @@ Util.array = {
     copyOf(arr) {
         return [...arr];
     },
-    connectArray(arrays) {
+    connectArrays(arrays) {
         let connected = [];
         for (let arr of arrays) {
             connected = connected.concat(arr);
@@ -108,33 +107,44 @@ Util.array = {
     },
 };
 Util.math = {
-    randomBetween(start, end, num_decimals = 0) {
-        return Util.math.round(Math.random() * (end - start) + start, num_decimals);
+    random: {
+        between(start, end, num_decimals = 0) {
+            return Util.math.round.round(Math.random() * (end - start) + start, num_decimals);
+        },
+        mathSign() {
+            return (Math.random() > 0.5) ? 1 : -1;
+        }
     },
-    postiveOrNegative() {
-        return Math.random() > 0.5 ? 1 : -1;
+    round: {
+        round(number, num_decimals = 0) {
+            const factor = Math.pow(10, num_decimals);
+            return Math.round(number * factor) / factor;
+        },
+        floor(number, num_decimals = 0) {
+            const factor = Math.pow(10, num_decimals);
+            return Math.floor(number * factor) / factor;
+        },
+        ceil(number, num_decimals = 0) {
+            const factor = Math.pow(10, num_decimals);
+            return Math.ceil(number * factor) / factor;
+        },
     },
-    round(number, num_decimals = 0) {
-        return Math.round(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
+    convert: {
+        DegToRad(degree) {
+            return (degree * Math.PI) / 180;
+        },
+        RadToDeg(rad) {
+            return (180 * rad) / Math.PI;
+        },
     },
-    floor(number, num_decimals = 0) {
-        return Math.floor(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
-    },
-    ceil(number, num_decimals = 0) {
-        return Math.ceil(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
-    },
-    toRadian(degree) {
-        return (degree * Math.PI) / 180;
-    },
-    toDegree(rad) {
-        return (180 * rad) / Math.PI;
-    },
-    cos(degree) {
-        return Math.cos(Util.math.toRadian(degree));
-    },
-    arccos(num) {
-        return Util.math.toDegree(Math.acos(num));
-    },
+    trigonomitry: {
+        cos(degree) {
+            return Math.cos(Util.math.convert.DegToRad(degree));
+        },
+        arccos(num) {
+            return Util.math.convert.RadToDeg(Math.acos(num));
+        },
+    }
 };
 Util.shapes = {
     circle: {
@@ -153,24 +163,20 @@ Util.shapes = {
 };
 Util.object = {
     findClassName(clas) {
-        if (clas instanceof Function)
-            return clas.name;
-        return clas.constructor.name;
+        return clas instanceof Function ? clas.name : clas.constructor.name;
     },
     findSuperClassName(clas) {
-        if (clas instanceof Function)
-            return Object.getPrototypeOf(clas).name;
-        return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor.name;
+        return clas instanceof Function
+            ? Object.getPrototypeOf(clas).name
+            : Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor.name;
     },
     findClass(clas) {
-        if (clas instanceof Function)
-            return clas;
-        return Object.getPrototypeOf(clas).constructor;
+        return clas instanceof Function ? clas : Object.getPrototypeOf(clas).constructor;
     },
     findSuperClass(clas) {
-        if (clas instanceof Function)
-            return Object.getPrototypeOf(clas);
-        return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor;
+        return clas instanceof Function
+            ? Object.getPrototypeOf(clas)
+            : Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor;
     },
     findAllClassNames(clas) {
         const superClasses = [];
@@ -207,5 +213,5 @@ Util.object = {
             currentClass = this.findSuperClass(currentClass);
         }
         return superClasses;
-    }
+    },
 };

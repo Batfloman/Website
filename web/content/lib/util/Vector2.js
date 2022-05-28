@@ -29,7 +29,7 @@ export default class Vector2 {
         return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
     }
     angle(vec2) {
-        const angleBetween = Util.math.arccos(this.dotProduct(vec2) / (this.getMagnitude() * vec2.getMagnitude()));
+        const angleBetween = Util.math.trigonomitry.arccos(this.dotProduct(vec2) / (this.getMagnitude() * vec2.getMagnitude()));
         if (isNaN(angleBetween))
             return 0;
         return vec2.crossProduct(this) >= 0 ? angleBetween : -angleBetween;

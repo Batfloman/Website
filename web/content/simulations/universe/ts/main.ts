@@ -5,7 +5,7 @@ import Universe from "./Universe.js";
 import Util from "../../../lib/util/Util.js";
 
 const maxDistance = 250000;
-const spawnAmount = Util.math.round(Math.pow(maxDistance, 1 / 4) * Math.pow(maxDistance, 1 / 4), 0);
+const spawnAmount = Util.math.round.round(Math.pow(maxDistance, 1 / 4) * Math.pow(maxDistance, 1 / 4), 0);
 
 window.onload = () => {
   const universe = new Universe(new Canvas(document.querySelector("canvas")));
@@ -46,13 +46,13 @@ window.onload = () => {
 
 function createSkyBody() {
   const pos = new Vector2(
-    Util.math.randomBetween(-maxDistance / 2, maxDistance / 2),
-    Util.math.randomBetween(-maxDistance / 2, maxDistance / 2)
+    Util.math.random.between(-maxDistance / 2, maxDistance / 2),
+    Util.math.random.between(-maxDistance / 2, maxDistance / 2)
   );
-  const mass = Util.math.randomBetween(500, 50000);
+  const mass = Util.math.random.between(500, 50000);
   const velocity = new Vector2(
-    Util.math.randomBetween(10, 150, 2) * Util.math.postiveOrNegative(),
-    Util.math.randomBetween(10, 150, 2) * Util.math.postiveOrNegative()
+    Util.math.random.between(10, 150, 2) * Util.math.random.mathSign(),
+    Util.math.random.between(10, 150, 2) * Util.math.random.mathSign()
   );
   return new SkyBody(pos, mass, velocity);
 }

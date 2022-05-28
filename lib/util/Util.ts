@@ -13,7 +13,7 @@ export default class Util {
       return arr[arr.length - 1];
     },
     getRandomItem<T>(arr: T[]): T {
-      return Util.array.getItem(arr, Util.math.randomBetween(0, arr.length - 1));
+      return Util.array.getItem(arr, Util.math.random.between(0, arr.length - 1));
     },
     removeItemAtIndex<T>(arr: T[], index: number): T {
       if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`);
@@ -21,10 +21,9 @@ export default class Util {
       return arr.splice(index, 1)[0];
     },
     removeItem<T>(arr: T[], item: T): T | undefined {
-      if (arr.includes(item)) {
-        return arr.splice(arr.indexOf(item), 1)[0];
-      }
-      return undefined;
+      if (!arr.includes(item)) return undefined;
+
+      return arr.splice(arr.indexOf(item), 1)[0];
     },
     sum(arr: number[]): number {
       return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
@@ -35,7 +34,7 @@ export default class Util {
     copyOf<T>(arr: T[]): T[] {
       return [...arr];
     },
-    connectArray<T>(arrays: T[]): T[] {
+    connectArrays<T>(arrays: T[]): T[] {
       let connected: T[] = [];
       for (let arr of arrays) {
         connected = connected.concat(arr);
@@ -45,33 +44,46 @@ export default class Util {
   };
 
   static math = {
-    randomBetween(start: number, end: number, num_decimals: number = 0): number {
-      return Util.math.round(Math.random() * (end - start) + start, num_decimals);
+    random: {
+      between(start: number, end: number, num_decimals: number = 0): number {
+        return Util.math.round.round(Math.random() * (end - start) + start, num_decimals);
+      },
+      // Vorzeichen
+      mathSign(): number {
+        return (Math.random() > 0.5) ? 1 : -1
+      }
     },
-    postiveOrNegative(): number {
-      return Math.random() > 0.5 ? 1 : -1;
+    round: {
+      round(number: number, num_decimals: number = 0): number {
+        const factor = Math.pow(10, num_decimals);
+        return Math.round(number * factor) / factor;
+      },
+      floor(number: number, num_decimals: number = 0): number {
+        const factor = Math.pow(10, num_decimals);
+        return Math.floor(number * factor) / factor;
+      },
+      ceil(number: number, num_decimals: number = 0): number {
+        const factor = Math.pow(10, num_decimals);
+        return Math.ceil(number * factor) / factor;
+      },
     },
-    round(number: number, num_decimals: number = 0): number {
-      return Math.round(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
+    convert: {
+      DegToRad(degree: number) {
+        return (degree * Math.PI) / 180;
+      },
+      RadToDeg(rad: number) {
+        return (180 * rad) / Math.PI;
+      },
     },
-    floor(number: number, num_decimals: number = 0): number {
-      return Math.floor(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
-    },
-    ceil(number: number, num_decimals: number = 0): number {
-      return Math.ceil(number * Math.pow(10, num_decimals)) / Math.pow(10, num_decimals);
-    },
-    toRadian(degree: number) {
-      return (degree * Math.PI) / 180;
-    },
-    toDegree(rad: number) {
-      return (180 * rad) / Math.PI;
-    },
-    cos(degree: number): number {
-      return Math.cos(Util.math.toRadian(degree));
-    },
-    arccos(num: number): number {
-      return Util.math.toDegree(Math.acos(num));
-    },
+    trigonomitry: {
+      cos(degree: number): number {
+        // Math.cos uses radian not degree
+        return Math.cos(Util.math.convert.DegToRad(degree));
+      },
+      arccos(num: number): number {
+        return Util.math.convert.RadToDeg(Math.acos(num));
+      },
+    }
   };
 
   static shapes = {
@@ -92,21 +104,21 @@ export default class Util {
 
   static object = {
     findClassName(clas: Object | Function): string {
-      if (clas instanceof Function) return clas.name;
-      return clas.constructor.name;
+      return clas instanceof Function ? clas.name : clas.constructor.name;
     },
     findSuperClassName(clas: Object | Function): string {
-      if (clas instanceof Function) return Object.getPrototypeOf(clas).name;
-      return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor.name;
+      return clas instanceof Function
+        ? Object.getPrototypeOf(clas).name
+        : Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor.name;
     },
     findClass(clas: Object | Function): Function {
-      if (clas instanceof Function) return clas;
-      return Object.getPrototypeOf(clas).constructor;
+      return clas instanceof Function ? clas : Object.getPrototypeOf(clas).constructor;
     },
     findSuperClass(clas: Object | Function): Function {
-      if (clas instanceof Function) return Object.getPrototypeOf(clas);
       // if can't access .constructor => Max superclass Found!
-      return Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor;
+      return clas instanceof Function
+        ? Object.getPrototypeOf(clas)
+        : Object.getPrototypeOf(Object.getPrototypeOf(clas)).constructor;
     },
     findAllClassNames(clas: Object | Function): string[] {
       const superClasses: string[] = [];
@@ -122,7 +134,7 @@ export default class Util {
       const superClasses: Function[] = [];
 
       let currentClass = this.findClass(clas);
-      while(currentClass.name != "") {
+      while (currentClass.name != "") {
         superClasses.push(currentClass);
         currentClass = this.findSuperClass(currentClass);
       }
@@ -143,17 +155,17 @@ export default class Util {
       const superClasses: Function[] = [];
 
       let currentClass = this.findSuperClass(clas);
-      while(currentClass.name != "") {
+      while (currentClass.name != "") {
         superClasses.push(currentClass);
         currentClass = this.findSuperClass(currentClass);
       }
 
       return superClasses;
-    }
+    },
   };
 
   static toVector(angle: number, lenght: number): Vector2 {
-    const rad = Util.math.toRadian(angle);
+    const rad = Util.math.convert.DegToRad(angle);
     return new Vector2(Math.sin(rad) * lenght, Math.cos(rad) * lenght);
   }
 
@@ -165,7 +177,7 @@ export default class Util {
     const mag1 = zeroDegreeVector.getMagnitude();
     const mag2 = vec.getMagnitude();
 
-    const angle = Util.math.arccos(dot / (mag1 * mag2));
+    const angle = Util.math.trigonomitry.arccos(dot / (mag1 * mag2));
 
     return endPoint.x < startPoint.x ? -angle : angle;
   }
@@ -252,7 +264,7 @@ export default class Util {
    * @param distance amount by which the point will be moved
    */
   static moveDirection(start: Vector2, direction: number, distance: number): Vector2 {
-    const rad = Util.math.toRadian(direction);
+    const rad = Util.math.convert.DegToRad(direction);
     const moveX = Math.sin(rad) * distance;
     const moveY = Math.cos(rad) * distance;
 
@@ -266,7 +278,7 @@ export default class Util {
    * @param angle angle by which the point will be rotated
    */
   static rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2 {
-    const rad = Util.math.toRadian(angle);
+    const rad = Util.math.convert.DegToRad(angle);
 
     return new Vector2(
       Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x,

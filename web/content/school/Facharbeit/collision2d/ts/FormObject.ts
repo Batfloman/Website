@@ -12,7 +12,7 @@ export default class FormObject extends ControllableObject<Polygon2> {
   collides: boolean = false;
   selected: boolean = false;
 
-  rotationSpeed: number = Util.math.randomBetween(45, 135);
+  rotationSpeed: number = Util.math.random.between(45, 135);
 
   constructor(pos: Vector2, hitBox: Polygon2, angle?: number) {
     super(pos, hitBox, angle);

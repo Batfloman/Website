@@ -34,7 +34,7 @@ export default class TurnBasedGame extends Game {
     mixPlayerOrder() {
         let mixedPlayer = [];
         while (this.players.length > 0) {
-            mixedPlayer.push(Util.array.removeItemAtIndex(this.players, Util.math.randomBetween(0, this.players.length - 1)));
+            mixedPlayer.push(Util.array.removeItemAtIndex(this.players, Util.math.random.between(0, this.players.length - 1)));
         }
         this.players = mixedPlayer;
     }

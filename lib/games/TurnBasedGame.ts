@@ -47,7 +47,7 @@ export default class TurnBasedGame extends Game {
       mixedPlayer.push(
         Util.array.removeItemAtIndex(
           this.players,
-          Util.math.randomBetween(0, this.players.length - 1)
+          Util.math.random.between(0, this.players.length - 1)
         )
       );
     }

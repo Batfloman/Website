@@ -39,7 +39,7 @@ export default class Ant extends WorldObject<Circle> {
   carry: number = 0;
 
   constructor(pos: Vector2 = new Vector2(), task: Task = "searchFood") {
-    super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
+    super(pos, new Circle(antSize), Util.math.random.between(0, 360, 2));
 
     this.zIndex = 50;
     this.food = maxFood;
@@ -181,7 +181,7 @@ export default class Ant extends WorldObject<Circle> {
           else this.task = "runHome";
         } else {
           this.task = "runHome";
-          this.orientation += Util.math.randomBetween(170, 190, 2);
+          this.orientation += Util.math.random.between(170, 190, 2);
         }
       }
       // is Dead ?
@@ -231,7 +231,7 @@ export default class Ant extends WorldObject<Circle> {
     if (rotation == undefined) {
       let returnValue = this.pheromonsFoundBefore
         ? shouldTurnAround
-          ? Util.math.randomBetween(160, 200, 2)
+          ? Util.math.random.between(160, 200, 2)
           : 0
         : 0;
       this.pheromonsFoundBefore = false;
@@ -289,6 +289,6 @@ export default class Ant extends WorldObject<Circle> {
 
   // Returns a random Rotation to match ant "behaviour"
   randomRotation(): number {
-    return Util.math.randomBetween(-antOrientationChange, antOrientationChange, 2);
+    return Util.math.random.between(-antOrientationChange, antOrientationChange, 2);
   }
 }

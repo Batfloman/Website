@@ -15,8 +15,8 @@ window.onload = () => {
     s.start();
 };
 function createRandomShape() {
-    let start = new Vector2(Util.math.randomBetween(-5000, 5000, 2), Util.math.randomBetween(-5000, 5000, 2));
-    let form = new Form(Util.math.randomBetween(4, 15), Util.math.randomBetween(25, 75, 2), Util.math.randomBetween(1, 1, 2));
+    let start = new Vector2(Util.math.random.between(-5000, 5000, 2), Util.math.random.between(-5000, 5000, 2));
+    let form = new Form(Util.math.random.between(4, 15), Util.math.random.between(25, 75, 2), Util.math.random.between(1, 1, 2));
     form.centerModel();
-    return new FormObject(start, form, Util.math.randomBetween(0, 360));
+    return new FormObject(start, form, Util.math.random.between(0, 360));
 }

@@ -25,7 +25,7 @@ const antSpeed = 75;
 const maxRotationAngle = 33;
 export default class Ant extends WorldObject {
     constructor(pos = new Vector2(), task = "searchFood") {
-        super(pos, new Circle(antSize), Util.math.randomBetween(0, 360, 2));
+        super(pos, new Circle(antSize), Util.math.random.between(0, 360, 2));
         this.task = "searchFood";
         this.carry = 0;
         this.timeElapsed = 0;
@@ -128,7 +128,7 @@ export default class Ant extends WorldObject {
                 }
                 else {
                     this.task = "runHome";
-                    this.orientation += Util.math.randomBetween(170, 190, 2);
+                    this.orientation += Util.math.random.between(170, 190, 2);
                 }
             }
             if (this.food <= 0) {
@@ -169,7 +169,7 @@ export default class Ant extends WorldObject {
         if (rotation == undefined) {
             let returnValue = this.pheromonsFoundBefore
                 ? shouldTurnAround
-                    ? Util.math.randomBetween(160, 200, 2)
+                    ? Util.math.random.between(160, 200, 2)
                     : 0
                 : 0;
             this.pheromonsFoundBefore = false;
@@ -212,6 +212,6 @@ export default class Ant extends WorldObject {
         return -4 * Math.pow(1 - strength / 100 - 0.5, 2) + 1;
     }
     randomRotation() {
-        return Util.math.randomBetween(-antOrientationChange, antOrientationChange, 2);
+        return Util.math.random.between(-antOrientationChange, antOrientationChange, 2);
     }
 }

@@ -27,8 +27,8 @@ export default class Renderer {
     }
     calcPosOnScreen(worldPos) {
         const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
-        distance.x = Util.math.round(distance.x, 2);
-        distance.y = Util.math.round(-distance.y, 2);
+        distance.x = Util.math.round.round(distance.x, 2);
+        distance.y = Util.math.round.round(-distance.y, 2);
         return distance.add(this.offSet);
     }
     clear() {
@@ -82,6 +82,7 @@ export default class Renderer {
                 return this.offSet;
                 break;
             default:
+                console.warn(pos, " has no case!");
                 return new Vector2();
         }
     }
