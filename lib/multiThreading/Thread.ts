@@ -11,11 +11,9 @@ export class Thread {
     this.worker.onmessage = function(e) {
       console.log("Received: " + e.data);
     }
-    this.postMessage("test"); // Start the worker.
-    this.terminate();
   }
 
-  postMessage(message: string): void {
+  postMessage(message: any): void {
     this.worker.postMessage(message);
   }
 
