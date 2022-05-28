@@ -125,8 +125,6 @@ export default class Ant extends WorldObject<Circle> {
 
         // follow Food Pheromons 
         this.rotate(this.findRotation("food", false));
-        // go slightly away from home markers
-        this.rotate(-this.findRotation("home", false) / 3.33);
         break switchTask;
     }
 

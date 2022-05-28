@@ -90,7 +90,6 @@ export default class Ant extends WorldObject {
                     }
                 }
                 this.rotate(this.findRotation("food", false));
-                this.rotate(-this.findRotation("home", false) / 3.33);
                 break switchTask;
         }
         this.rotate(this.randomRotation());
