@@ -35,7 +35,7 @@ window.onload = () => {
   }, 5000);
 
   // game.start();
-  // game.tick();
+  game.tick();
 };
 
 function randomPosition(): Vector2 {

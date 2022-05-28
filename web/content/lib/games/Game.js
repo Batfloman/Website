@@ -3,7 +3,6 @@ import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
 import World from "../assets/worlds/World.js";
 import Util from "../util/Util.js";
-import { Thread } from "../multiThreading/Thread.js";
 export default class Game {
     constructor(canvas) {
         this.worlds = new Map();
@@ -39,7 +38,6 @@ export default class Game {
         });
     }
     tick() {
-        let thread = new Thread((e) => { postMessage(e.data); });
         let before = Date.now();
         this.updateObjects();
         const timeToUpdate = Date.now() - before;

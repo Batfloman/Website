@@ -25,6 +25,7 @@ window.onload = () => {
     setInterval(() => {
         game.addObject(randomFood());
     }, 5000);
+    game.tick();
 };
 function randomPosition() {
     return new Vector2(Util.math.randomBetween(0, boardSize / 2, 2) * Util.math.postiveOrNegative(), Util.math.randomBetween(0, boardSize / 2, 2) * Util.math.postiveOrNegative());

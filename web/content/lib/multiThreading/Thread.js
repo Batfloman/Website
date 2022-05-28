@@ -6,8 +6,6 @@ export class Thread {
         this.worker.onmessage = function (e) {
             console.log("Received: " + e.data);
         };
-        this.postMessage("test");
-        this.terminate();
     }
     postMessage(message) {
         this.worker.postMessage(message);
