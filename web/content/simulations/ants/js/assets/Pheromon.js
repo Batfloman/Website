@@ -16,6 +16,8 @@ export default class Pheromon extends WorldObject {
             this.zIndex = 5;
         if (message == "food")
             this.zIndex = 10;
+        const color = colors.get(this.message);
+        this.color = !color ? Color.get("red") : color;
     }
     update2(dt) {
         this.strength -= dt * (100 / duration);
@@ -24,10 +26,13 @@ export default class Pheromon extends WorldObject {
         }
     }
     render(renderer) {
-        const color = colors.get(this.message);
-        color === null || color === void 0 ? void 0 : color.setA(this.strength);
-        renderer.setStrokeColor(color);
-        renderer.setFillColor(color);
+        var _a;
+        (_a = this.color) === null || _a === void 0 ? void 0 : _a.setA(this.strength);
+        renderer.setStrokeColor(this.color);
+        renderer.setFillColor(this.color);
         renderer.renderRectangle(this.pos, pheromonSize, pheromonSize);
+    }
+    setColor(color) {
+        this.color = color;
     }
 }

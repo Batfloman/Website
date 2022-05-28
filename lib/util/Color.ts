@@ -1,3 +1,5 @@
+import Util from "./Util.js"; 
+
 export class Color {
   static none = new Color(0, 0, 0, 0);
 
@@ -12,6 +14,10 @@ export class Color {
       Math.floor(Math.random() * 256),
       Math.floor(Math.random() * 256)
     );
+  }
+
+  static getRandomNamedColor() {
+    return Util.array.getRandomItem(Array.from(colors.values()));
   }
 
   static get(color: colors): Color {

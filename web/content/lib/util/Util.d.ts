@@ -12,6 +12,9 @@ export default class Util {
         copyOf<T_6>(arr: T_6[]): T_6[];
         connectArrays<T_7>(arrays: T_7[]): T_7[];
     };
+    static map: {
+        copyOf<K, V>(map: Map<K, V>): Map<K, V>;
+    };
     static math: {
         random: {
             between(start: number, end: number, num_decimals?: number): number;

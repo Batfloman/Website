@@ -106,14 +106,23 @@ Util.array = {
         return connected;
     },
 };
+Util.map = {
+    copyOf(map) {
+        var newMap = new Map();
+        for (let [key, value] of map.entries()) {
+            newMap.set(key, value);
+        }
+        return newMap;
+    },
+};
 Util.math = {
     random: {
         between(start, end, num_decimals = 0) {
             return Util.math.round.round(Math.random() * (end - start) + start, num_decimals);
         },
         mathSign() {
-            return (Math.random() > 0.5) ? 1 : -1;
-        }
+            return Math.random() > 0.5 ? 1 : -1;
+        },
     },
     round: {
         round(number, num_decimals = 0) {
@@ -144,7 +153,7 @@ Util.math = {
         arccos(num) {
             return Util.math.convert.RadToDeg(Math.acos(num));
         },
-    }
+    },
 };
 Util.shapes = {
     circle: {

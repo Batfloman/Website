@@ -14,6 +14,8 @@ export default class AntHill extends WorldObject<Circle> {
   food: number;
   antCounter = 0;
 
+  color = Color.getRandomNamedColor();
+
   constructor(pos: Vector2 = new Vector2(), foodStorage: number = 0) {
     super(pos, new Circle(hillSize));
 
@@ -30,15 +32,18 @@ export default class AntHill extends WorldObject<Circle> {
     if(this.lastAntSpawnTimeElapsed > timeBetweenAntSpawn) {
       if(this.food > (this.antCounter * saveFoodPerAnt)) {
         this.food -= antFoodCost;
-        this.game.addObject(new Ant(this.pos));
+
+        const ant = new Ant(this.pos);
+        ant.setColor("searchFood", this.color);
+        this.game.addObject(ant);
         this.antCounter++;
       }
       this.lastAntSpawnTimeElapsed = 0;
     }
   }
   render(renderer: Renderer): void {
-    renderer.setStrokeColor(Color.get("brown"));
-    renderer.setFillColor(Color.get("brown"));
+    renderer.setStrokeColor(this.color);
+    renderer.setFillColor(this.color);
     renderer.renderCircle(this.pos, hillSize);
   }
 }

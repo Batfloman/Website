@@ -19,6 +19,9 @@ export default class Pheromon extends WorldObject<Circle> {
   message: Message;
   strength: number;
 
+  color: Color;
+  
+
   constructor(pos: Vector2, message: Message) {
     super(pos, new Circle(pheromonSize));
     // super(pos, new Rectangle(pheromonSize, pheromonSize));
@@ -27,6 +30,8 @@ export default class Pheromon extends WorldObject<Circle> {
     this.strength = 100;
     if (message == "home") this.zIndex = 5;
     if (message == "food") this.zIndex = 10;
+    const color = colors.get(this.message)
+    this.color = !color ? Color.get("red") : color;
   }
 
   update2(dt: number): void {
@@ -36,12 +41,15 @@ export default class Pheromon extends WorldObject<Circle> {
     }
   }
   render(renderer: Renderer): void {
-    const color = colors.get(this.message);
-    color?.setA(this.strength);
+    this.color?.setA(this.strength);
 
-    renderer.setStrokeColor(color);
-    renderer.setFillColor(color);
+    renderer.setStrokeColor(this.color);
+    renderer.setFillColor(this.color);
     // renderer.renderCircle(this.pos, pheromonSize);
     renderer.renderRectangle(this.pos, pheromonSize, pheromonSize);
+  }
+
+  setColor(color: Color) {
+    this.color = color;
   }
 }

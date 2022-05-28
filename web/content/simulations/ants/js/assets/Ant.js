@@ -28,6 +28,7 @@ export default class Ant extends WorldObject {
         super(pos, new Circle(antSize), Util.math.random.between(0, 360, 2));
         this.task = "searchFood";
         this.carry = 0;
+        this.taskColors = Util.map.copyOf(taskColors);
         this.timeElapsed = 0;
         this.timeElapsed2 = 0;
         this.pheromonsFoundBefore = false;
@@ -136,7 +137,7 @@ export default class Ant extends WorldObject {
         }
     }
     render(renderer) {
-        const color = taskColors.get(this.task);
+        const color = this.taskColors.get(this.task);
         if (!color)
             return;
         renderer.setStrokeColor(color);
@@ -151,6 +152,8 @@ export default class Ant extends WorldObject {
     }
     createPheromon() {
         let message;
+        const c = this.taskColors.get(this.task);
+        const color = !c ? Color.get("black") : c;
         switch (this.task) {
             case "searchFood":
                 message = "home";
@@ -161,7 +164,13 @@ export default class Ant extends WorldObject {
             case "runHome":
                 return;
         }
-        this.game.addObject(new Pheromon(this.pos, message));
+        const pheromon = new Pheromon(this.pos, message);
+        if (message == "home")
+            pheromon.setColor(color);
+        this.game.addObject(pheromon);
+    }
+    setColor(task, color) {
+        this.taskColors.set(task, color);
     }
     findRotation(pheromonType, shouldTurnAround = true) {
         let rotation = this.followPhermons(pheromonType);

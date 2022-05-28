@@ -29,7 +29,7 @@ export default class Util {
       return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
     },
     isEmpty<T>(arr: T[]): boolean {
-      return !arr ||  arr.length == 0;
+      return !arr || arr.length == 0;
     },
     copyOf<T>(arr: T[]): T[] {
       return [...arr];
@@ -43,6 +43,16 @@ export default class Util {
     },
   };
 
+  static map = {
+    copyOf<K, V>(map: Map<K, V>): Map<K, V> {
+      var newMap = new Map<K, V>();
+      for (let [key, value] of map.entries()) {
+        newMap.set(key, value);
+      }
+      return newMap;
+    },
+  };
+
   static math = {
     random: {
       between(start: number, end: number, num_decimals: number = 0): number {
@@ -50,8 +60,8 @@ export default class Util {
       },
       // Vorzeichen
       mathSign(): number {
-        return (Math.random() > 0.5) ? 1 : -1
-      }
+        return Math.random() > 0.5 ? 1 : -1;
+      },
     },
     round: {
       round(number: number, num_decimals: number = 0): number {
@@ -83,7 +93,7 @@ export default class Util {
       arccos(num: number): number {
         return Util.math.convert.RadToDeg(Math.acos(num));
       },
-    }
+    },
   };
 
   static shapes = {

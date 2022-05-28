@@ -1,3 +1,4 @@
+import Util from "./Util.js";
 export class Color {
     constructor(r, g, b, a = 100) {
         this.r = 0;
@@ -11,6 +12,9 @@ export class Color {
     }
     static getRandom() {
         return new Color(Math.floor(Math.random() * 256), Math.floor(Math.random() * 256), Math.floor(Math.random() * 256));
+    }
+    static getRandomNamedColor() {
+        return Util.array.getRandomItem(Array.from(colors.values()));
     }
     static get(color) {
         if (!colors.has(color)) {

@@ -38,6 +38,8 @@ export default class Ant extends WorldObject<Circle> {
   food: number;
   carry: number = 0;
 
+  taskColors = Util.map.copyOf(taskColors);
+
   constructor(pos: Vector2 = new Vector2(), task: Task = "searchFood") {
     super(pos, new Circle(antSize), Util.math.random.between(0, 360, 2));
 
@@ -45,6 +47,9 @@ export default class Ant extends WorldObject<Circle> {
     this.food = maxFood;
     this.task = task;
   }
+
+  // ==========================================================================================
+  //#region main methods
 
   timeElapsed: number = 0;
   timeElapsed2: number = 0;
@@ -80,14 +85,14 @@ export default class Ant extends WorldObject<Circle> {
           const radius = home.hitBox.radius;
 
           const canPutFood = distance < radius / 2;
-          const isInRange = distance < radius + sensoryDistance
+          const isInRange = distance < radius + sensoryDistance;
 
           if (canPutFood) {
             // put food in Anthill
             home.food += this.carry;
             this.carry = 0;
             this.task = "searchFood";
-            this.turnAround() // turn around after food deposit
+            this.turnAround(); // turn around after food deposit
 
             break switchTask;
           } else if (isInRange) {
@@ -114,7 +119,7 @@ export default class Ant extends WorldObject<Circle> {
             food.amountFood -= carryAmount;
             this.carry = carryAmount;
             this.task = "bringFoodHome";
-            this.turnAround() // turn around after food pickup
+            this.turnAround(); // turn around after food pickup
 
             break switchTask;
           } else if (isInRange) {
@@ -123,7 +128,7 @@ export default class Ant extends WorldObject<Circle> {
           }
         }
 
-        // follow Food Pheromons 
+        // follow Food Pheromons
         this.rotate(this.findRotation("food", false));
         break switchTask;
     }
@@ -145,7 +150,7 @@ export default class Ant extends WorldObject<Circle> {
         this.food += foodNeeded;
         // TODO remove Food from AntHill
 
-        if(this.task == "runHome") this.task = "searchFood";
+        if (this.task == "runHome") this.task = "searchFood";
       }
     }
 
@@ -189,7 +194,7 @@ export default class Ant extends WorldObject<Circle> {
     }
   }
   render(renderer: Renderer): void {
-    const color = taskColors.get(this.task);
+    const color = this.taskColors.get(this.task);
     if (!color) return;
 
     renderer.setStrokeColor(color);
@@ -197,16 +202,25 @@ export default class Ant extends WorldObject<Circle> {
     renderer.renderCircle(this.pos, antSize);
   }
 
+  //#endregion
+
+  // ==========================================================================================
+  // #region movement
+
   rotate(angle: number): void {
     super.rotate(Math.min(angle, maxRotationAngle));
   }
 
   turnAround(): void {
     this.orientation += 180 + this.randomRotation();
-  } 
+  }
 
-  createPheromon() {
+  //#endregion
+
+  createPheromon(): void {
     let message: Message;
+    const c = this.taskColors.get(this.task)
+    const color: Color = !c ? Color.get("black") : c;
     switch (this.task) {
       case "searchFood":
         message = "home";
@@ -219,8 +233,17 @@ export default class Ant extends WorldObject<Circle> {
         return;
     }
 
-    this.game.addObject(new Pheromon(this.pos, message));
+    const pheromon = new Pheromon(this.pos, message);
+    if(message == "home") pheromon.setColor(color);
+    this.game.addObject(pheromon);
   }
+
+  setColor(task: Task, color: Color): void {
+    this.taskColors.set(task, color);
+  }
+
+  // ==========================================================================================
+  // #region follow Pheromones 
 
   private pheromonsFoundBefore: boolean = false;
   findRotation(pheromonType: Message, shouldTurnAround = true): number {
@@ -289,4 +312,7 @@ export default class Ant extends WorldObject<Circle> {
   randomRotation(): number {
     return Util.math.random.between(-antOrientationChange, antOrientationChange, 2);
   }
+
+  //#endregion
+
 }
