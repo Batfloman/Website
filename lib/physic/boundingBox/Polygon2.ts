@@ -24,6 +24,7 @@ export default class Polygon2 extends HitBox {
       point.x -= Math.round(realCenter.x * 100) / 100;
       point.y -= Math.round(realCenter.y * 100) / 100;
     });
+    this.farthestDistance = Util.farthestPoint(new Vector2(), this.model).getMagnitude();
   }
 
   findCenter(): Vector2 {

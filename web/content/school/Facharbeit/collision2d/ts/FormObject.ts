@@ -76,11 +76,12 @@ export default class FormObject extends ControllableObject<Polygon2> {
     renderer.setLineWidth(3);
     renderer.setStrokeColor(Color.get("black"));
     renderer.setFillColor(this.selected ? Color.get("black") : Color.none);
+    
     renderer.renderCircle(this.pos, 10);
 
-    // renderer.setFillColor(Color.get("white"));
-    // renderer.setLineWidth(0.5);
-    // renderer.renderText(this.pos, `${Util.math.round(this.pos.x)} | ${Util.math.round(this.pos.y)}`);
+    renderer.setLineWidth(0.33);
+    renderer.setFillColor(Color.none);
+    renderer.renderCircle(this.pos, this.hitBox.farthestDistance);
   }
 
   translatePoints(): Vector2[] {

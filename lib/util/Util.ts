@@ -29,7 +29,7 @@ export default class Util {
       return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
     },
     isEmpty<T>(arr: T[]): boolean {
-      return arr.length == 0;
+      return !arr ||  arr.length == 0;
     },
     copyOf<T>(arr: T[]): T[] {
       return [...arr];
