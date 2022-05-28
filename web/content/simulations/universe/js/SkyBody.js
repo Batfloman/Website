@@ -26,6 +26,9 @@ export default class SkyBody extends WorldObject {
         const g = this.game.getGConst();
         this.forces = new Vector2();
         let objects = this.game.findObjects(SkyBody, this);
+        console.log(this.chunk.keys);
+        console.log(this);
+        console.log(this.world.findObjectsInNeighbouringChunks(this.chunk, SkyBody, this, 10));
         for (let obj of objects) {
             if (!this.isCollidingWith(obj))
                 continue;

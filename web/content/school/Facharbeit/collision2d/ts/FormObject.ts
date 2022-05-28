@@ -52,7 +52,7 @@ export default class FormObject extends ControllableObject<Polygon2> {
   update2(dt: number): void {
     this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
 
-    let objects = this.game.findObjects(FormObject, this) as Array<FormObject>;
+    let objects: FormObject[] = this.world.findObjectsInNeighbouringChunks<FormObject>(this.chunk, FormObject ,this);
 
     for (let obj of objects) {
       this.collides = this.isCollidingWith(obj);

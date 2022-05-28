@@ -43,6 +43,9 @@ export default class SkyBody extends WorldObject<Circle> {
     this.forces = new Vector2();
 
     let objects: SkyBody[] = this.game.findObjects(SkyBody, this);
+    console.log(this.chunk.keys);
+    console.log(this);
+    console.log(this.world.findObjectsInNeighbouringChunks(this.chunk, SkyBody, this, 10));
 
     for (let obj of objects) {
       if (!this.isCollidingWith(obj)) continue;

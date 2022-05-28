@@ -34,8 +34,7 @@ window.onload = () => {
     game.addObject(randomFood());
   }, 5000);
 
-  // game.start();
-  game.tick();
+  game.start();
 };
 
 function randomPosition(): Vector2 {

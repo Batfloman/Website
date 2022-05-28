@@ -11,7 +11,7 @@ window.onload = () => {
 
   s.setCamaraMovementLock(false);
   s.setCamaraScaleLock(false);
-  s.setMaxUpdateDistance(2000);
+  s.setWorldChunkSize(500);
 
   for (let i = 0; i < 500; i++) {
     s.addObject(createRandomShape());

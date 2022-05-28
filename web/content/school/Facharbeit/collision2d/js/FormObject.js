@@ -42,7 +42,7 @@ export default class FormObject extends ControllableObject {
     }
     update2(dt) {
         this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
-        let objects = this.game.findObjects(FormObject, this);
+        let objects = this.world.findObjectsInNeighbouringChunks(this.chunk, FormObject, this);
         for (let obj of objects) {
             this.collides = this.isCollidingWith(obj);
             if (this.collides)
