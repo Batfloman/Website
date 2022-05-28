@@ -5,7 +5,7 @@ import { Color } from "../../../../lib/util/Color.js";
 import Vector2 from "../../../../lib/util/Vector2.js";
 
 const pheromonSize = 1;
-const duration = 17500 * 2;
+const duration = 35000;
 
 export type Message = "home" | "food";
 
@@ -25,8 +25,8 @@ export default class Pheromon extends WorldObject<Circle> {
 
     this.message = message;
     this.strength = 100;
-    if(message == "home") this.zIndex = 5;
-    if(message == "food") this.zIndex = 10;
+    if (message == "home") this.zIndex = 5;
+    if (message == "food") this.zIndex = 10;
   }
 
   update2(dt: number): void {
