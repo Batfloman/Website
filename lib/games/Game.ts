@@ -65,7 +65,7 @@ export default class Game {
     this.renderObjects();
   }
 
-  private updateObjects() {
+  private async updateObjects() {
     let dt = this.calc_dt();
     this.lastTickTime = Date.now();
 
@@ -82,7 +82,7 @@ export default class Game {
     }
   }
 
-  private renderObjects() {
+  private async renderObjects() {
     this.renderer.clear();
 
     const worlds = Array.from(this.worlds.values());

@@ -7,7 +7,7 @@ import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
 
-type staticPosition = "center";
+export type staticPosition = "center";
 
 export default class Renderer {
   private fillColor: Color = Color.none;
@@ -241,7 +241,6 @@ export default class Renderer {
     this.ctx.arc(pos.x, pos.y, radius, 0, 360);
     this.ctx.closePath();
     this.ctx.fill();
-    this.ctx.stroke();
   }
 
   renderStaticRectangle(

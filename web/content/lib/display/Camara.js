@@ -26,6 +26,9 @@ export default class Camara {
             this.alreadyTranslated = false;
         });
     }
+    getOffset() {
+        return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
+    }
     moveDirection(direction, distance) {
         this.pos = Util.moveDirection(this.pos, direction, distance);
     }
@@ -98,8 +101,5 @@ export default class Camara {
     }
     setLockMovement(b) {
         this.lockMovement = b;
-    }
-    getOffset() {
-        return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
     }
 }

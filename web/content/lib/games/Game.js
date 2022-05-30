@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import Camara from "../display/Camara.js";
 import Renderer from "../display/Renderer.js";
 import Input from "../input/Input.js";
@@ -40,32 +49,36 @@ export default class Game {
         this.renderObjects();
     }
     updateObjects() {
-        let dt = this.calc_dt();
-        this.lastTickTime = Date.now();
-        if (this.isStopped)
-            dt = 0;
-        const worlds = Array.from(this.worlds.values());
-        for (let world of Util.array.copyOf(worlds)) {
-            world.putObjectsInCunks();
-            for (let obj of world.objects) {
-                if (obj.shouldUpdate())
-                    obj.update(dt);
+        return __awaiter(this, void 0, void 0, function* () {
+            let dt = this.calc_dt();
+            this.lastTickTime = Date.now();
+            if (this.isStopped)
+                dt = 0;
+            const worlds = Array.from(this.worlds.values());
+            for (let world of Util.array.copyOf(worlds)) {
+                world.putObjectsInCunks();
+                for (let obj of world.objects) {
+                    if (obj.shouldUpdate())
+                        obj.update(dt);
+                }
             }
-        }
+        });
     }
     renderObjects() {
-        this.renderer.clear();
-        const worlds = Array.from(this.worlds.values());
-        for (let world of worlds) {
-            world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
-            world.render(this.renderer);
-        }
-        for (let world of worlds) {
-            for (let obj of world.objects) {
-                if (obj.shouldRender())
-                    obj.render(this.renderer);
+        return __awaiter(this, void 0, void 0, function* () {
+            this.renderer.clear();
+            const worlds = Array.from(this.worlds.values());
+            for (let world of worlds) {
+                world.objects.sort((a, b) => (a.zIndex <= b.zIndex ? -1 : 1));
+                world.render(this.renderer);
             }
-        }
+            for (let world of worlds) {
+                for (let obj of world.objects) {
+                    if (obj.shouldRender())
+                        obj.render(this.renderer);
+                }
+            }
+        });
     }
     addObject(obj, worldName = "main") {
         const world = this.worlds.get(worldName);

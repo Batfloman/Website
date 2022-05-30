@@ -3,7 +3,7 @@ import { Color } from "../util/Color.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
-declare type staticPosition = "center";
+export declare type staticPosition = "center";
 export default class Renderer {
     private fillColor;
     private strokeColor;
@@ -40,4 +40,3 @@ export default class Renderer {
     setFillColor(color?: Color | undefined): void;
     setLineWidth(width: number): void;
 }
-export {};

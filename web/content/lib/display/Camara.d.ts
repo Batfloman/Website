@@ -5,11 +5,12 @@ import Vector2 from "../util/Vector2.js";
 import Canvas from "./Canvas";
 export default class Camara implements ICollideable, IMoveable {
     private canvas;
+    constructor(canvas: Canvas, pos?: Vector2);
+    getOffset(): Vector2;
     hitBox: Polygon2;
     orientation: number;
     translatedPoints: Vector2[];
     alreadyTranslated: boolean;
-    constructor(canvas: Canvas, pos?: Vector2);
     moveDirection(direction: number, distance: number): void;
     move(move: Vector2): void;
     isCollidingWith(other: ICollideable): boolean;
@@ -33,5 +34,4 @@ export default class Camara implements ICollideable, IMoveable {
     pos: Vector2;
     private mouseMove;
     setLockMovement(b: boolean): void;
-    getOffset(): Vector2;
 }

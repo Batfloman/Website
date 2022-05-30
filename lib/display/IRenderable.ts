@@ -1,5 +1,4 @@
-import Vector2 from "../util/Vector2";
-import Renderer from "./Renderer";
+import Renderer from "./Renderer.js";
 
 export default interface IRenderable {
   render(renderer: Renderer): void;

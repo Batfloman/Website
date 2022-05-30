@@ -12,11 +12,6 @@ import Canvas from "./Canvas";
 export default class Camara implements ICollideable, IMoveable {
   private canvas: Canvas;
 
-  hitBox: Polygon2;
-  orientation: number;
-  translatedPoints!: Vector2[];
-  alreadyTranslated: boolean = false;
-
   constructor(canvas: Canvas, pos?: Vector2) {
     this.canvas = canvas;
     this.pos = !pos ? new Vector2() : pos;
@@ -32,15 +27,32 @@ export default class Camara implements ICollideable, IMoveable {
       this.alreadyTranslated = false;
     });
   }
+
+  /** Returns the Vector from the top left corner to the center */
+  getOffset(): Vector2 {
+    return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
+  }
+
+  // ==========================================================================================
+  // #region collision & stuff
+
+  hitBox: Polygon2;
+  orientation: number;
+  translatedPoints!: Vector2[];
+  alreadyTranslated: boolean = false;
+
   moveDirection(direction: number, distance: number): void {
     this.pos = Util.moveDirection(this.pos, direction, distance);
   }
+
   move(move: Vector2): void {
     this.pos = this.pos.add(move);
   }
+
   isCollidingWith(other: ICollideable): boolean {
     return Collision.testCollision(this, other);
   }
+
   translatePoints(): Vector2[] {
     if (this.alreadyTranslated) return this.translatedPoints;
 
@@ -59,6 +71,8 @@ export default class Camara implements ICollideable, IMoveable {
 
     return this.translatedPoints;
   }
+
+  //#endregion
 
   // ==========================================================================================
   // #region Scaling
@@ -147,13 +161,4 @@ export default class Camara implements ICollideable, IMoveable {
  
   //#endregion
 
-  // ==========================================================================================
-  // getter & setter
-
-  /**
-   * Returns the Vector from the top left corner to the center
-   */
-  getOffset(): Vector2 {
-    return new Vector2(this.canvas.width / 2, this.canvas.height / 2);
-  }
 }

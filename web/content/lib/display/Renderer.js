@@ -153,7 +153,6 @@ export default class Renderer {
         this.ctx.arc(pos.x, pos.y, radius, 0, 360);
         this.ctx.closePath();
         this.ctx.fill();
-        this.ctx.stroke();
     }
     renderStaticRectangle(pos, width, height) {
         this.updateValues();

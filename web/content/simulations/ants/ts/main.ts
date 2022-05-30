@@ -6,6 +6,7 @@ import AntHill from "./assets/Hive.js";
 import Food from "./assets/Food.js";
 import { Color } from "../../../lib/util/Color.js";
 import Ant from "./assets/Ant.js";
+import UISimpleButton from "../../../lib/assets/objects/ui/UISimpleButton.js";
 
 const boardSize = 5000;
 
