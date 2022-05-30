@@ -29,19 +29,28 @@ export default class Renderer {
     this.ctx = !ctx ? new CanvasRenderingContext2D() : ctx;
     this.updateValues();
 
-    Input.newEventListener("wheel", this, () => this.valuesChanged = true)
+    Input.newEventListener("wheel", this, () => (this.zoomingChanged = true));
   }
 
-  private valuesChanged: boolean = false;
+  private zoomingChanged: boolean = true;
+  private lineWidhtChanged: boolean = true;
+  private strokeColorChanged: boolean = true;
+  private fillColorChanged: boolean = true;
 
   private updateValues() {
-    if(!this.valuesChanged) return;
+    if (this.zoomingChanged) {
+      this.offSet = this.camara.getOffset();
+      this.scale = this.camara.scaleValue;
+      this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+    } else if (this.lineWidhtChanged) this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
 
-    this.offSet = this.camara.getOffset();
-    this.scale = this.camara.scaleValue;
-    this.ctx.strokeStyle = this.strokeColor.getRGBString();
-    this.ctx.fillStyle = this.fillColor.getRGBString();
-    this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+    if (this.strokeColorChanged) {
+      this.ctx.strokeStyle = this.strokeColor.getRGBString();
+    }
+
+    if (this.fillColorChanged) {
+      this.ctx.fillStyle = this.fillColor.getRGBString();
+    }
   }
 
   // ==========================================================================================
@@ -261,24 +270,24 @@ export default class Renderer {
   // #region setter
 
   setStrokeColor(color: Color | undefined = Color.none) {
-    if(this.strokeColor == color) return;
+    if (this.strokeColor == color) return;
     if (!color) color = Color.none;
     this.strokeColor = color;
 
-    this.valuesChanged = true;
+    this.strokeColorChanged = true;
   }
   setFillColor(color: Color | undefined = Color.none) {
-    if(this.fillColor == color) return;
+    if (this.fillColor == color) return;
     if (!color) color = Color.none;
     this.fillColor = color;
 
-    this.valuesChanged = true;
+    this.fillColorChanged = true;
   }
   setLineWidth(width: number) {
-    if(this.lineWidth == width) return;
+    if (this.lineWidth == width) return;
     this.lineWidth = width;
 
-    this.valuesChanged = true;
+    this.lineWidhtChanged = true;
   }
 
   //#endregion

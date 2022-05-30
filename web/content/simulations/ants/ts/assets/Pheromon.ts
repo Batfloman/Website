@@ -15,16 +15,11 @@ const colors = new Map<Message, Color>([
 ]);
 
 export default class Pheromon extends WorldObject<Circle> {
-  // export default class Pheromon extends WorldObject<Rectangle> {
   message: Message;
   strength: number;
 
-  color: Color;
-  
-
   constructor(pos: Vector2, message: Message) {
     super(pos, new Circle(pheromonSize));
-    // super(pos, new Rectangle(pheromonSize, pheromonSize));
 
     this.message = message;
     this.strength = 100;
@@ -45,11 +40,17 @@ export default class Pheromon extends WorldObject<Circle> {
 
     renderer.setStrokeColor(this.color);
     renderer.setFillColor(this.color);
-    // renderer.renderCircle(this.pos, pheromonSize);
-    renderer.renderRectangle(this.pos, pheromonSize, pheromonSize);
+    renderer.renderRectangle(this.pos, pheromonSize * 2, pheromonSize * 2);
   }
+
+  color: Color;
+  hiveId: number = 0;
 
   setColor(color: Color) {
     this.color = color;
+  }
+
+  setHiveId(num: number): void {
+    this.hiveId = num;
   }
 }

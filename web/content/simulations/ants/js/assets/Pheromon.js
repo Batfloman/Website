@@ -10,6 +10,7 @@ const colors = new Map([
 export default class Pheromon extends WorldObject {
     constructor(pos, message) {
         super(pos, new Circle(pheromonSize));
+        this.hiveId = 0;
         this.message = message;
         this.strength = 100;
         if (message == "home")
@@ -30,9 +31,12 @@ export default class Pheromon extends WorldObject {
         (_a = this.color) === null || _a === void 0 ? void 0 : _a.setA(this.strength);
         renderer.setStrokeColor(this.color);
         renderer.setFillColor(this.color);
-        renderer.renderRectangle(this.pos, pheromonSize, pheromonSize);
+        renderer.renderRectangle(this.pos, pheromonSize * 2, pheromonSize * 2);
     }
     setColor(color) {
         this.color = color;
+    }
+    setHiveId(num) {
+        this.hiveId = num;
     }
 }

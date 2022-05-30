@@ -8,22 +8,31 @@ export default class Renderer {
         this.fillColor = Color.none;
         this.strokeColor = Color.get("black");
         this.lineWidth = 1;
-        this.valuesChanged = false;
+        this.zoomingChanged = true;
+        this.lineWidhtChanged = true;
+        this.strokeColorChanged = true;
+        this.fillColorChanged = true;
         this.canvas = canvas;
         this.camara = camara;
         let ctx = this.canvas.htmlCanvas.getContext("2d");
         this.ctx = !ctx ? new CanvasRenderingContext2D() : ctx;
         this.updateValues();
-        Input.newEventListener("wheel", this, () => this.valuesChanged = true);
+        Input.newEventListener("wheel", this, () => (this.zoomingChanged = true));
     }
     updateValues() {
-        if (!this.valuesChanged)
-            return;
-        this.offSet = this.camara.getOffset();
-        this.scale = this.camara.scaleValue;
-        this.ctx.strokeStyle = this.strokeColor.getRGBString();
-        this.ctx.fillStyle = this.fillColor.getRGBString();
-        this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+        if (this.zoomingChanged) {
+            this.offSet = this.camara.getOffset();
+            this.scale = this.camara.scaleValue;
+            this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+        }
+        else if (this.lineWidhtChanged)
+            this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+        if (this.strokeColorChanged) {
+            this.ctx.strokeStyle = this.strokeColor.getRGBString();
+        }
+        if (this.fillColorChanged) {
+            this.ctx.fillStyle = this.fillColor.getRGBString();
+        }
     }
     calcPosOnScreen(worldPos) {
         const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
@@ -167,7 +176,7 @@ export default class Renderer {
         if (!color)
             color = Color.none;
         this.strokeColor = color;
-        this.valuesChanged = true;
+        this.strokeColorChanged = true;
     }
     setFillColor(color = Color.none) {
         if (this.fillColor == color)
@@ -175,12 +184,12 @@ export default class Renderer {
         if (!color)
             color = Color.none;
         this.fillColor = color;
-        this.valuesChanged = true;
+        this.fillColorChanged = true;
     }
     setLineWidth(width) {
         if (this.lineWidth == width)
             return;
         this.lineWidth = width;
-        this.valuesChanged = true;
+        this.lineWidhtChanged = true;
     }
 }

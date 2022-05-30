@@ -5,7 +5,7 @@ import { Color } from "../../../../lib/util/Color.js";
 import Util from "../../../../lib/util/Util.js";
 import Vector2 from "../../../../lib/util/Vector2.js";
 
-const minRadius = 5;
+const minRadius = 10;
 const foodScaleFactor = .5;
 
 export default class Food extends WorldObject<Circle> {

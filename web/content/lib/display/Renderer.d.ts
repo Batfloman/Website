@@ -14,7 +14,10 @@ export default class Renderer {
     private offSet;
     private scale;
     constructor(canvas: Canvas, camara: Camara);
-    private valuesChanged;
+    private zoomingChanged;
+    private lineWidhtChanged;
+    private strokeColorChanged;
+    private fillColorChanged;
     private updateValues;
     private calcPosOnScreen;
     clear(): void;

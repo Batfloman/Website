@@ -4,7 +4,7 @@ import Circle from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
 import Util from "../../../../lib/util/Util.js";
 import Vector2 from "../../../../lib/util/Vector2.js";
-import AntHill from "./AntHill.js";
+import AntHill from "./Hive.js";
 import Food from "./Food.js";
 import Pheromon, { Message } from "./Pheromon.js";
 
@@ -234,12 +234,19 @@ export default class Ant extends WorldObject<Circle> {
     }
 
     const pheromon = new Pheromon(this.pos, message);
+    pheromon.setHiveId(this.hiveId);
     if(message == "home") pheromon.setColor(color);
     this.game.addObject(pheromon);
   }
 
   setColor(task: Task, color: Color): void {
     this.taskColors.set(task, color);
+  }
+
+  private hiveId: number = 0;
+
+  setHiveId(num: number): void {
+    this.hiveId = num;
   }
 
   // ==========================================================================================
@@ -274,6 +281,9 @@ export default class Ant extends WorldObject<Circle> {
     for (let pheromon of pheromones) {
       // right message ?
       if (pheromon.message != message) continue;
+
+      // right hive ?
+      if(pheromon.hiveId != this.hiveId) continue;
 
       // right Distance ?
       const distance = Util.distance(this.pos, pheromon.pos);

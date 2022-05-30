@@ -2,7 +2,7 @@ import Game from "../../../lib/games/Game.js";
 import Canvas from "../../../lib/display/Canvas.js";
 import Util from "../../../lib/util/Util.js";
 import Vector2 from "../../../lib/util/Vector2.js";
-import AntHill from "./assets/AntHill.js";
+import AntHill from "./assets/Hive.js";
 import Food from "./assets/Food.js";
 import { Color } from "../../../lib/util/Color.js";
 const boardSize = 5000;
@@ -16,9 +16,7 @@ window.onload = () => {
     game.setCamaraScaleLock(false);
     game.getCamara().setMaxZoomInAmount(10);
     game.getCamara().setMaxZoomOutAmount(8);
-    for (let i = 0; i < 10; i++) {
-        game.addObject(randomAntHill());
-    }
+    game.addObject(new AntHill(new Vector2(), 10000));
     for (let i = 0; i < 75; i++) {
         game.addObject(randomFood());
     }

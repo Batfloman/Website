@@ -6,18 +6,24 @@ import Vector2 from "../../../../lib/util/Vector2.js";
 import Ant from "./Ant.js";
 
 const antFoodCost = 250;
-const saveFoodPerAnt = 100;
+const saveFoodPerAnt = 0;
 const hillSize = 50;
 const timeBetweenAntSpawn = 250;
 
-export default class AntHill extends WorldObject<Circle> {
+export default class Hive extends WorldObject<Circle> {
+  static hiveCounter: number = 0;
+
   food: number;
   antCounter = 0;
 
   color = Color.getRandomNamedColor();
 
+  hiveId: number;
+
   constructor(pos: Vector2 = new Vector2(), foodStorage: number = 0) {
     super(pos, new Circle(hillSize));
+
+    this.hiveId = Hive.hiveCounter++;
 
     this.food = foodStorage;
 
@@ -35,6 +41,7 @@ export default class AntHill extends WorldObject<Circle> {
 
         const ant = new Ant(this.pos);
         ant.setColor("searchFood", this.color);
+        ant.setHiveId(this.hiveId);
         this.game.addObject(ant);
         this.antCounter++;
       }

@@ -3,7 +3,7 @@ import Circle from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
 import Util from "../../../../lib/util/Util.js";
 import Vector2 from "../../../../lib/util/Vector2.js";
-import AntHill from "./AntHill.js";
+import AntHill from "./Hive.js";
 import Food from "./Food.js";
 import Pheromon from "./Pheromon.js";
 const taskColors = new Map([
@@ -31,6 +31,7 @@ export default class Ant extends WorldObject {
         this.taskColors = Util.map.copyOf(taskColors);
         this.timeElapsed = 0;
         this.timeElapsed2 = 0;
+        this.hiveId = 0;
         this.pheromonsFoundBefore = false;
         this.zIndex = 50;
         this.food = maxFood;
@@ -165,12 +166,16 @@ export default class Ant extends WorldObject {
                 return;
         }
         const pheromon = new Pheromon(this.pos, message);
+        pheromon.setHiveId(this.hiveId);
         if (message == "home")
             pheromon.setColor(color);
         this.game.addObject(pheromon);
     }
     setColor(task, color) {
         this.taskColors.set(task, color);
+    }
+    setHiveId(num) {
+        this.hiveId = num;
     }
     findRotation(pheromonType, shouldTurnAround = true) {
         let rotation = this.followPhermons(pheromonType);
@@ -194,6 +199,8 @@ export default class Ant extends WorldObject {
         const pheromones = this.world.findObjectsInNeighbouringChunks(this.chunk, Pheromon);
         for (let pheromon of pheromones) {
             if (pheromon.message != message)
+                continue;
+            if (pheromon.hiveId != this.hiveId)
                 continue;
             const distance = Util.distance(this.pos, pheromon.pos);
             if (distance > sensoryDistance)
