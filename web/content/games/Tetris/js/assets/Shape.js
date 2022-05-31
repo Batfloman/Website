@@ -29,7 +29,6 @@ export class Shape extends ControllableObject {
                 first = false;
             }
         }
-        console.log(this.blocks);
     }
     update2(dt) {
         throw new Error("Method not implemented.");

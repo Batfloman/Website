@@ -1,7 +1,7 @@
 import { GridWorld } from "../../../../lib/assets/worlds/GridWorld.js";
 import { Renderer } from "../../../../lib/display/Renderer.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Input from "../../../../lib/input/Input.js";
+import { Input } from "../../../../lib/input/Input.js";
 import { Canvas } from "../../../../lib/display/Canvas.js";
 
 export class TicTacToeGrid extends GridWorld {

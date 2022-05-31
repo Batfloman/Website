@@ -2,7 +2,7 @@ import { GridWorld } from "../../../lib/assets/worlds/GridWorld.js";
 import { Canvas } from "../../../lib/display/Canvas.js";
 import { Renderer } from "../../../lib/display/Renderer.js";
 import { Color } from "../../../lib/util/Color.js";
-import Input from "../../../lib/input/Input.js";
+import { Input } from "../../../lib/input/Input.js";
 
 export class Board extends GridWorld {
   canvas: Canvas;

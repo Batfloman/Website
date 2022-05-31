@@ -37,7 +37,6 @@ export class Shape extends ControllableObject<Rectangle> {
         first = false;
       }
     }
-    console.log(this.blocks);
   }
 
   update2(dt: number): void {

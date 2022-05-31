@@ -1,6 +1,6 @@
 import { GridWorld } from "../../../lib/assets/worlds/GridWorld.js";
 import { Color } from "../../../lib/util/Color.js";
-import Input from "../../../lib/input/Input.js";
+import { Input } from "../../../lib/input/Input.js";
 export class Board extends GridWorld {
     constructor(canvas, xSize, ySize) {
         super(canvas.width, canvas.height, xSize, ySize);
