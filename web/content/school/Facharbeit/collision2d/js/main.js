@@ -19,7 +19,7 @@ window.onload = () => {
     s.setCamaraScaleLock(false);
     s.setWorldChunkSize(500);
     s.getCamara().setMaxZoomOutAmount(12);
-    const button = new UISimpleButton("center", "50", "50", "test");
+    const button = new UISimpleButton(new Vector2(5, 5), "7", "3", "stop");
     button.action = () => {
         s.stop();
     };

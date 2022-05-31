@@ -33,11 +33,18 @@ window.onload = () => {
 
   // UI
 
-  const button = new UISimpleButton("center", "50", "50", "test");
+  const button = new UISimpleButton(new Vector2(5, 5), "7", "3", "stop");
   button.action = () => {
     s.stop();
   }
   s.addObject(button);
+
+  // const button2 = new UISimpleButton(new Vector2(5, 10), "7", "3", "start");
+  // button2.action = () => {
+  //   console.log("start");
+  //   s.start();
+  // }
+  // s.addObject(button2);
 
   // contents
 

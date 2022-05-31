@@ -58,6 +58,9 @@ export class UISimpleButton extends WorldObject<Rectangle> {
   }
 
   click() {
+    console.log("////7")
+    console.log(this.pos);
+    console.log(Util.position.staticPos_to_worldPos(this.camara, Input.mPosHover))
     if (
       PointInPolygon.isPointInsidePolygon(
         Util.position.staticPos_to_worldPos(this.camara, Input.mPosHover),
@@ -116,7 +119,7 @@ export class UISimpleButton extends WorldObject<Rectangle> {
   translatePoints(): Vector2[] {
     if (this.alreadyTranslated) return this.translatedPoints;
 
-    this.pos = this.calcWorldPos();
+    this.pos = Util.position.staticPos_to_worldPos(this.camara, this.staticPosValue);
 
     this.translatedPoints = [];
     for (let point of this.hitBox.model) {
@@ -161,11 +164,6 @@ export class UISimpleButton extends WorldObject<Rectangle> {
     return Util.position.convertStaticPosInValue(this.game.getCamara(), this.staticPos);
   }
 
-  calcWorldPos() {
-    const camara = this.game.getCamara();
-
-    return this.staticPosValue.subtract(camara.getOffset()).add(camara.pos);
-  }
-
   //#endregion
+
 }

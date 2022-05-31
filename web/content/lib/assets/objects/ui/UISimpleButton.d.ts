@@ -27,5 +27,4 @@ export declare class UISimpleButton extends WorldObject<Rectangle> {
     updateHitBox(): void;
     updateStaticPosValue(): void;
     calcStaticPosValue(): Vector2;
-    calcWorldPos(): Vector2;
 }
