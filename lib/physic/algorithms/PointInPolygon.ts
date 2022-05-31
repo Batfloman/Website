@@ -2,13 +2,14 @@ import { Util } from "../../util/Util.js";
 import { Vector2 } from "../../util/Vector2.js";
 import { Polygon2 } from "../boundingBox/Polygon2.js";
 import { ICollideable } from "../property/ICollideable.js";
+import { Polygon2Helper } from "./Polygon2Helper.js";
 
 export class PointInPolygon {
   static isPointInsidePolygon(point: Vector2, polygon: ICollideable | Vector2[]) {
     const vertices = polygon instanceof Array ? polygon : polygon.translatePoints();
 
-    console.log("/========");
-    console.log(point);
+    const winding = Polygon2Helper.findWinding(new Polygon2(vertices));
+
     for (let i in vertices) {
       let index = Number.parseInt(i);
 
@@ -18,12 +19,11 @@ export class PointInPolygon {
       const a_to_b = b.subtract(a);
       const a_to_p = point.subtract(a);
 
-      console.log(a);
-      console.log(a_to_p);
-
       const cross = a_to_b.crossProduct(a_to_p);
 
-      console.log(cross);
+      if(!Polygon2Helper.isConvex(winding, cross)) return false;
     }
+    
+    return true;
   }
 }

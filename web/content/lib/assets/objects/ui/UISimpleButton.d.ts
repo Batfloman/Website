@@ -12,16 +12,20 @@ export declare class UISimpleButton extends WorldObject<Rectangle> {
     textColor: Color;
     staticPos: Vector2 | staticPosition;
     staticPosValue: Vector2;
-    staticWidth: number;
-    staticHeight: number;
+    staticWidth: string;
+    staticHeight: string;
     text: string;
-    constructor(staticPos: Vector2 | staticPosition, width: number, height: number, text?: string);
+    constructor(staticPos: Vector2 | staticPosition, width: string, height: string, text?: string);
     init(game: Game, canvas: Canvas): void;
+    click(): void;
+    action(): void;
     update2(dt: number): void;
     render(renderer: Renderer): void;
     shouldRender(): boolean;
     shouldUpdate(): boolean;
     translatePoints(): Vector2[];
+    updateHitBox(): void;
+    updateStaticPosValue(): void;
     calcStaticPosValue(): Vector2;
     calcWorldPos(): Vector2;
 }

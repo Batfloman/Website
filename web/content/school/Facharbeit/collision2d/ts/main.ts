@@ -1,9 +1,9 @@
 import { Canvas } from "../../../../lib/display/Canvas.js";
-import { FormObject } from "./FormObject.js";
-import { System } from "./System.js";
+import { FormObject } from "./src/FormObject.js";
+import { System } from "./src/System.js";
 import { Util } from "../../../../lib/util/Util.js";
 import { Vector2 } from "../../../../lib/util/Vector2.js";
-import { Form } from "./Form.js";
+import { Form } from "./src/Form.js";
 import { Color } from "../../../../lib/util/Color.js";
 import { Polygon2 } from "../../../../lib/physic/boundingBox/Polygon2.js";
 import { UISimpleButton } from "../../../../lib/assets/objects/ui/UISimpleButton.js";
@@ -33,7 +33,11 @@ window.onload = () => {
 
   // UI
 
-  s.addObject(new UISimpleButton("center", 10, 4, "test"));
+  const button = new UISimpleButton("center", "50", "50", "test");
+  button.action = () => {
+    s.stop();
+  }
+  s.addObject(button);
 
   // contents
 
