@@ -1,5 +1,5 @@
 import { HitBox } from "../../physic/boundingBox/HitBox.js";
-import Util from "../../util/Util.js";
+import { Util } from "../../util/Util.js";
 import { WorldObject } from "../objects/WorldObject.js";
 
 export class Chunk {
@@ -7,8 +7,8 @@ export class Chunk {
 
   public keys = {
     x: 0,
-    y: 0
-  }
+    y: 0,
+  };
 
   constructor(x: number = 0, y: number = 0, ...objects: WorldObject<HitBox>[]) {
     this.keys.x = x;
@@ -16,7 +16,7 @@ export class Chunk {
 
     this.objects = objects;
 
-    for(let obj of objects) {
+    for (let obj of objects) {
       this.addToMap(obj);
     }
   }

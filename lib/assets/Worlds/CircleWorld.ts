@@ -1,9 +1,9 @@
-import Renderer from "../../display/Renderer";
-import Util from "../../util/Util";
-import Vector2 from "../../util/Vector2";
-import World from "./World";
+import { Renderer } from "../../display/Renderer";
+import { Util } from "../../util/Util";
+import { Vector2 } from "../../util/Vector2";
+import { World } from "./World";
 
-export default class CircleWorld extends World {
+export class CircleWorld extends World {
   radius: number;
 
   constructor(radius: number) {

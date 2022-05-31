@@ -1,13 +1,13 @@
-import Input from "../input/Input.js";
-import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
-import Polygon2 from "../physic/boundingBox/Polygon2.js";
+import { Input } from "../input/Input.js";
+import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
+import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
 import { Color } from "../util/Color.js";
-import Util, { staticPosition } from "../util/Util.js";
-import Vector2 from "../util/Vector2.js";
-import Camara from "./Camara.js";
-import Canvas from "./Canvas.js";
+import { Util, staticPosition } from "../util/Util.js";
+import { Vector2 } from "../util/Vector2.js";
+import { Camara } from "./Camara.js";
+import { Canvas } from "./Canvas.js";
 
-export default class Renderer {
+export class Renderer {
   private fillColor: Color = Color.none;
   private strokeColor: Color = Color.get("black");
   private lineWidth: number = 1;
@@ -35,12 +35,14 @@ export default class Renderer {
   private strokeColorChanged: boolean = true;
   private fillColorChanged: boolean = true;
 
-  private updateValues() {
+  private updateValues(scaleLineWidth = true) {
     if (this.zoomingChanged) {
       this.offSet = this.camara.getOffset();
       this.scale = this.camara.scaleValue;
-      this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
-    } else if (this.lineWidhtChanged) this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+      this.ctx.lineWidth = scaleLineWidth ? this.lineWidth * this.camara.scaleValue : this.lineWidth;
+    } else if (this.lineWidhtChanged) {
+      this.ctx.lineWidth = scaleLineWidth ? this.lineWidth * this.camara.scaleValue : this.lineWidth;
+    }
 
     if (this.strokeColorChanged) {
       this.ctx.strokeStyle = this.strokeColor.getRGBString();
@@ -55,7 +57,7 @@ export default class Renderer {
   //#region math: not-static rendering
 
   private calcPosOnScreen(worldPos: Vector2): Vector2 {
-    return Util.position.calcPositionRelativeToCamara(this.camara, worldPos);
+    return Util.position.worldPos_to_staticPos(this.camara, worldPos);
   }
 
   //#endregion
@@ -143,22 +145,14 @@ export default class Renderer {
   private convertStaticPosInValue(pos: staticPosition): Vector2 {
     return Util.position.convertStaticPosInValue(this.camara, pos);
   }
-
   private convertPercentInValue(widthPercent: string, heightPercent: string): Vector2 {
-    return new Vector2(
-      this.convertWidthPercentInValue(widthPercent),
-      this.convertHeightPercentInValue(heightPercent)
-    );
+    return Util.position.convertPercentInValue(this.canvas, widthPercent, heightPercent);
   }
-
   private convertWidthPercentInValue(percent: string): number {
-    const number = (Number.parseFloat(percent) / 100) * this.canvas.width;
-    return isNaN(number) ? 0 : number;
+    return Util.position.convertWidthPercentInValue(this.canvas, percent);
   }
-
   private convertHeightPercentInValue(percent: string): number {
-    const number = (Number.parseFloat(percent) / 100) * this.canvas.height;
-    return isNaN(number) ? 0 : number;
+    return Util.position.convertHeightPercentInValue(this.canvas, percent);
   }
 
   //#endregion
@@ -171,9 +165,10 @@ export default class Renderer {
     xSize: number | string,
     ySize: number | string,
     cellXSize: number | string,
-    cellYSize: number | string
+    cellYSize: number | string,
+    scaleLineWidth = true
   ): void {
-    this.updateValues();
+    this.updateValues(scaleLineWidth);
 
     if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
     if (!(typeof xSize == "number")) xSize = this.convertWidthPercentInValue(xSize);
@@ -210,6 +205,7 @@ export default class Renderer {
 
     if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
 
+    // TODO be able to change font styles
     this.ctx.beginPath();
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "middle";
@@ -218,8 +214,8 @@ export default class Renderer {
     this.ctx.stroke();
   }
 
-  renderStaticCirle(pos: Vector2 | staticPosition, radius: number): void {
-    this.updateValues();
+  renderStaticCirle(pos: Vector2 | staticPosition, radius: number, scaleLineWidth = true): void {
+    this.updateValues(scaleLineWidth);
 
     if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
 
@@ -233,9 +229,10 @@ export default class Renderer {
   renderStaticRectangle(
     pos: Vector2 | staticPosition,
     width: number | string,
-    height: number | string
+    height: number | string,
+    scaleLineWidth = true
   ): void {
-    this.updateValues();
+    this.updateValues(scaleLineWidth);
 
     if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
     if (!(typeof width == "number")) width = this.convertWidthPercentInValue(width);

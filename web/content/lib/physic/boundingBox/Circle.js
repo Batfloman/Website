@@ -1,6 +1,6 @@
-import Util from "../../util/Util.js";
+import { Util } from "../../util/Util.js";
 import { HitBox } from "./HitBox.js";
-export default class Circle extends HitBox {
+export class Circle extends HitBox {
     constructor(radius = 0) {
         super();
         this.radius = radius;
@@ -10,7 +10,7 @@ export default class Circle extends HitBox {
     translatePoints(pos, orientation) {
         return [
             Util.moveDirection(pos, orientation, this.radius),
-            Util.moveDirection(pos, 360 - orientation, this.radius)
+            Util.moveDirection(pos, 360 - orientation, this.radius),
         ];
     }
     scale(scalar) {

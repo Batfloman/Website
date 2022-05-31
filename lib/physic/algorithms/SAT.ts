@@ -1,10 +1,10 @@
-import Circle from "../boundingBox/Circle.js";
-import ICollideable from "../property/ICollideable.js";
+import { Circle } from "../boundingBox/Circle.js";
+import { ICollideable } from "../property/ICollideable.js";
 
 // Separating Axis Theorem
-export default class SAT {
+export class SAT {
   static testCollision(obj1: ICollideable, obj2: ICollideable): boolean {
-    if(obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle) return true;
+    if (obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle) return true;
     return this.areColliding(obj1, obj2) && this.areColliding(obj2, obj1);
   }
 

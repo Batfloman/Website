@@ -1,16 +1,16 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import Renderer from "../../../../lib/display/Renderer.js";
-import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Renderer } from "../../../../lib/display/Renderer.js";
+import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Vector2 from "../../../../lib/util/Vector2.js";
-import Ant from "./Ant.js";
+import { Vector2 } from "../../../../lib/util/Vector2.js";
+import { Ant } from "./Ant.js";
 
 const antFoodCost = 250;
 const saveFoodPerAnt = 0;
 const hillSize = 50;
 const timeBetweenAntSpawn = 250;
 
-export default class Hive extends WorldObject<Circle> {
+export class Hive extends WorldObject<Circle> {
   static hiveCounter: number = 0;
 
   food: number;
@@ -35,8 +35,8 @@ export default class Hive extends WorldObject<Circle> {
   update2(dt: number): void {
     this.lastAntSpawnTimeElapsed += dt;
 
-    if(this.lastAntSpawnTimeElapsed > timeBetweenAntSpawn) {
-      if(this.food > (this.antCounter * saveFoodPerAnt)) {
+    if (this.lastAntSpawnTimeElapsed > timeBetweenAntSpawn) {
+      if (this.food > this.antCounter * saveFoodPerAnt) {
         this.food -= antFoodCost;
 
         const ant = new Ant(this.pos);

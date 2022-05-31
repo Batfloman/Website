@@ -1,10 +1,10 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Util from "../../../../lib/util/Util.js";
+import { Util } from "../../../../lib/util/Util.js";
 const minRadius = 10;
-const foodScaleFactor = .5;
-export default class Food extends WorldObject {
+const foodScaleFactor = 0.5;
+export class Food extends WorldObject {
     constructor(pos, amountFood) {
         super(pos, new Circle(Util.shapes.circle.radius(amountFood) * foodScaleFactor));
         this.amountFood = amountFood;

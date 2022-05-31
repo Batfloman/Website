@@ -1,5 +1,5 @@
-import Input from "../input/Input.js";
-export default class Canvas {
+import { Input } from "../input/Input.js";
+export class Canvas {
     constructor(htmlCanvas) {
         this.width = 0;
         this.height = 0;

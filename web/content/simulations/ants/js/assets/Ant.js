@@ -1,11 +1,11 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Util from "../../../../lib/util/Util.js";
-import Vector2 from "../../../../lib/util/Vector2.js";
-import AntHill from "./Hive.js";
-import Food from "./Food.js";
-import Pheromon from "./Pheromon.js";
+import { Util } from "../../../../lib/util/Util.js";
+import { Vector2 } from "../../../../lib/util/Vector2.js";
+import { Hive } from "./Hive.js";
+import { Food } from "./Food.js";
+import { Pheromon } from "./Pheromon.js";
 const taskColors = new Map([
     ["searchFood", Color.get("white")],
     ["bringFoodHome", Color.get("green")],
@@ -23,7 +23,7 @@ const senseAngle = 65;
 const carryAmount = 150;
 const antSpeed = 75;
 const maxRotationAngle = 33;
-export default class Ant extends WorldObject {
+export class Ant extends WorldObject {
     constructor(pos = new Vector2(), task = "searchFood") {
         super(pos, new Circle(antSize), Util.math.random.between(0, 360, 2));
         this.task = "searchFood";
@@ -38,7 +38,7 @@ export default class Ant extends WorldObject {
         this.task = task;
     }
     update2(dt) {
-        const homes = this.world.findObjectsInNeighbouringChunks(this.chunk, AntHill, [], 5);
+        const homes = this.world.findObjectsInNeighbouringChunks(this.chunk, Hive, [], 5);
         const foodStuffs = this.world.findObjectsInNeighbouringChunks(this.chunk, Food, [], 5);
         switchTask: switch (this.task) {
             case "runHome":

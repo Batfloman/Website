@@ -1,9 +1,10 @@
-import Canvas from "../../../../lib/display/Canvas.js";
-import FormObject from "./FormObject.js";
-import System from "./System.js";
-import Util from "../../../../lib/util/Util.js";
-import Vector2 from "../../../../lib/util/Vector2.js";
-import Form from "./Form.js";
+import { Canvas } from "../../../../lib/display/Canvas.js";
+import { FormObject } from "./FormObject.js";
+import { System } from "./System.js";
+import { Util } from "../../../../lib/util/Util.js";
+import { Vector2 } from "../../../../lib/util/Vector2.js";
+import { Form } from "./Form.js";
+import { UISimpleButton } from "../../../../lib/assets/objects/ui/UISimpleButton.js";
 const amountShapes = 750;
 const fieldSize = 15000;
 const minVertices = 4;
@@ -18,6 +19,7 @@ window.onload = () => {
     s.setCamaraScaleLock(false);
     s.setWorldChunkSize(500);
     s.getCamara().setMaxZoomOutAmount(12);
+    s.addObject(new UISimpleButton("center", 10, 4, "test"));
     for (let i = 0; i < amountShapes; i++) {
         s.addObject(createRandomShape());
     }

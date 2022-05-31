@@ -1,5 +1,5 @@
-import Circle from "../boundingBox/Circle.js";
-export default class SAT {
+import { Circle } from "../boundingBox/Circle.js";
+export class SAT {
     static testCollision(obj1, obj2) {
         if (obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle)
             return true;

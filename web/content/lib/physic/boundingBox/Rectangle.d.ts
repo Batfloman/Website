@@ -1,5 +1,5 @@
-import Polygon from "./Polygon2.js";
-export default class Rectangle extends Polygon {
+import { Polygon2 } from "./Polygon2.js";
+export declare class Rectangle extends Polygon2 {
     width: number;
     height: number;
     constructor(width: number, height: number);

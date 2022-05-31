@@ -1,12 +1,12 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import Renderer from "../../../../lib/display/Renderer.js";
-import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Renderer } from "../../../../lib/display/Renderer.js";
+import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Util from "../../../../lib/util/Util.js";
-import Vector2 from "../../../../lib/util/Vector2.js";
-import AntHill from "./Hive.js";
-import Food from "./Food.js";
-import Pheromon, { Message } from "./Pheromon.js";
+import { Util } from "../../../../lib/util/Util.js";
+import { Vector2 } from "../../../../lib/util/Vector2.js";
+import { Hive } from "./Hive.js";
+import { Food } from "./Food.js";
+import { Pheromon, Message } from "./Pheromon.js";
 
 type Task = "searchFood" | "bringFoodHome" | "runHome";
 
@@ -33,7 +33,7 @@ const carryAmount = 150;
 const antSpeed = 75;
 const maxRotationAngle = 33;
 
-export default class Ant extends WorldObject<Circle> {
+export class Ant extends WorldObject<Circle> {
   task: Task = "searchFood";
   food: number;
   carry: number = 0;
@@ -55,7 +55,7 @@ export default class Ant extends WorldObject<Circle> {
   timeElapsed2: number = 0;
 
   update2(dt: number): void {
-    const homes = this.world.findObjectsInNeighbouringChunks<AntHill>(this.chunk, AntHill, [], 5);
+    const homes = this.world.findObjectsInNeighbouringChunks<Hive>(this.chunk, Hive, [], 5);
     const foodStuffs = this.world.findObjectsInNeighbouringChunks<Food>(this.chunk, Food, [], 5);
 
     // set Direction to move fitting for task
@@ -219,7 +219,7 @@ export default class Ant extends WorldObject<Circle> {
 
   createPheromon(): void {
     let message: Message;
-    const c = this.taskColors.get(this.task)
+    const c = this.taskColors.get(this.task);
     const color: Color = !c ? Color.get("black") : c;
     switch (this.task) {
       case "searchFood":
@@ -235,7 +235,7 @@ export default class Ant extends WorldObject<Circle> {
 
     const pheromon = new Pheromon(this.pos, message);
     pheromon.setHiveId(this.hiveId);
-    if(message == "home") pheromon.setColor(color);
+    if (message == "home") pheromon.setColor(color);
     this.game.addObject(pheromon);
   }
 
@@ -250,7 +250,7 @@ export default class Ant extends WorldObject<Circle> {
   }
 
   // ==========================================================================================
-  // #region follow Pheromones 
+  // #region follow Pheromones
 
   private pheromonsFoundBefore: boolean = false;
   findRotation(pheromonType: Message, shouldTurnAround = true): number {
@@ -283,7 +283,7 @@ export default class Ant extends WorldObject<Circle> {
       if (pheromon.message != message) continue;
 
       // right hive ?
-      if(pheromon.hiveId != this.hiveId) continue;
+      if (pheromon.hiveId != this.hiveId) continue;
 
       // right Distance ?
       const distance = Util.distance(this.pos, pheromon.pos);
@@ -324,5 +324,4 @@ export default class Ant extends WorldObject<Circle> {
   }
 
   //#endregion
-
 }

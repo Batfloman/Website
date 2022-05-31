@@ -1,14 +1,14 @@
-import Camara from "../../display/Camara.js";
-import Circle from "../boundingBox/Circle.js";
-import ICollideable from "../property/ICollideable.js";
-import CircleCollision from "./CircleCollision.js";
-import SAT from "./SAT.js";
-import Triangulation from "./Triangulation.js";
+import { Camara } from "../../display/Camara.js";
+import { Circle } from "../boundingBox/Circle.js";
+import { ICollideable } from "../property/ICollideable.js";
+import { CircleCollision } from "./CircleCollision.js";
+import { SAT } from "./SAT.js";
+import { Triangulation } from "./Triangulation.js";
 
-export default class Collision {
+export class Collision {
   static testCollision(obj1: ICollideable, obj2: ICollideable): boolean {
     [obj1, obj2].forEach((obj) => obj.translatePoints());
-    
+
     if (obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle) {
       return CircleCollision.potentialCollision(obj1, obj2);
     }

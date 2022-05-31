@@ -1,6 +1,6 @@
-import Vector2 from "../../util/Vector2.js";
+import { Vector2 } from "../../util/Vector2.js";
 import { HitBox } from "./HitBox.js";
-export default class Circle extends HitBox {
+export declare class Circle extends HitBox {
     radius: number;
     constructor(radius?: number);
     translatePoints(pos: Vector2, orientation: number): Vector2[];

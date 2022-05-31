@@ -1,11 +1,14 @@
-import Canvas from "../../../lib/display/Canvas.js";
-import Vector2 from "../../../lib/util/Vector2.js";
-import SkyBody from "./SkyBody.js";
-import Universe from "./Universe.js";
-import Util from "../../../lib/util/Util.js";
+import { Canvas } from "../../../lib/display/Canvas.js";
+import { Vector2 } from "../../../lib/util/Vector2.js";
+import { SkyBody } from "./SkyBody.js";
+import { Universe } from "./Universe.js";
+import { Util } from "../../../lib/util/Util.js";
 
 const maxDistance = 250000;
-const spawnAmount = Util.math.round.round(Math.pow(maxDistance, 1 / 4) * Math.pow(maxDistance, 1 / 4), 0);
+const spawnAmount = Util.math.round.round(
+  Math.pow(maxDistance, 1 / 4) * Math.pow(maxDistance, 1 / 4),
+  0
+);
 
 window.onload = () => {
   const universe = new Universe(new Canvas(document.querySelector("canvas")));

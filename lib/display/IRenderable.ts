@@ -1,6 +1,6 @@
-import Renderer from "./Renderer.js";
+import { Renderer } from "./Renderer.js";
 
-export default interface IRenderable {
+export interface IRenderable {
   render(renderer: Renderer): void;
   shouldRender(): boolean;
 }

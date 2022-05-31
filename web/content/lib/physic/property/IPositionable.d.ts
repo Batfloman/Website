@@ -1,4 +1,4 @@
-import Vector2 from "../../util/Vector2.js";
-export default interface IPositionable {
+import { Vector2 } from "../../util/Vector2.js";
+export interface IPositionable {
     pos: Vector2;
 }

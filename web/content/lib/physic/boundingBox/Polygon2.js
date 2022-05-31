@@ -1,8 +1,8 @@
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
-import Polygon2Helper from "../algorithms/Polygon2Helper.js";
+import { Util } from "../../util/Util.js";
+import { Vector2 } from "../../util/Vector2.js";
+import { Polygon2Helper } from "../algorithms/Polygon2Helper.js";
 import { HitBox } from "./HitBox.js";
-export default class Polygon2 extends HitBox {
+export class Polygon2 extends HitBox {
     constructor(model) {
         super();
         this.model = new Array();
@@ -29,7 +29,7 @@ export default class Polygon2 extends HitBox {
         return Polygon2Helper.translatePoints(this.model, pos, orientation);
     }
     scale(scalar) {
-        this.model.forEach(point => {
+        this.model.forEach((point) => {
             point = point.scale(scalar);
         });
     }

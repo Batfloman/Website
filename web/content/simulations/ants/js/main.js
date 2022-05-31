@@ -1,9 +1,9 @@
-import Game from "../../../lib/games/Game.js";
-import Canvas from "../../../lib/display/Canvas.js";
-import Util from "../../../lib/util/Util.js";
-import Vector2 from "../../../lib/util/Vector2.js";
-import AntHill from "./assets/Hive.js";
-import Food from "./assets/Food.js";
+import { Game } from "../../../lib/games/Game.js";
+import { Canvas } from "../../../lib/display/Canvas.js";
+import { Util } from "../../../lib/util/Util.js";
+import { Vector2 } from "../../../lib/util/Vector2.js";
+import { Hive } from "./assets/Hive.js";
+import { Food } from "./assets/Food.js";
 import { Color } from "../../../lib/util/Color.js";
 const boardSize = 5000;
 window.onload = () => {
@@ -16,7 +16,7 @@ window.onload = () => {
     game.setCamaraScaleLock(false);
     game.getCamara().setMaxZoomInAmount(10);
     game.getCamara().setMaxZoomOutAmount(8);
-    game.addObject(new AntHill(new Vector2(), 10000));
+    game.addObject(new Hive(new Vector2(), 10000));
     for (let i = 0; i < 75; i++) {
         game.addObject(randomFood());
     }
@@ -36,5 +36,5 @@ function randomFood() {
 function randomAntHill() {
     const pos = randomPosition();
     const food = 1500;
-    return new AntHill(pos, food);
+    return new Hive(pos, food);
 }

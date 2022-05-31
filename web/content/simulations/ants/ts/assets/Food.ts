@@ -1,14 +1,14 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import Renderer from "../../../../lib/display/Renderer.js";
-import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Renderer } from "../../../../lib/display/Renderer.js";
+import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Util from "../../../../lib/util/Util.js";
-import Vector2 from "../../../../lib/util/Vector2.js";
+import { Util } from "../../../../lib/util/Util.js";
+import { Vector2 } from "../../../../lib/util/Vector2.js";
 
 const minRadius = 10;
-const foodScaleFactor = .5;
+const foodScaleFactor = 0.5;
 
-export default class Food extends WorldObject<Circle> {
+export class Food extends WorldObject<Circle> {
   amountFood: number;
 
   constructor(pos: Vector2, amountFood: number) {
@@ -19,7 +19,10 @@ export default class Food extends WorldObject<Circle> {
   }
 
   update2(dt: number): void {
-    this.hitBox.radius = Math.max(minRadius, Util.shapes.circle.radius(this.amountFood) * foodScaleFactor);
+    this.hitBox.radius = Math.max(
+      minRadius,
+      Util.shapes.circle.radius(this.amountFood) * foodScaleFactor
+    );
 
     if (this.amountFood > 0) return;
 

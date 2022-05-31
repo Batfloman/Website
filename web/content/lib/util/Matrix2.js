@@ -1,5 +1,5 @@
-import Util from "./Util.js";
-export default class Matrix2 {
+import { Util } from "./Util.js";
+export class Matrix2 {
     constructor(x, y) {
         this.cells = [];
         for (let i = 0; i < y; i++) {

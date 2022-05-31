@@ -1,5 +1,5 @@
-import Util from "../util/Util.js";
-import Vector2 from "../util/Vector2.js";
+import { Util } from "../util/Util.js";
+import { Vector2 } from "../util/Vector2.js";
 const keys = new Map([
     ["a", "a"],
     ["b", "b"],
@@ -49,9 +49,9 @@ const keys = new Map([
     ["left", "left"],
     ["right", "right"],
     ["up", "up"],
-    ["down", "down"]
+    ["down", "down"],
 ]);
-export default class Input {
+export class Input {
     static staticConstructor() {
         window.addEventListener("touchstart", (event) => {
             Input.keyDown("leftclick");

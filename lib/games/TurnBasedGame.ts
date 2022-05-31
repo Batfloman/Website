@@ -1,16 +1,16 @@
-import Canvas from "../display/Canvas.js";
+import { Canvas } from "../display/Canvas.js";
 import { Player } from "../assets/players/Player.js";
 import { TurnBasedPlayer } from "../assets/players/TurnBasedPlayer.js";
-import Util from "../util/Util.js";
-import Game from "./Game.js";
+import { Util } from "../util/Util.js";
+import { Game } from "./Game.js";
 
-export default class TurnBasedGame extends Game {
+export class TurnBasedGame extends Game {
   protected players: TurnBasedPlayer[];
   protected currentPlayer: TurnBasedPlayer;
 
   constructor(canvas: Canvas, players?: TurnBasedPlayer | TurnBasedPlayer[]) {
     super(canvas);
-    
+
     if (!players) this.players = [];
     else if (players instanceof Player) this.players = [players];
     else this.players = players;
@@ -21,9 +21,9 @@ export default class TurnBasedGame extends Game {
   tick() {
     super.tick();
 
-    if(Util.array.isEmpty(this.players)) return;
+    if (Util.array.isEmpty(this.players)) return;
 
-    if(this.currentPlayer.turnFinished) {
+    if (this.currentPlayer.turnFinished) {
       this.nextPlayer();
       this.currentPlayer.isUp();
     }

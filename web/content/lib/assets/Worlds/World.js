@@ -1,10 +1,10 @@
-import Vector2 from "../../util/Vector2.js";
-import Util from "../../util/Util.js";
+import { Vector2 } from "../../util/Vector2.js";
+import { Util } from "../../util/Util.js";
 import { Color } from "../../util/Color.js";
 import { TwoKeyMap } from "../../util/TwoKeyMap.js";
 import { Chunk } from "./Chunk.js";
 import { WorldObject } from "../objects/WorldObject.js";
-export default class World {
+export class World {
     constructor(pos = new Vector2(), backgroundColor = Color.get("white")) {
         this.objects = [];
         this.objectMap = new Map();

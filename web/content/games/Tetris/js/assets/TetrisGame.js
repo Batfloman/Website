@@ -1,7 +1,7 @@
-import Game from "../../../../lib/games/Game.js";
-import Shape from "./Shape.js";
-import TetrisGrid from "./TetrisGrid.js";
-export default class TetrisGame extends Game {
+import { Game } from "../../../../lib/games/Game.js";
+import { Shape } from "./Shape.js";
+import { TetrisGrid } from "./TetrisGrid.js";
+export class TetrisGame extends Game {
     constructor(canvas) {
         super(canvas);
         this.worlds.set("main", new TetrisGrid(400, 800, 10, 20));

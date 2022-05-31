@@ -1,9 +1,9 @@
-import Camara from "../display/Camara.js";
-import Canvas from "../display/Canvas.js";
-import Polygon2 from "../physic/boundingBox/Polygon2.js";
-import Vector2 from "./Vector2.js";
+import { Camara } from "../display/Camara.js";
+import { Canvas } from "../display/Canvas.js";
+import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
+import { Vector2 } from "./Vector2.js";
 export declare type staticPosition = "center";
-export default class Util {
+export declare class Util {
     static array: {
         getItem<T>(arr: T[], index: number): T;
         getLastItem<T_1>(arr: T_1[]): T_1;
@@ -57,7 +57,8 @@ export default class Util {
         findAllSuperClasses(clas: Object | Function): Function[];
     };
     static position: {
-        calcPositionRelativeToCamara(camara: Camara, worldPos: Vector2): Vector2;
+        worldPos_to_staticPos(camara: Camara, worldPos: Vector2): Vector2;
+        staticPos_to_worldPos(camara: Camara, staticPos: Vector2): Vector2;
         convertStaticPosInValue(camara: Camara, pos: staticPosition): Vector2;
         convertPercentInValue(canvas: Canvas, widthPercent: string, heightPercent: string): Vector2;
         convertWidthPercentInValue(canvas: Canvas, percent: string): number;

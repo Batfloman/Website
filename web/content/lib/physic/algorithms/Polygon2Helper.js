@@ -1,5 +1,5 @@
-import Util from "../../util/Util.js";
-export default class Polygon2Helper {
+import { Util } from "../../util/Util.js";
+export class Polygon2Helper {
     static testConvex(polygon) {
         if (polygon.model.length <= 3)
             return true;

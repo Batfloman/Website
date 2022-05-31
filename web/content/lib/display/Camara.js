@@ -1,10 +1,10 @@
-import Input from "../input/Input.js";
-import Collision from "../physic/algorithms/Collision.js";
-import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
-import Rectangle from "../physic/boundingBox/Rectangle.js";
-import Util from "../util/Util.js";
-import Vector2 from "../util/Vector2.js";
-export default class Camara {
+import { Input } from "../input/Input.js";
+import { Collision } from "../physic/algorithms/Collision.js";
+import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
+import { Rectangle } from "../physic/boundingBox/Rectangle.js";
+import { Util } from "../util/Util.js";
+import { Vector2 } from "../util/Vector2.js";
+export class Camara {
     constructor(canvas, pos) {
         this.alreadyTranslated = false;
         this.lockScaling = true;

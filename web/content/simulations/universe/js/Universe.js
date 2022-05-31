@@ -1,6 +1,6 @@
-import Game from "../../../lib/games/Game.js";
+import { Game } from "../../../lib/games/Game.js";
 import { Color } from "../../../lib/util/Color.js";
-export default class Universe extends Game {
+export class Universe extends Game {
     constructor(canvas) {
         super(canvas);
         this.gConst = 10;

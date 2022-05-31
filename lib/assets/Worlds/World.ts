@@ -1,15 +1,15 @@
 import { SceneObject } from "../objects/SceneObject.js";
-import Vector2 from "../../util/Vector2.js";
-import Util from "../../util/Util.js";
-import IRenderable from "../../display/IRenderable.js";
-import Renderer from "../../display/Renderer.js";
+import { Vector2 } from "../../util/Vector2.js";
+import { Util } from "../../util/Util.js";
+import { IRenderable } from "../../display/IRenderable.js";
+import { Renderer } from "../../display/Renderer.js";
 import { Color } from "../../util/Color.js";
 import { HitBox } from "../../physic/boundingBox/HitBox.js";
 import { TwoKeyMap } from "../../util/TwoKeyMap.js";
 import { Chunk } from "./Chunk.js";
 import { WorldObject } from "../objects/WorldObject.js";
 
-export default class World implements IRenderable {
+export class World implements IRenderable {
   public pos: Vector2;
   public objects: SceneObject[] = [];
 

@@ -1,6 +1,6 @@
-import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
-import Vector2 from "./Vector2.js";
-export default class Util {
+import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
+import { Vector2 } from "./Vector2.js";
+export class Util {
     static toVector(angle, lenght) {
         const rad = Util.math.convert.DegToRad(angle);
         return new Vector2(Math.sin(rad) * lenght, Math.cos(rad) * lenght);
@@ -225,14 +225,20 @@ Util.object = {
     },
 };
 Util.position = {
-    calcPositionRelativeToCamara(camara, worldPos) {
+    worldPos_to_staticPos(camara, worldPos) {
         const camaraOffset = camara.getOffset();
         const camaraScale = camara.scaleValue;
         const camaraPos = camara.pos;
         const distance = worldPos.subtract(camaraPos).scale(camaraScale);
-        distance.x = Util.math.round.round(distance.x, 2);
-        distance.y = Util.math.round.round(-distance.y, 2);
-        return distance.add(camaraOffset);
+        const staticPos = new Vector2(Util.math.round.round(distance.x, 5), Util.math.round.round(-distance.y, 5)).add(camaraOffset);
+        return staticPos;
+    },
+    staticPos_to_worldPos(camara, staticPos) {
+        const camaraCenter = camara.getOffset();
+        const camaraScale = camara.scaleValue;
+        const distance = staticPos.subtract(camaraCenter).scale(1 / camaraScale);
+        const worldPos = camara.pos.add(new Vector2(Util.math.round.round(distance.x, 5), Util.math.round.round(-distance.y, 5)));
+        return worldPos;
     },
     convertStaticPosInValue(camara, pos) {
         switch (pos) {

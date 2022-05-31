@@ -15,7 +15,7 @@ export class TwoKeyMap<K, K2, V> {
 
   set(key: K, key2: K2, value: V): void {
     const nestedMap = this.map.get(key);
-    if(!nestedMap) this.map.set(key, new Map([[key2, value]]));
+    if (!nestedMap) this.map.set(key, new Map([[key2, value]]));
     else nestedMap.set(key2, value);
   }
 
@@ -25,7 +25,7 @@ export class TwoKeyMap<K, K2, V> {
 
   delete(key: K, key2: K2) {
     const nestedMap = this.map.get(key);
-    if(!nestedMap) return;
+    if (!nestedMap) return;
     else nestedMap.delete(key2);
   }
 }

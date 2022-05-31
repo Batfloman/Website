@@ -1,10 +1,10 @@
-import Util from "../../util/Util.js";
+import { Util } from "../../util/Util.js";
 export class Chunk {
     constructor(x = 0, y = 0, ...objects) {
         this.objects = [];
         this.keys = {
             x: 0,
-            y: 0
+            y: 0,
         };
         this.objectMap = new Map();
         this.keys.x = x;

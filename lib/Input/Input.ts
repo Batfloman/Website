@@ -1,5 +1,5 @@
-import Util from "../util/Util.js";
-import Vector2 from "../util/Vector2.js";
+import { Util } from "../util/Util.js";
+import { Vector2 } from "../util/Vector2.js";
 
 const keys: Map<string, inputKey> = new Map([
   ["a", "a"],
@@ -50,10 +50,10 @@ const keys: Map<string, inputKey> = new Map([
   ["left", "left"],
   ["right", "right"],
   ["up", "up"],
-  ["down", "down"]
+  ["down", "down"],
 ]);
 
-export default class Input {
+export class Input {
   static eventListener: Map<string, Listener[]> = new Map();
 
   static pressedKeys: inputKey[] = new Array();
@@ -81,7 +81,7 @@ export default class Input {
       Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
     });
     window.addEventListener("mouseup", (event: MouseEvent) => {
-            Input.keyUp(Input.getInputKey("mouse" + event.button));
+      Input.keyUp(Input.getInputKey("mouse" + event.button));
     });
     window.addEventListener("mousemove", (event: MouseEvent) => {
       Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
@@ -89,7 +89,6 @@ export default class Input {
 
     // Keys
     window.addEventListener("keydown", (event: KeyboardEvent) => {
-      
       Input.keyDown(Input.getInputKey(event.key));
     });
     window.addEventListener("keyup", (event: KeyboardEvent) => {
@@ -102,13 +101,8 @@ export default class Input {
     });
   }
 
-  static newEventListener<K extends keyof WindowEventMap>(
-    event: K,
-    obj: Object,
-    func: Function
-  ) {
-    if (!Input.eventListener.has(event))
-      window.addEventListener(event, Input.notifyOfEvent);
+  static newEventListener<K extends keyof WindowEventMap>(event: K, obj: Object, func: Function) {
+    if (!Input.eventListener.has(event)) window.addEventListener(event, Input.notifyOfEvent);
 
     let listener = Input.eventListener.get(event);
     if (!listener) listener = new Array();
@@ -121,8 +115,7 @@ export default class Input {
     let listener = Input.eventListener.get(event.type);
     if (!listener) return;
 
-    if (event instanceof MouseEvent)
-      Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
+    if (event instanceof MouseEvent) Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
 
     listener.forEach((listener) => {
       listener.func.call(listener.obj, event);
@@ -130,7 +123,7 @@ export default class Input {
   }
 
   private static keyDown(key: inputKey | undefined) {
-    if(!key) return;
+    if (!key) return;
 
     if (!this.pressedKeys.includes(key)) {
       this.pressedKeys.push(key);
@@ -138,7 +131,7 @@ export default class Input {
   }
 
   private static keyUp(key: inputKey | undefined) {
-    if(!key) return;
+    if (!key) return;
 
     if (this.pressedKeys.includes(key)) {
       Util.array.removeItem(this.pressedKeys, key);

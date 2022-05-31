@@ -1,10 +1,10 @@
 import { WorldObject } from "../../../lib/assets/objects/WorldObject.js";
-import Vector2 from "../../../lib/util/Vector2.js";
-import Circle from "../../../lib/physic/boundingBox/Circle.js";
-import Universe from "./Universe.js";
-import Util from "../../../lib/util/Util.js";
+import { Vector2 } from "../../../lib/util/Vector2.js";
+import { Circle } from "../../../lib/physic/boundingBox/Circle.js";
+import { Universe } from "./Universe.js";
+import { Util } from "../../../lib/util/Util.js";
 import { Color } from "../../../lib/util/Color.js";
-export default class SkyBody extends WorldObject {
+export class SkyBody extends WorldObject {
     constructor(pos, mass, veloctiy = new Vector2()) {
         super(pos, new Circle(0));
         this.density = 0.1;

@@ -1,14 +1,14 @@
 import { SceneObject } from "../assets/objects/SceneObject.js";
-import Camara from "../display/Camara.js";
-import Canvas from "../display/Canvas.js";
-import Renderer from "../display/Renderer.js";
-import Input from "../input/Input.js";
-import World from "../assets/worlds/World.js";
-import Util from "../util/Util.js";
+import { Camara } from "../display/Camara.js";
+import { Canvas } from "../display/Canvas.js";
+import { Renderer } from "../display/Renderer.js";
+import { Input } from "../input/Input.js";
+import { World } from "../assets/worlds/World.js";
+import { Util } from "../util/Util.js";
 import { Color } from "../util/Color.js";
 import { Thread } from "../multiThreading/Thread.js";
 
-export default class Game {
+export class Game {
   // display
   protected canvas: Canvas;
   protected camara: Camara;
@@ -68,7 +68,7 @@ export default class Game {
     let dt = this.calc_dt();
     this.lastTickTime = Date.now();
 
-    if(this.isStopped) dt = 0;
+    if (this.isStopped) dt = 0;
 
     const worlds = Array.from(this.worlds.values());
 

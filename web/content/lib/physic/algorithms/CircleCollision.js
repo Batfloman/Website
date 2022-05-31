@@ -1,5 +1,5 @@
-import Util from "../../util/Util.js";
-export default class CircleCollision {
+import { Util } from "../../util/Util.js";
+export class CircleCollision {
     static potentialCollision(obj1, obj2) {
         return this.circleCollision(obj1.pos, obj1.hitBox.farthestDistance, obj2.pos, obj2.hitBox.farthestDistance);
     }

@@ -1,4 +1,4 @@
-import Input from "../../input/Input.js";
+import { Input } from "../../input/Input.js";
 import { WorldObject } from "./WorldObject.js";
 export class ControllableObject extends WorldObject {
     constructor() {

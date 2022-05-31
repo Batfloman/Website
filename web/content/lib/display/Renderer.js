@@ -1,9 +1,9 @@
-import Input from "../input/Input.js";
-import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
+import { Input } from "../input/Input.js";
+import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
 import { Color } from "../util/Color.js";
-import Util from "../util/Util.js";
-import Vector2 from "../util/Vector2.js";
-export default class Renderer {
+import { Util } from "../util/Util.js";
+import { Vector2 } from "../util/Vector2.js";
+export class Renderer {
     constructor(canvas, camara) {
         this.fillColor = Color.none;
         this.strokeColor = Color.get("black");
@@ -19,14 +19,15 @@ export default class Renderer {
         this.updateValues();
         Input.newEventListener("wheel", this, () => (this.zoomingChanged = true));
     }
-    updateValues() {
+    updateValues(scaleLineWidth = true) {
         if (this.zoomingChanged) {
             this.offSet = this.camara.getOffset();
             this.scale = this.camara.scaleValue;
-            this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+            this.ctx.lineWidth = scaleLineWidth ? this.lineWidth * this.camara.scaleValue : this.lineWidth;
         }
-        else if (this.lineWidhtChanged)
-            this.ctx.lineWidth = this.lineWidth * this.camara.scaleValue;
+        else if (this.lineWidhtChanged) {
+            this.ctx.lineWidth = scaleLineWidth ? this.lineWidth * this.camara.scaleValue : this.lineWidth;
+        }
         if (this.strokeColorChanged) {
             this.ctx.strokeStyle = this.strokeColor.getRGBString();
         }
@@ -35,7 +36,7 @@ export default class Renderer {
         }
     }
     calcPosOnScreen(worldPos) {
-        return Util.position.calcPositionRelativeToCamara(this.camara, worldPos);
+        return Util.position.worldPos_to_staticPos(this.camara, worldPos);
     }
     clear() {
         this.updateValues();
@@ -86,18 +87,16 @@ export default class Renderer {
         return Util.position.convertStaticPosInValue(this.camara, pos);
     }
     convertPercentInValue(widthPercent, heightPercent) {
-        return new Vector2(this.convertWidthPercentInValue(widthPercent), this.convertHeightPercentInValue(heightPercent));
+        return Util.position.convertPercentInValue(this.canvas, widthPercent, heightPercent);
     }
     convertWidthPercentInValue(percent) {
-        const number = (Number.parseFloat(percent) / 100) * this.canvas.width;
-        return isNaN(number) ? 0 : number;
+        return Util.position.convertWidthPercentInValue(this.canvas, percent);
     }
     convertHeightPercentInValue(percent) {
-        const number = (Number.parseFloat(percent) / 100) * this.canvas.height;
-        return isNaN(number) ? 0 : number;
+        return Util.position.convertHeightPercentInValue(this.canvas, percent);
     }
-    renderStaticGrid(pos, xSize, ySize, cellXSize, cellYSize) {
-        this.updateValues();
+    renderStaticGrid(pos, xSize, ySize, cellXSize, cellYSize, scaleLineWidth = true) {
+        this.updateValues(scaleLineWidth);
         if (!(pos instanceof Vector2))
             pos = this.convertStaticPosInValue(pos);
         if (!(typeof xSize == "number"))
@@ -135,8 +134,8 @@ export default class Renderer {
         this.ctx.fillText(text, pos.x, pos.y);
         this.ctx.stroke();
     }
-    renderStaticCirle(pos, radius) {
-        this.updateValues();
+    renderStaticCirle(pos, radius, scaleLineWidth = true) {
+        this.updateValues(scaleLineWidth);
         if (!(pos instanceof Vector2))
             pos = this.convertStaticPosInValue(pos);
         this.ctx.beginPath();
@@ -145,8 +144,8 @@ export default class Renderer {
         this.ctx.fill();
         this.ctx.stroke();
     }
-    renderStaticRectangle(pos, width, height) {
-        this.updateValues();
+    renderStaticRectangle(pos, width, height, scaleLineWidth = true) {
+        this.updateValues(scaleLineWidth);
         if (!(pos instanceof Vector2))
             pos = this.convertStaticPosInValue(pos);
         if (!(typeof width == "number"))

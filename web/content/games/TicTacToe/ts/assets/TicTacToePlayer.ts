@@ -2,7 +2,7 @@ import { TurnBasedPlayer } from "../../../../lib/assets/players/TurnBasedPlayer.
 
 type playerSymbol = "x" | "o";
 
-export default class TicTacToePlayer extends TurnBasedPlayer {
+export class TicTacToePlayer extends TurnBasedPlayer {
   symbol: playerSymbol;
 
   constructor(symbol: playerSymbol) {

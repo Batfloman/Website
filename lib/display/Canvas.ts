@@ -1,6 +1,6 @@
-import Input from "../input/Input.js";
+import { Input } from "../input/Input.js";
 
-export default class Canvas {
+export class Canvas {
   htmlCanvas: HTMLCanvasElement;
 
   width: number = 0;

@@ -1,4 +1,4 @@
-import Util from "./Util.js";
+import { Util } from "./Util.js";
 export class Color {
     constructor(r, g, b, a = 100) {
         this.r = 0;

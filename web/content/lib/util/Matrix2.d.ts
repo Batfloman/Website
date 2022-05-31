@@ -1,4 +1,4 @@
-export default class Matrix2<T> {
+export declare class Matrix2<T> {
     cells: Array<Array<T | string>>;
     constructor(x: number, y: number);
     get(x: number, y: number): T | string;

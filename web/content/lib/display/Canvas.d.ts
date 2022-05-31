@@ -1,4 +1,4 @@
-export default class Canvas {
+export declare class Canvas {
     htmlCanvas: HTMLCanvasElement;
     width: number;
     height: number;

@@ -1,6 +1,6 @@
-import Util from "./Util.js";
+import { Util } from "./Util.js";
 
-export default class Vector2 {
+export class Vector2 {
   x: number;
   y: number;
 

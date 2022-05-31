@@ -1,4 +1,4 @@
-import Input from "../../input/Input.js";
+import { Input } from "../../input/Input.js";
 import { HitBox } from "../../physic/boundingBox/HitBox.js";
 import { WorldObject } from "./WorldObject.js";
 

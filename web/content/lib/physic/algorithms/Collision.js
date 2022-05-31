@@ -1,8 +1,8 @@
-import Circle from "../boundingBox/Circle.js";
-import CircleCollision from "./CircleCollision.js";
-import SAT from "./SAT.js";
-import Triangulation from "./Triangulation.js";
-export default class Collision {
+import { Circle } from "../boundingBox/Circle.js";
+import { CircleCollision } from "./CircleCollision.js";
+import { SAT } from "./SAT.js";
+import { Triangulation } from "./Triangulation.js";
+export class Collision {
     static testCollision(obj1, obj2) {
         [obj1, obj2].forEach((obj) => obj.translatePoints());
         if (obj1.hitBox instanceof Circle || obj2.hitBox instanceof Circle) {

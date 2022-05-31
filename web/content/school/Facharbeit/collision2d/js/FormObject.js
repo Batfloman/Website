@@ -1,9 +1,9 @@
 import { ControllableObject } from "../../../../lib/assets/objects/ControllableObject.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Triangulation from "../../../../lib/physic/algorithms/Triangulation.js";
-import Util from "../../../../lib/util/Util.js";
-import Polygon2Helper from "../../../../lib/physic/algorithms/Polygon2Helper.js";
-export default class FormObject extends ControllableObject {
+import { Triangulation } from "../../../../lib/physic/algorithms/Triangulation.js";
+import { Util } from "../../../../lib/util/Util.js";
+import { Polygon2Helper } from "../../../../lib/physic/algorithms/Polygon2Helper.js";
+export class FormObject extends ControllableObject {
     constructor(pos, hitBox, angle) {
         super(pos, hitBox, angle);
         this.collides = false;

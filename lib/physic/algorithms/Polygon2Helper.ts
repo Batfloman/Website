@@ -1,10 +1,10 @@
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
-import Polygon2 from "../boundingBox/Polygon2.js";
+import { Util } from "../../util/Util.js";
+import { Vector2 } from "../../util/Vector2.js";
+import { Polygon2 } from "../boundingBox/Polygon2.js";
 
 type PolygonWinding = "clockwise" | "counterclockwise";
 
-export default class Polygon2Helper {
+export class Polygon2Helper {
   /**
    * Test a polygon for convexity
    */
@@ -44,9 +44,9 @@ export default class Polygon2Helper {
 
   static findArea(polygon: Polygon2): number {
     let area = 0;
-    for(let i = 0; i < polygon.model.length; i++) {
+    for (let i = 0; i < polygon.model.length; i++) {
       const a = Util.array.getItem(polygon.model, i);
-      const b = Util.array.getItem(polygon.model, i+1);
+      const b = Util.array.getItem(polygon.model, i + 1);
 
       area += a.x * b.y;
       area -= a.y * b.x;

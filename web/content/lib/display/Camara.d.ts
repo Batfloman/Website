@@ -1,9 +1,9 @@
-import Polygon2 from "../physic/boundingBox/Polygon2.js";
-import ICollideable from "../physic/property/ICollideable.js";
-import IMoveable from "../physic/property/IMoveable.js";
-import Vector2 from "../util/Vector2.js";
-import Canvas from "./Canvas";
-export default class Camara implements ICollideable, IMoveable {
+import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
+import { ICollideable } from "../physic/property/ICollideable.js";
+import { IMoveable } from "../physic/property/IMoveable.js";
+import { Vector2 } from "../util/Vector2.js";
+import { Canvas } from "./Canvas";
+export declare class Camara implements ICollideable, IMoveable {
     private canvas;
     constructor(canvas: Canvas, pos?: Vector2);
     getOffset(): Vector2;

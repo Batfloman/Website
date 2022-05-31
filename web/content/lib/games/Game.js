@@ -7,12 +7,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import Camara from "../display/Camara.js";
-import Renderer from "../display/Renderer.js";
-import Input from "../input/Input.js";
-import World from "../assets/worlds/World.js";
-import Util from "../util/Util.js";
-export default class Game {
+import { Camara } from "../display/Camara.js";
+import { Renderer } from "../display/Renderer.js";
+import { Input } from "../input/Input.js";
+import { World } from "../assets/worlds/World.js";
+import { Util } from "../util/Util.js";
+export class Game {
     constructor(canvas) {
         this.isStopped = true;
         this.stoppedBecauseBlur = false;

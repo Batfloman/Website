@@ -1,5 +1,5 @@
-import Collision from "../../physic/algorithms/Collision.js";
-import Util from "../../util/Util.js";
+import { Collision } from "../../physic/algorithms/Collision.js";
+import { Util } from "../../util/Util.js";
 import { Chunk } from "../worlds/Chunk.js";
 import { SceneObject } from "./SceneObject.js";
 export class WorldObject extends SceneObject {

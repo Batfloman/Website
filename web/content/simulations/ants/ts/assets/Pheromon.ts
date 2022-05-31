@@ -1,8 +1,8 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import Renderer from "../../../../lib/display/Renderer.js";
-import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Renderer } from "../../../../lib/display/Renderer.js";
+import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
-import Vector2 from "../../../../lib/util/Vector2.js";
+import { Vector2 } from "../../../../lib/util/Vector2.js";
 
 const pheromonSize = 1;
 const duration = 35000;
@@ -14,7 +14,7 @@ const colors = new Map<Message, Color>([
   ["food", Color.get("blue")],
 ]);
 
-export default class Pheromon extends WorldObject<Circle> {
+export class Pheromon extends WorldObject<Circle> {
   message: Message;
   strength: number;
 
@@ -25,7 +25,7 @@ export default class Pheromon extends WorldObject<Circle> {
     this.strength = 100;
     if (message == "home") this.zIndex = 5;
     if (message == "food") this.zIndex = 10;
-    const color = colors.get(this.message)
+    const color = colors.get(this.message);
     this.color = !color ? Color.get("red") : color;
   }
 

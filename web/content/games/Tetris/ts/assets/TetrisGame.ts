@@ -1,9 +1,9 @@
-import Game from "../../../../lib/games/Game.js";
-import Canvas from "../../../../lib/display/Canvas.js";
-import Shape from "./Shape.js";
-import TetrisGrid from "./TetrisGrid.js";
+import { Game } from "../../../../lib/games/Game.js";
+import { Canvas } from "../../../../lib/display/Canvas.js";
+import { Shape } from "./Shape.js";
+import { TetrisGrid } from "./TetrisGrid.js";
 
-export default class TetrisGame extends Game {
+export class TetrisGame extends Game {
   currentShape!: Shape;
 
   constructor(canvas: Canvas) {
@@ -15,7 +15,7 @@ export default class TetrisGame extends Game {
   tick(): void {
     super.tick();
 
-    if(!this.currentShape) {
+    if (!this.currentShape) {
       this.currentShape = Shape.getRandom();
     }
   }

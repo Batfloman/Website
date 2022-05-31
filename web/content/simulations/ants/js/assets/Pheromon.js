@@ -1,5 +1,5 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import Circle from "../../../../lib/physic/boundingBox/Circle.js";
+import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
 const pheromonSize = 1;
 const duration = 35000;
@@ -7,7 +7,7 @@ const colors = new Map([
     ["home", Color.get("red")],
     ["food", Color.get("blue")],
 ]);
-export default class Pheromon extends WorldObject {
+export class Pheromon extends WorldObject {
     constructor(pos, message) {
         super(pos, new Circle(pheromonSize));
         this.hiveId = 0;

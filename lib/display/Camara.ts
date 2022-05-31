@@ -1,15 +1,15 @@
-import Input from "../input/Input.js";
-import Collision from "../physic/algorithms/Collision.js";
-import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
-import Polygon2 from "../physic/boundingBox/Polygon2.js";
-import Rectangle from "../physic/boundingBox/Rectangle.js";
-import ICollideable from "../physic/property/ICollideable.js";
-import IMoveable from "../physic/property/IMoveable.js";
-import Util from "../util/Util.js";
-import Vector2 from "../util/Vector2.js";
-import Canvas from "./Canvas";
+import { Input } from "../input/Input.js";
+import { Collision } from "../physic/algorithms/Collision.js";
+import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
+import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
+import { Rectangle } from "../physic/boundingBox/Rectangle.js";
+import { ICollideable } from "../physic/property/ICollideable.js";
+import { IMoveable } from "../physic/property/IMoveable.js";
+import { Util } from "../util/Util.js";
+import { Vector2 } from "../util/Vector2.js";
+import { Canvas } from "./Canvas";
 
-export default class Camara implements ICollideable, IMoveable {
+export class Camara implements ICollideable, IMoveable {
   private canvas: Canvas;
 
   constructor(canvas: Canvas, pos?: Vector2) {
@@ -151,14 +151,13 @@ export default class Camara implements ICollideable, IMoveable {
 
     this.pos.x -= event.movementX / this.scaleValue;
     this.pos.y += event.movementY / this.scaleValue;
-    
+
     this.alreadyTranslated = false;
   }
 
   setLockMovement(b: boolean): void {
     this.lockMovement = b;
   }
- 
-  //#endregion
 
+  //#endregion
 }

@@ -1,7 +1,7 @@
-import Util from "../../util/Util.js";
-import Polygon2 from "../boundingBox/Polygon2.js";
-import Polygon2Helper from "./Polygon2Helper.js";
-export default class Triangulation {
+import { Util } from "../../util/Util.js";
+import { Polygon2 } from "../boundingBox/Polygon2.js";
+import { Polygon2Helper } from "./Polygon2Helper.js";
+export class Triangulation {
     static triangulate(obj) {
         if (!(obj.hitBox instanceof Polygon2))
             throw new Error("other than polygon not implemented yet!");

@@ -1,8 +1,8 @@
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
+import { Util } from "../../util/Util.js";
+import { Vector2 } from "../../util/Vector2.js";
 import { HitBox } from "./HitBox.js";
 
-export default class Circle extends HitBox {
+export class Circle extends HitBox {
   radius: number;
 
   constructor(radius: number = 0) {
@@ -18,8 +18,8 @@ export default class Circle extends HitBox {
   translatePoints(pos: Vector2, orientation: number): Vector2[] {
     return [
       Util.moveDirection(pos, orientation, this.radius),
-      Util.moveDirection(pos, 360-orientation, this.radius)
-    ]
+      Util.moveDirection(pos, 360 - orientation, this.radius),
+    ];
   }
   scale(scalar: number): void {
     this.radius *= scalar;

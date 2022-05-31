@@ -1,5 +1,5 @@
-import Vector2 from "../util/Vector2.js";
-export default class Input {
+import { Vector2 } from "../util/Vector2.js";
+export declare class Input {
     static eventListener: Map<string, Listener[]>;
     static pressedKeys: inputKey[];
     static mPosHover: Vector2;

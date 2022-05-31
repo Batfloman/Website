@@ -1,10 +1,10 @@
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
-import Polygon2 from "../boundingBox/Polygon2.js";
-import ICollideable from "../property/ICollideable.js";
-import Polygon2Helper from "./Polygon2Helper.js";
+import { Util } from "../../util/Util.js";
+import { Vector2 } from "../../util/Vector2.js";
+import { Polygon2 } from "../boundingBox/Polygon2.js";
+import { ICollideable } from "../property/ICollideable.js";
+import { Polygon2Helper } from "./Polygon2Helper.js";
 
-export default class Triangulation {
+export class Triangulation {
   static triangulate(obj: ICollideable): ICollideable[] {
     if (!(obj.hitBox instanceof Polygon2))
       throw new Error("other than polygon not implemented yet!");

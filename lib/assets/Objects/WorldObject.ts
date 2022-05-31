@@ -1,12 +1,12 @@
-import Camara from "../../display/Camara.js";
-import Collision from "../../physic/algorithms/Collision.js";
+import { Camara } from "../../display/Camara.js";
+import { Collision } from "../../physic/algorithms/Collision.js";
 import { HitBox } from "../../physic/boundingBox/HitBox.js";
-import ICollideable from "../../physic/property/ICollideable.js";
-import IMoveable from "../../physic/property/IMoveable.js";
-import Util from "../../util/Util.js";
-import Vector2 from "../../util/Vector2.js";
+import { ICollideable } from "../../physic/property/ICollideable.js";
+import { IMoveable } from "../../physic/property/IMoveable.js";
+import { Util } from "../../util/Util.js";
+import { Vector2 } from "../../util/Vector2.js";
 import { Chunk } from "../worlds/Chunk.js";
-import World from "../worlds/World.js";
+import {World} from "../worlds/World.js";
 import { SceneObject } from "./SceneObject.js";
 
 export abstract class WorldObject<HitBoxType extends HitBox>
@@ -86,8 +86,6 @@ export abstract class WorldObject<HitBoxType extends HitBox>
 
   // ==========================================================================================
   // #region move Object
-
-  
 
   rotate(angle: number) {
     this.orientation += angle;

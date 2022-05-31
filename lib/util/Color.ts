@@ -1,4 +1,4 @@
-import Util from "./Util.js"; 
+import { Util } from "./Util.js";
 
 export class Color {
   static none = new Color(0, 0, 0, 0);

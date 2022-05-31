@@ -1,12 +1,12 @@
-import Camara from "../display/Camara.js";
-import Canvas from "../display/Canvas.js";
-import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
-import Polygon2 from "../physic/boundingBox/Polygon2.js";
-import Vector2 from "./Vector2.js";
+import { Camara } from "../display/Camara.js";
+import { Canvas } from "../display/Canvas.js";
+import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
+import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
+import { Vector2 } from "./Vector2.js";
 
 export type staticPosition = "center";
 
-export default class Util {
+export class Util {
   static array = {
     getItem<T>(arr: T[], index: number): T {
       if (index < 0) index = arr.length - 1;
@@ -179,17 +179,32 @@ export default class Util {
   };
 
   static position = {
-    calcPositionRelativeToCamara(camara: Camara, worldPos: Vector2): Vector2 {
+    /** Returns the static Position of a point with a world Position */
+    worldPos_to_staticPos(camara: Camara, worldPos: Vector2): Vector2 {
       const camaraOffset = camara.getOffset();
       const camaraScale = camara.scaleValue;
       const camaraPos = camara.pos;
 
       const distance = worldPos.subtract(camaraPos).scale(camaraScale);
 
-      distance.x = Util.math.round.round(distance.x, 2);
-      distance.y = Util.math.round.round(-distance.y, 2);
+      const staticPos = new Vector2(
+        Util.math.round.round(distance.x, 5),
+        Util.math.round.round(-distance.y, 5)
+      ).add(camaraOffset);
 
-      return distance.add(camaraOffset);
+      return staticPos;
+    },
+    /** Returns the world Position of a point with a static Position */
+    staticPos_to_worldPos(camara: Camara, staticPos: Vector2): Vector2 {
+      const camaraCenter = camara.getOffset();
+      const camaraScale = camara.scaleValue;
+
+      const distance = staticPos.subtract(camaraCenter).scale(1 / camaraScale);
+
+      const worldPos = camara.pos.add(
+        new Vector2(Util.math.round.round(distance.x, 5), Util.math.round.round(-distance.y, 5))
+      );
+      return worldPos;
     },
     convertStaticPosInValue(camara: Camara, pos: staticPosition): Vector2 {
       switch (pos) {

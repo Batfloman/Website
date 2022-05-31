@@ -1,6 +1,6 @@
-import Util from "./Util.js";
+import { Util } from "./Util.js";
 
-export default class Matrix2<T> {
+export class Matrix2<T> {
   cells: Array<Array<T | string>>;
 
   constructor(x: number, y: number) {
