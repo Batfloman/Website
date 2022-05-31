@@ -4,10 +4,10 @@ import Util from "../../util/Util.js";
 import IRenderable from "../../display/IRenderable.js";
 import Renderer from "../../display/Renderer.js";
 import { Color } from "../../util/Color.js";
-import { WorldObject } from "../objects/WorldObject.js";
 import { HitBox } from "../../physic/boundingBox/HitBox.js";
 import { TwoKeyMap } from "../../util/TwoKeyMap.js";
 import { Chunk } from "./Chunk.js";
+import { WorldObject } from "../objects/WorldObject.js";
 
 export default class World implements IRenderable {
   public pos: Vector2;
@@ -65,9 +65,15 @@ export default class World implements IRenderable {
   }
 
   removeObject(obj: SceneObject): SceneObject | undefined {
+    const removed = Util.array.removeItem(this.objects, obj);
     this.removeFromMap(obj);
 
-    return Util.array.removeItem(this.objects, obj);
+    if (obj instanceof WorldObject) {
+      const chunk = obj.getChunk();
+      chunk.removeObject(obj);
+    }
+
+    return removed;
   }
 
   findObjects<T extends SceneObject>(clas: string | Function, exclude?: T | T[]): T[] {

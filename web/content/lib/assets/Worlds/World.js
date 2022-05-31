@@ -1,9 +1,9 @@
 import Vector2 from "../../util/Vector2.js";
 import Util from "../../util/Util.js";
 import { Color } from "../../util/Color.js";
-import { WorldObject } from "../objects/WorldObject.js";
 import { TwoKeyMap } from "../../util/TwoKeyMap.js";
 import { Chunk } from "./Chunk.js";
+import { WorldObject } from "../objects/WorldObject.js";
 export default class World {
     constructor(pos = new Vector2(), backgroundColor = Color.get("white")) {
         this.objects = [];
@@ -38,8 +38,13 @@ export default class World {
         }
     }
     removeObject(obj) {
+        const removed = Util.array.removeItem(this.objects, obj);
         this.removeFromMap(obj);
-        return Util.array.removeItem(this.objects, obj);
+        if (obj instanceof WorldObject) {
+            const chunk = obj.getChunk();
+            chunk.removeObject(obj);
+        }
+        return removed;
     }
     findObjects(clas, exclude) {
         const clasName = clas instanceof Function ? clas.name : clas;

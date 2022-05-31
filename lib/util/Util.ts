@@ -1,6 +1,10 @@
+import Camara from "../display/Camara.js";
+import Canvas from "../display/Canvas.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import Vector2 from "./Vector2.js";
+
+export type staticPosition = "center";
 
 export default class Util {
   static array = {
@@ -171,6 +175,44 @@ export default class Util {
       }
 
       return superClasses;
+    },
+  };
+
+  static position = {
+    calcPositionRelativeToCamara(camara: Camara, worldPos: Vector2): Vector2 {
+      const camaraOffset = camara.getOffset();
+      const camaraScale = camara.scaleValue;
+      const camaraPos = camara.pos;
+
+      const distance = worldPos.subtract(camaraPos).scale(camaraScale);
+
+      distance.x = Util.math.round.round(distance.x, 2);
+      distance.y = Util.math.round.round(-distance.y, 2);
+
+      return distance.add(camaraOffset);
+    },
+    convertStaticPosInValue(camara: Camara, pos: staticPosition): Vector2 {
+      switch (pos) {
+        case "center":
+          return camara.getOffset();
+        default:
+          console.warn(pos, " has no case!");
+          return new Vector2();
+      }
+    },
+    convertPercentInValue(canvas: Canvas, widthPercent: string, heightPercent: string): Vector2 {
+      return new Vector2(
+        this.convertWidthPercentInValue(canvas, widthPercent),
+        this.convertHeightPercentInValue(canvas, heightPercent)
+      );
+    },
+    convertWidthPercentInValue(canvas: Canvas, percent: string): number {
+      const number = (Number.parseFloat(percent) / 100) * canvas.width;
+      return isNaN(number) ? 0 : number;
+    },
+    convertHeightPercentInValue(canvas: Canvas, percent: string): number {
+      const number = (Number.parseFloat(percent) / 100) * canvas.height;
+      return isNaN(number) ? 0 : number;
     },
   };
 

@@ -1,9 +1,9 @@
 import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import { Color } from "../util/Color.js";
+import { staticPosition } from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
-export declare type staticPosition = "center";
 export default class Renderer {
     private fillColor;
     private strokeColor;

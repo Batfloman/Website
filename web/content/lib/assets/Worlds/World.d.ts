@@ -3,9 +3,9 @@ import Vector2 from "../../util/Vector2.js";
 import IRenderable from "../../display/IRenderable.js";
 import Renderer from "../../display/Renderer.js";
 import { Color } from "../../util/Color.js";
-import { WorldObject } from "../objects/WorldObject.js";
 import { HitBox } from "../../physic/boundingBox/HitBox.js";
 import { Chunk } from "./Chunk.js";
+import { WorldObject } from "../objects/WorldObject.js";
 export default class World implements IRenderable {
     pos: Vector2;
     objects: SceneObject[];

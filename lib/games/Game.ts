@@ -7,7 +7,6 @@ import World from "../assets/worlds/World.js";
 import Util from "../util/Util.js";
 import { Color } from "../util/Color.js";
 import { Thread } from "../multiThreading/Thread.js";
-import { WorldObject } from "../assets/objects/WorldObject.js";
 
 export default class Game {
   // display

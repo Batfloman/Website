@@ -1,5 +1,8 @@
+import Camara from "../display/Camara.js";
+import Canvas from "../display/Canvas.js";
 import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import Vector2 from "./Vector2.js";
+export declare type staticPosition = "center";
 export default class Util {
     static array: {
         getItem<T>(arr: T[], index: number): T;
@@ -52,6 +55,13 @@ export default class Util {
         findAllClasses(clas: Object | Function): Function[];
         findAllSuperClassNames(clas: Object | Function): string[];
         findAllSuperClasses(clas: Object | Function): Function[];
+    };
+    static position: {
+        calcPositionRelativeToCamara(camara: Camara, worldPos: Vector2): Vector2;
+        convertStaticPosInValue(camara: Camara, pos: staticPosition): Vector2;
+        convertPercentInValue(canvas: Canvas, widthPercent: string, heightPercent: string): Vector2;
+        convertWidthPercentInValue(canvas: Canvas, percent: string): number;
+        convertHeightPercentInValue(canvas: Canvas, percent: string): number;
     };
     static toVector(angle: number, lenght: number): Vector2;
     static findAngleLine(startPoint: Vector2, endPoint: Vector2): number;

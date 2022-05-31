@@ -16,6 +16,7 @@ body {
   background-color: var(--theme-background);
   color: var(--theme-font-color);
   font-family: Consolas;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .wrapper {

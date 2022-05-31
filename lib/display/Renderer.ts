@@ -2,12 +2,10 @@ import Input from "../input/Input.js";
 import Polygon2Helper from "../physic/algorithms/Polygon2Helper.js";
 import Polygon2 from "../physic/boundingBox/Polygon2.js";
 import { Color } from "../util/Color.js";
-import Util from "../util/Util.js";
+import Util, { staticPosition } from "../util/Util.js";
 import Vector2 from "../util/Vector2.js";
 import Camara from "./Camara.js";
 import Canvas from "./Canvas.js";
-
-export type staticPosition = "center";
 
 export default class Renderer {
   private fillColor: Color = Color.none;
@@ -57,12 +55,7 @@ export default class Renderer {
   //#region math: not-static rendering
 
   private calcPosOnScreen(worldPos: Vector2): Vector2 {
-    const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
-
-    distance.x = Util.math.round.round(distance.x, 2);
-    distance.y = Util.math.round.round(-distance.y, 2);
-
-    return distance.add(this.offSet);
+    return Util.position.calcPositionRelativeToCamara(this.camara, worldPos);
   }
 
   //#endregion
@@ -148,14 +141,7 @@ export default class Renderer {
   //#region math: static Rendering
 
   private convertStaticPosInValue(pos: staticPosition): Vector2 {
-    switch (pos) {
-      case "center":
-        return this.offSet;
-        break;
-      default:
-        console.warn(pos, " has no case!");
-        return new Vector2();
-    }
+    return Util.position.convertStaticPosInValue(this.camara, pos);
   }
 
   private convertPercentInValue(widthPercent: string, heightPercent: string): Vector2 {
@@ -241,6 +227,7 @@ export default class Renderer {
     this.ctx.arc(pos.x, pos.y, radius, 0, 360);
     this.ctx.closePath();
     this.ctx.fill();
+    this.ctx.stroke();
   }
 
   renderStaticRectangle(

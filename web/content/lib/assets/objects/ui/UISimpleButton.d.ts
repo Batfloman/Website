@@ -1,6 +1,7 @@
-import Renderer, { staticPosition } from "../../../display/Renderer.js";
+import Renderer from "../../../display/Renderer.js";
 import Rectangle from "../../../physic/boundingBox/Rectangle.js";
 import { Color } from "../../../util/Color.js";
+import { staticPosition } from "../../../util/Util.js";
 import Vector2 from "../../../util/Vector2.js";
 import { WorldObject } from "../WorldObject.js";
 export default class UISimpleButton extends WorldObject<Rectangle> {

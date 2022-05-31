@@ -35,10 +35,7 @@ export default class Renderer {
         }
     }
     calcPosOnScreen(worldPos) {
-        const distance = worldPos.subtract(this.camara.pos).scale(this.scale);
-        distance.x = Util.math.round.round(distance.x, 2);
-        distance.y = Util.math.round.round(-distance.y, 2);
-        return distance.add(this.offSet);
+        return Util.position.calcPositionRelativeToCamara(this.camara, worldPos);
     }
     clear() {
         this.updateValues();
@@ -86,14 +83,7 @@ export default class Renderer {
             this.renderPoints(translated, 1);
     }
     convertStaticPosInValue(pos) {
-        switch (pos) {
-            case "center":
-                return this.offSet;
-                break;
-            default:
-                console.warn(pos, " has no case!");
-                return new Vector2();
-        }
+        return Util.position.convertStaticPosInValue(this.camara, pos);
     }
     convertPercentInValue(widthPercent, heightPercent) {
         return new Vector2(this.convertWidthPercentInValue(widthPercent), this.convertHeightPercentInValue(heightPercent));
@@ -153,6 +143,7 @@ export default class Renderer {
         this.ctx.arc(pos.x, pos.y, radius, 0, 360);
         this.ctx.closePath();
         this.ctx.fill();
+        this.ctx.stroke();
     }
     renderStaticRectangle(pos, width, height) {
         this.updateValues();

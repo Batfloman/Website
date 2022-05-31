@@ -1,8 +1,9 @@
-import Renderer, { staticPosition } from "../../../display/Renderer.js";
+import Renderer from "../../../display/Renderer.js";
 import Input from "../../../input/Input.js";
 import PointToPolygon from "../../../physic/algorithms/PointToPolygon.js";
 import Rectangle from "../../../physic/boundingBox/Rectangle.js";
 import { Color } from "../../../util/Color.js";
+import { staticPosition } from "../../../util/Util.js";
 import Vector2 from "../../../util/Vector2.js";
 import { WorldObject } from "../WorldObject.js";
 

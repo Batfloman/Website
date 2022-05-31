@@ -224,3 +224,34 @@ Util.object = {
         return superClasses;
     },
 };
+Util.position = {
+    calcPositionRelativeToCamara(camara, worldPos) {
+        const camaraOffset = camara.getOffset();
+        const camaraScale = camara.scaleValue;
+        const camaraPos = camara.pos;
+        const distance = worldPos.subtract(camaraPos).scale(camaraScale);
+        distance.x = Util.math.round.round(distance.x, 2);
+        distance.y = Util.math.round.round(-distance.y, 2);
+        return distance.add(camaraOffset);
+    },
+    convertStaticPosInValue(camara, pos) {
+        switch (pos) {
+            case "center":
+                return camara.getOffset();
+            default:
+                console.warn(pos, " has no case!");
+                return new Vector2();
+        }
+    },
+    convertPercentInValue(canvas, widthPercent, heightPercent) {
+        return new Vector2(this.convertWidthPercentInValue(canvas, widthPercent), this.convertHeightPercentInValue(canvas, heightPercent));
+    },
+    convertWidthPercentInValue(canvas, percent) {
+        const number = (Number.parseFloat(percent) / 100) * canvas.width;
+        return isNaN(number) ? 0 : number;
+    },
+    convertHeightPercentInValue(canvas, percent) {
+        const number = (Number.parseFloat(percent) / 100) * canvas.height;
+        return isNaN(number) ? 0 : number;
+    },
+};
