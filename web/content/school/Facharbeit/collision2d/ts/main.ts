@@ -4,8 +4,6 @@ import { System } from "./src/System.js";
 import { Util } from "../../../../lib/util/Util.js";
 import { Vector2 } from "../../../../lib/util/Vector2.js";
 import { Form } from "./src/Form.js";
-import { Color } from "../../../../lib/util/Color.js";
-import { Polygon2 } from "../../../../lib/physic/boundingBox/Polygon2.js";
 import { UISimpleButton } from "../../../../lib/assets/objects/ui/UISimpleButton.js";
 
 // settings
@@ -25,28 +23,39 @@ const maxIrregularity = 1;
 window.onload = () => {
   let s = new System(new Canvas(document.querySelector("canvas")));
 
+  // ==========================================================================================
+  // #region settings
+
   s.setCamaraMovementLock(false);
   s.setCamaraScaleLock(false);
   s.setWorldChunkSize(500);
 
   s.getCamara().setMaxZoomOutAmount(12);
+  
+  //#endregion
 
-  // UI
+  // ==========================================================================================
+  // #region UI
 
-  const button = new UISimpleButton(new Vector2(5, 5), "7", "3", "stop");
-  button.action = () => {
+  // stop Button
+  const stopButton = new UISimpleButton(new Vector2(7, 5), "10", "4", "stop");
+  stopButton.action = () => {
     s.stop();
-  }
-  s.addObject(button);
+  };
+  s.addObject(stopButton);
 
-  // const button2 = new UISimpleButton(new Vector2(5, 10), "7", "3", "start");
-  // button2.action = () => {
-  //   console.log("start");
-  //   s.start();
-  // }
-  // s.addObject(button2);
+  // start Button
+  const startButton = new UISimpleButton(new Vector2(7, 10.5), "10", "4", "start");
+  startButton.action = () => {
+    console.log("start");
+    s.start();
+  };
+  s.addObject(startButton);
 
-  // contents
+  //#endregion
+
+  // ==========================================================================================
+  // #region contents
 
   for (let i = 0; i < amountShapes; i++) {
     s.addObject(createRandomShape());
@@ -82,8 +91,9 @@ window.onload = () => {
   // form2.rotationSpeed = 0;
   // s.addObject(form2);
 
+  //#endregion
+
   s.start();
-  // s.tick();
 };
 
 function createRandomShape(): FormObject {

@@ -19,11 +19,17 @@ window.onload = () => {
     s.setCamaraScaleLock(false);
     s.setWorldChunkSize(500);
     s.getCamara().setMaxZoomOutAmount(12);
-    const button = new UISimpleButton(new Vector2(5, 5), "7", "3", "stop");
-    button.action = () => {
+    const stopButton = new UISimpleButton(new Vector2(7, 5), "10", "4", "stop");
+    stopButton.action = () => {
         s.stop();
     };
-    s.addObject(button);
+    s.addObject(stopButton);
+    const startButton = new UISimpleButton(new Vector2(7, 10.5), "10", "4", "start");
+    startButton.action = () => {
+        console.log("start");
+        s.start();
+    };
+    s.addObject(startButton);
     for (let i = 0; i < amountShapes; i++) {
         s.addObject(createRandomShape());
     }
