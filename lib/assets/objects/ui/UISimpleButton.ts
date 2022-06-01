@@ -114,21 +114,11 @@ export class UISimpleButton extends WorldObject<Rectangle> {
   // ==========================================================================================
   // #region collision & stuff
 
-  // translatePoints(): Vector2[] {
-  //   if (this.alreadyTranslated) return this.translatedPoints;
+  translatePoints(): Vector2[] {
+    this.updateWorldPos();
 
-  //   this.updateWorldPos();
-
-  //   this.translatedPoints = [];
-  //   for (let point of this.hitBox.model) {
-  //     point = point.scale(1 / this.game.getCamara().scaleValue);
-  //     this.translatedPoints.push(Polygon2Helper.translatePoint(point, this.pos, this.orientation));
-  //   }
-
-  //   this.alreadyTranslated = true;
-
-  //   return this.translatedPoints;
-  // }
+    return super.translatePoints();
+  }
 
   //#endregion
 

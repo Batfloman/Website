@@ -12,6 +12,7 @@ import { Renderer } from "../display/Renderer.js";
 import { Input } from "../input/Input.js";
 import { World } from "../assets/worlds/World.js";
 import { Util } from "../util/Util.js";
+const maxDTPerTick = 75;
 export class Game {
     constructor(canvas) {
         this.isStopped = true;
@@ -54,12 +55,25 @@ export class Game {
             this.lastTickTime = Date.now();
             if (this.isStopped)
                 dt = 0;
-            const worlds = Array.from(this.worlds.values());
-            for (let world of Util.array.copyOf(worlds)) {
-                world.putObjectsInCunks();
-                for (let obj of world.objects) {
-                    if (obj.shouldUpdate())
-                        obj.update(dt);
+            if (dt > 5 * maxDTPerTick)
+                dt = 5 * maxDTPerTick;
+            while (dt > 0) {
+                let usedDt;
+                if (dt > maxDTPerTick) {
+                    usedDt = maxDTPerTick;
+                    dt -= maxDTPerTick;
+                }
+                else {
+                    usedDt = dt;
+                    dt = 0;
+                }
+                const worlds = Array.from(this.worlds.values());
+                for (let world of Util.array.copyOf(worlds)) {
+                    world.putObjectsInCunks();
+                    for (let obj of world.objects) {
+                        if (obj.shouldUpdate())
+                            obj.update(usedDt);
+                    }
                 }
             }
         });

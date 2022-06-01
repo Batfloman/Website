@@ -191,10 +191,14 @@ export class World implements IRenderable {
   }
 
   findChunkOf(obj: WorldObject<HitBox>): Vector2 {
+    return this.findChunkOfPos(obj.pos);
+  }
+
+  findChunkOfPos(pos: Vector2): Vector2 {
     return new Vector2(
-      Math.floor(obj.pos.x / this.chunkSize),
-      Math.floor(obj.pos.y / this.chunkSize)
-    );
+      Math.floor(pos.x / this.chunkSize),
+      Math.floor(pos.y / this.chunkSize)
+    )
   }
 
   findNeighbourChunksOf(chunk: Chunk, distance: number = 1, rectangleStlye = true): Chunk[] {

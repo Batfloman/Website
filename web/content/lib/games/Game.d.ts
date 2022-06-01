@@ -8,7 +8,7 @@ export declare class Game {
     protected canvas: Canvas;
     protected camara: Camara;
     protected renderer: Renderer;
-    private isStopped;
+    isStopped: boolean;
     private stoppedBecauseBlur;
     private timeElapsedBeforeStop;
     maxUpdateDistance: number;

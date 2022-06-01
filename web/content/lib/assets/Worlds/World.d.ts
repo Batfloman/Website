@@ -29,6 +29,7 @@ export declare class World implements IRenderable {
     private removeFromChunks;
     private addToChunk;
     findChunkOf(obj: WorldObject<HitBox>): Vector2;
+    findChunkOfPos(pos: Vector2): Vector2;
     findNeighbourChunksOf(chunk: Chunk, distance?: number, rectangleStlye?: boolean): Chunk[];
     getChunk(x: number, y: number): Chunk | undefined;
     setChunkSize(size: number): void;

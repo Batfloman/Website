@@ -120,7 +120,10 @@ export class World {
         obj.setChunk(content);
     }
     findChunkOf(obj) {
-        return new Vector2(Math.floor(obj.pos.x / this.chunkSize), Math.floor(obj.pos.y / this.chunkSize));
+        return this.findChunkOfPos(obj.pos);
+    }
+    findChunkOfPos(pos) {
+        return new Vector2(Math.floor(pos.x / this.chunkSize), Math.floor(pos.y / this.chunkSize));
     }
     findNeighbourChunksOf(chunk, distance = 1, rectangleStlye = true) {
         if (!rectangleStlye) {

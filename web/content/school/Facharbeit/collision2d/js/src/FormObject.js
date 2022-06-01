@@ -3,6 +3,7 @@ import { Color } from "../../../../../lib/util/Color.js";
 import { Triangulation } from "../../../../../lib/physic/algorithms/Triangulation.js";
 import { Util } from "../../../../../lib/util/Util.js";
 import { Polygon2Helper } from "../../../../../lib/physic/algorithms/Polygon2Helper.js";
+export const selectDistance = 10;
 export class FormObject extends ControllableObject {
     constructor(pos, hitBox, angle) {
         super(pos, hitBox, angle);
@@ -12,22 +13,22 @@ export class FormObject extends ControllableObject {
         this.controlles.set("w", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
+            this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
         this.controlles.set("a", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(-90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
+            this.moveDirection(-90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
         this.controlles.set("s", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(180, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
+            this.moveDirection(180, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
         this.controlles.set("d", (dt) => {
             if (!this.selected)
                 return;
-            this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt));
+            this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
         this.controlles.set("q", (dt) => {
             if (!this.selected)
@@ -41,7 +42,9 @@ export class FormObject extends ControllableObject {
         });
     }
     update2(dt) {
-        this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
+        if (!this.selected) {
+            this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt) * this.game.speedMult);
+        }
         let objects = this.world.findObjectsInNeighbouringChunks(this.chunk, FormObject, this);
         for (let obj of objects) {
             this.collides = this.isCollidingWith(obj);
@@ -64,7 +67,7 @@ export class FormObject extends ControllableObject {
         renderer.setLineWidth(3);
         renderer.setStrokeColor(Color.get("black"));
         renderer.setFillColor(this.selected ? Color.get("black") : Color.none);
-        renderer.renderCircle(this.pos, 10);
+        renderer.renderCircle(this.pos, selectDistance);
         renderer.setLineWidth(0.33);
         renderer.setFillColor(Color.none);
         renderer.renderCircle(this.pos, this.hitBox.farthestDistance);

@@ -7,10 +7,15 @@ import { Polygon2Helper } from "../../../../../lib/physic/algorithms/Polygon2Hel
 import { WorldObject } from "../../../../../lib/assets/objects/WorldObject.js";
 import { Renderer } from "../../../../../lib/display/Renderer.js";
 import { Polygon2 } from "../../../../../lib/physic/boundingBox/Polygon2.js";
+import { System } from "./System.js";
+
+export const selectDistance = 10;
 
 export class FormObject extends ControllableObject<Polygon2> {
   collides: boolean = false;
   selected: boolean = false;
+
+  game!: System;
 
   rotationSpeed: number = Util.math.random.between(45, 135);
 
@@ -19,31 +24,19 @@ export class FormObject extends ControllableObject<Polygon2> {
 
     this.controlles.set("w", (dt: number) => {
       if (!this.selected) return;
-      this.moveDirection(
-        0,
-        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt)
-      );
+      this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
     this.controlles.set("a", (dt: number) => {
       if (!this.selected) return;
-      this.moveDirection(
-        -90,
-        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt)
-      );
+      this.moveDirection(-90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
     this.controlles.set("s", (dt: number) => {
       if (!this.selected) return;
-      this.moveDirection(
-        180,
-        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt)
-      );
+      this.moveDirection(180, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
     this.controlles.set("d", (dt: number) => {
       if (!this.selected) return;
-      this.moveDirection(
-        90,
-        this.calc_valueChangeForDT((90 * 1) / this.game.getCamara().scaleValue, dt)
-      );
+      this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
     this.controlles.set("q", (dt: number) => {
       if (!this.selected) return;
@@ -56,7 +49,9 @@ export class FormObject extends ControllableObject<Polygon2> {
   }
 
   update2(dt: number): void {
-    this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt));
+    if (!this.selected) {
+      this.rotate(this.calc_valueChangeForDT(this.rotationSpeed, dt) * this.game.speedMult);
+    }
 
     let objects: FormObject[] = this.world.findObjectsInNeighbouringChunks<FormObject>(
       this.chunk,
@@ -87,7 +82,7 @@ export class FormObject extends ControllableObject<Polygon2> {
     renderer.setStrokeColor(Color.get("black"));
     renderer.setFillColor(this.selected ? Color.get("black") : Color.none);
 
-    renderer.renderCircle(this.pos, 10);
+    renderer.renderCircle(this.pos, selectDistance);
 
     renderer.setLineWidth(0.33);
     renderer.setFillColor(Color.none);

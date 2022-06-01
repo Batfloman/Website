@@ -56,6 +56,10 @@ export class UISimpleButton extends WorldObject {
     shouldUpdate() {
         return true;
     }
+    translatePoints() {
+        this.updateWorldPos();
+        return super.translatePoints();
+    }
     updateHitBox() {
         this.hitBox = new Rectangle(Util.position.convertWidthPercentInValue(this.canvas, this.staticWidth) /
             this.camara.scaleValue, Util.position.convertHeightPercentInValue(this.canvas, this.staticHeight) /

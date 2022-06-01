@@ -23,9 +23,19 @@ window.onload = () => {
   game.getCamara().setMaxZoomInAmount(10);
   game.getCamara().setMaxZoomOutAmount(8);
 
-  // for(let i = 0; i < 10; i++) {
-  //   game.addObject(randomAntHill());
-  // }
+  // ==========================================================================================
+  // #region buttons
+
+  const killAnts = new UISimpleButton(new Vector2(7, 5), "10", "5", "kill All Ants");
+  killAnts.action = () => {
+    const ants = game.findObjects<Ant>(Ant);
+    for(let ant of ants) {
+      game.removeObject(ant);
+    }
+  }
+  game.addObject(killAnts);
+
+  //#endregion
 
   game.addObject(new Hive(new Vector2(), 10000));
 

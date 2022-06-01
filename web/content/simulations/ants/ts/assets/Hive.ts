@@ -49,6 +49,7 @@ export class Hive extends WorldObject<Circle> {
     }
   }
   render(renderer: Renderer): void {
+    this.color.setA(100);
     renderer.setStrokeColor(this.color);
     renderer.setFillColor(this.color);
     renderer.renderCircle(this.pos, hillSize);

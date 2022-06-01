@@ -8,6 +8,8 @@ import { Util } from "../util/Util.js";
 import { Color } from "../util/Color.js";
 import { Thread } from "../multiThreading/Thread.js";
 
+const maxDTPerTick = 75;
+
 export class Game {
   // display
   protected canvas: Canvas;
@@ -17,7 +19,7 @@ export class Game {
   // contents
 
   // time
-  private isStopped: boolean = true;
+  isStopped: boolean = true;
   private stoppedBecauseBlur: boolean = false;
   private timeElapsedBeforeStop = 0;
 
@@ -70,13 +72,30 @@ export class Game {
 
     if (this.isStopped) dt = 0;
 
-    const worlds = Array.from(this.worlds.values());
+    // this is to not pile up more and more dt if updates take longer
+    if (dt > 5 * maxDTPerTick) dt = 5 * maxDTPerTick;
 
-    for (let world of Util.array.copyOf(worlds)) {
-      world.putObjectsInCunks();
+    while (dt > 0) {
+      // calc used Dt
+      // so that the max dt is 50, when more it loops several times
+      let usedDt;
+      if (dt > maxDTPerTick) {
+        usedDt = maxDTPerTick;
+        dt -= maxDTPerTick;
+      } else {
+        usedDt = dt;
+        dt = 0;
+      }
 
-      for (let obj of world.objects) {
-        if (obj.shouldUpdate()) obj.update(dt);
+      // update
+      const worlds = Array.from(this.worlds.values());
+
+      for (let world of Util.array.copyOf(worlds)) {
+        world.putObjectsInCunks();
+
+        for (let obj of world.objects) {
+          if (obj.shouldUpdate()) obj.update(usedDt);
+        }
       }
     }
   }
