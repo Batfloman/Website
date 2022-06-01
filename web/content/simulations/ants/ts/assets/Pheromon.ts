@@ -4,7 +4,7 @@ import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
 import { Vector2 } from "../../../../lib/util/Vector2.js";
 
-const pheromonSize = 1;
+const pheromonSize = 0.5;
 const duration = 35000;
 
 export type Message = "home" | "food";

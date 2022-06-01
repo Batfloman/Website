@@ -1,7 +1,7 @@
 import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
 import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
 import { Color } from "../../../../lib/util/Color.js";
-const pheromonSize = 1;
+const pheromonSize = 0.5;
 const duration = 35000;
 const colors = new Map([
     ["home", Color.get("red")],
