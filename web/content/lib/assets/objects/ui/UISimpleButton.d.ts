@@ -23,8 +23,8 @@ export declare class UISimpleButton extends WorldObject<Rectangle> {
     render(renderer: Renderer): void;
     shouldRender(): boolean;
     shouldUpdate(): boolean;
-    translatePoints(): Vector2[];
     updateHitBox(): void;
     updateStaticPosValue(): void;
+    updateWorldPos(): void;
     calcStaticPosValue(): Vector2;
 }

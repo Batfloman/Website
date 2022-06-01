@@ -1,6 +1,5 @@
 import { Input } from "../../../input/Input.js";
 import { PointInPolygon } from "../../../physic/algorithms/PointInPolygon.js";
-import { Polygon2Helper } from "../../../physic/algorithms/Polygon2Helper.js";
 import { Rectangle } from "../../../physic/boundingBox/Rectangle.js";
 import { Color } from "../../../util/Color.js";
 import { Util } from "../../../util/Util.js";
@@ -18,7 +17,10 @@ export class UISimpleButton extends WorldObject {
         this.staticPosValue = this.calcStaticPosValue();
         this.text = text;
         this.zIndex = Infinity;
-        Input.newEventListener("wheel", this, this.updateHitBox);
+        Input.newEventListener("wheel", this, () => {
+            this.updateHitBox();
+            this.updateWorldPos();
+        });
         Input.newEventListener("resize", this, this.updateStaticPosValue);
         Input.newEventListener("click", this, this.click);
     }
@@ -26,11 +28,9 @@ export class UISimpleButton extends WorldObject {
         super.init(game, canvas);
         this.staticPosValue = this.calcStaticPosValue();
         this.updateHitBox();
+        this.updateWorldPos();
     }
     click() {
-        console.log("////7");
-        console.log(this.pos);
-        console.log(Util.position.staticPos_to_worldPos(this.camara, Input.mPosHover));
         if (PointInPolygon.isPointInsidePolygon(Util.position.staticPos_to_worldPos(this.camara, Input.mPosHover), this)) {
             this.action();
         }
@@ -46,7 +46,7 @@ export class UISimpleButton extends WorldObject {
         renderer.setStrokeColor(this.borderColor);
         renderer.setFillColor(this.fillColor);
         renderer.setLineWidth(5);
-        renderer.renderStaticRectangle(this.staticPosValue, Util.position.convertWidthPercentInValue(this.canvas, this.staticWidth), Util.position.convertHeightPercentInValue(this.canvas, this.staticHeight), false);
+        renderer.renderStaticRectangle(this.staticPosValue, this.staticWidth, this.staticHeight, false);
         renderer.setFillColor(this.textColor);
         renderer.renderStaticText(this.staticPosValue, this.text);
     }
@@ -56,18 +56,6 @@ export class UISimpleButton extends WorldObject {
     shouldUpdate() {
         return true;
     }
-    translatePoints() {
-        if (this.alreadyTranslated)
-            return this.translatedPoints;
-        this.pos = Util.position.staticPos_to_worldPos(this.camara, this.staticPosValue);
-        this.translatedPoints = [];
-        for (let point of this.hitBox.model) {
-            point = point.scale(1 / this.game.getCamara().scaleValue);
-            this.translatedPoints.push(Polygon2Helper.translatePoint(point, this.pos, this.orientation));
-        }
-        this.alreadyTranslated = true;
-        return this.translatedPoints;
-    }
     updateHitBox() {
         this.hitBox = new Rectangle(Util.position.convertWidthPercentInValue(this.canvas, this.staticWidth) /
             this.camara.scaleValue, Util.position.convertHeightPercentInValue(this.canvas, this.staticHeight) /
@@ -76,6 +64,9 @@ export class UISimpleButton extends WorldObject {
     }
     updateStaticPosValue() {
         this.staticPosValue = this.calcStaticPosValue();
+    }
+    updateWorldPos() {
+        this.pos = Util.position.staticPos_to_worldPos(this.camara, this.staticPosValue);
     }
     calcStaticPosValue() {
         if (!this.game)

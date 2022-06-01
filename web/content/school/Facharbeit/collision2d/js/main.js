@@ -21,15 +21,10 @@ window.onload = () => {
     s.getCamara().setMaxZoomOutAmount(12);
     const stopButton = new UISimpleButton(new Vector2(7, 5), "10", "4", "stop");
     stopButton.action = () => {
+        console.log("click");
         s.stop();
     };
     s.addObject(stopButton);
-    const startButton = new UISimpleButton(new Vector2(7, 10.5), "10", "4", "start");
-    startButton.action = () => {
-        console.log("start");
-        s.start();
-    };
-    s.addObject(startButton);
     for (let i = 0; i < amountShapes; i++) {
         s.addObject(createRandomShape());
     }

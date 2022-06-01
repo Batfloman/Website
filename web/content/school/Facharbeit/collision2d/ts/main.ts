@@ -40,17 +40,18 @@ window.onload = () => {
   // stop Button
   const stopButton = new UISimpleButton(new Vector2(7, 5), "10", "4", "stop");
   stopButton.action = () => {
+    console.log("click");
     s.stop();
   };
   s.addObject(stopButton);
 
   // start Button
-  const startButton = new UISimpleButton(new Vector2(7, 10.5), "10", "4", "start");
-  startButton.action = () => {
-    console.log("start");
-    s.start();
-  };
-  s.addObject(startButton);
+  // const startButton = new UISimpleButton(new Vector2(7, 10.5), "10", "4", "start");
+  // startButton.action = () => {
+  //   console.log("start");
+  //   s.start();
+  // };
+  // s.addObject(startButton);
 
   //#endregion
 
