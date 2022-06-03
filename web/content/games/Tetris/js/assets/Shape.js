@@ -5,7 +5,7 @@ import { ControllableObject } from "../../../../lib/assets/objects/ControllableO
 import { Rectangle } from "../../../../lib/physic/boundingBox/Rectangle.js";
 import { Input } from "../../../../lib/input/Input.js";
 const forms = new Map([
-    ["square", [new Vector2(), new Vector2(1, 0), new Vector2(-1, 0), new Vector2(-1, 1)]],
+    ["square", [new Vector2(), new Vector2(1, 0), new Vector2(1, 1), new Vector2(0, 1)]],
     ["t-shape", [new Vector2(), new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, -1)]],
     ["l-shape", [new Vector2(), new Vector2(-1, 0), new Vector2(-1, -1), new Vector2(1, 0)]],
     ["l-reverse", [new Vector2(), new Vector2(-1, 0), new Vector2(1, 0), new Vector2(1, -1)]],
@@ -13,7 +13,7 @@ const forms = new Map([
     ["z-reverse", [new Vector2(), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, -1)]],
     ["line", [new Vector2(), new Vector2(0, 1), new Vector2(0, -1), new Vector2(0, -2)]],
 ]);
-const timeBetweenMoveDown = 333;
+const timeBetweenMoveDown = 500;
 export class Shape extends ControllableObject {
     constructor(form, gridPos = new Vector2()) {
         super(new Vector2(), new Rectangle(10, 10));
@@ -35,22 +35,38 @@ export class Shape extends ControllableObject {
         Input.newEventListener("wheel", this, (event) => {
             if (event.deltaY == 0)
                 return;
-            const direction = event.deltaY > 0 ? "down" : "up";
-            if (direction == "up") {
-            }
-            else {
-            }
+            event.deltaY > 0
+                ? this.rotateDirection("counterclockwise")
+                : this.rotateDirection("clockwise");
         });
-        this.controlles.set("a", () => {
+        this.addControll("a", (dt) => {
             for (let block of this.blocks) {
                 block.moveInGrid(-1, 0);
             }
-        });
-        this.controlles.set("d", () => {
+        }, 100);
+        this.addControll("d", (dt) => {
             for (let block of this.blocks) {
                 block.moveInGrid(1, 0);
             }
-        });
+        }, 100);
+        this.addControll("s", (dt) => {
+            for (let block of this.blocks) {
+                block.moveInGrid(0, -1);
+            }
+        }, 100);
+        this.addControll("q", () => {
+            this.rotateDirection("clockwise");
+        }, 150);
+        this.addControll("e", () => {
+            this.rotateDirection("counterclockwise");
+        }, 150);
+    }
+    rotateDirection(direction) {
+        for (let block of this.blocks) {
+            if (block == this.center)
+                continue;
+            block.gridPos = Util.rotateAroundCenter(this.center.gridPos, block.gridPos, direction == "clockwise" ? 90 : -90);
+        }
     }
     update2(dt) {
         this.timeSinceLastMoveDown += dt;
@@ -73,6 +89,7 @@ export class Shape extends ControllableObject {
     }
     static getRandom() {
         const form = Util.array.getRandomItem(Array.from(forms.keys()));
+        console.log(form);
         return new Shape(form);
     }
 }

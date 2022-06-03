@@ -22,27 +22,29 @@ export class FormObject extends ControllableObject<Polygon2> {
   constructor(pos: Vector2, hitBox: Polygon2, angle?: number) {
     super(pos, hitBox, angle);
 
-    this.controlles.set("w", (dt: number) => {
+
+
+    this.addControll("w", (dt: number) => {
       if (!this.selected) return;
       this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
-    this.controlles.set("a", (dt: number) => {
+    this.addControll("a", (dt: number) => {
       if (!this.selected) return;
       this.moveDirection(-90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
-    this.controlles.set("s", (dt: number) => {
+    this.addControll("s", (dt: number) => {
       if (!this.selected) return;
       this.moveDirection(180, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
-    this.controlles.set("d", (dt: number) => {
+    this.addControll("d", (dt: number) => {
       if (!this.selected) return;
       this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
     });
-    this.controlles.set("q", (dt: number) => {
+    this.addControll("q", (dt: number) => {
       if (!this.selected) return;
       this.rotate(this.calc_valueChangeForDT(90, dt));
     });
-    this.controlles.set("e", (dt: number) => {
+    this.addControll("e", (dt: number) => {
       if (!this.selected) return;
       this.rotate(this.calc_valueChangeForDT(-90, dt));
     });

@@ -10,32 +10,32 @@ export class FormObject extends ControllableObject {
         this.collides = false;
         this.selected = false;
         this.rotationSpeed = Util.math.random.between(45, 135);
-        this.controlles.set("w", (dt) => {
+        this.addControll("w", (dt) => {
             if (!this.selected)
                 return;
             this.moveDirection(0, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
-        this.controlles.set("a", (dt) => {
+        this.addControll("a", (dt) => {
             if (!this.selected)
                 return;
             this.moveDirection(-90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
-        this.controlles.set("s", (dt) => {
+        this.addControll("s", (dt) => {
             if (!this.selected)
                 return;
             this.moveDirection(180, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
-        this.controlles.set("d", (dt) => {
+        this.addControll("d", (dt) => {
             if (!this.selected)
                 return;
             this.moveDirection(90, this.calc_valueChangeForDT((90 * 1) / this.camara.scaleValue, dt));
         });
-        this.controlles.set("q", (dt) => {
+        this.addControll("q", (dt) => {
             if (!this.selected)
                 return;
             this.rotate(this.calc_valueChangeForDT(90, dt));
         });
-        this.controlles.set("e", (dt) => {
+        this.addControll("e", (dt) => {
             if (!this.selected)
                 return;
             this.rotate(this.calc_valueChangeForDT(-90, dt));
