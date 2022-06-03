@@ -21,6 +21,8 @@ const minIrregularity = 1;
 const maxIrregularity = 1;
 // =========
 
+var speedBefore = 0;
+
 window.onload = () => {
   let s = new System(new Canvas(document.querySelector("canvas")));
 
@@ -65,8 +67,9 @@ window.onload = () => {
   // stop game
   const stopButton = new UISimpleButton(new Vector2(7, 5), "10", "4", "Stop");
   stopButton.action = () => {
-    s.isStopped ? s.start() : s.stop();
-    stopButton.text = s.isStopped ? "Start" : "Stop";
+    let temp = speedBefore;
+    speedBefore = s.speedMult;
+    s.speedMult = temp;
   };
   s.addObject(stopButton);
 
