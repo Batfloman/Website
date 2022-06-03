@@ -39,10 +39,8 @@ export class SkyBody extends WorldObject<Circle> {
     // update Values
     this.updateValues();
 
-    const g = (this.game as Universe).getGConst();
-    this.forces = new Vector2();
-
-    let objects: SkyBody[] = this.game.findObjects(SkyBody, this);
+    // let objects: SkyBody[] = this.game.findObjects(SkyBody, this);
+    const objects = this.world.findObjectsInNeighbouringChunks(this.chunk, SkyBody, this, 2);
 
     for (let obj of objects) {
       if (!this.isCollidingWith(obj)) continue;
@@ -56,6 +54,9 @@ export class SkyBody extends WorldObject<Circle> {
 
       this.game.removeObject(smaller);
     }
+
+    const g = (this.game as Universe).getGConst();
+    this.forces = new Vector2();
 
     objects.forEach((obj) => {
       const force = (g * this.mass * obj.mass) / Math.pow(Util.distance(this.pos, obj.pos), 2);

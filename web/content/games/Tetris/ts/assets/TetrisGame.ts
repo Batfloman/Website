@@ -5,18 +5,22 @@ import { TetrisGrid } from "./TetrisGrid.js";
 
 export class TetrisGame extends Game {
   currentShape!: Shape;
+  grid!: TetrisGrid;
 
   constructor(canvas: Canvas) {
     super(canvas);
-
-    this.worlds.set("main", new TetrisGrid(400, 800, 10, 20));
+    
+    this.grid = new TetrisGrid(400, 800, 10, 20);
+    this.worlds.set("main", this.grid);
   }
 
   tick(): void {
-    super.tick();
-
-    if (!this.currentShape) {
+    if (!this.currentShape && this.grid) {
       this.currentShape = Shape.getRandom();
+      this.currentShape.setGrid(this.grid);
+      this.addObject(this.currentShape);
     }
+
+    super.tick();
   }
 }

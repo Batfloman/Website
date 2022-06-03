@@ -9,4 +9,5 @@ export declare abstract class GridCell extends WorldObject<Rectangle> {
     moveInGrid(x: number, y: number): void;
     setGrid(grid: GridWorld): void;
     setGridPos(x: number, y: number): void;
+    getWorldPos(): Vector2;
 }

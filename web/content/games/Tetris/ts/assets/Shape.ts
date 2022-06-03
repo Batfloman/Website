@@ -4,6 +4,8 @@ import { Util } from "../../../../lib/util/Util.js";
 import { ControllableObject } from "../../../../lib/assets/objects/ControllableObject.js";
 import { Rectangle } from "../../../../lib/physic/boundingBox/Rectangle.js";
 import { Renderer } from "../../../../lib/display/Renderer.js";
+import { TetrisGrid } from "./TetrisGrid.js";
+import { Input } from "../../../../lib/input/Input.js";
 
 type Forms = "square" | "t-shape" | "l-shape" | "l-reverse" | "z-shape" | "z-reverse" | "line";
 
@@ -16,6 +18,8 @@ const forms = new Map<Forms, Vector2[]>([
   ["z-reverse", [new Vector2(), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, -1)]],
   ["line", [new Vector2(), new Vector2(0, 1), new Vector2(0, -1), new Vector2(0, -2)]],
 ]);
+
+const timeBetweenMoveDown = 333;
 
 export class Shape extends ControllableObject<Rectangle> {
   center!: Block;
@@ -37,13 +41,54 @@ export class Shape extends ControllableObject<Rectangle> {
         first = false;
       }
     }
+
+    Input.newEventListener("wheel", this, (event: WheelEvent) => {
+      if(event.deltaY == 0) return;
+
+      const direction = event.deltaY > 0 ? "down" : "up";
+
+      if(direction == "up") {
+        // rotate counterclockwise
+      }
+      else {
+        // rotate clockwise
+      }
+    })
+
+    this.controlles.set("a", () => {
+      for(let block of this.blocks) {
+        block.moveInGrid(-1, 0);
+      }
+    })
+    this.controlles.set("d", () => {
+      for(let block of this.blocks) {
+        block.moveInGrid(1, 0);
+      }
+    })
   }
 
+  timeSinceLastMoveDown = 0;
   update2(dt: number): void {
-    throw new Error("Method not implemented.");
+    this.timeSinceLastMoveDown += dt;
+
+    if(this.timeSinceLastMoveDown > timeBetweenMoveDown) {
+      this.timeSinceLastMoveDown = 0;
+      for(let block of this.blocks) {
+        block.moveInGrid(0, -1);
+      }
+    }
+    
   }
   render(renderer: Renderer): void {
-    throw new Error("Method not implemented.");
+    for(let block of this.blocks) {
+      block.render(renderer);
+    }
+  }
+
+  setGrid(grid: TetrisGrid) {
+    for(let block of this.blocks) {
+      block.setGrid(grid);
+    }
   }
 
   static getRandom(): Shape {

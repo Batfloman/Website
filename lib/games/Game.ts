@@ -76,8 +76,7 @@ export class Game {
     if (dt > 5 * maxDTPerTick) dt = 5 * maxDTPerTick;
 
     while (dt > 0) {
-      // calc used Dt
-      // so that the max dt is 50, when more it loops several times
+      // calc usedDt => so that the max dt is 50, when more it loops several times
       let usedDt;
       if (dt > maxDTPerTick) {
         usedDt = maxDTPerTick;

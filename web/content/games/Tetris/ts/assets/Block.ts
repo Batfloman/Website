@@ -9,5 +9,7 @@ export class Block extends GridCell {
   }
 
   update2(dt: number): void {}
-  render(renderer: Renderer): void {}
+  render(renderer: Renderer): void {
+    renderer.renderRectangle(this.getWorldPos(), this.grid.xCellSize, this.grid.yCellSize);
+  }
 }

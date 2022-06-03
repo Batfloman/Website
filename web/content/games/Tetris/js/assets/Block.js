@@ -6,5 +6,7 @@ export class Block extends GridCell {
         super(new Vector2(), new Rectangle(0, 0), 0);
     }
     update2(dt) { }
-    render(renderer) { }
+    render(renderer) {
+        renderer.renderRectangle(this.getWorldPos(), this.grid.xCellSize, this.grid.yCellSize);
+    }
 }

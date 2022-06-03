@@ -5,8 +5,6 @@ import { Vector2 } from "../../../lib/util/Vector2.js";
 import { Hive } from "./assets/Hive.js";
 import { Food } from "./assets/Food.js";
 import { Color } from "../../../lib/util/Color.js";
-import { Ant } from "./assets/Ant.js";
-import { UISimpleButton } from "../../../lib/assets/objects/ui/UISimpleButton.js";
 const boardSize = 5000;
 window.onload = () => {
     var _a;
@@ -18,14 +16,6 @@ window.onload = () => {
     game.setCamaraScaleLock(false);
     game.getCamara().setMaxZoomInAmount(10);
     game.getCamara().setMaxZoomOutAmount(8);
-    const killAnts = new UISimpleButton(new Vector2(7, 5), "10", "5", "kill All Ants");
-    killAnts.action = () => {
-        const ants = game.findObjects(Ant);
-        for (let ant of ants) {
-            game.removeObject(ant);
-        }
-    };
-    game.addObject(killAnts);
     game.addObject(new Hive(new Vector2(), 10000));
     for (let i = 0; i < 75; i++) {
         game.addObject(randomFood());

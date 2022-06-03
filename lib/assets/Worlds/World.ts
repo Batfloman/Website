@@ -209,8 +209,6 @@ export class World implements IRenderable {
 
     const found: Chunk[] = [];
 
-    if (chunk == undefined) console.log(chunk);
-
     for (let x = -distance + chunk.keys.x; x <= distance + chunk.keys.x; x++) {
       for (let y = -distance + chunk.keys.y; y <= distance + chunk.keys.y; y++) {
         const chunk = this.chunks.get(x, y);

@@ -27,4 +27,18 @@ export abstract class GridCell extends WorldObject<Rectangle> {
     this.gridPos.x = x;
     this.gridPos.y = y;
   }
+
+  getWorldPos(): Vector2 {
+    const topLeft = new Vector2(
+      this.grid.pos.x - this.grid.width / 2,
+      this.grid.pos.x + this.grid.height / 2
+    );
+
+    const posRelativeTopLeft = new Vector2(
+      this.gridPos.x * this.grid.xCellSize - this.grid.xCellSize / 2,
+      this.gridPos.y * this.grid.yCellSize - this.grid.yCellSize / 2
+    );
+
+    return posRelativeTopLeft.add(topLeft);
+  }
 }
