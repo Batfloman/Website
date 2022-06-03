@@ -17,12 +17,10 @@ export class FormObject extends ControllableObject<Polygon2> {
 
   game!: System;
 
-  rotationSpeed: number = Util.math.random.between(45, 135);
+  rotationSpeed: number = Util.math.random.between(45, 135) * Util.math.random.mathSign();
 
   constructor(pos: Vector2, hitBox: Polygon2, angle?: number) {
     super(pos, hitBox, angle);
-
-
 
     this.addControll("w", (dt: number) => {
       if (!this.selected) return;
