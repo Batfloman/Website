@@ -9,8 +9,8 @@ export class Block extends GridCell {
     render(renderer) {
         renderer.setStrokeColor(Color.none);
         renderer.setFillColor(this.color);
-        renderer.renderRectangle(this.getWorldPos(), this.grid.xCellSize, this.grid.yCellSize);
+        renderer.renderRectangle(this.getWorldPos(), this.grid.cellWidth, this.grid.cellHeight);
         renderer.setFillColor(new Color(255, 255, 255, 50));
-        renderer.renderRectangle(this.getWorldPos(), this.grid.xCellSize / 2, this.grid.yCellSize / 2);
+        renderer.renderRectangle(this.getWorldPos(), this.grid.cellWidth / 2, this.grid.cellHeight / 2);
     }
 }

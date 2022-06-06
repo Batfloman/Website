@@ -8,8 +8,8 @@ export class TicTacToeGrid extends GridWorld {
         Input.newEventListener("resize", this, () => {
             this.width = this.canvas.width;
             this.height = this.canvas.height;
-            this.xCellSize = this.width / this.xSize;
-            this.yCellSize = this.height / this.ySize;
+            this.cellWidth = this.width / this.xSize;
+            this.cellHeight = this.height / this.ySize;
         });
     }
     render(renderer) {
