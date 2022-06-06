@@ -6,7 +6,7 @@ import { IMoveable } from "../../physic/property/IMoveable.js";
 import { Util } from "../../util/Util.js";
 import { Vector2 } from "../../util/Vector2.js";
 import { Chunk } from "../worlds/Chunk.js";
-import {World} from "../worlds/World.js";
+import { World } from "../worlds/World.js";
 import { SceneObject } from "./SceneObject.js";
 
 export abstract class WorldObject<HitBoxType extends HitBox>

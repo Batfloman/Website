@@ -146,7 +146,10 @@ export class Ant extends WorldObject {
         renderer.renderCircle(this.pos, antSize);
     }
     rotate(angle) {
-        super.rotate(Math.min(angle, maxRotationAngle));
+        if (angle == 0)
+            return;
+        const rotation = Math.min(Math.abs(angle), Math.abs(maxRotationAngle));
+        super.rotate(angle <= 0 ? -rotation : rotation);
     }
     turnAround() {
         this.orientation += 180 + this.randomRotation();

@@ -23,15 +23,15 @@ window.onload = () => {
   game.getCamara().setMaxZoomInAmount(10);
   game.getCamara().setMaxZoomOutAmount(8);
 
-  game.addObject(new Hive(new Vector2(), 10000));
+  game.addObject(new Hive(new Vector2(), 250));
 
-  for (let i = 0; i < 75; i++) {
-    game.addObject(randomFood());
-  }
+  // for (let i = 0; i < 75; i++) {
+  //   game.addObject(randomFood());
+  // }
 
-  setInterval(() => {
-    game.addObject(randomFood());
-  }, 5000);
+  // setInterval(() => {
+  //   game.addObject(randomFood());
+  // }, 5000);
 
   game.start();
 };

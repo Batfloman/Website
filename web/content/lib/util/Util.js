@@ -118,7 +118,9 @@ Util.map = {
 Util.math = {
     random: {
         between(start, end, num_decimals = 0) {
-            return Util.math.floor(Math.random() * (end - start + 1) + start, num_decimals);
+            const num = Math.random() * (end - start + 1) + start;
+            const rounded = Util.math.floor(num, 0);
+            return rounded;
         },
         mathSign() {
             return Math.random() > 0.5 ? 1 : -1;

@@ -208,7 +208,10 @@ export class Ant extends WorldObject<Circle> {
   // #region movement
 
   rotate(angle: number): void {
-    super.rotate(Math.min(angle, maxRotationAngle));
+    if(angle == 0) return;
+
+    const rotation = Math.min( Math.abs(angle), Math.abs(maxRotationAngle));
+    super.rotate(angle <= 0 ? -rotation : rotation);
   }
 
   turnAround(): void {

@@ -60,7 +60,9 @@ export class Util {
   static math = {
     random: {
       between(start: number, end: number, num_decimals: number = 0): number {
-        return Util.math.floor(Math.random() * (end - start + 1) + start, num_decimals);
+        const num = Math.random() * (end -start + 1) + start;
+        const rounded = Util.math.floor(num, 0);
+        return rounded;
       },
       // Vorzeichen
       mathSign(): number {
