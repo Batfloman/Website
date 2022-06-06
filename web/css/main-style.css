@@ -35,6 +35,7 @@ body {
   transition-duration: 333ms;
 }
 
+/* ========================================================================================== */
 /* Header */
 /* #region */
 .header {
@@ -49,6 +50,7 @@ body {
 
 .title {
   font-style: italic;
+  cursor: default;
 }
 
 .nav-bar {
@@ -93,11 +95,19 @@ body {
   aspect-ratio: 1 / 3;
   display: flex;
   flex-direction: column;
+
+  border-radius: .25em;
+}
+
+.settings-popup-btn {
+  visibility: var(--settings-hide-popup);
 }
 
 /* #endregion */
 
+/* ========================================================================================== */
 /* Main Body */
+/* #region */
 
 .main-body {
   overflow-y: auto;
@@ -118,6 +128,12 @@ body {
   background-color: var(--theme-outline-color);
   border-radius: 0.45rem;
 }
+
+/* #endregion */
+
+/* ========================================================================================== */
+/* landscape & portrait  */
+/* #region */
 
 @media screen and (orientation: landscape) {
   html,
@@ -188,3 +204,41 @@ body {
     min-height: 77vh;
   }
 }
+
+/* #endregion */
+
+/* ========================================================================================== */
+/* animation */
+/* #region */
+
+.roll-in-top {
+  animation: roll-in-top 250ms ease-in;
+  transform-origin: top;
+}
+
+.roll-out-top {
+  animation: roll-out-top 250ms ease-out;
+  transform-origin: top;
+}
+
+@keyframes roll-in-top {
+  0% {
+    transform: scaleY(0%);
+  }
+  100% {
+    transform: scaleY(100%);
+  }
+}
+
+@keyframes roll-out-top {
+  0% {
+    visibility: visible;
+    transform: scaleY(100%);
+  }
+  100% {
+    visibility: hidden;
+    transform: scaleY(0%);
+  }
+}
+
+/* #endregion */
