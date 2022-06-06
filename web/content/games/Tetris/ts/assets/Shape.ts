@@ -44,7 +44,7 @@ const shapes = new Map<Forms, shapeLayout>([
     {
       center: new Vector2(),
       blocksModell: [new Vector2(), new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, -1)],
-      color: Color.get("violet"),
+      color: Color.get("blueviolet"),
     },
   ],
   [
@@ -72,11 +72,19 @@ const shapes = new Map<Forms, shapeLayout>([
     },
   ],
   [
+    "z-reverse",
+    {
+      center: new Vector2(),
+      blocksModell: [new Vector2(), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, -1)],
+      color: Color.get("palegreen"),
+    },
+  ],
+  [
     "line",
     {
       center: new Vector2(0.5, -1.5),
       blocksModell: [new Vector2(), new Vector2(0, -1), new Vector2(0, -2), new Vector2(0, -3)],
-      color: Color.get("lightblue"),
+      color: Color.get("aqua"),
     },
   ],
 ]);
