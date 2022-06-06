@@ -60,25 +60,11 @@ export class Util {
   static math = {
     random: {
       between(start: number, end: number, num_decimals: number = 0): number {
-        return Util.math.round.round(Math.random() * (end - start) + start, num_decimals);
+        return Util.math.floor(Math.random() * (end - start + 1) + start, num_decimals);
       },
       // Vorzeichen
       mathSign(): number {
         return Math.random() > 0.5 ? 1 : -1;
-      },
-    },
-    round: {
-      round(number: number, num_decimals: number = 0): number {
-        const factor = Math.pow(10, num_decimals);
-        return Math.round(number * factor) / factor;
-      },
-      floor(number: number, num_decimals: number = 0): number {
-        const factor = Math.pow(10, num_decimals);
-        return Math.floor(number * factor) / factor;
-      },
-      ceil(number: number, num_decimals: number = 0): number {
-        const factor = Math.pow(10, num_decimals);
-        return Math.ceil(number * factor) / factor;
       },
     },
     convert: {
@@ -97,6 +83,18 @@ export class Util {
       arccos(num: number): number {
         return Util.math.convert.RadToDeg(Math.acos(num));
       },
+    },
+    round(number: number, num_decimals: number = 0): number {
+      const factor = Math.pow(10, num_decimals);
+      return Math.round(number * factor) / factor;
+    },
+    floor(number: number, num_decimals: number = 0): number {
+      const factor = Math.pow(10, num_decimals);
+      return Math.floor(number * factor) / factor;
+    },
+    ceil(number: number, num_decimals: number = 0): number {
+      const factor = Math.pow(10, num_decimals);
+      return Math.ceil(number * factor) / factor;
     },
   };
 
@@ -188,8 +186,8 @@ export class Util {
       const distance = worldPos.subtract(camaraPos).scale(camaraScale);
 
       const staticPos = new Vector2(
-        Util.math.round.round(distance.x, 5),
-        Util.math.round.round(-distance.y, 5)
+        Util.math.round(distance.x, 5),
+        Util.math.round(-distance.y, 5)
       ).add(camaraOffset);
 
       return staticPos;
@@ -202,7 +200,7 @@ export class Util {
       const distance = staticPos.subtract(camaraCenter).scale(1 / camaraScale);
 
       const worldPos = camara.pos.add(
-        new Vector2(Util.math.round.round(distance.x, 5), Util.math.round.round(-distance.y, 5))
+        new Vector2(Util.math.round(distance.x, 5), Util.math.round(-distance.y, 5))
       );
       return worldPos;
     },

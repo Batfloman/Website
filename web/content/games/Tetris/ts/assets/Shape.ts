@@ -7,6 +7,7 @@ import { Renderer } from "../../../../lib/display/Renderer.js";
 import { TetrisGrid } from "./TetrisGrid.js";
 import { Input } from "../../../../lib/input/Input.js";
 import { Color } from "../../../../lib/util/Color.js";
+import { TetrisGame } from "./TetrisGame.js";
 
 const timeBetweenMoveDown = 500;
 type rotateDirection = "clockwise" | "counterclockwise";
@@ -33,7 +34,7 @@ const shapes = new Map<Forms, shapeLayout>([
   [
     "square",
     {
-      center: new Vector2(0.5, 0.5),
+      center: new Vector2(0.5, -0.5),
       blocksModell: [new Vector2(), new Vector2(1, 0), new Vector2(1, -1), new Vector2(0, -1)],
       color: Color.get("yellow"),
     },
@@ -83,17 +84,16 @@ const shapes = new Map<Forms, shapeLayout>([
 export class Shape extends ControllableObject<Rectangle> {
   center: Vector2;
   blocks: Block[] = [];
-  color: Color;
 
   constructor(layout: shapeLayout, gridPos: Vector2 = new Vector2()) {
     super(new Vector2(), new Rectangle(10, 10));
 
     this.center = layout.center.add(gridPos);
-    this.color = layout.color;
 
     for (let blockPosition of layout.blocksModell) {
       const block = new Block();
       block.gridPos = gridPos.add(blockPosition);
+      block.color = layout.color;
       this.blocks.push(block);
     }
 
@@ -154,6 +154,9 @@ export class Shape extends ControllableObject<Rectangle> {
         block.gridPos,
         direction == "clockwise" ? 90 : -90
       );
+
+      block.gridPos.x = Math.round(block.gridPos.x);
+      block.gridPos.y = Math.round(block.gridPos.y);
     }
   }
 
@@ -164,10 +167,15 @@ export class Shape extends ControllableObject<Rectangle> {
     return true;
   }
 
-  moveBlocks(x: number, y: number): void {
+  testMoveDown(): boolean {
     for (let block of this.blocks) {
-      if (!block.testMoveInGrid(x, y)) return;
+      if (!block.testMoveInGrid(0, -1)) return false;
     }
+    return true;
+  }
+
+  moveBlocks(x: number, y: number): void {
+    if (!this.testMove(x, y)) return;
 
     this.center = this.center.add(new Vector2(x, y));
     for (let block of this.blocks) {
@@ -183,13 +191,24 @@ export class Shape extends ControllableObject<Rectangle> {
     this.timeSinceLastMoveDown += dt;
 
     if (this.timeSinceLastMoveDown > timeBetweenMoveDown) {
-      this.timeSinceLastMoveDown = 0;
-      this.moveBlocks(0, -1);
+      if (this.testMoveDown()) {
+        this.timeSinceLastMoveDown = 0;
+        this.moveBlocks(0, -1);
+        return;
+      }
+
+      if (this.timeSinceLastMoveDown > timeBetweenMoveDown * 2) {
+        this.game.removeObject(this);
+        Input.removeEventListener("wheel", this);
+        for (let block of this.blocks) {
+          this.game.addObject(block);
+        }
+        (this.game as TetrisGame).newCurrentShape();
+      }
     }
   }
   render(renderer: Renderer): void {
     for (let block of this.blocks) {
-      renderer.setFillColor(this.color);
       block.render(renderer);
     }
   }

@@ -6,14 +6,27 @@ import { WorldObject } from "./WorldObject.js";
 export abstract class GridCell extends WorldObject<Rectangle> {
   grid!: GridWorld;
 
-  gridPos!: Vector2;
+  gridPos: Vector2 = new Vector2();
+
+  update(dt: number): void {
+    super.update(dt);
+
+    this.pos = this.getWorldPos();
+  }
+
+  constructor(grid?: GridWorld, gridPos?: Vector2) {
+    super(new Vector2(), new Rectangle(10, 10), 0);
+
+    if(grid) this.grid = grid;
+    if(gridPos) this.gridPos = gridPos;
+  }
 
   testMoveInGrid(x: number, y: number): boolean {
     return this.isInGrid(this.gridPos.x + x, this.gridPos.y + y);
   }
 
   isInGrid(x = this.gridPos.x, y = this.gridPos.y): boolean {
-    return x > 0 && x <= this.grid.xSize && y <= 0 && y > -this.grid.ySize;
+    return x >= 0 && x < this.grid.xSize && y <= 0 && y > -this.grid.ySize;
   }
 
   moveInGrid(x: number, y: number): void {
@@ -37,7 +50,7 @@ export abstract class GridCell extends WorldObject<Rectangle> {
     );
 
     const posRelativeTopLeft = new Vector2(
-      this.gridPos.x * this.grid.xCellSize - this.grid.xCellSize / 2,
+      this.gridPos.x * this.grid.xCellSize + this.grid.xCellSize / 2,
       this.gridPos.y * this.grid.yCellSize - this.grid.yCellSize / 2
     );
 

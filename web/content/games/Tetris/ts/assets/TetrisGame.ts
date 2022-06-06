@@ -16,16 +16,7 @@ export class TetrisGame extends Game {
   }
 
   tick(): void {
-    if (this.currentShape) {
-      if (!this.currentShape.testMove(0, -1)) {
-        this.removeObject(this.currentShape);
-        for(let block of this.currentShape.blocks) {
-          this.addObject(block);
-        }
-
-        this.newCurrentShape();
-      }
-    } else if (this.grid) {
+    if(!this.currentShape && this.grid) {
       this.newCurrentShape();
     }
 
@@ -33,7 +24,7 @@ export class TetrisGame extends Game {
   }
 
   newCurrentShape() {
-    this.currentShape = Shape.getRandom(new Vector2(this.grid.xSize / 2, 0));
+    this.currentShape = Shape.getRandom(new Vector2(Math.floor((this.grid.xSize - 1) / 2), 0));
     this.currentShape.setGrid(this.grid);
     this.addObject(this.currentShape);
   }

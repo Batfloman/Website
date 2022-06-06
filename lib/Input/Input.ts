@@ -111,6 +111,15 @@ export class Input {
     Input.eventListener.set(event, listener);
   }
 
+  static removeEventListener<K extends keyof WindowEventMap>(event: K, obj: Object) {
+    const listener = Input.eventListener.get(event);
+    if(!listener) return;
+    
+    for(let lis of listener) {
+      if(lis.obj == obj) Util.array.removeItem(listener, lis);
+    }
+  }
+
   private static notifyOfEvent(event: Event) {
     let listener = Input.eventListener.get(event.type);
     if (!listener) return;

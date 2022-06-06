@@ -118,24 +118,10 @@ Util.map = {
 Util.math = {
     random: {
         between(start, end, num_decimals = 0) {
-            return Util.math.round.round(Math.random() * (end - start) + start, num_decimals);
+            return Util.math.floor(Math.random() * (end - start + 1) + start, num_decimals);
         },
         mathSign() {
             return Math.random() > 0.5 ? 1 : -1;
-        },
-    },
-    round: {
-        round(number, num_decimals = 0) {
-            const factor = Math.pow(10, num_decimals);
-            return Math.round(number * factor) / factor;
-        },
-        floor(number, num_decimals = 0) {
-            const factor = Math.pow(10, num_decimals);
-            return Math.floor(number * factor) / factor;
-        },
-        ceil(number, num_decimals = 0) {
-            const factor = Math.pow(10, num_decimals);
-            return Math.ceil(number * factor) / factor;
         },
     },
     convert: {
@@ -153,6 +139,18 @@ Util.math = {
         arccos(num) {
             return Util.math.convert.RadToDeg(Math.acos(num));
         },
+    },
+    round(number, num_decimals = 0) {
+        const factor = Math.pow(10, num_decimals);
+        return Math.round(number * factor) / factor;
+    },
+    floor(number, num_decimals = 0) {
+        const factor = Math.pow(10, num_decimals);
+        return Math.floor(number * factor) / factor;
+    },
+    ceil(number, num_decimals = 0) {
+        const factor = Math.pow(10, num_decimals);
+        return Math.ceil(number * factor) / factor;
     },
 };
 Util.shapes = {
@@ -230,14 +228,14 @@ Util.position = {
         const camaraScale = camara.scaleValue;
         const camaraPos = camara.pos;
         const distance = worldPos.subtract(camaraPos).scale(camaraScale);
-        const staticPos = new Vector2(Util.math.round.round(distance.x, 5), Util.math.round.round(-distance.y, 5)).add(camaraOffset);
+        const staticPos = new Vector2(Util.math.round(distance.x, 5), Util.math.round(-distance.y, 5)).add(camaraOffset);
         return staticPos;
     },
     staticPos_to_worldPos(camara, staticPos) {
         const camaraCenter = camara.getOffset();
         const camaraScale = camara.scaleValue;
         const distance = staticPos.subtract(camaraCenter).scale(1 / camaraScale);
-        const worldPos = camara.pos.add(new Vector2(Util.math.round.round(distance.x, 5), Util.math.round.round(-distance.y, 5)));
+        const worldPos = camara.pos.add(new Vector2(Util.math.round(distance.x, 5), Util.math.round(-distance.y, 5)));
         return worldPos;
     },
     convertStaticPosInValue(camara, pos) {

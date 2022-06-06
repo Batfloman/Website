@@ -5,6 +5,7 @@ export declare class Input {
     static mPosHover: Vector2;
     static staticConstructor(): void;
     static newEventListener<K extends keyof WindowEventMap>(event: K, obj: Object, func: Function): void;
+    static removeEventListener<K extends keyof WindowEventMap>(event: K, obj: Object): void;
     private static notifyOfEvent;
     private static keyDown;
     private static keyUp;

@@ -23,11 +23,6 @@ export declare class Util {
             between(start: number, end: number, num_decimals?: number): number;
             mathSign(): number;
         };
-        round: {
-            round(number: number, num_decimals?: number): number;
-            floor(number: number, num_decimals?: number): number;
-            ceil(number: number, num_decimals?: number): number;
-        };
         convert: {
             DegToRad(degree: number): number;
             RadToDeg(rad: number): number;
@@ -36,6 +31,9 @@ export declare class Util {
             cos(degree: number): number;
             arccos(num: number): number;
         };
+        round(number: number, num_decimals?: number): number;
+        floor(number: number, num_decimals?: number): number;
+        ceil(number: number, num_decimals?: number): number;
     };
     static shapes: {
         circle: {

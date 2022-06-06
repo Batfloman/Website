@@ -91,6 +91,15 @@ export class Input {
         listener.push(new Listener(obj, func));
         Input.eventListener.set(event, listener);
     }
+    static removeEventListener(event, obj) {
+        const listener = Input.eventListener.get(event);
+        if (!listener)
+            return;
+        for (let lis of listener) {
+            if (lis.obj == obj)
+                Util.array.removeItem(listener, lis);
+        }
+    }
     static notifyOfEvent(event) {
         let listener = Input.eventListener.get(event.type);
         if (!listener)
