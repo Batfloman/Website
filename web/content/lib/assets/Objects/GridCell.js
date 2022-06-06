@@ -2,9 +2,10 @@ import { Vector2 } from "../../util/Vector2.js";
 import { WorldObject } from "./WorldObject.js";
 export class GridCell extends WorldObject {
     testMoveInGrid(x, y) {
-        const rightX = x >= 0 && x < this.grid.xSize;
-        const rightY = y >= 0 && y < this.grid.ySize;
-        return rightX && rightY;
+        return this.isInGrid(this.gridPos.x + x, this.gridPos.y + y);
+    }
+    isInGrid(x = this.gridPos.x, y = this.gridPos.y) {
+        return x > 0 && x <= this.grid.xSize && y <= 0 && y > -this.grid.ySize;
     }
     moveInGrid(x, y) {
         this.gridPos.x += x;

@@ -6,8 +6,9 @@ import { Rectangle } from "../../../../lib/physic/boundingBox/Rectangle.js";
 import { Renderer } from "../../../../lib/display/Renderer.js";
 import { TetrisGrid } from "./TetrisGrid.js";
 import { Input } from "../../../../lib/input/Input.js";
+import { Color } from "../../../../lib/util/Color.js";
 
-type Forms = "square" | "t-shape" | "l-shape" | "l-reverse" | "z-shape" | "z-reverse" | "line";
+const timeBetweenMoveDown = 500;
 type rotateDirection = "clockwise" | "counterclockwise";
 
 const forms = new Map<Forms, Vector2[]>([
@@ -20,27 +21,80 @@ const forms = new Map<Forms, Vector2[]>([
   ["line", [new Vector2(), new Vector2(0, 1), new Vector2(0, -1), new Vector2(0, -2)]],
 ]);
 
-const timeBetweenMoveDown = 500;
+type Forms = "square" | "t-shape" | "l-shape" | "l-reverse" | "z-shape" | "z-reverse" | "line";
+
+interface shapeLayout {
+  center: Vector2;
+  blocksModell: Vector2[];
+  color: Color;
+}
+
+const shapes = new Map<Forms, shapeLayout>([
+  [
+    "square",
+    {
+      center: new Vector2(0.5, 0.5),
+      blocksModell: [new Vector2(), new Vector2(1, 0), new Vector2(1, -1), new Vector2(0, -1)],
+      color: Color.get("yellow"),
+    },
+  ],
+  [
+    "t-shape",
+    {
+      center: new Vector2(),
+      blocksModell: [new Vector2(), new Vector2(-1, 0), new Vector2(1, 0), new Vector2(0, -1)],
+      color: Color.get("violet"),
+    },
+  ],
+  [
+    "l-shape",
+    {
+      center: new Vector2(),
+      blocksModell: [new Vector2(), new Vector2(-1, 0), new Vector2(-1, -1), new Vector2(1, 0)],
+      color: Color.get("blue"),
+    },
+  ],
+  [
+    "l-reverse",
+    {
+      center: new Vector2(),
+      blocksModell: [new Vector2(), new Vector2(-1, 0), new Vector2(1, 0), new Vector2(1, -1)],
+      color: Color.get("orange"),
+    },
+  ],
+  [
+    "z-shape",
+    {
+      center: new Vector2(),
+      blocksModell: [new Vector2(), new Vector2(-1, 0), new Vector2(0, -1), new Vector2(1, -1)],
+      color: Color.get("red"),
+    },
+  ],
+  [
+    "line",
+    {
+      center: new Vector2(0.5, -1.5),
+      blocksModell: [new Vector2(), new Vector2(0, -1), new Vector2(0, -2), new Vector2(0, -3)],
+      color: Color.get("lightblue"),
+    },
+  ],
+]);
 
 export class Shape extends ControllableObject<Rectangle> {
-  center!: Block;
+  center: Vector2;
   blocks: Block[] = [];
+  color: Color;
 
-  constructor(form: Forms, gridPos: Vector2 = new Vector2()) {
+  constructor(layout: shapeLayout, gridPos: Vector2 = new Vector2()) {
     super(new Vector2(), new Rectangle(10, 10));
-    const positions = forms.get(form);
-    if (!positions) return;
 
-    let first = true;
-    for (let pos of positions) {
+    this.center = layout.center.add(gridPos);
+    this.color = layout.color;
+
+    for (let blockPosition of layout.blocksModell) {
       const block = new Block();
-      block.gridPos = gridPos.add(pos);
+      block.gridPos = gridPos.add(blockPosition);
       this.blocks.push(block);
-
-      if (first) {
-        this.center = block;
-        first = false;
-      }
     }
 
     // ==========================================================================================
@@ -57,49 +111,67 @@ export class Shape extends ControllableObject<Rectangle> {
     this.addControll(
       "a",
       (dt: number) => {
-        for (let block of this.blocks) {
-          block.moveInGrid(-1, 0);
-        }
+        this.moveBlocks(-1, 0);
       },
       100
     );
     this.addControll(
       "d",
       (dt: number) => {
-        for (let block of this.blocks) {
-          block.moveInGrid(1, 0);
-        }
+        this.moveBlocks(1, 0);
       },
       100
     );
     this.addControll(
       "s",
       (dt: number) => {
-        for (let block of this.blocks) {
-          block.moveInGrid(0, -1);
-        }
+        this.moveBlocks(0, -1);
       },
       100
     );
-    this.addControll("q", () => {
-      this.rotateDirection("clockwise");
-    }, 150);
-    this.addControll("e", () => {
-      this.rotateDirection("counterclockwise");
-    }, 150);
+    this.addControll(
+      "q",
+      () => {
+        this.rotateDirection("clockwise");
+      },
+      150
+    );
+    this.addControll(
+      "e",
+      () => {
+        this.rotateDirection("counterclockwise");
+      },
+      150
+    );
 
     //#endregion
   }
 
   rotateDirection(direction: rotateDirection) {
     for (let block of this.blocks) {
-      if (block == this.center) continue;
-
       block.gridPos = Util.rotateAroundCenter(
-        this.center.gridPos,
+        this.center,
         block.gridPos,
         direction == "clockwise" ? 90 : -90
       );
+    }
+  }
+
+  testMove(x: number, y: number): boolean {
+    for (let block of this.blocks) {
+      if (!block.testMoveInGrid(x, y)) return false;
+    }
+    return true;
+  }
+
+  moveBlocks(x: number, y: number): void {
+    for (let block of this.blocks) {
+      if (!block.testMoveInGrid(x, y)) return;
+    }
+
+    this.center = this.center.add(new Vector2(x, y));
+    for (let block of this.blocks) {
+      block.moveInGrid(x, y);
     }
   }
 
@@ -112,13 +184,12 @@ export class Shape extends ControllableObject<Rectangle> {
 
     if (this.timeSinceLastMoveDown > timeBetweenMoveDown) {
       this.timeSinceLastMoveDown = 0;
-      for (let block of this.blocks) {
-        block.moveInGrid(0, -1);
-      }
+      this.moveBlocks(0, -1);
     }
   }
   render(renderer: Renderer): void {
     for (let block of this.blocks) {
+      renderer.setFillColor(this.color);
       block.render(renderer);
     }
   }
@@ -133,9 +204,10 @@ export class Shape extends ControllableObject<Rectangle> {
     }
   }
 
-  static getRandom(): Shape {
-    const form = Util.array.getRandomItem(Array.from(forms.keys()));
-    console.log(form);
-    return new Shape(form);
+  static getRandom(gridPos: Vector2 = new Vector2()): Shape {
+    const form = Util.array.getRandomItem(Array.from(shapes.keys()));
+    const layout = shapes.get(form);
+    if (!layout) throw new Error("layout not found for" + form);
+    return new Shape(layout, gridPos);
   }
 }
