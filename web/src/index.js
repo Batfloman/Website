@@ -51,14 +51,12 @@ settings_button.onclick = () => {
 };
 
 function hideSettingsPopup() {
-  console.log("hide");
   rs.setProperty("--settings-hide-popup", "hidden");
   rs.setProperty("--settings-rotation", "rotate(60deg)");
   settings_popup.classList.add("roll-out-top");
 }
 
 function showSettingsPopup() {
-  console.log("show");
   rs.setProperty("--settings-hide-popup", "visible");
   rs.setProperty("--settings-rotation", "rotate(-60deg)");
   settings_popup.classList.add("roll-in-top");
