@@ -6,8 +6,8 @@ export declare class GridWorld extends RectangleWorld {
     grid: Matrix2<Array<GridCell>>;
     xSize: number;
     ySize: number;
-    xCellSize: number;
-    yCellSize: number;
+    cellWidth: number;
+    cellHeight: number;
     constructor(width: number, height: number, xSize: number, ySize: number);
     addCell(cell: GridCell): void;
     render(renderer: Renderer): void;

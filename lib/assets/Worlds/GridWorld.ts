@@ -10,8 +10,8 @@ export class GridWorld extends RectangleWorld {
   xSize: number;
   ySize: number;
 
-  xCellSize: number;
-  yCellSize: number;
+  cellWidth: number;
+  cellHeight: number;
 
   constructor(width: number, height: number, xSize: number, ySize: number) {
     super(width, height);
@@ -19,8 +19,8 @@ export class GridWorld extends RectangleWorld {
     this.grid = new Matrix2(xSize, ySize);
     this.xSize = xSize;
     this.ySize = ySize;
-    this.xCellSize = width / xSize;
-    this.yCellSize = height / ySize;
+    this.cellWidth = width / xSize;
+    this.cellHeight = height / ySize;
   }
 
   addCell(cell: GridCell) {
@@ -30,6 +30,6 @@ export class GridWorld extends RectangleWorld {
   }
 
   render(renderer: Renderer): void {
-    renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.xCellSize, this.yCellSize);
+    renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.cellWidth, this.cellHeight);
   }
 }

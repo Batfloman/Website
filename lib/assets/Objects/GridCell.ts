@@ -50,8 +50,8 @@ export abstract class GridCell extends WorldObject<Rectangle> {
     );
 
     const posRelativeTopLeft = new Vector2(
-      this.gridPos.x * this.grid.xCellSize + this.grid.xCellSize / 2,
-      this.gridPos.y * this.grid.yCellSize - this.grid.yCellSize / 2
+      this.gridPos.x * this.grid.cellWidth + this.grid.cellWidth / 2,
+      this.gridPos.y * this.grid.cellHeight - this.grid.cellHeight / 2
     );
 
     return posRelativeTopLeft.add(topLeft);

@@ -7,14 +7,14 @@ export class GridWorld extends RectangleWorld {
         this.grid = new Matrix2(xSize, ySize);
         this.xSize = xSize;
         this.ySize = ySize;
-        this.xCellSize = width / xSize;
-        this.yCellSize = height / ySize;
+        this.cellWidth = width / xSize;
+        this.cellHeight = height / ySize;
     }
     addCell(cell) {
         this.addObject(cell);
         cell.setGrid(this);
     }
     render(renderer) {
-        renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.xCellSize, this.yCellSize);
+        renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.cellWidth, this.cellHeight);
     }
 }
