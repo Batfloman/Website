@@ -21,7 +21,7 @@ export class Polygon2 extends HitBox {
     findCenter() {
         let center = new Vector2();
         for (let point of this.model) {
-            center.add(point);
+            center = center.add(point);
         }
         return center.scale(1 / this.model.length);
     }
