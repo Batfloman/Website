@@ -23,7 +23,7 @@ export class WorldObject extends SceneObject {
         return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;
     }
     shouldRender() {
-        return this.isCollidingWith(this.game.getCamara());
+        return this.isCollidingWith(this.camara);
     }
     setWorld(world) {
         this.world = world;

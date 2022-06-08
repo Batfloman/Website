@@ -36,7 +36,7 @@ export abstract class WorldObject<HitBoxType extends HitBox>
     return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;
   }
   shouldRender(): boolean {
-    return this.isCollidingWith(this.game.getCamara());
+    return this.isCollidingWith(this.camara);
   }
 
   // ==========================================================================================
