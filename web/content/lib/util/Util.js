@@ -77,7 +77,7 @@ Util.array = {
         return arr[arr.length - 1];
     },
     getRandomItem(arr) {
-        return Util.array.getItem(arr, Util.math.random.between(0, arr.length - 1));
+        return Util.array.getItem(arr, Math.floor(Math.random() * arr.length));
     },
     removeItemAtIndex(arr, index) {
         if (index < 0 || index >= arr.length)
@@ -118,9 +118,7 @@ Util.map = {
 Util.math = {
     random: {
         between(start, end, num_decimals = 0) {
-            const num = Math.random() * (end - start + 1) + start;
-            const rounded = Util.math.floor(num, 0);
-            return rounded;
+            return Util.math.round(Math.random() * (end - start) + start, num_decimals);
         },
         mathSign() {
             return Math.random() > 0.5 ? 1 : -1;

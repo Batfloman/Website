@@ -17,7 +17,7 @@ export class Util {
       return arr[arr.length - 1];
     },
     getRandomItem<T>(arr: T[]): T {
-      return Util.array.getItem(arr, Util.math.random.between(0, arr.length - 1));
+      return Util.array.getItem(arr, Math.floor(Math.random() * arr.length));
     },
     removeItemAtIndex<T>(arr: T[], index: number): T {
       if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`);
@@ -60,9 +60,7 @@ export class Util {
   static math = {
     random: {
       between(start: number, end: number, num_decimals: number = 0): number {
-        const num = Math.random() * (end -start + 1) + start;
-        const rounded = Util.math.floor(num, 0);
-        return rounded;
+        return Util.math.round(Math.random() * (end - start) + start, num_decimals);
       },
       // Vorzeichen
       mathSign(): number {
