@@ -21,8 +21,8 @@ export class Polygon2 extends HitBox {
   centerModel(): void {
     const realCenter = this.findCenter();
     this.model.forEach((point) => {
-      point.x -= Math.round(realCenter.x * 100) / 100;
-      point.y -= Math.round(realCenter.y * 100) / 100;
+      point.x -= Util.math.round(realCenter.x, 2);
+      point.y -= Util.math.round(realCenter.y, 2);
     });
     this.farthestDistance = Util.farthestPoint(new Vector2(), this.model).getMagnitude();
   }
@@ -30,9 +30,9 @@ export class Polygon2 extends HitBox {
   findCenter(): Vector2 {
     let center = new Vector2();
 
-    this.model.forEach((point) => {
-      center = center.add(point);
-    });
+    for(let point of this.model) {
+      center.add(point);
+    }
 
     return center.scale(1 / this.model.length);
   }
