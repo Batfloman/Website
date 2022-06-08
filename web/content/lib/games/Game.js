@@ -55,25 +55,14 @@ export class Game {
             this.lastTickTime = Date.now();
             if (this.isStopped)
                 dt = 0;
-            if (dt > 5 * maxDTPerTick)
-                dt = 5 * maxDTPerTick;
-            while (dt > 0) {
-                let usedDt;
-                if (dt > maxDTPerTick) {
-                    usedDt = maxDTPerTick;
-                    dt -= maxDTPerTick;
-                }
-                else {
-                    usedDt = dt;
-                    dt = 0;
-                }
-                const worlds = Array.from(this.worlds.values());
-                for (let world of Util.array.copyOf(worlds)) {
-                    world.putObjectsInCunks();
-                    for (let obj of world.objects) {
-                        if (obj.shouldUpdate())
-                            obj.update(usedDt);
-                    }
+            if (dt > maxDTPerTick)
+                dt = maxDTPerTick;
+            const worlds = Array.from(this.worlds.values());
+            for (let world of Util.array.copyOf(worlds)) {
+                world.putObjectsInCunks();
+                for (let obj of world.objects) {
+                    if (obj.shouldUpdate())
+                        obj.update(dt);
                 }
             }
         });

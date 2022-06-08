@@ -72,29 +72,17 @@ export class Game {
 
     if (this.isStopped) dt = 0;
 
-    // this is to not pile up more and more dt if updates take longer
-    if (dt > 5 * maxDTPerTick) dt = 5 * maxDTPerTick;
+    // max dt
+    if (dt > maxDTPerTick) dt = maxDTPerTick;
 
-    while (dt > 0) {
-      // calc usedDt => so that the max dt is 50, when more it loops several times
-      let usedDt;
-      if (dt > maxDTPerTick) {
-        usedDt = maxDTPerTick;
-        dt -= maxDTPerTick;
-      } else {
-        usedDt = dt;
-        dt = 0;
-      }
+    // update
+    const worlds = Array.from(this.worlds.values());
 
-      // update
-      const worlds = Array.from(this.worlds.values());
+    for (let world of Util.array.copyOf(worlds)) {
+      world.putObjectsInCunks();
 
-      for (let world of Util.array.copyOf(worlds)) {
-        world.putObjectsInCunks();
-
-        for (let obj of world.objects) {
-          if (obj.shouldUpdate()) obj.update(usedDt);
-        }
+      for (let obj of world.objects) {
+        if (obj.shouldUpdate()) obj.update(dt);
       }
     }
   }
