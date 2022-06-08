@@ -49,17 +49,17 @@ window.onload = () => {
 
     const chunkPos = world.findChunkOfPos(worldPos);
     const chunk = world.getChunk(chunkPos.x, chunkPos.y);
-    if(!chunk) return;
+    if (!chunk) return;
     const chunks = world.findNeighbourChunksOf(chunk);
 
     for (let chunk of chunks) {
       for (let obj of chunk.findObjects<FormObject>(FormObject)) {
         const distance = Util.distance(worldPos, obj.pos);
 
-        if(distance <= selectDistance) {
+        if (distance <= selectDistance) {
           obj.selected = !obj.selected;
           return; // select only one at a time!
-        } 
+        }
       }
     }
   });
