@@ -64,7 +64,7 @@ export class UISimpleButton extends WorldObject<Rectangle> {
   click() {
     if (
       PointInPolygon.isPointInsidePolygon(
-        Util.position.staticPos_to_worldPos(Input.mPosHover, this.camara),
+        Util.position.staticPos_to_worldPos(Input.mPos, this.camara),
         this
       )
     ) {

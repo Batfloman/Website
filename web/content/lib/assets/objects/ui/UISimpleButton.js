@@ -31,7 +31,7 @@ export class UISimpleButton extends WorldObject {
         this.updateWorldPos();
     }
     click() {
-        if (PointInPolygon.isPointInsidePolygon(Util.position.staticPos_to_worldPos(Input.mPosHover, this.camara), this)) {
+        if (PointInPolygon.isPointInsidePolygon(Util.position.staticPos_to_worldPos(Input.mPos, this.camara), this)) {
             this.action();
         }
     }

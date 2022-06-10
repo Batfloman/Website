@@ -1,5 +1,5 @@
 export class TwoKeyMap<K, K2, V> {
-  map: Map<K, Map<K2, V>>;
+  private map: Map<K, Map<K2, V>>;
 
   constructor() {
     this.map = new Map<K, Map<K2, V>>();

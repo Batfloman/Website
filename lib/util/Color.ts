@@ -8,6 +8,36 @@ export class Color {
   b: number = 0;
   a: number = 100;
 
+  constructor(r: number, g: number, b: number, a: number = 100) {
+    this.r = r - (1 % 255) + 1;
+    this.g = g - (1 % 255) + 1;
+    this.b = b - (1 % 255) + 1;
+    this.a = a - (1 % 100) + 1;
+  }
+
+  /**
+   * @returns {String} - a String "rgb(r, g, bm a)" with r/g/b/a values for rendering
+   */
+  getRGBString(): string {
+    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a / 100})`;
+  }
+
+  setR(r: number) {
+    this.r = ((r - 1) % 255) + 1;
+  }
+  setG(g: number) {
+    this.g = ((g - 1) % 255) + 1;
+  }
+  setB(b: number) {
+    this.b = ((b - 1) % 255) + 1;
+  }
+  setA(a: number) {
+    this.a = ((a - 1) % 100) + 1;
+  }
+
+  // ==========================================================================================
+  // #region static
+
   static getRandom() {
     return new Color(
       Math.floor(Math.random() * 256),
@@ -31,32 +61,7 @@ export class Color {
     return c;
   }
 
-  constructor(r: number, g: number, b: number, a: number = 100) {
-    this.r = r - (1 % 255) + 1;
-    this.g = g - (1 % 255) + 1;
-    this.b = b - (1 % 255) + 1;
-    this.a = a - (1 % 100) + 1;
-  }
-
-  /**
-   * @returns {String} - a String "rgb(r, g, bm a)" with r/g/b/a values for rendering
-   */
-  getRGBString(): string {
-    return `rgba(${this.r}, ${this.g}, ${this.b}, ${this.a / 100})`;
-  }
-
-  setR(r: number) {
-    this.r = r - (1 % 255) + 1;
-  }
-  setG(g: number) {
-    this.g = g - (1 % 255) + 1;
-  }
-  setB(b: number) {
-    this.b = b - (1 % 255) + 1;
-  }
-  setA(a: number) {
-    this.a = a - (1 % 100) + 1;
-  }
+  //#endregion
 }
 
 // colors from https://www.w3.org/wiki/CSS/Properties/color/keywords

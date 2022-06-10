@@ -8,6 +8,7 @@ import { WorldObject } from "../../../../../lib/assets/objects/WorldObject.js";
 import { Renderer } from "../../../../../lib/display/Renderer.js";
 import { Polygon2 } from "../../../../../lib/physic/boundingBox/Polygon2.js";
 import { System } from "./System.js";
+import { Input } from "../../../../../lib/input/Input.js";
 
 export const selectDistance = 10;
 
@@ -46,6 +47,23 @@ export class FormObject extends ControllableObject<Polygon2> {
       if (!this.selected) return;
       this.rotate(this.calc_valueChangeForDT(-90, dt));
     });
+
+    this.addControll("left", () => {
+      if (!this.selected) return;
+      Input.isPressed("shift") ? this.rotate(1) : this.move(new Vector2(-1, 0));
+    }, 100);
+    this.addControll("right", () => {
+      if (!this.selected) return;
+      Input.isPressed("shift") ? this.rotate(-1) : this.move(new Vector2(1, 0));
+    }, 100);
+    this.addControll("up", () => {
+      if (!this.selected) return;
+      this.move(new Vector2(0, 1));
+    }, 100);
+    this.addControll("down", () => {
+      if (!this.selected) return;
+      this.move(new Vector2(0, -1));
+    }, 100);
   }
 
   update2(dt: number): void {

@@ -41,7 +41,7 @@ s.getCamara().setMaxZoomOutAmount(12);
 
 // select Objects on click
 Input.newEventListener("click", s, () => {
-  const worldPos = Util.position.staticPos_to_worldPos(Input.mPosHover, s.getCamara());
+  const worldPos = Util.position.staticPos_to_worldPos(Input.mPos, s.getCamara());
 
   const world = s.getWorld();
   if (!world) return;

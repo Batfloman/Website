@@ -1,8 +1,10 @@
 import { ControllableObject } from "../../../../../lib/assets/objects/ControllableObject.js";
 import { Color } from "../../../../../lib/util/Color.js";
+import { Vector2 } from "../../../../../lib/util/Vector2.js";
 import { Triangulation } from "../../../../../lib/physic/algorithms/Triangulation.js";
 import { Util } from "../../../../../lib/util/Util.js";
 import { Polygon2Helper } from "../../../../../lib/physic/algorithms/Polygon2Helper.js";
+import { Input } from "../../../../../lib/input/Input.js";
 export const selectDistance = 10;
 export class FormObject extends ControllableObject {
     constructor(pos, hitBox, angle) {
@@ -40,6 +42,26 @@ export class FormObject extends ControllableObject {
                 return;
             this.rotate(this.calc_valueChangeForDT(-90, dt));
         });
+        this.addControll("left", () => {
+            if (!this.selected)
+                return;
+            Input.isPressed("shift") ? this.rotate(1) : this.move(new Vector2(-1, 0));
+        }, 100);
+        this.addControll("right", () => {
+            if (!this.selected)
+                return;
+            Input.isPressed("shift") ? this.rotate(-1) : this.move(new Vector2(1, 0));
+        }, 100);
+        this.addControll("up", () => {
+            if (!this.selected)
+                return;
+            this.move(new Vector2(0, 1));
+        }, 100);
+        this.addControll("down", () => {
+            if (!this.selected)
+                return;
+            this.move(new Vector2(0, -1));
+        }, 100);
     }
     update2(dt) {
         if (!this.selected) {

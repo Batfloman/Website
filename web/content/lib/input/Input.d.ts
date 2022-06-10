@@ -2,7 +2,7 @@ import { Vector2 } from "../util/Vector2.js";
 export declare class Input {
     static eventListener: Map<string, Listener[]>;
     static pressedKeys: inputKey[];
-    static mPosHover: Vector2;
+    static mPos: Vector2;
     static staticConstructor(): void;
     static newEventListener<K extends keyof WindowEventMap>(event: K, obj: Object, func: Function): void;
     static removeEventListener<K extends keyof WindowEventMap>(event: K, obj: Object): void;

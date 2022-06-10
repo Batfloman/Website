@@ -47,10 +47,10 @@ const keys: Map<string, inputKey> = new Map([
   ["control", "strg"],
   ["altgraph", "altRight"],
   ["alt", "alt"],
-  ["left", "left"],
-  ["right", "right"],
-  ["up", "up"],
-  ["down", "down"],
+  ["arrowleft", "left"],
+  ["arrowright", "right"],
+  ["arrowup", "up"],
+  ["arrowdown", "down"],
 ]);
 
 export class Input {
@@ -58,33 +58,22 @@ export class Input {
 
   static pressedKeys: inputKey[] = new Array();
 
-  static mPosHover = new Vector2();
+  static mPos = new Vector2();
 
-  /**
-   * updates the most important changes for easier access
-   */
+  /** updates the most important changes for easier access */
   static staticConstructor() {
-    // Touch
-    window.addEventListener("touchstart", (event: TouchEvent) => {
-      Input.keyDown("leftclick");
-    });
-    window.addEventListener("touchend", (event: TouchEvent) => {
-      Input.keyUp("leftclick");
-    });
-    window.addEventListener("touchcancel", (event: TouchEvent) => {
-      this.pressedKeys = new Array();
-    });
-
     // Mouse
     window.addEventListener("mousedown", (event: MouseEvent) => {
       Input.keyDown(Input.getInputKey("mouse" + event.button));
-      Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
+      Input.mPos.x = event.offsetX;
+      Input.mPos.y = event.offsetY;
     });
     window.addEventListener("mouseup", (event: MouseEvent) => {
       Input.keyUp(Input.getInputKey("mouse" + event.button));
     });
     window.addEventListener("mousemove", (event: MouseEvent) => {
-      Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
+      Input.mPos.x = event.offsetX;
+      Input.mPos.y = event.offsetY;
     });
 
     // Keys
@@ -113,10 +102,10 @@ export class Input {
 
   static removeEventListener<K extends keyof WindowEventMap>(event: K, obj: Object) {
     const listener = Input.eventListener.get(event);
-    if(!listener) return;
-    
-    for(let lis of listener) {
-      if(lis.obj == obj) Util.array.removeItem(listener, lis);
+    if (!listener) return;
+
+    for (let lis of listener) {
+      if (lis.obj == obj) Util.array.removeItem(listener, lis);
     }
   }
 
@@ -124,7 +113,7 @@ export class Input {
     let listener = Input.eventListener.get(event.type);
     if (!listener) return;
 
-    if (event instanceof MouseEvent) Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
+    if (event instanceof MouseEvent) Input.mPos = new Vector2(event.offsetX, event.offsetY);
 
     listener.forEach((listener) => {
       listener.func.call(listener.obj, event);
@@ -174,3 +163,14 @@ class Listener {
 
 // call static Constructor
 Input.staticConstructor();
+
+// ===================
+
+
+const input = {
+  listener: new Map(),
+
+  pressedKey: [],
+
+  mPos: new Vector2(),
+}

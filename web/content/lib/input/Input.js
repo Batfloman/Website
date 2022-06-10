@@ -46,31 +46,24 @@ const keys = new Map([
     ["control", "strg"],
     ["altgraph", "altRight"],
     ["alt", "alt"],
-    ["left", "left"],
-    ["right", "right"],
-    ["up", "up"],
-    ["down", "down"],
+    ["arrowleft", "left"],
+    ["arrowright", "right"],
+    ["arrowup", "up"],
+    ["arrowdown", "down"],
 ]);
 export class Input {
     static staticConstructor() {
-        window.addEventListener("touchstart", (event) => {
-            Input.keyDown("leftclick");
-        });
-        window.addEventListener("touchend", (event) => {
-            Input.keyUp("leftclick");
-        });
-        window.addEventListener("touchcancel", (event) => {
-            this.pressedKeys = new Array();
-        });
         window.addEventListener("mousedown", (event) => {
             Input.keyDown(Input.getInputKey("mouse" + event.button));
-            Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
+            Input.mPos.x = event.offsetX;
+            Input.mPos.y = event.offsetY;
         });
         window.addEventListener("mouseup", (event) => {
             Input.keyUp(Input.getInputKey("mouse" + event.button));
         });
         window.addEventListener("mousemove", (event) => {
-            Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
+            Input.mPos.x = event.offsetX;
+            Input.mPos.y = event.offsetY;
         });
         window.addEventListener("keydown", (event) => {
             Input.keyDown(Input.getInputKey(event.key));
@@ -105,7 +98,7 @@ export class Input {
         if (!listener)
             return;
         if (event instanceof MouseEvent)
-            Input.mPosHover = new Vector2(event.offsetX, event.offsetY);
+            Input.mPos = new Vector2(event.offsetX, event.offsetY);
         listener.forEach((listener) => {
             listener.func.call(listener.obj, event);
         });
@@ -139,7 +132,7 @@ export class Input {
 }
 Input.eventListener = new Map();
 Input.pressedKeys = new Array();
-Input.mPosHover = new Vector2();
+Input.mPos = new Vector2();
 class Listener {
     constructor(obj, func) {
         this.obj = obj;
@@ -147,3 +140,8 @@ class Listener {
     }
 }
 Input.staticConstructor();
+const input = {
+    listener: new Map(),
+    pressedKey: [],
+    mPos: new Vector2(),
+};
