@@ -45,7 +45,7 @@ body {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  /* position: fixed; */
+  user-select: none;
 }
 
 .title {
@@ -95,7 +95,7 @@ body {
   aspect-ratio: 1 / 3;
   display: flex;
   flex-direction: column;
-
+  user-select: none;
   border-radius: .25em;
 }
 

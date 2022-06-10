@@ -6,18 +6,19 @@ import { Vector2 } from "./Vector2.js";
 
 export type staticPosition = "center";
 
-export class Util {
-  static array = {
+export const Util = {
+  array: {
     getItem<T>(arr: T[], index: number): T {
       if (index < 0) index = arr.length - 1;
 
       return arr[index % arr.length];
     },
     getLastItem<T>(arr: T[]): T {
-      return arr[arr.length - 1];
+      return arr[-1];
     },
     getRandomItem<T>(arr: T[]): T {
-      return Util.array.getItem(arr, Math.floor(Math.random() * arr.length));
+      const randomIndex = Math.floor(Math.random() * arr.length);
+      return arr[randomIndex];
     },
     removeItemAtIndex<T>(arr: T[], index: number): T {
       if (index < 0 || index >= arr.length) throw new Error(`${index} is not Valid!`);
@@ -33,7 +34,7 @@ export class Util {
       return arr.reduce((a, b) => (a += isNaN(b) ? 0 : b));
     },
     isEmpty<T>(arr: T[]): boolean {
-      return !arr || arr.length == 0;
+      return !arr || arr.length === 0;
     },
     copyOf<T>(arr: T[]): T[] {
       return [...arr];
@@ -45,9 +46,8 @@ export class Util {
       }
       return connected;
     },
-  };
-
-  static map = {
+  },
+  map: {
     copyOf<K, V>(map: Map<K, V>): Map<K, V> {
       var newMap = new Map<K, V>();
       for (let [key, value] of map.entries()) {
@@ -55,9 +55,8 @@ export class Util {
       }
       return newMap;
     },
-  };
-
-  static math = {
+  },
+  math: {
     random: {
       between(start: number, end: number, num_decimals: number = 0): number {
         return Util.math.round(Math.random() * (end - start) + start, num_decimals);
@@ -74,7 +73,16 @@ export class Util {
       RadToDeg(rad: number) {
         return (180 * rad) / Math.PI;
       },
+      percent(percent: number | string, value: number = 1) {
+        if (typeof percent === "string") {
+          percent = parseFloat(percent);
+          if (isNaN(percent)) throw new Error(`${percent} contains no number`);
+        }
+
+        return (percent / 100) * value;
+      },
     },
+    // uses degree instead of the Math. functions
     trigonomitry: {
       cos(degree: number): number {
         // Math.cos uses radian not degree
@@ -96,9 +104,8 @@ export class Util {
       const factor = Math.pow(10, num_decimals);
       return Math.ceil(number * factor) / factor;
     },
-  };
-
-  static shapes = {
+  },
+  shapes: {
     circle: {
       area(radius: number): number {
         return Math.PI * Math.pow(radius, 2);
@@ -112,9 +119,8 @@ export class Util {
         return Polygon2Helper.findArea(polygon);
       },
     },
-  };
-
-  static object = {
+  },
+  object: {
     findClassName(clas: Object | Function): string {
       return clas instanceof Function ? clas.name : clas.constructor.name;
     },
@@ -174,11 +180,10 @@ export class Util {
 
       return superClasses;
     },
-  };
-
-  static position = {
+  },
+  position: {
     /** Returns the static Position of a point with a world Position */
-    worldPos_to_staticPos(camara: Camara, worldPos: Vector2): Vector2 {
+    worldPos_to_staticPos(worldPos: Vector2, camara: Camara): Vector2 {
       const camaraOffset = camara.getOffset();
       const camaraScale = camara.scaleValue;
       const camaraPos = camara.pos;
@@ -193,7 +198,7 @@ export class Util {
       return staticPos;
     },
     /** Returns the world Position of a point with a static Position */
-    staticPos_to_worldPos(camara: Camara, staticPos: Vector2): Vector2 {
+    staticPos_to_worldPos(staticPos: Vector2, camara: Camara): Vector2 {
       const camaraCenter = camara.getOffset();
       const camaraScale = camara.scaleValue;
 
@@ -204,7 +209,7 @@ export class Util {
       );
       return worldPos;
     },
-    convertStaticPosInValue(camara: Camara, pos: staticPosition): Vector2 {
+    convertStaticPosInValue(pos: staticPosition, camara: Camara): Vector2 {
       switch (pos) {
         case "center":
           return camara.getOffset();
@@ -215,8 +220,8 @@ export class Util {
     },
     convertPercentInValue(canvas: Canvas, widthPercent: string, heightPercent: string): Vector2 {
       return new Vector2(
-        this.convertWidthPercentInValue(canvas, widthPercent),
-        this.convertHeightPercentInValue(canvas, heightPercent)
+        Util.math.convert.percent(widthPercent, canvas.width),
+        Util.math.convert.percent(heightPercent, canvas.height)
       );
     },
     convertWidthPercentInValue(canvas: Canvas, percent: string): number {
@@ -227,14 +232,14 @@ export class Util {
       const number = (Number.parseFloat(percent) / 100) * canvas.height;
       return isNaN(number) ? 0 : number;
     },
-  };
+  },
 
-  static toVector(angle: number, lenght: number): Vector2 {
+  toVector(angle: number, lenght: number): Vector2 {
     const rad = Util.math.convert.DegToRad(angle);
     return new Vector2(Math.sin(rad) * lenght, Math.cos(rad) * lenght);
-  }
+  },
 
-  static findAngleLine(startPoint: Vector2, endPoint: Vector2): number {
+  findAngleLine(startPoint: Vector2, endPoint: Vector2): number {
     const zeroDegreeVector = new Vector2(0, 1);
     const vec = endPoint.subtract(startPoint);
 
@@ -245,25 +250,25 @@ export class Util {
     const angle = Util.math.trigonomitry.arccos(dot / (mag1 * mag2));
 
     return endPoint.x < startPoint.x ? -angle : angle;
-  }
+  },
 
   /**
    * Returns the Hypothenuse of a Triangle
    * @param side1 the lenght of the 1. side
    * @param side2 the lenght of the 2. side
    */
-  static calcHypothenuse(side1: number, side2: number): number {
+  calcHypothenuse(side1: number, side2: number): number {
     return Math.sqrt(Math.pow(side1, 2) + Math.pow(side2, 2));
-  }
+  },
 
   /**
    * Returns the distance between to Points
    * @param point1
    * @param point2
    */
-  static distance(point1: Vector2, point2: Vector2): number {
+  distance(point1: Vector2, point2: Vector2): number {
     return Util.calcHypothenuse(point1.x - point2.x, point1.y - point2.y);
-  }
+  },
 
   /**
    * Returns the closest Point to the mainPoint
@@ -271,11 +276,7 @@ export class Util {
    * @param points collection of Points that will be tested
    * @param exclude point(s) that will be excluded
    */
-  static closestPoint(
-    mainPoint: Vector2,
-    points: Vector2[],
-    exclude?: Vector2 | Vector2[]
-  ): Vector2 {
+  closestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[]): Vector2 {
     let closest: Vector2 = new Vector2(Infinity, Infinity);
     let closestDistance: number = Infinity;
     points.forEach((point) => {
@@ -290,7 +291,7 @@ export class Util {
       }
     });
     return closest;
-  }
+  },
 
   /**
    * Returns the farthest Point to the mainPoint
@@ -298,11 +299,7 @@ export class Util {
    * @param points collection of Points that will be tested
    * @param exclude point(s) that will be excluded
    */
-  static farthestPoint(
-    mainPoint: Vector2,
-    points: Vector2[],
-    exclude?: Vector2 | Vector2[]
-  ): Vector2 {
+  farthestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[]): Vector2 {
     let farthest: Vector2 = mainPoint;
     let farthestDistance: number = 0;
 
@@ -320,7 +317,7 @@ export class Util {
     });
 
     return farthest;
-  }
+  },
 
   /**
    * Moves @param distance in @param direction from the @param start Point and returns the new Position
@@ -328,13 +325,13 @@ export class Util {
    * @param direction angle in which the point will be moved
    * @param distance amount by which the point will be moved
    */
-  static moveDirection(start: Vector2, direction: number, distance: number): Vector2 {
+  moveDirection(start: Vector2, direction: number, distance: number): Vector2 {
     const rad = Util.math.convert.DegToRad(direction);
     const moveX = Math.sin(rad) * distance;
     const moveY = Math.cos(rad) * distance;
 
     return new Vector2(start.x + moveX, start.y + moveY);
-  }
+  },
 
   /**
    * Rotates the @param point around a @param center Point by @param angle degrees
@@ -342,12 +339,12 @@ export class Util {
    * @param point point that will be rotated
    * @param angle angle by which the point will be rotated
    */
-  static rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2 {
+  rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2 {
     const rad = Util.math.convert.DegToRad(angle);
 
     return new Vector2(
       Math.cos(rad) * (point.x - center.x) - Math.sin(rad) * (point.y - center.y) + center.x,
       Math.sin(rad) * (point.x - center.x) + Math.cos(rad) * (point.y - center.y) + center.y
     );
-  }
-}
+  },
+};

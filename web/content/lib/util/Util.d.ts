@@ -3,8 +3,8 @@ import { Canvas } from "../display/Canvas.js";
 import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
 import { Vector2 } from "./Vector2.js";
 export declare type staticPosition = "center";
-export declare class Util {
-    static array: {
+export declare const Util: {
+    array: {
         getItem<T>(arr: T[], index: number): T;
         getLastItem<T_1>(arr: T_1[]): T_1;
         getRandomItem<T_2>(arr: T_2[]): T_2;
@@ -15,10 +15,10 @@ export declare class Util {
         copyOf<T_6>(arr: T_6[]): T_6[];
         connectArrays<T_7>(arrays: T_7[]): T_7[];
     };
-    static map: {
+    map: {
         copyOf<K, V>(map: Map<K, V>): Map<K, V>;
     };
-    static math: {
+    math: {
         random: {
             between(start: number, end: number, num_decimals?: number): number;
             mathSign(): number;
@@ -26,6 +26,7 @@ export declare class Util {
         convert: {
             DegToRad(degree: number): number;
             RadToDeg(rad: number): number;
+            percent(percent: number | string, value?: number): number;
         };
         trigonomitry: {
             cos(degree: number): number;
@@ -35,7 +36,7 @@ export declare class Util {
         floor(number: number, num_decimals?: number): number;
         ceil(number: number, num_decimals?: number): number;
     };
-    static shapes: {
+    shapes: {
         circle: {
             area(radius: number): number;
             radius(volume: number): number;
@@ -44,7 +45,7 @@ export declare class Util {
             area(polygon: Polygon2): number;
         };
     };
-    static object: {
+    object: {
         findClassName(clas: Object | Function): string;
         findSuperClassName(clas: Object | Function): string;
         findClass(clas: Object | Function): Function;
@@ -54,20 +55,20 @@ export declare class Util {
         findAllSuperClassNames(clas: Object | Function): string[];
         findAllSuperClasses(clas: Object | Function): Function[];
     };
-    static position: {
-        worldPos_to_staticPos(camara: Camara, worldPos: Vector2): Vector2;
-        staticPos_to_worldPos(camara: Camara, staticPos: Vector2): Vector2;
-        convertStaticPosInValue(camara: Camara, pos: staticPosition): Vector2;
+    position: {
+        worldPos_to_staticPos(worldPos: Vector2, camara: Camara): Vector2;
+        staticPos_to_worldPos(staticPos: Vector2, camara: Camara): Vector2;
+        convertStaticPosInValue(pos: staticPosition, camara: Camara): Vector2;
         convertPercentInValue(canvas: Canvas, widthPercent: string, heightPercent: string): Vector2;
         convertWidthPercentInValue(canvas: Canvas, percent: string): number;
         convertHeightPercentInValue(canvas: Canvas, percent: string): number;
     };
-    static toVector(angle: number, lenght: number): Vector2;
-    static findAngleLine(startPoint: Vector2, endPoint: Vector2): number;
-    static calcHypothenuse(side1: number, side2: number): number;
-    static distance(point1: Vector2, point2: Vector2): number;
-    static closestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[]): Vector2;
-    static farthestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[]): Vector2;
-    static moveDirection(start: Vector2, direction: number, distance: number): Vector2;
-    static rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2;
-}
+    toVector(angle: number, lenght: number): Vector2;
+    findAngleLine(startPoint: Vector2, endPoint: Vector2): number;
+    calcHypothenuse(side1: number, side2: number): number;
+    distance(point1: Vector2, point2: Vector2): number;
+    closestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[] | undefined): Vector2;
+    farthestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[] | undefined): Vector2;
+    moveDirection(start: Vector2, direction: number, distance: number): Vector2;
+    rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2;
+};

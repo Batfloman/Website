@@ -64,7 +64,7 @@ export class UISimpleButton extends WorldObject<Rectangle> {
   click() {
     if (
       PointInPolygon.isPointInsidePolygon(
-        Util.position.staticPos_to_worldPos(this.camara, Input.mPosHover),
+        Util.position.staticPos_to_worldPos(Input.mPosHover, this.camara),
         this
       )
     ) {
@@ -140,7 +140,7 @@ export class UISimpleButton extends WorldObject<Rectangle> {
   }
 
   updateWorldPos(): void {
-    this.pos = Util.position.staticPos_to_worldPos(this.camara, this.staticPosValue);
+    this.pos = Util.position.staticPos_to_worldPos(this.staticPosValue, this.camara);
   }
 
   calcStaticPosValue(): Vector2 {
@@ -153,7 +153,7 @@ export class UISimpleButton extends WorldObject<Rectangle> {
         this.staticPos.y.toString()
       );
     }
-    return Util.position.convertStaticPosInValue(this.game.getCamara(), this.staticPos);
+    return Util.position.convertStaticPosInValue(this.staticPos, this.camara);
   }
 
   //#endregion

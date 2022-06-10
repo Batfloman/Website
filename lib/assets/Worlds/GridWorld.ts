@@ -1,7 +1,7 @@
 import { Renderer } from "../../display/Renderer.js";
 import { Matrix2 } from "../../util/Matrix2.js";
 import { Vector2 } from "../../util/Vector2.js";
-import { GridCell } from "../objects/GridCell";
+import { GridCell } from "../objects/GridCell.js";
 import { RectangleWorld } from "./RectangleWorld.js";
 
 export class GridWorld extends RectangleWorld {
@@ -23,13 +23,26 @@ export class GridWorld extends RectangleWorld {
     this.cellHeight = height / ySize;
   }
 
+  render(renderer: Renderer): void {
+    renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.cellWidth, this.cellHeight);
+  }
+
   addCell(cell: GridCell) {
     this.addObject(cell);
 
     cell.setGrid(this);
   }
 
-  render(renderer: Renderer): void {
-    renderer.renderGrid(new Vector2(), this.xSize, this.ySize, this.cellWidth, this.cellHeight);
+  // override
+  putObjectsInCunks(): void {
+    super.putObjectsInCunks();
+
+    this.putObjectsInGrid();
+  }
+
+  putObjectsInGrid() {
+    const gridObjects: GridCell[] = this.findObjects<GridCell>(GridCell);
+
+    // console.log(gridObjects);
   }
 }

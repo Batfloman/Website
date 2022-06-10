@@ -31,7 +31,7 @@ export class UISimpleButton extends WorldObject {
         this.updateWorldPos();
     }
     click() {
-        if (PointInPolygon.isPointInsidePolygon(Util.position.staticPos_to_worldPos(this.camara, Input.mPosHover), this)) {
+        if (PointInPolygon.isPointInsidePolygon(Util.position.staticPos_to_worldPos(Input.mPosHover, this.camara), this)) {
             this.action();
         }
     }
@@ -70,7 +70,7 @@ export class UISimpleButton extends WorldObject {
         this.staticPosValue = this.calcStaticPosValue();
     }
     updateWorldPos() {
-        this.pos = Util.position.staticPos_to_worldPos(this.camara, this.staticPosValue);
+        this.pos = Util.position.staticPos_to_worldPos(this.staticPosValue, this.camara);
     }
     calcStaticPosValue() {
         if (!this.game)
@@ -78,6 +78,6 @@ export class UISimpleButton extends WorldObject {
         if (this.staticPos instanceof Vector2) {
             return Util.position.convertPercentInValue(this.canvas, this.staticPos.x.toString(), this.staticPos.y.toString());
         }
-        return Util.position.convertStaticPosInValue(this.game.getCamara(), this.staticPos);
+        return Util.position.convertStaticPosInValue(this.staticPos, this.camara);
     }
 }

@@ -57,7 +57,7 @@ export class Renderer {
   //#region math: not-static rendering
 
   private calcPosOnScreen(worldPos: Vector2): Vector2 {
-    return Util.position.worldPos_to_staticPos(this.camara, worldPos);
+    return Util.position.worldPos_to_staticPos(worldPos, this.camara);
   }
 
   //#endregion
@@ -143,7 +143,7 @@ export class Renderer {
   //#region math: static Rendering
 
   private convertStaticPosInValue(pos: staticPosition): Vector2 {
-    return Util.position.convertStaticPosInValue(this.camara, pos);
+    return Util.position.convertStaticPosInValue(pos, this.camara);
   }
   private convertPercentInValue(widthPercent: string, heightPercent: string): Vector2 {
     return Util.position.convertPercentInValue(this.canvas, widthPercent, heightPercent);

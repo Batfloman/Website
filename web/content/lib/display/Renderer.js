@@ -36,7 +36,7 @@ export class Renderer {
         }
     }
     calcPosOnScreen(worldPos) {
-        return Util.position.worldPos_to_staticPos(this.camara, worldPos);
+        return Util.position.worldPos_to_staticPos(worldPos, this.camara);
     }
     clear() {
         this.updateValues();
@@ -84,7 +84,7 @@ export class Renderer {
             this.renderPoints(translated, 1);
     }
     convertStaticPosInValue(pos) {
-        return Util.position.convertStaticPosInValue(this.camara, pos);
+        return Util.position.convertStaticPosInValue(pos, this.camara);
     }
     convertPercentInValue(widthPercent, heightPercent) {
         return Util.position.convertPercentInValue(this.canvas, widthPercent, heightPercent);

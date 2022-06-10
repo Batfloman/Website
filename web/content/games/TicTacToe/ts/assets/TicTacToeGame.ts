@@ -1,12 +1,12 @@
 import { Canvas } from "../../../../lib/display/Canvas.js";
 import { TurnBasedGame } from "../../../../lib/games/TurnBasedGame.js";
-import { TicTacToeGrid } from "./TicTacToeGrid.js";
+import { Grid } from "./Grid.js";
 
 export class TicTacToeGame extends TurnBasedGame {
   constructor(canvas: Canvas) {
     super(canvas);
 
-    this.worlds.set("main", new TicTacToeGrid(canvas, 3, 3));
+    this.worlds.set("main", new Grid(canvas, 3, 3));
   }
 
   startRound() {}

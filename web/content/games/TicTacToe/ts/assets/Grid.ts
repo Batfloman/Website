@@ -4,7 +4,7 @@ import { Color } from "../../../../lib/util/Color.js";
 import { Input } from "../../../../lib/input/Input.js";
 import { Canvas } from "../../../../lib/display/Canvas.js";
 
-export class TicTacToeGrid extends GridWorld {
+export class Grid extends GridWorld {
   canvas: Canvas;
 
   constructor(canvas: Canvas, xSize: number, ySize: number) {

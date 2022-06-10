@@ -1,19 +1,17 @@
+import { GridCell } from "../../../lib/assets/objects/GridCell.js";
 import { Canvas } from "../../../lib/display/Canvas.js";
-import { Vector2 } from "../../../lib/util/Vector2.js";
 import { TicTacToeGame } from "./assets/TicTacToeGame.js";
-import { TicTacToePlayer } from "./assets/TicTacToePlayer.js";
+import { Grid } from "./assets/Grid.js";
+import { TSymbol } from "./assets/TSymbol.js";
 
-window.onload = () => {
-  const canvas = new Canvas(document.querySelector("canvas"));
-  const game = new TicTacToeGame(canvas);
+// ==========================================================================================
+const canvas = new Canvas(document.querySelector("canvas"));
+const game = new TicTacToeGame(canvas);
 
-  // const player1 = new TicTacToePlayer();
-  // game.addPlayer(player1);
+const grid = game.getWorld() as Grid;
 
-  // const player2 = new TicTacToePlayer();
-  // game.addPlayer(player2);
+grid.addCell(new TSymbol("x"));
 
-  game.randomPlayerTurn();
+game.randomPlayerTurn();
 
-  game.start();
-};
+game.start();
