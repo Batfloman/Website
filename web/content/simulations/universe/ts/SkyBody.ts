@@ -33,7 +33,7 @@ export class SkyBody extends WorldObject<Circle> {
     this.impulse = this.getImpulse();
   }
 
-  update2(dt: number): void {
+  update(dt: number): void {
     if (!(this.game instanceof Universe)) return;
 
     // update Values

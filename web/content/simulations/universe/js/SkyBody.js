@@ -19,7 +19,7 @@ export class SkyBody extends WorldObject {
         this.hitBox.farthestDistance = 0.6666 * radius;
         this.impulse = this.getImpulse();
     }
-    update2(dt) {
+    update(dt) {
         if (!(this.game instanceof Universe))
             return;
         this.updateValues();

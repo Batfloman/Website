@@ -29,7 +29,7 @@ export class Pheromon extends WorldObject<Circle> {
     this.color = !color ? Color.get("red") : color;
   }
 
-  update2(dt: number): void {
+  update(dt: number): void {
     this.strength -= dt * (100 / duration);
     if (this.strength <= 0) {
       this.game.removeObject(this);

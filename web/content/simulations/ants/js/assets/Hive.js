@@ -17,7 +17,7 @@ export class Hive extends WorldObject {
         this.food = foodStorage;
         this.zIndex = 100;
     }
-    update2(dt) {
+    update(dt) {
         this.lastAntSpawnTimeElapsed += dt;
         if (this.lastAntSpawnTimeElapsed > timeBetweenAntSpawn) {
             if (this.food > this.antCounter * saveFoodPerAnt) {

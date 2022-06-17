@@ -8,12 +8,11 @@ export declare class Game {
     protected canvas: Canvas;
     protected camara: Camara;
     protected renderer: Renderer;
-    isStopped: boolean;
+    private isStopped;
     private stoppedBecauseBlur;
     private timeElapsedBeforeStop;
-    maxUpdateDistance: number;
-    deleteDistance: number;
     constructor(canvas: Canvas);
+    private registerClick;
     private static gameLoop;
     tick(): void;
     private updateObjects;
@@ -35,6 +34,4 @@ export declare class Game {
     getCanvas(): Canvas;
     setCamaraScaleLock(b: boolean): void;
     setCamaraMovementLock(b: boolean): void;
-    setMaxUpdateDistance(distance: number): void;
-    setMaxDeleteDistance(distance: number): void;
 }

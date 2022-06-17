@@ -8,11 +8,6 @@ export abstract class ControllableObject<HitBoxType extends HitBox> extends Worl
   private timeOuts: Map<inputKey, { timeOut: number; timeElapsed: number }> = new Map();
 
   update(dt: number): void {
-    if (Util.distance(this.pos, this.game.getCamara().pos) > this.game.deleteDistance) {
-      this.game.removeObject(this);
-      return;
-    }
-
     for (let key of Array.from(this.controlles.keys())) {
       const timeout = this.timeOuts.get(key);
       if (!timeout) throw new Error("Timeout not defined for key " + key);
@@ -32,6 +27,8 @@ export abstract class ControllableObject<HitBoxType extends HitBox> extends Worl
     // normal update
     this.update2(dt);
   }
+
+  abstract update2(dt: number): void;
 
   addControll(key: inputKey, func: Function, timeout: number = 0) {
     this.controlles.set(key, func);

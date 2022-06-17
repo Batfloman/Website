@@ -18,7 +18,7 @@ export class Food extends WorldObject<Circle> {
     this.zIndex = 99;
   }
 
-  update2(dt: number): void {
+  update(dt: number): void {
     this.hitBox.radius = Math.max(
       minRadius,
       Util.shapes.circle.radius(this.amountFood) * foodScaleFactor

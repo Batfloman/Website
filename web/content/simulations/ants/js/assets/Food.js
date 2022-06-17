@@ -10,7 +10,7 @@ export class Food extends WorldObject {
         this.amountFood = amountFood;
         this.zIndex = 99;
     }
-    update2(dt) {
+    update(dt) {
         this.hitBox.radius = Math.max(minRadius, Util.shapes.circle.radius(this.amountFood) * foodScaleFactor);
         if (this.amountFood > 0)
             return;

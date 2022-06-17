@@ -37,7 +37,7 @@ export class Ant extends WorldObject {
         this.food = maxFood;
         this.task = task;
     }
-    update2(dt) {
+    update(dt) {
         const homes = this.world.findObjectsInNeighbouringChunks(this.chunk, Hive, [], 5);
         const foodStuffs = this.world.findObjectsInNeighbouringChunks(this.chunk, Food, [], 5);
         switchTask: switch (this.task) {

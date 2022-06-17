@@ -20,7 +20,7 @@ export class Pheromon extends WorldObject {
         const color = colors.get(this.message);
         this.color = !color ? Color.get("red") : color;
     }
-    update2(dt) {
+    update(dt) {
         this.strength -= dt * (100 / duration);
         if (this.strength <= 0) {
             this.game.removeObject(this);

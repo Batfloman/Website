@@ -18,8 +18,6 @@ export class Game {
         this.isStopped = true;
         this.stoppedBecauseBlur = false;
         this.timeElapsedBeforeStop = 0;
-        this.maxUpdateDistance = Infinity;
-        this.deleteDistance = Infinity;
         this.worlds = new Map();
         this.lastTickTime = Date.now();
         this.canvas = canvas;
@@ -37,7 +35,10 @@ export class Game {
                 this.start();
         });
         Input.newEventListener("resize", this, this.renderObjects);
+        Input.newEventListener("mouseup", this, this.registerClick);
         Game.gameLoop(this);
+    }
+    registerClick(event) {
     }
     static gameLoop(game) {
         game.tick();
@@ -149,11 +150,5 @@ export class Game {
     }
     setCamaraMovementLock(b) {
         this.camara.setLockMovement(b);
-    }
-    setMaxUpdateDistance(distance) {
-        this.maxUpdateDistance = distance;
-    }
-    setMaxDeleteDistance(distance) {
-        this.deleteDistance = distance;
     }
 }

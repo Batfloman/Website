@@ -21,19 +21,10 @@ export abstract class WorldObject<HitBoxType extends HitBox>
     this.orientation = angle;
   }
 
-  // don't override this; it does important suff
-  update(dt: number): void {
-    if (Util.distance(this.pos, this.game.getCamara().pos) > this.game.deleteDistance) {
-      this.game.removeObject(this);
-      return;
-    }
-    this.update2(dt);
-  }
-
-  abstract update2(dt: number): void;
+  abstract update(dt: number): void;
 
   shouldUpdate(): boolean {
-    return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;
+    return true;
   }
   shouldRender(): boolean {
     return this.isCollidingWith(this.camara);

@@ -32,7 +32,7 @@ export class Hive extends WorldObject<Circle> {
 
   lastAntSpawnTimeElapsed = 0;
 
-  update2(dt: number): void {
+  update(dt: number): void {
     this.lastAntSpawnTimeElapsed += dt;
 
     if (this.lastAntSpawnTimeElapsed > timeBetweenAntSpawn) {

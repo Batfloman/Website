@@ -1,5 +1,4 @@
 import { Input } from "../../input/Input.js";
-import { Util } from "../../util/Util.js";
 import { WorldObject } from "./WorldObject.js";
 export class ControllableObject extends WorldObject {
     constructor() {
@@ -8,10 +7,6 @@ export class ControllableObject extends WorldObject {
         this.timeOuts = new Map();
     }
     update(dt) {
-        if (Util.distance(this.pos, this.game.getCamara().pos) > this.game.deleteDistance) {
-            this.game.removeObject(this);
-            return;
-        }
         for (let key of Array.from(this.controlles.keys())) {
             const timeout = this.timeOuts.get(key);
             if (!timeout)

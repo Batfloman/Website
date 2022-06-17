@@ -4,5 +4,6 @@ export declare abstract class ControllableObject<HitBoxType extends HitBox> exte
     private controlles;
     private timeOuts;
     update(dt: number): void;
+    abstract update2(dt: number): void;
     addControll(key: inputKey, func: Function, timeout?: number): void;
 }

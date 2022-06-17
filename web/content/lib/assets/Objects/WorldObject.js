@@ -12,15 +12,8 @@ export class WorldObject extends SceneObject {
         this.hitBox = hitBox;
         this.orientation = angle;
     }
-    update(dt) {
-        if (Util.distance(this.pos, this.game.getCamara().pos) > this.game.deleteDistance) {
-            this.game.removeObject(this);
-            return;
-        }
-        this.update2(dt);
-    }
     shouldUpdate() {
-        return Util.distance(this.pos, this.game.getCamara().pos) < this.game.maxUpdateDistance;
+        return true;
     }
     shouldRender() {
         return this.isCollidingWith(this.camara);

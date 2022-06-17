@@ -17,12 +17,9 @@ export class Game {
   protected renderer: Renderer;
 
   // time
-  isStopped: boolean = true;
+  private isStopped: boolean = true;
   private stoppedBecauseBlur: boolean = false;
   private timeElapsedBeforeStop = 0;
-
-  maxUpdateDistance = Infinity;
-  deleteDistance = Infinity;
 
   constructor(canvas: Canvas) {
     this.canvas = canvas;
@@ -206,12 +203,6 @@ export class Game {
   }
   setCamaraMovementLock(b: boolean) {
     this.camara.setLockMovement(b);
-  }
-  setMaxUpdateDistance(distance: number) {
-    this.maxUpdateDistance = distance;
-  }
-  setMaxDeleteDistance(distance: number) {
-    this.deleteDistance = distance;
   }
 
   //#endregion

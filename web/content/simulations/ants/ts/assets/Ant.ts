@@ -54,7 +54,7 @@ export class Ant extends WorldObject<Circle> {
   timeElapsed: number = 0;
   timeElapsed2: number = 0;
 
-  update2(dt: number): void {
+  update(dt: number): void {
     const homes = this.world.findObjectsInNeighbouringChunks<Hive>(this.chunk, Hive, [], 5);
     const foodStuffs = this.world.findObjectsInNeighbouringChunks<Food>(this.chunk, Food, [], 5);
 
