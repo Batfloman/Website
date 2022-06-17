@@ -16,8 +16,6 @@ export class Game {
   protected camara: Camara;
   protected renderer: Renderer;
 
-  // contents
-
   // time
   isStopped: boolean = true;
   private stoppedBecauseBlur: boolean = false;
@@ -45,8 +43,14 @@ export class Game {
     });
     Input.newEventListener("resize", this, this.renderObjects);
 
+    Input.newEventListener("mouseup", this, this.registerClick);
+
     // start loop
     Game.gameLoop(this);
+  }
+
+  private registerClick(event: MouseEvent | TouchEvent) {
+
   }
 
   // ==========================================================================================
