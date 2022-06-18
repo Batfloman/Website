@@ -13,6 +13,18 @@ export class World {
         this.pos = pos;
         this.backgroundColor = backgroundColor;
     }
+    clicked(worldPos) {
+        const chunkPos = this.findChunkOfPos(worldPos);
+        const chunk = this.getChunk(chunkPos.x, chunkPos.y);
+        if (!chunk)
+            return;
+        for (let obj of chunk.objects) {
+            obj.notifyOfClick(worldPos);
+        }
+    }
+    init(game) {
+        this.game = game;
+    }
     isInsideWorld(point) {
         return true;
     }

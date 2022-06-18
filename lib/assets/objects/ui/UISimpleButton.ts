@@ -85,7 +85,7 @@ export class UISimpleButton extends WorldObject<Rectangle> {
   // ==========================================================================================
   // #region gametick
 
-  update2(dt: number): void {
+  update(dt: number): void {
     if (Input.isLeftClick()) this.alreadyTranslated = false;
   }
   render(renderer: Renderer): void {

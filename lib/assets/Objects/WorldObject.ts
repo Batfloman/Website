@@ -30,6 +30,8 @@ export abstract class WorldObject<HitBoxType extends HitBox>
     return this.isCollidingWith(this.camara);
   }
 
+  notifyOfClick(worldPos: Vector2): void {}
+
   // ==========================================================================================
   //#region world
 

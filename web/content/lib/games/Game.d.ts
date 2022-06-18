@@ -21,7 +21,7 @@ export declare class Game {
     removeObject(obj: SceneObject, worldName?: string): SceneObject | undefined;
     findObjects<T extends SceneObject>(clas: Function, exclude?: T | T[]): T[];
     protected worlds: Map<string, World>;
-    addWorld(name: string, world: World): void;
+    setWorld(name: string, world: World): void;
     getWorld(name?: string): World | undefined;
     setWorldBackground(color: Color, name?: string): void;
     setWorldChunkSize(size: number, name?: string): void;

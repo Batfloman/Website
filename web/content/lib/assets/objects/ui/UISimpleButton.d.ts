@@ -19,7 +19,7 @@ export declare class UISimpleButton extends WorldObject<Rectangle> {
     init(game: Game, canvas: Canvas): void;
     click(): void;
     action(): void;
-    update2(dt: number): void;
+    update(dt: number): void;
     render(renderer: Renderer): void;
     shouldRender(): boolean;
     shouldUpdate(): boolean;

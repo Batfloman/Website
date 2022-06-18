@@ -38,7 +38,7 @@ export class UISimpleButton extends WorldObject {
     action() {
         console.warn("Button has no Action!");
     }
-    update2(dt) {
+    update(dt) {
         if (Input.isLeftClick())
             this.alreadyTranslated = false;
     }

@@ -7,6 +7,9 @@ import { World } from "../assets/worlds/World.js";
 import { Util } from "../util/Util.js";
 import { Color } from "../util/Color.js";
 import { Thread } from "../multiThreading/Thread.js";
+import { Vector2 } from "../util/Vector2.js";
+import { Collision } from "../physic/algorithms/Collision.js";
+import { PointInPolygon } from "../physic/algorithms/PointInPolygon.js";
 
 const maxDTPerTick = 75;
 
@@ -27,7 +30,7 @@ export class Game {
     this.camara = new Camara(this.canvas);
     this.renderer = new Renderer(this.canvas, this.camara);
 
-    this.addWorld("main", new World());
+    this.setWorld("main", new World());
 
     Input.newEventListener("blur", this, () => {
       if (!this.isStopped) {
@@ -41,13 +44,26 @@ export class Game {
     Input.newEventListener("resize", this, this.renderObjects);
 
     Input.newEventListener("mouseup", this, this.registerClick);
+    Input.newEventListener("touchcancel", this, this.registerClick);
+    Input.newEventListener("touchend", this, this.registerClick);
 
     // start loop
     Game.gameLoop(this);
   }
 
   private registerClick(event: MouseEvent | TouchEvent) {
+    const clickPos = new Vector2(
+      event instanceof MouseEvent ? event.offsetX : Math.round(event.changedTouches[0].clientX),
+      event instanceof MouseEvent ? event.offsetY : Math.round(event.changedTouches[0].clientY),
+    )
+    
+    const worldPos = Util.position.staticPos_to_worldPos(clickPos, this.camara);
 
+    for(let world of Array.from(this.worlds.values())) {
+      if(!world.isInsideWorld(worldPos)) continue;
+
+      world.clicked(worldPos);
+    }
   }
 
   // ==========================================================================================
@@ -143,8 +159,10 @@ export class Game {
 
   protected worlds: Map<string, World> = new Map();
 
-  addWorld(name: string, world: World) {
+  setWorld(name: string, world: World) {
     this.worlds.set(name, world);
+
+    world.init(this);
   }
 
   getWorld(name: string = "main"): World | undefined {

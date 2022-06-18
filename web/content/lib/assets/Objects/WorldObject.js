@@ -18,6 +18,7 @@ export class WorldObject extends SceneObject {
     shouldRender() {
         return this.isCollidingWith(this.camara);
     }
+    notifyOfClick(worldPos) { }
     setWorld(world) {
         this.world = world;
         this.recentlyMoved = true;

@@ -12,6 +12,7 @@ import { Renderer } from "../display/Renderer.js";
 import { Input } from "../input/Input.js";
 import { World } from "../assets/worlds/World.js";
 import { Util } from "../util/Util.js";
+import { Vector2 } from "../util/Vector2.js";
 const maxDTPerTick = 75;
 export class Game {
     constructor(canvas) {
@@ -23,7 +24,7 @@ export class Game {
         this.canvas = canvas;
         this.camara = new Camara(this.canvas);
         this.renderer = new Renderer(this.canvas, this.camara);
-        this.addWorld("main", new World());
+        this.setWorld("main", new World());
         Input.newEventListener("blur", this, () => {
             if (!this.isStopped) {
                 this.stop();
@@ -36,9 +37,18 @@ export class Game {
         });
         Input.newEventListener("resize", this, this.renderObjects);
         Input.newEventListener("mouseup", this, this.registerClick);
+        Input.newEventListener("touchcancel", this, this.registerClick);
+        Input.newEventListener("touchend", this, this.registerClick);
         Game.gameLoop(this);
     }
     registerClick(event) {
+        const clickPos = new Vector2(event instanceof MouseEvent ? event.offsetX : Math.round(event.changedTouches[0].clientX), event instanceof MouseEvent ? event.offsetY : Math.round(event.changedTouches[0].clientY));
+        const worldPos = Util.position.staticPos_to_worldPos(clickPos, this.camara);
+        for (let world of Array.from(this.worlds.values())) {
+            if (!world.isInsideWorld(worldPos))
+                continue;
+            world.clicked(worldPos);
+        }
     }
     static gameLoop(game) {
         game.tick();
@@ -105,8 +115,9 @@ export class Game {
         }
         return Util.array.copyOf(found);
     }
-    addWorld(name, world) {
+    setWorld(name, world) {
         this.worlds.set(name, world);
+        world.init(this);
     }
     getWorld(name = "main") {
         return this.worlds.get(name);

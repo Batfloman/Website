@@ -1,5 +1,6 @@
 import { GridCell } from "../../../../lib/assets/objects/GridCell.js";
 import { Renderer } from "../../../../lib/display/Renderer.js";
+import { Color } from "../../../../lib/util/Color.js";
 import { Vector2 } from "../../../../lib/util/Vector2.js";
 import { Grid } from "./Grid.js";
 
@@ -12,8 +13,9 @@ export class TSymbol extends GridCell {
     this.text = text;
   }
 
-  update2(dt: number): void {}
+  update(dt: number): void {}
   render(renderer: Renderer): void {
-    renderer.renderText(this.getWorldPos(), this.text);
+    renderer.setFillColor(Color.get("black"));
+    renderer.renderText(this.pos, this.text);
   }
 }

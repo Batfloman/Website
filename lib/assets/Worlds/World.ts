@@ -8,14 +8,31 @@ import { HitBox } from "../../physic/boundingBox/HitBox.js";
 import { TwoKeyMap } from "../../util/TwoKeyMap.js";
 import { Chunk } from "./Chunk.js";
 import { WorldObject } from "../objects/WorldObject.js";
+import { Game } from "../../games/Game.js";
 
 export class World implements IRenderable {
+  protected game!: Game;
+
   public pos: Vector2;
   public objects: SceneObject[] = [];
 
   constructor(pos: Vector2 = new Vector2(), backgroundColor: Color = Color.get("white")) {
     this.pos = pos;
     this.backgroundColor = backgroundColor;
+  }
+
+  clicked(worldPos: Vector2) {
+    const chunkPos = this.findChunkOfPos(worldPos);
+    const chunk = this.getChunk(chunkPos.x, chunkPos.y);
+    if(!chunk) return;
+
+    for(let obj of chunk.objects) {
+      obj.notifyOfClick(worldPos);
+    }
+  }
+
+  init(game: Game) {
+    this.game = game;
   }
 
   // ==========================================================================================
@@ -195,10 +212,7 @@ export class World implements IRenderable {
   }
 
   findChunkOfPos(pos: Vector2): Vector2 {
-    return new Vector2(
-      Math.floor(pos.x / this.chunkSize),
-      Math.floor(pos.y / this.chunkSize)
-    )
+    return new Vector2(Math.floor(pos.x / this.chunkSize), Math.floor(pos.y / this.chunkSize));
   }
 
   findNeighbourChunksOf(chunk: Chunk, distance: number = 1, rectangleStlye = true): Chunk[] {

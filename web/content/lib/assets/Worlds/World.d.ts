@@ -6,10 +6,14 @@ import { Color } from "../../util/Color.js";
 import { HitBox } from "../../physic/boundingBox/HitBox.js";
 import { Chunk } from "./Chunk.js";
 import { WorldObject } from "../objects/WorldObject.js";
+import { Game } from "../../games/Game.js";
 export declare class World implements IRenderable {
+    protected game: Game;
     pos: Vector2;
     objects: SceneObject[];
     constructor(pos?: Vector2, backgroundColor?: Color);
+    clicked(worldPos: Vector2): void;
+    init(game: Game): void;
     isInsideWorld(point: Vector2): boolean;
     private backgroundColor;
     shouldRender(): boolean;

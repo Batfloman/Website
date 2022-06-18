@@ -6,7 +6,7 @@ export class TicTacToeGame extends TurnBasedGame {
   constructor(canvas: Canvas) {
     super(canvas);
 
-    this.worlds.set("main", new Grid(canvas, 3, 3));
+    this.setWorld("main", new Grid(canvas, 3, 3));
   }
 
   startRound() {}

@@ -10,6 +10,7 @@ export declare abstract class WorldObject<HitBoxType extends HitBox> extends Sce
     abstract update(dt: number): void;
     shouldUpdate(): boolean;
     shouldRender(): boolean;
+    notifyOfClick(worldPos: Vector2): void;
     protected world: World;
     protected chunk: Chunk;
     recentlyMoved: boolean;

@@ -9,9 +9,11 @@ export class GridCell extends WorldObject {
             this.grid = grid;
         if (gridPos)
             this.gridPos = gridPos;
+        if (grid && gridPos) {
+            this.pos = this.getWorldPos();
+        }
     }
     update(dt) {
-        super.update(dt);
         this.pos = this.getWorldPos();
     }
     testMoveInGrid(x, y) {
@@ -30,10 +32,11 @@ export class GridCell extends WorldObject {
     setGridPos(x, y) {
         this.gridPos.x = x;
         this.gridPos.y = y;
+        this.pos = this.getWorldPos();
     }
     getWorldPos() {
-        const topLeft = new Vector2(this.grid.pos.x - this.grid.width / 2, this.grid.pos.x + this.grid.height / 2);
-        const posRelativeTopLeft = new Vector2(this.gridPos.x * this.grid.cellWidth + this.grid.cellWidth / 2, this.gridPos.y * this.grid.cellHeight - this.grid.cellHeight / 2);
-        return posRelativeTopLeft.add(topLeft);
+        const bottomLeft = new Vector2(this.grid.pos.x - this.grid.width / 2, this.grid.pos.x - this.grid.height / 2);
+        const posRelativeTopLeft = new Vector2(this.gridPos.x * this.grid.cellWidth + this.grid.cellWidth / 2, this.gridPos.y * this.grid.cellHeight + this.grid.cellHeight / 2);
+        return posRelativeTopLeft.add(bottomLeft);
     }
 }
