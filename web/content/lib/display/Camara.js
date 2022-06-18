@@ -106,6 +106,8 @@ export class Camara {
         this.lockMovement = b;
     }
     touchMove(event) {
+        if (this.lockMovement)
+            return;
         const touch = event.touches[0] || event.changedTouches[0];
         const touchPos = new Vector2(touch.clientX, touch.clientY);
         if (!this.previousTouchPos) {
