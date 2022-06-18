@@ -21,6 +21,9 @@ export class Camara {
         this.translatePoints();
         Input.newEventListener("wheel", this, this.mouseWheel);
         Input.newEventListener("mousemove", this, this.mouseMove);
+        Input.newEventListener("touchmove", this, this.touchMove);
+        Input.newEventListener("touchend", this, () => (this.previousTouchPos = undefined));
+        Input.newEventListener("touchcancel", this, () => (this.previousTouchPos = undefined));
         Input.newEventListener("resize", this, () => {
             this.hitBox = new Rectangle(this.canvas.htmlCanvas.width, this.canvas.htmlCanvas.height);
             this.alreadyTranslated = false;
@@ -101,5 +104,18 @@ export class Camara {
     }
     setLockMovement(b) {
         this.lockMovement = b;
+    }
+    touchMove(event) {
+        const touch = event.touches[0] || event.changedTouches[0];
+        const touchPos = new Vector2(touch.clientX, touch.clientY);
+        if (!this.previousTouchPos) {
+            this.previousTouchPos = touchPos;
+            return;
+        }
+        const move = touchPos.subtract(this.previousTouchPos);
+        this.previousTouchPos = touchPos;
+        this.pos.x -= move.x / this.scaleValue;
+        this.pos.y += move.y / this.scaleValue;
+        this.alreadyTranslated = false;
     }
 }

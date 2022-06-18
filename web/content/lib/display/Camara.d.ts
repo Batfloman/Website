@@ -34,4 +34,6 @@ export declare class Camara implements ICollideable, IMoveable {
     pos: Vector2;
     private mouseMove;
     setLockMovement(b: boolean): void;
+    private previousTouchPos;
+    private touchMove;
 }
