@@ -13,6 +13,7 @@ export declare class Game {
     private timeElapsedBeforeStop;
     constructor(canvas: Canvas);
     private registerClick;
+    private static getRelativeTouchPos;
     private static gameLoop;
     tick(): void;
     private updateObjects;

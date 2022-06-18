@@ -25,9 +25,11 @@ export declare class Renderer {
     renderText(worldPos: Vector2, text: string): void;
     renderPoints(points: Vector2[], radius: number): void;
     renderCircle(worldPos: Vector2, radius: number): void;
+    renderEllipse(worldPos: Vector2, radiusX: number, radiusY: number): void;
     renderRectangle(worldPos: Vector2, width: number, height: number): void;
     connectPoints(points: Vector2[]): void;
     renderPolygon(worldPos: Vector2, polygon: Polygon2, angle: number, renderPoints?: boolean, renderOutline?: boolean): void;
+    renderLine(start: Vector2, end: Vector2): void;
     private convertStaticPosInValue;
     private convertPercentInValue;
     private convertWidthPercentInValue;
@@ -35,7 +37,9 @@ export declare class Renderer {
     renderStaticGrid(pos: Vector2 | staticPosition, xSize: number | string, ySize: number | string, cellXSize: number | string, cellYSize: number | string, scaleLineWidth?: boolean): void;
     renderStaticText(pos: Vector2 | staticPosition, text: string): void;
     renderStaticCirle(pos: Vector2 | staticPosition, radius: number, scaleLineWidth?: boolean): void;
+    renderStaticEllipse(pos: Vector2 | staticPosition, radiusX: number, radiusY: number, scaleLineWidth?: boolean): void;
     renderStaticRectangle(pos: Vector2 | staticPosition, width: number | string, height: number | string, scaleLineWidth?: boolean): void;
+    renderStaicLine(start: Vector2 | staticPosition, end: Vector2 | staticPosition, scaleLineWidth?: boolean): void;
     setStrokeColor(color?: Color | undefined): void;
     setFillColor(color?: Color | undefined): void;
     setLineWidth(width: number): void;

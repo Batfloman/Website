@@ -56,6 +56,9 @@ export class Renderer {
     renderCircle(worldPos, radius) {
         this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius * this.scale);
     }
+    renderEllipse(worldPos, radiusX, radiusY) {
+        this.renderStaticEllipse(this.calcPosOnScreen(worldPos), radiusX * this.scale, radiusY * this.scale);
+    }
     renderRectangle(worldPos, width, height) {
         this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width * this.scale, height * this.scale);
     }
@@ -82,6 +85,9 @@ export class Renderer {
             this.connectPoints(translated);
         if (renderPoints)
             this.renderPoints(translated, 1);
+    }
+    renderLine(start, end) {
+        this.renderStaicLine(this.calcPosOnScreen(start), this.calcPosOnScreen(end));
     }
     convertStaticPosInValue(pos) {
         return Util.position.convertStaticPosInValue(pos, this.camara);
@@ -144,6 +150,16 @@ export class Renderer {
         this.ctx.fill();
         this.ctx.stroke();
     }
+    renderStaticEllipse(pos, radiusX, radiusY, scaleLineWidth = true) {
+        this.updateValues(scaleLineWidth);
+        if (!(pos instanceof Vector2))
+            pos = this.convertStaticPosInValue(pos);
+        this.ctx.beginPath();
+        this.ctx.ellipse(pos.x, pos.y, radiusX, radiusY, 0, 0, 360);
+        this.ctx.closePath();
+        this.ctx.fill();
+        this.ctx.stroke();
+    }
     renderStaticRectangle(pos, width, height, scaleLineWidth = true) {
         this.updateValues(scaleLineWidth);
         if (!(pos instanceof Vector2))
@@ -157,6 +173,17 @@ export class Renderer {
         this.ctx.beginPath();
         this.ctx.strokeRect(pos.x - w / 2, pos.y - h / 2, w, h);
         this.ctx.fillRect(pos.x - w / 2, pos.y - h / 2, w, h);
+        this.ctx.stroke();
+    }
+    renderStaicLine(start, end, scaleLineWidth = true) {
+        this.updateValues(scaleLineWidth);
+        if (!(start instanceof Vector2))
+            start = this.convertStaticPosInValue(start);
+        if (!(end instanceof Vector2))
+            end = this.convertStaticPosInValue(end);
+        this.ctx.beginPath();
+        this.ctx.moveTo(start.x, start.y);
+        this.ctx.lineTo(end.x, end.y);
         this.ctx.stroke();
     }
     setStrokeColor(color = Color.none) {

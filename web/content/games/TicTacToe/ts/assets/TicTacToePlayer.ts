@@ -1,6 +1,5 @@
 import { TurnBasedPlayer } from "../../../../lib/assets/players/TurnBasedPlayer.js";
-
-type playerSymbol = "x" | "o";
+import { playerSymbol } from "./TSymbol.js";
 
 export class TicTacToePlayer extends TurnBasedPlayer {
   symbol: playerSymbol;
@@ -10,7 +9,7 @@ export class TicTacToePlayer extends TurnBasedPlayer {
 
     this.symbol = symbol;
   }
-  
+
   task(): void {
     throw new Error("Method not implemented.");
   }

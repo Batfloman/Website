@@ -95,6 +95,14 @@ export class Renderer {
     this.renderStaticCirle(this.calcPosOnScreen(worldPos), radius * this.scale);
   }
 
+  renderEllipse(worldPos: Vector2, radiusX: number, radiusY: number): void {
+    this.renderStaticEllipse(
+      this.calcPosOnScreen(worldPos),
+      radiusX * this.scale,
+      radiusY * this.scale
+    );
+  }
+
   renderRectangle(worldPos: Vector2, width: number, height: number) {
     this.renderStaticRectangle(
       this.calcPosOnScreen(worldPos),
@@ -135,6 +143,10 @@ export class Renderer {
 
     if (renderOutline) this.connectPoints(translated);
     if (renderPoints) this.renderPoints(translated, 1);
+  }
+
+  renderLine(start: Vector2, end: Vector2) {
+    this.renderStaicLine(this.calcPosOnScreen(start), this.calcPosOnScreen(end));
   }
 
   //#endregion
@@ -226,6 +238,23 @@ export class Renderer {
     this.ctx.stroke();
   }
 
+  renderStaticEllipse(
+    pos: Vector2 | staticPosition,
+    radiusX: number,
+    radiusY: number,
+    scaleLineWidth = true
+  ): void {
+    this.updateValues(scaleLineWidth);
+
+    if (!(pos instanceof Vector2)) pos = this.convertStaticPosInValue(pos);
+
+    this.ctx.beginPath();
+    this.ctx.ellipse(pos.x, pos.y, radiusX, radiusY, 0, 0, 360);
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.stroke();
+  }
+
   renderStaticRectangle(
     pos: Vector2 | staticPosition,
     width: number | string,
@@ -244,6 +273,23 @@ export class Renderer {
     this.ctx.beginPath();
     this.ctx.strokeRect(pos.x - w / 2, pos.y - h / 2, w, h);
     this.ctx.fillRect(pos.x - w / 2, pos.y - h / 2, w, h);
+    this.ctx.stroke();
+  }
+
+  renderStaicLine(
+    start: Vector2 | staticPosition,
+    end: Vector2 | staticPosition,
+    scaleLineWidth: boolean = true
+  ): void {
+    this.updateValues(scaleLineWidth);
+
+    if (!(start instanceof Vector2)) start = this.convertStaticPosInValue(start);
+    if (!(end instanceof Vector2)) end = this.convertStaticPosInValue(end);
+
+    this.ctx.beginPath();
+    this.ctx.moveTo(start.x, start.y);
+    this.ctx.lineTo(end.x, end.y);
+
     this.ctx.stroke();
   }
 

@@ -52,18 +52,40 @@ export class Game {
   }
 
   private registerClick(event: MouseEvent | TouchEvent) {
-    const clickPos = new Vector2(
-      event instanceof MouseEvent ? event.offsetX : Math.round(event.changedTouches[0].clientX),
-      event instanceof MouseEvent ? event.offsetY : Math.round(event.changedTouches[0].clientY),
-    )
-    
+    const canvasClicked = Array.from(event.composedPath()).includes(this.canvas.htmlCanvas);
+
+    if (!canvasClicked) return;
+
+    const clickPos =
+      event instanceof TouchEvent
+        ? Game.getRelativeTouchPos(event)
+        : new Vector2(event.offsetX, event.offsetY);
+
     const worldPos = Util.position.staticPos_to_worldPos(clickPos, this.camara);
 
-    for(let world of Array.from(this.worlds.values())) {
-      if(!world.isInsideWorld(worldPos)) continue;
+    for (let world of Array.from(this.worlds.values())) {
+      if (!world.isInsideWorld(worldPos)) continue;
 
       world.clicked(worldPos);
     }
+  }
+
+  private static getRelativeTouchPos(event: TouchEvent): Vector2 {
+    const touch = event.touches[0] || event.changedTouches[0];
+
+    const clientPos = new Vector2(touch.clientX, touch.clientY);
+
+    const target = touch.target;
+
+    // why there errors??? works just fine!
+    const targetOffset = new Vector2(touch.target.offsetLeft, touch.target.offsetTop);
+
+    // why there errors??? works just fine!
+    const topLeft = targetOffset.subtract(
+      new Vector2(touch.target.width / 2, touch.target.height / 2)
+    );
+
+    return clientPos.subtract(topLeft);
   }
 
   // ==========================================================================================
