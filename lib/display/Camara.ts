@@ -167,6 +167,8 @@ export class Camara implements ICollideable, IMoveable {
 
   private previousTouchPos: Vector2 | undefined;
   private touchMove(event: TouchEvent): void {
+    if (this.lockMovement) return;
+
     const touch = event.touches[0] || event.changedTouches[0];
     const touchPos = new Vector2(touch.clientX, touch.clientY);
 
