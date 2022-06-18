@@ -42,8 +42,8 @@ export class Renderer {
         this.updateValues();
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
-    renderGrid(worldPos, xSize, ySize, cellXSize, cellYSize) {
-        this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize);
+    renderGrid(worldPos, xSize, ySize, cellXSize, cellYSize, scaleLineWidth = true) {
+        this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize, scaleLineWidth);
     }
     renderText(worldPos, text) {
         this.renderStaticText(this.calcPosOnScreen(worldPos), text);
@@ -59,8 +59,8 @@ export class Renderer {
     renderEllipse(worldPos, radiusX, radiusY) {
         this.renderStaticEllipse(this.calcPosOnScreen(worldPos), radiusX * this.scale, radiusY * this.scale);
     }
-    renderRectangle(worldPos, width, height) {
-        this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width * this.scale, height * this.scale);
+    renderRectangle(worldPos, width, height, scaleLineWidth = true) {
+        this.renderStaticRectangle(this.calcPosOnScreen(worldPos), width * this.scale, height * this.scale, scaleLineWidth);
     }
     connectPoints(points) {
         this.updateValues();
@@ -86,8 +86,8 @@ export class Renderer {
         if (renderPoints)
             this.renderPoints(translated, 1);
     }
-    renderLine(start, end) {
-        this.renderStaicLine(this.calcPosOnScreen(start), this.calcPosOnScreen(end));
+    renderLine(start, end, scaleLineWidth = true) {
+        this.renderStaicLine(this.calcPosOnScreen(start), this.calcPosOnScreen(end), scaleLineWidth);
     }
     convertStaticPosInValue(pos) {
         return Util.position.convertStaticPosInValue(pos, this.camara);

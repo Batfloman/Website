@@ -76,9 +76,10 @@ export class Renderer {
     xSize: number,
     ySize: number,
     cellXSize: number,
-    cellYSize: number
+    cellYSize: number,
+    scaleLineWidth = true
   ): void {
-    this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize);
+    this.renderStaticGrid(this.calcPosOnScreen(worldPos), xSize, ySize, cellXSize, cellYSize, scaleLineWidth);
   }
 
   renderText(worldPos: Vector2, text: string) {
@@ -99,15 +100,16 @@ export class Renderer {
     this.renderStaticEllipse(
       this.calcPosOnScreen(worldPos),
       radiusX * this.scale,
-      radiusY * this.scale
+      radiusY * this.scale,
     );
   }
 
-  renderRectangle(worldPos: Vector2, width: number, height: number) {
+  renderRectangle(worldPos: Vector2, width: number, height: number, scaleLineWidth = true) {
     this.renderStaticRectangle(
       this.calcPosOnScreen(worldPos),
       width * this.scale,
-      height * this.scale
+      height * this.scale,
+      scaleLineWidth
     );
   }
 
@@ -145,8 +147,8 @@ export class Renderer {
     if (renderPoints) this.renderPoints(translated, 1);
   }
 
-  renderLine(start: Vector2, end: Vector2) {
-    this.renderStaicLine(this.calcPosOnScreen(start), this.calcPosOnScreen(end));
+  renderLine(start: Vector2, end: Vector2, scaleLineWidth = true) {
+    this.renderStaicLine(this.calcPosOnScreen(start), this.calcPosOnScreen(end), scaleLineWidth);
   }
 
   //#endregion

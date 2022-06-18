@@ -21,15 +21,15 @@ export declare class Renderer {
     private updateValues;
     private calcPosOnScreen;
     clear(): void;
-    renderGrid(worldPos: Vector2, xSize: number, ySize: number, cellXSize: number, cellYSize: number): void;
+    renderGrid(worldPos: Vector2, xSize: number, ySize: number, cellXSize: number, cellYSize: number, scaleLineWidth?: boolean): void;
     renderText(worldPos: Vector2, text: string): void;
     renderPoints(points: Vector2[], radius: number): void;
     renderCircle(worldPos: Vector2, radius: number): void;
     renderEllipse(worldPos: Vector2, radiusX: number, radiusY: number): void;
-    renderRectangle(worldPos: Vector2, width: number, height: number): void;
+    renderRectangle(worldPos: Vector2, width: number, height: number, scaleLineWidth?: boolean): void;
     connectPoints(points: Vector2[]): void;
     renderPolygon(worldPos: Vector2, polygon: Polygon2, angle: number, renderPoints?: boolean, renderOutline?: boolean): void;
-    renderLine(start: Vector2, end: Vector2): void;
+    renderLine(start: Vector2, end: Vector2, scaleLineWidth?: boolean): void;
     private convertStaticPosInValue;
     private convertPercentInValue;
     private convertWidthPercentInValue;
