@@ -1,0 +1,75 @@
+body {
+  min-height: 100vh;
+  background-color: rgb(45, 45, 45);
+  margin: 0;
+  display: grid;
+  place-items: center;
+  user-select: none;
+  font-family: Consolas, Arial, Helvetica, sans-serif;
+  color: white;
+}
+
+.sphere {
+  --angleX: 0;
+  --angleY: 0;
+  --radius: 175;
+
+  width: calc(var(--radius) * 2px);
+  height: calc(var(--radius) * 2px);
+  border: 20px white solid;
+  border-bottom: 20px deeppink solid;
+  border-left: 20px deepskyblue solid;
+  border-right: 20px orange solid;
+  border-radius: 50%;
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  transform: rotateZ(calc(var(--angleY) * 1deg));
+}
+
+.sphere > .item {
+  --segment-position: 0;
+  --segments-amount: 0;
+
+  position: absolute;
+  width: calc(var(--radius) * 0.6px);
+  height: calc(var(--radius) * 0.5px);
+  background-color: red;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+
+  transform: rotate(calc(360deg / var(--segments-amount) * var(--segment-position)))
+    translate(calc(var(--radius) * 1px))
+    rotate(calc(-360deg / var(--segments-amount) * var(--segment-position) - var(--angleY) * 1deg))
+}
+
+.open {
+  animation: openUp 333ms ease-in-out forwards;
+}
+
+@keyframes openUp {
+  0% {
+    transform: rotateX(0deg) rotateZ(calc(var(--angleY) * 1deg));
+  }
+  100% {
+    transform: rotateX(80deg) rotateZ(calc(var(--angleY) * 1deg));
+    --angleX: 80;
+  }
+}
+
+.closed {
+  animation: closed 333ms ease-in-out forwards;
+}
+
+@keyframes closed {
+  0% {
+    transform: rotateX(80deg) rotateZ(calc(var(--angleY) * 1deg));
+  }
+  100% {
+    transform: rotateX(0deg) rotateZ(calc(var(--angleY) * 1deg));
+    --angleX: 0;
+  }
+}

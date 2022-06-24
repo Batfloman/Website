@@ -1,0 +1,44 @@
+body {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background-color: rgb(45, 45, 45);
+  margin: 0;
+  font-family: Consolas;
+  color: white;
+}
+
+.spin-container {
+  --spin-radius: 300;
+
+  position: relative;
+  width: calc(var(--spin-radius) * 1px);
+  height: calc(var(--spin-radius) * 1px);
+  /* background-color: white; */
+  border: 1px white solid;
+  border-radius: 50%;
+}
+
+
+
+.spin-item {
+  --angle: 0;
+  --item-width: 40;
+  --item-height: 40;
+
+  position: absolute;
+  width: calc(var(--item-width) * 1px);
+  height: calc(var(--item-height) * 1px);
+  left: calc(calc(var(--spin-radius) / 2 - var(--item-width) / 2) * 1px);
+  top: calc(calc(var(--spin-radius) / 2 - var(--item-height) / 2) * 1px);
+  border-radius: 50%;
+  background-color: deeppink;
+
+  display: grid;
+  place-items: center;
+
+  transform: rotate(calc(var(--angle) * 1deg - 90deg)) translate(calc(var(--spin-radius) / 2 * 1px))
+    rotate(calc(var(--angle) * -1deg + 90deg));
+
+  animation: spin 3s linear infinite;
+}

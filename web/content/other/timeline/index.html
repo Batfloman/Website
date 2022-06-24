@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Line Creater</title>
+
+  <link href="./style.css" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <div class="new-element-btn"></div>
+  </header>
+
+  <section class="wrapper">
+    <div class="timeline">
+      <div class="line"></div>
+    </div>
+  </section>
+
+  <section class="popup">
+<form>
+  <label>Title</label>
+  <input type="text">
+  <label>Text</label>
+  <input type="text">
+  <input type="submit">
+</form>
+  </section>
+
+  <script>
+    const newElementBtn = document.querySelector(".new-element-btn");
+    newElementBtn.addEventListener("click", () => {
+      isPopupOpen ? closePopup() : openPopup();
+      isPopupOpen = !isPopupOpen;
+    })
+
+    const popup = document.querySelector(".popup");
+
+    const open = document.createAttribute("open");
+    const closed = document.createAttribute("closed");
+    var isPopupOpen = false;
+
+    function openPopup() {
+      popup.attributes.setNamedItem(open);
+      if(!popup.attributes.getNamedItem(closed.name)) return;
+      popup.attributes.removeNamedItem(closed.name);
+    }
+
+    function closePopup() {
+      popup.attributes.setNamedItem(closed);
+      if(!popup.attributes.getNamedItem(open.name)) return;
+      popup.attributes.removeNamedItem(open.name);
+    }
+
+
+    const timeline = document.querySelector(".timeline");
+
+    function createContentDiv(text) {
+      return `<div class="content-text">${text}</div>`;
+    }
+    function createContenteLable(text) {
+      return `<div class="content-label">${text}</div>`;
+    }
+
+    function createContent(title, content) {
+      const contentDiv = document.createElement("div");
+      contentDiv.setAttribute("class", "content")
+
+      contentDiv.innerHTML = createContenteLable(title);
+      contentDiv.innerHTML += createContentDiv(content);
+
+      timeline.appendChild(contentDiv);
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="header">
+    <span class="title">Title</span>
+    <span class="settings-btn">Settings</span>
+    <nav class="nav-bar nav-closed">
+      <ul class="nav-links">
+        <li class="nav-link active">Home</li>
+        <li class="nav-link">Games</li>
+        <li class="nav-link">Stuff</li>
+        <li class="nav-link">School</li>
+        <li class="nav-link">Home2</li>
+        <li class="nav-link">Games2</li>
+        <li class="nav-link">Stuff2</li>
+        <li class="nav-link">School2isverylong</li>
+      </ul>
+    </nav>
+  </header>
+
+  <script>
+    const header = document.querySelector(".header");
+    const nav_links = document.querySelector(".nav-links");
+    const nav_bar = document.querySelector(".nav-bar");
+
+    let clickPath;
+
+    let totalMoveX = 0;
+    let totalMoveY = 0;
+
+    // mouse
+    window.addEventListener("mousedown", (e) => {
+      clickPath = Array.from(e.path);
+    })
+
+    window.addEventListener("mousemove", (e) => {
+      if (e.which !== 1) return;
+
+      changeTotalMove(e.movementX, -e.movementY);
+    })
+
+    let lastTouchPosX = 0;
+    let lastTouchPosY = 0;
+
+    window.addEventListener("touchstart", (e) => {
+      clickPath = Array.from(e.path);
+
+      let touchX = e.touches[0].pageX;
+      let touchY = e.touches[0].pageY;
+
+      lastTouchPosX = touchX;
+      lastTouchPosY = touchY;
+    })
+
+    window.addEventListener("touchmove", (e) => {
+      let touchX = e.touches[0].pageX;
+      let touchY = e.touches[0].pageY;
+
+      let moveX = -(lastTouchPosX - touchX);
+      let moveY = lastTouchPosY - touchY;
+
+      changeTotalMove(moveX, moveY);
+
+      lastTouchPosX = touchX;
+      lastTouchPosY = touchY;
+    })
+
+    window.addEventListener("mouseup", clickEnd);
+    window.addEventListener("touchend", clickEnd);
+    window.addEventListener("touchcancel", clickEnd);
+
+    function changeTotalMove(x, y) {
+      totalMoveX += x;
+      totalMoveY += y;
+
+      if (navOpen) {
+        if (clickPath.includes(nav_bar)) changeProperty(nav_links, "--angle", x / 5);
+      } else {
+        if (clickPath.includes(nav_bar)) changeProperty(nav_links, "--slider-offset", x);
+      }
+
+    }
+
+    function clickEnd(e) {
+      switch (findSwipeDirection()) {
+        case "up":
+          if (totalMoveY > 100) {
+            if (clickPath.includes(header)) closeNavigator();
+          }
+          break;
+        case "down":
+          if (totalMoveY < -100) {
+            if (clickPath.includes(header)) openNavigator();
+          }
+          break;
+        case "left":
+          break;
+        case "right":
+          break;
+      }
+
+      if (navOpen) {
+        const angle = parseFloat(nav_links.style.getPropertyValue("--angle"));
+        if (!angle) return;
+
+        const amountChildren = nav_links.children.length
+        const anglePerElement = 360 / amountChildren;
+        const currentNumber = Math.round(angle / anglePerElement) % amountChildren;
+        rotateToAngle(currentNumber * anglePerElement);
+        // nav_links.style.setProperty("--angle", currentNumber * anglePerElement);
+
+        for (let child of Array.from(nav_links.children)) {
+          child.classList.remove("active");
+
+          const circlePos = parseFloat(child.style.getPropertyValue("--position-number"));
+          if (circlePos == (currentNumber + 8) % 8) child.classList.add("active");
+        }
+      }
+
+      totalMoveX = 0;
+      totalMoveY = 0;
+    }
+
+    function findSwipeDirection() {
+      const moreXThanYMovement = (Math.abs(totalMoveX) > Math.abs(totalMoveY))
+
+      return moreXThanYMovement ? (totalMoveX > 100 ? "right" : "left") : (totalMoveY > 100 ? "up" : "down");
+    }
+
+    function changeProperty(element, name, change) {
+      const es = element.style;
+      if (!es) return;
+
+      let prevVal = es.getPropertyValue(name);
+      if (!prevVal) {
+        es.setProperty(name, change);
+        return;
+      }
+
+      if (typeof change === "number") prevVal = parseFloat(prevVal);
+
+      const changed = prevVal + change;
+
+      es.setProperty(name, changed);
+    }
+
+    // =========================================
+
+    let navOpen = false;
+
+    function openNavigator() {
+      if (navOpen) return;
+      navOpen = true;
+      nav_bar.classList.add("nav-open");
+      nav_bar.classList.remove("nav-closed");
+
+      const children = Array.from(nav_links.children);
+      for (let child of children) {
+        child.addEventListener("mouseup", clickLink);
+      }
+    }
+
+    function closeNavigator() {
+      navOpen = false;
+      nav_bar.classList.add("nav-closed");
+      nav_bar.classList.remove("nav-open");
+
+      const children = Array.from(nav_links.children);
+      for (let child of children) {
+        child.removeEventListener("mouseup", clickLink);
+      }
+    }
+
+    function clickLink() {
+      const currentNumber = this.style.getPropertyValue("--position-number");
+      if (!currentNumber) return;
+
+      const amountChildren = nav_links.children.length
+      const anglePerElement = 360 / amountChildren;
+      rotateToAngle(currentNumber * anglePerElement);
+      // nav_links.style.setProperty("--angle", currentNumber * anglePerElement);
+
+      updateActive();
+    }
+
+    var rotateInterval;
+    async function rotateToAngle(angle) {
+      angle = angle % 360;
+
+      rotateInterval = setInterval(() => {
+        // TODO make smooth animation
+      }, 10)
+    }
+
+    function updateActive() {
+      const angle = parseFloat(nav_links.style.getPropertyValue("--angle"));
+      if (!angle) return;
+
+      const amountChildren = nav_links.children.length
+      const anglePerElement = 360 / amountChildren;
+      const currentNumber = Math.round(angle / anglePerElement) % amountChildren;
+
+      for (let child of Array.from(nav_links.children)) {
+        child.classList.remove("active");
+
+        const circlePos = parseFloat(child.style.getPropertyValue("--position-number"));
+        if (circlePos == (currentNumber + 8) % 8) child.classList.add("active");
+      }
+    }
+
+    // =========================================
+
+    link_children = Array.from(nav_links.children);
+    nav_links.style.setProperty("--amount-elements", link_children.length);
+    for (let i = 0; i < link_children.length; i++) {
+      child = link_children[i];
+
+      child.style.setProperty("--position-number", i);
+    }
+
+    // ===============
+  </script>
+</body>
+
+</html>

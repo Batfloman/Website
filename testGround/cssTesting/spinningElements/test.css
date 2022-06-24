@@ -1,0 +1,15 @@
+body {
+  font-family: Consolas;
+  background-color: #2d2d2d;
+  font-size: 20px;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.spin-container {
+  margin: 10px;
+  position: relative;
+}
+/*# sourceMappingURL=test.css.map */

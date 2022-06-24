@@ -1,0 +1,286 @@
+{
+    "timeline" : {
+        "name" : "Nigeria History",
+        "description" : ""
+    },
+
+    "groups" : [
+          ],
+
+    "events" : [
+              {
+          "name" : "First Sign of Humans living in Nigeria",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "-5000 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Organized Society",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "-500 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Yoruba fuonded the first city in the south-west\n(spiritual centre of Yorubaland)",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1000 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Beginning of Portuguese  slave trade to America",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1500 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "British take over the slave trade",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1700 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Slave trade abolished",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1807 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Holy war between Hausa and Fulani\n=> new Muslim empire (north)",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1808 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Britain controls natural resources",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1880 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "todays Nigeria under British control",
+          "description" : "divided in Muslim north and Christian south",
+          "tagsCsv" : "",
+          "time" : "1900 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "North and South are united as \"Colony and Protectorate of Nigeria\"",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1914 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Legislative council starts ruling the south",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1922 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Legislative council rules then entire country",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1947 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Nigeria bacame a federation",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1954 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "oil was discoverd in the south-east",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1956 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Nigeria becomes independent",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1960 10 1",
+          "group" : ""
+        },
+              {
+          "name" : "becomes federal republic",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1963 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Military regime took power",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1966 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "south-east region declared as independent state",
+          "description" : "Republic of Biafra",
+          "tagsCsv" : "",
+          "time" : "1967 5 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "three-year civil war (Biafran War)",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1967 5 2 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Biafra surrenders",
+          "description" : "gets reintegrated in Nigeria",
+          "tagsCsv" : "",
+          "time" : "1970 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "oil industry was nationalized",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1976 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Second Military Coup",
+          "description" : "Major General Muhammadu Buhari became head of state",
+          "tagsCsv" : "",
+          "time" : "1983 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Major General Muhammadu Buhari lost his status as head of state",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1985 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "regime adopts a programme of democratic reformes",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1989 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "EU sanctions Nigeria",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1995 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Commonwealth suspends Nigeria's membership for three years",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1995 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "five prominent and growing political parties",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1996 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "End of military rule",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "1999 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "first legislative election since 1999",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "2003 4 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Goodluck Ebele Jonathan became President",
+          "description" : "+ economical boom\n- corruption\n- neglect of education\/heath\/infrastructure\/agriculture\n- suicide bomgings\/kidnappings",
+          "tagsCsv" : "",
+          "time" : "2010 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Boko Haram kiddnaps 300 young women",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "2014 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "Muhammadu Buhari: first opposition candidate to become president",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "2015 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Muhammadu Buhari re-elected",
+          "description" : "",
+          "tagsCsv" : "",
+          "time" : "2019 1 1",
+          "group" : ""
+        }    ],
+
+    "periods" : [
+              {
+          "name" : "Missionaries built schools",
+          "description" : "",
+          "tagsCsv" : "",
+          "timeFrom" : "1700 1 1",
+          "timeTo" : "1800 1 1 0 0",
+          "group" : ""
+        },
+              {
+          "name" : "first democracy",
+          "description" : "",
+          "tagsCsv" : "",
+          "timeFrom" : "1975 1 1",
+          "timeTo" : "1983 1 1",
+          "group" : ""
+        },
+              {
+          "name" : "Islamistst movement \"Boko Haram\"",
+          "description" : "campaign of violence in the north-east",
+          "tagsCsv" : "",
+          "timeFrom" : "2009 1 1 0 0",
+          "timeTo" : "2022 1 1 0 0",
+          "group" : ""
+        }    ],
+
+    "progresses" : [
+          ],
+
+    "statistics" : [
+          ],
+
+    "statisticsYandexMetrika" : [
+          ],
+
+    "statisticsGoogleAnalytics" : [
+          ],
+
+    "reportingAPIs" : [
+          ],
+
+    "tags" : [
+          ]
+}

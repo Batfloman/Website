@@ -1,0 +1,72 @@
+:root {
+  --spin-speed: 10;
+}
+
+body {
+  background-color: rgb(45, 45, 45);
+  margin: 0;
+  min-height: 100vh;
+  font-family: Consolas;
+
+  display: grid;
+  place-content: center;
+}
+
+.spin-container {
+  --circle-radius: 300;
+
+  width: calc(var(--circle-radius) * 2px);
+  height: calc(var(--circle-radius) * 2px);
+  background-color: white;
+  border-radius: 50%;
+
+  animation: spinning 5s linear 0ms infinite;
+}
+
+.spin-container div {
+  --angle: 0;
+  --item-size: 50;
+
+  background-color: red;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(var(--item-size) * 1px);
+  height: calc(var(--item-size) * 1px);
+  border-radius: 50%;
+
+  display: grid;
+  place-items: center;
+
+  transform: rotate(calc(var(--angle) * 1deg - 90deg))
+    translate(
+      calc(var(--circle-radius) * 1px + var(--item-size) * -0.5px),
+      calc(var(--item-size) * -0.5px)
+    )
+    rotate(calc(-1 * var(--angle) * 1deg + 90deg));
+
+}
+
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* .spin-container * {
+  --angle: 100deg;
+
+  width: 70px;
+  height: 70px;
+  background-color: rgb(30, 30, 30);  
+  border-radius: 50%;
+  text-align: center;
+  display: grid;
+  place-items: center;
+  color: white;
+
+  
+} */

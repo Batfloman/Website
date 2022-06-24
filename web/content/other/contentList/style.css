@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: rgb(56, 52, 68);
+  color: black;
+  font-size: 1.25rem;
+  font-family: Poppins, sans-serif;
+  overflow-x: hidden;
+}
+
+/* header */
+
+header {
+  width: 100%;
+  height: 8vh;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* main-body */
+
+.main-body {
+  width: 100%;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-container {
+  margin-top: 2.5vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5vh 0;
+}
+
+.content {
+  width: 50%;
+  max-width: 60vmin;
+  background-color: rgb(240, 230, 230);
+  border-radius: 0.5em;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+@media screen and (orientation: portrait) {
+  .content {
+    width: 90%;
+    max-width: 55vmax;
+  }
+}
+
+.content-label {
+  width: 70%;
+  place-self: center;
+  padding: 0.33em;
+  display: grid;
+  place-content: center;
+  outline: none;
+  text-align: center;
+}
+
+.content-text {
+  border-top: 2px rgb(0, 0, 0, 0.2) solid;
+  min-height: 0;
+  padding: 0.5em;
+  outline: none;
+  width: 90%;
+  place-self: center;
+}
+
+.content-edit-btn {
+  position: absolute;
+  width: 7%;
+  aspect-ratio: 1 / 1;
+  right: 3%;
+  top: 2px;
+  transition-duration: 165.5ms;
+  background-image: url("./icons8-edit-384.png");
+  background-size: contain;
+}
+
+.content-edit-btn:hover {
+  transform: scale(1.05);
+  transition-duration: 333ms;
+}
+
+.content-edit-btn:active {
+  transform: scale(1.15);
+  transition-duration: 0ms;
+}
+
+.new-element-btn {
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+  width: 8vmin;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 5px white solid;
+  box-sizing: border-box;
+  color: white;
+  font-size: 3em;
+  position: relative;
+  transition-duration: 165.5ms;
+}
+
+.new-element-btn:hover {
+  transform: scale(1.1);
+  transition-duration: 333ms;
+}
+
+.new-element-btn::before {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: auto;
+  transform: translate(-50%, -50%);
+}

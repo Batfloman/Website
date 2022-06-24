@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="sphere">
+    <div class="item">div</div>
+    <div class="item">div</div>
+    <div class="item">div</div>
+    <div class="item">div</div>
+  </div>
+
+  <script>
+    const spinner = document.querySelector(".sphere");
+
+    const spinner_segmentsAmount = spinner.children.length;
+
+    const children = Array.from(spinner.children)
+    for(let i = 0; i < children.length; i++) {
+      const child = children[i];
+      child.style.setProperty("--segment-position", i);
+      child.style.setProperty("--segments-amount", spinner_segmentsAmount);
+    }
+
+    let totalMovementX = 0;
+    let totalMovementY = 0;
+
+    window.addEventListener("mousemove", (e) => {
+      if (e.which !== 1) return;
+
+      totalMovementY += e.movementY;
+
+      if (Math.abs(e.movementX) > Math.abs(e.movementY)) {
+        const angleBefore = parseFloat(spinner.style.getPropertyValue("--angleY"));
+        const newAngle = (!angleBefore ? 0 : angleBefore) - (e.movementX / 3)
+        spinner.style.setProperty("--angleY", newAngle);
+      }
+
+      totalMovementX += e.movementX;
+    })
+
+    let lastTouchPosX;
+    let lastTouchPosY;
+
+    window.addEventListener("touchstart", (e) => {
+      lastTouchPosX = e.touches[0].pageX;
+      lastTouchPosY = e.touches[0].pageY;
+    })
+
+    window.addEventListener("touchmove", (e) => {
+      touchX = e.touches[0].pageX;
+      touchY = e.touches[0].pageY;
+
+      moveX = lastTouchPosX - touchX;
+      moveY = lastTouchPosY - touchY;
+
+      if (Math.abs(moveX) > Math.abs(moveY)) {
+        const angleBefore = parseFloat(spinner.style.getPropertyValue("--angleY"));
+        const newAngle = (!angleBefore ? 0 : angleBefore) + (moveX / 3)
+        spinner.style.setProperty("--angleY", newAngle);
+      }
+
+      totalMovementX -= moveX;
+      totalMovementY -= moveY;
+
+      lastTouchPosX = touchX;
+      lastTouchPosY = touchY;
+    })
+
+    const clickEndEvents = ["mouseup", "touchend", "touchcancel"]
+    clickEndEvents.forEach(event => {
+      window.addEventListener(event, (e) => {
+        switch (findSwipDirection()) {
+          case "up":
+            if (totalMovementY > -100) return;
+
+            spinner.classList.remove("closed");
+            spinner.classList.add("open");
+            break;
+          case "down":
+            if (totalMovementY < 100) return;
+
+            spinner.classList.remove("open");
+            spinner.classList.add("closed");
+            break;
+          case "left":
+          case "right":
+            const angleBefore = parseFloat(spinner.style.getPropertyValue("--angleY"));
+            if (isNaN(angleBefore)) {
+              spinner.style.setProperty("--angleY", 0);
+              return;
+            }
+
+            const segmentPosition = Math.round(angleBefore / (360 / spinner_segmentsAmount)) % spinner_segmentsAmount;
+            const newAngle = segmentPosition * (360 / spinner_segmentsAmount);
+
+            spinner.style.setProperty("--angleY", newAngle);
+            break;
+        }
+
+        totalMovementX = 0;
+        totalMovementY = 0;
+      })
+    })
+
+    function findSwipDirection() {
+      if (Math.abs(totalMovementY) > Math.abs(totalMovementX))
+        return totalMovementY > 0 ? "down" : "up";
+      return totalMovementX > 0 ? "right" : "left";
+    }
+  </script>
+</body>
+
+</html>

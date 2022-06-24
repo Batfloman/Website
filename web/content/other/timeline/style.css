@@ -1,0 +1,132 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: rgb(56, 52, 68);
+}
+
+header {
+  height: 10vh;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+header .new-element-btn {
+  height: 50%;
+  aspect-ratio: 4/ 1;
+  background-color: white;
+  position: relative;
+  display: grid;
+  transition-duration: 165.5ms;
+}
+
+header .new-element-btn:hover {
+  transform: scale(1.1);
+  transition-duration: 333ms;
+}
+
+header .new-element-btn::before {
+  content: "+";
+  position: absolute;
+  place-self: center;
+}
+
+.wrapper {
+  min-height: 90vh;
+  width: 100%;
+  display: grid;
+  place-content: center;
+}
+
+.timeline {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0 5%;
+}
+
+.line {
+  width: 100%;
+  background-color: white;
+  height: 1em;
+}
+
+.content {
+  min-width: 25%;
+  max-width: 25%;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 25% 75%;
+  padding: 1%;
+  border-radius: 0.5em;
+}
+
+.content-label {
+  text-align: center;
+  font-style: bold;
+  display: grid;
+  place-items: center;
+  height: fit-content;
+  border-bottom: 2px rgb(0, 0, 0, 0.2) solid;
+}
+
+.content-text {
+  margin-top: auto;
+}
+
+/* Popup */
+
+.popup {
+  position: absolute;
+  height: 75%;
+  aspect-ratio: 1 / 1.5;
+  max-width: max-content;
+  background-color: white;
+  border-radius: 0.5em;
+  top: -50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px black solid;
+  visibility: hidden;
+}
+
+.popup[open] {
+  animation: float-in 500ms ease-out forwards;
+}
+
+.popup[closed] {
+  animation: float-out 500ms ease-out forwards;
+}
+
+@keyframes float-in {
+  0% {
+    top: -50%;
+    visibility: hidden;
+  }
+  100% {
+    top: 50%;
+    visibility: visible;
+  }
+}
+
+@keyframes float-out {
+  0% {
+    top: 50%;
+    visibility: visible;
+  }
+  100% {
+    top: -50%;
+    visibility: hidden;
+  }
+}
