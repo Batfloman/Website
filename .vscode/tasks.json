@@ -83,6 +83,16 @@
       ],
       "group": "build",
       "label": "tsc: watch - Simulation: Ants"
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "web/content/work/bin-packing-2d/ts/tsconfig.json",
+      "option": "watch",
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "group": "build",
+      "label": "tsc: watch - Work: Bin-Packing-2d"
     }
   ]
 }
