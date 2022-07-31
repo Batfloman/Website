@@ -1,34 +1,37 @@
-var vertexShaderText = [
-  "precision mediump float;",
-  "",
-  "attribute vec3 vertPosition;",
-  "attribute vec3 vertColor;",
-  "varying vec3 fragColor;",
-  "uniform mat4 mWorld;",
-  "uniform mat4 mView;",
-  "uniform mat4 mProj;",
-  "",
-  "void main()",
-  "{",
-  "  fragColor = vertColor;",
-  "  gl_Position = mProj * mView * mWorld * vec4(vertPosition, 1.0);",
-  "}",
-].join("\n");
+const vertexShaderText = `
+  precision mediump float;
 
-var fragmentShaderText = [
-  "precision mediump float;",
-  "",
-  "varying vec3 fragColor;",
-  "void main()",
-  "{",
-  "  gl_FragColor = vec4(fragColor, 1.0);",
-  "}",
-].join("\n");
+  attribute vec3 vertPosition;
+  attribute vec2 vertTexCoord;
+
+  varying vec2 fragTexCoord;
+
+  uniform mat4 mWorld;
+  uniform mat4 mView;
+  uniform mat4 mProj;
+
+  void main() {
+    fragTexCoord = vertTexCoord;
+    gl_Position = mProj * mView * mWorld * vec4(vertPosition, 1.0);
+  }
+`;
+
+const fragmentShaderText = `
+  precision mediump float;
+
+  varying vec2 fragTexCoord;
+
+  uniform sampler2D sampler;
+
+  void main() {
+    gl_FragColor = texture2D(sampler, fragTexCoord);
+  }
+`;
 
 console.log("This is working");
 
-var canvas = document.getElementById("glcanvas");
-var gl = canvas.getContext("webgl");
+const canvas = document.getElementById("glcanvas");
+const gl = canvas.getContext("webgl");
 
 if (!gl) {
   console.log("WebGL not supported, falling back on experimental-webgl");
@@ -80,32 +83,44 @@ if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
 //
 // Create buffer
 //
-var boxVertices = [
-  // X, Y, Z           R, G, B
-  // Top
-  -1.0, 1.0, -1.0, 0.5, 0.5, 0.5, -1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 1.0,
-  1.0, -1.0, 0.5, 0.5, 0.5,
+var boxVertices = 
+	[ // X, Y, Z           U, V
+		// Top
+		-1.0, 1.0, -1.0,   0, 0,
+		-1.0, 1.0, 1.0,    0, 1,
+		1.0, 1.0, 1.0,     1, 1,
+		1.0, 1.0, -1.0,    1, 0,
 
-  // Left
-  -1.0, 1.0, 1.0, 0.75, 0.25, 0.5, -1.0, -1.0, 1.0, 0.75, 0.25, 0.5, -1.0, -1.0, -1.0, 0.75, 0.25,
-  0.5, -1.0, 1.0, -1.0, 0.75, 0.25, 0.5,
+		// Left
+		-1.0, 1.0, 1.0,    0, 0,
+		-1.0, -1.0, 1.0,   1, 0,
+		-1.0, -1.0, -1.0,  1, 1,
+		-1.0, 1.0, -1.0,   0, 1,
 
-  // Right
-  1.0, 1.0, 1.0, 0.25, 0.25, 0.75, 1.0, -1.0, 1.0, 0.25, 0.25, 0.75, 1.0, -1.0, -1.0, 0.25, 0.25,
-  0.75, 1.0, 1.0, -1.0, 0.25, 0.25, 0.75,
+		// Right
+		1.0, 1.0, 1.0,    1, 1,
+		1.0, -1.0, 1.0,   0, 1,
+		1.0, -1.0, -1.0,  0, 0,
+		1.0, 1.0, -1.0,   1, 0,
 
-  // Front
-  1.0, 1.0, 1.0, 1.0, 0.0, 0.15, 1.0, -1.0, 1.0, 1.0, 0.0, 0.15, -1.0, -1.0, 1.0, 1.0, 0.0, 0.15,
-  -1.0, 1.0, 1.0, 1.0, 0.0, 0.15,
+		// Front
+		1.0, 1.0, 1.0,    1, 1,
+		1.0, -1.0, 1.0,    1, 0,
+		-1.0, -1.0, 1.0,    0, 0,
+		-1.0, 1.0, 1.0,    0, 1,
 
-  // Back
-  1.0, 1.0, -1.0, 0.0, 1.0, 0.15, 1.0, -1.0, -1.0, 0.0, 1.0, 0.15, -1.0, -1.0, -1.0, 0.0, 1.0, 0.15,
-  -1.0, 1.0, -1.0, 0.0, 1.0, 0.15,
+		// Back
+		1.0, 1.0, -1.0,    0, 0,
+		1.0, -1.0, -1.0,    0, 1,
+		-1.0, -1.0, -1.0,    1, 1,
+		-1.0, 1.0, -1.0,    1, 0,
 
-  // Bottom
-  -1.0, -1.0, -1.0, 0.5, 0.5, 1.0, -1.0, -1.0, 1.0, 0.5, 0.5, 1.0, 1.0, -1.0, 1.0, 0.5, 0.5, 1.0,
-  1.0, -1.0, -1.0, 0.5, 0.5, 1.0,
-];
+		// Bottom
+		-1.0, -1.0, -1.0,   1, 1,
+		-1.0, -1.0, 1.0,    1, 0,
+		1.0, -1.0, 1.0,     0, 0,
+		1.0, -1.0, -1.0,    0, 1,
+	];
 
 var boxIndices = [
   // Top
@@ -136,26 +151,37 @@ gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, boxIndexBufferObject);
 gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(boxIndices), gl.STATIC_DRAW);
 
 var positionAttribLocation = gl.getAttribLocation(program, "vertPosition");
-var colorAttribLocation = gl.getAttribLocation(program, "vertColor");
+var texCoordAttribLocation = gl.getAttribLocation(program, "vertTexColor");
 gl.vertexAttribPointer(
   positionAttribLocation, // Attribute location
   3, // Number of elements per attribute
   gl.FLOAT, // Type of elements
   gl.FALSE,
-  6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+  5 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
   0 // Offset from the beginning of a single vertex to this attribute
 );
 gl.vertexAttribPointer(
-  colorAttribLocation, // Attribute location
-  3, // Number of elements per attribute
+  texCoordAttribLocation, // Attribute location
+  2, // Number of elements per attribute
   gl.FLOAT, // Type of elements
   gl.FALSE,
-  6 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
+  5 * Float32Array.BYTES_PER_ELEMENT, // Size of an individual vertex
   3 * Float32Array.BYTES_PER_ELEMENT // Offset from the beginning of a single vertex to this attribute
 );
 
 gl.enableVertexAttribArray(positionAttribLocation);
-gl.enableVertexAttribArray(colorAttribLocation);
+gl.enableVertexAttribArray(texCoordAttribLocation);
+
+const boxTexture = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, boxTexture);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, document.getElementById("crate-img"));
+
+gl.bindTexture(gl.TEXTURE_2D, null);
 
 // Tell OpenGL state machine which program should be active.
 gl.useProgram(program);
@@ -171,7 +197,7 @@ glMatrix.mat4.identity(worldMatrix);
 glMatrix.mat4.lookAt(viewMatrix, [0, 0, -8], [0, 0, 0], [0, 1, 0]);
 glMatrix.mat4.perspective(
   projMatrix,
-  45 * Math.PI / 180,
+  (45 * Math.PI) / 180,
   canvas.clientWidth / canvas.clientHeight,
   0.1,
   1000.0
