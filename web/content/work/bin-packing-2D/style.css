@@ -1,24 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   font-size: 1vmin;
+  box-sizing: border-box;
+  user-select: none;
+  font-family: Poppins, sans-serif;
 }
 
 body {
   display: grid;
   place-items: center;
-  background-color: #314269;
+  /* background-color: #314269; */
+  background: linear-gradient(45deg, #64c7f9 10%, #2d85cd 90%);
   min-height: 100vh;
 }
 
 .container {
   width: 50%;
   background-color: #eee;
-  height: 12em;
+  height: 50em;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 11% 89%;
+  border-radius: 1em;
+  overflow: hidden;
 }
 
 .edit-bar {
-  height: 6em;
+  height: 100%;
   background-color: rgba(30, 30, 30, 0.15);
   border-bottom: 0.1em rgba(0, 0, 0, 0.2) solid;
   display: flex;
@@ -26,11 +37,14 @@ body {
 }
 
 .btn-addPackageType {
-  height: 75%;
+  height: 100%;
   aspect-ratio: 1 / 1;
   margin-left: auto;
   margin-right: 7.5%;
   position: relative;
+  border-radius: 50%;
+  border-width: 3px;
+  border-image: linear-gradient(0deg, red, black);
 }
 
 .btn-addPackageType:hover {
@@ -39,10 +53,92 @@ body {
 
 .btn-addPackageType::before,
 .btn-addPackageType::after {
-  --short-side: 10%;
+  --short-side: 7%;
   --long-side: 70%;
-  
+
   content: "";
   position: absolute;
   background-color: black;
+  top: 50%;
+  border-radius: 500em;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn-addPackageType::before {
+  width: var(--long-side);
+  height: var(--short-side);
+}
+.btn-addPackageType::after {
+  width: var(--short-side);
+  height: var(--long-side);
+}
+
+.container-packageType {
+  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  overflow-y: scroll;
+}
+
+.package-box {
+  margin: 1em;
+  border-radius: 1em;
+  min-height: 7.5em;
+  max-height: 7.5em;
+  width: 95%;
+  border: 2px rgb(220, 210, 110) solid;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.package-box-name {
+  margin-left: 2.5%;
+  font-size: 3em;
+  width: 25%;
+  overflow: hidden;
+}
+
+.package-box-name:focus {
+  outline: 0.1em grey solid;
+}
+
+.package-box-size {
+  margin: 0 auto 0 auto;  
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.package-box-xSize,
+.package-box-ySize {
+  width: 50%;
+  display: flex;
+  flex-direction: row;
+}
+
+.package-box-xSize > div,
+.package-box-ySize > div{
+  font-size: 3em;
+}
+
+.package-box-xSize > div:nth-child(1),
+.package-box-ySize > div:nth-child(1) {
+  margin-right: 10%;
+}
+
+.package-box-xSize > div:nth-child(2),
+.package-box-ySize > div:nth-child(2) {
+  width: 70%;
+  padding: 0 0.25em 0 0.25em;
+}
+
+.package-box-xSize > div:nth-child(2):focus,
+.package-box-ySize > div:nth-child(2):focus {
+  outline: 0.1em grey solid;
 }
