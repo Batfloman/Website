@@ -8,15 +8,29 @@
   <title>Money Timer | Florian</title>
 
   <link rel="stylesheet" href="./css/style.css">
+
+  <script src="style.js" defer></script>
 </head>
 
 <body>
-  <div id="timer">00:00</div>
-  <div id="earnedMoney">0,00€</div>
-  <form>
-    <button type="button" id="buttonTimerStart" onclick="startTimer()">Start</button>
-    <button type="button" id="buttonTimerStop" onclick="stopTimer()">Stop</button>
-  </form>
+  <header>
+    <div class="settings"></div>
+  </header>
+
+  <section class="main-body">
+    <div id="timer">00:00</div>
+    <div id="earnedMoney">0,00€</div>
+    <form>
+      <button type="button" id="buttonTimerStart" onclick="startTimer()">Start</button>
+      <button type="button" id="buttonTimerStop" onclick="stopTimer()">Stop</button>
+    </form>
+  </section>
+
+  <section class="settings-popup" closed>
+    <div class="setting-container">
+
+    </div>
+  </section>
 
   <script>
     const timer = document.getElementById("timer");

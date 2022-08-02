@@ -32,7 +32,7 @@
         "$tsc-watch"
       ],
       "group": "build",
-      "label": "tsc: watch - Games: Tetris"
+      "label": "tsc: watch - Game: Tetris"
     },
     {
       "type": "typescript",
@@ -72,7 +72,7 @@
         "$tsc-watch"
       ],
       "group": "build",
-      "label": "tsc: watch - Games: MineSweepers"
+      "label": "tsc: watch - Game: MineSweepers"
     },
     {
       "type": "typescript",
@@ -93,6 +93,16 @@
       ],
       "group": "build",
       "label": "tsc: watch - Work: Bin-Packing-2d"
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "web/content/games/Chess/ts/tsconfig.json",
+      "option": "watch",
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "group": "build",
+      "label": "tsc: watch - Game: Chess"
     }
   ]
 }
