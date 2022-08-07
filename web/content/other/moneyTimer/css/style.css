@@ -50,13 +50,14 @@ header {
   width: 33%;
   height: 80%;
   position: absolute;
-  top: 50%;
+  top: -55%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: linear-gradient(30deg, rgb(230, 0, 255), rgb(106, 218, 255));
   border-radius: 4em;
   display: grid;
   place-items: center;
+  visibility: hidden;
 }
 
 .settings-popup[open] {

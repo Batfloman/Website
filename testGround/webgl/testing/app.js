@@ -1,19 +1,18 @@
-const canvas = document.querySelector("#canvas");
-const gl = canvas.getContext("webgl");
-
 const vertShaderText = ``;
 const fragShaderText = ``;
 
 start();
 
 function start() {
+  const canvas = document.querySelector("#canvas");
+  const gl = canvas.getContext("webgl");
+
   if (!(gl instanceof WebGLRenderingContext)) return;
 
   gl.clearColor(0, 0, 0, 1.0);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
   const program = gl.createProgram();
-  gl.useProgram(program);
 
   // create Vertex Shader
   const vertShader = gl.createShader(gl.VERTEX_SHADER);
@@ -49,4 +48,6 @@ function start() {
   if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
     console.error("ERROR validating program!", gl.getProgramInfoLog(program));
   }
+
+  gl.useProgram(program);
 }
