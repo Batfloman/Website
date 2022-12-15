@@ -1,3 +1,0 @@
-class LoopingSystem extends System {
-
-}
