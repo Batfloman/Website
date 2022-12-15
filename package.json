@@ -1,0 +1,36 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start",
+    "dev": "webpack-dev-server --inline --hot",
+    "build": "webpack -p"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Batfloman/Website.git"
+  },
+  "author": "Florian Hirche",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Batfloman/Website/issues"
+  },
+  "homepage": "https://github.com/Batfloman/Website#readme",
+  "dependencies": {
+    "three": "^0.147.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^4.3.1",
+    "jasmine-core": "^4.5.0",
+    "karma": "^6.4.1",
+    "karma-chrome-launcher": "^3.1.1",
+    "karma-jasmine": "^5.1.0",
+    "karma-webpack": "^5.0.0",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-dev-server": "^4.11.1"
+  }
+}

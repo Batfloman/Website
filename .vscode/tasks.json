@@ -103,6 +103,16 @@
       ],
       "group": "build",
       "label": "tsc: watch - Game: Chess"
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "tsconfig.json",
+      "option": "watch",
+      "problemMatcher": [
+        "$tsc-watch"
+      ],
+      "group": "build",
+      "label": "tsc: watch - tsconfig.json"
     }
   ]
 }
