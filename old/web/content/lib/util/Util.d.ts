@@ -2,7 +2,7 @@ import { Camara } from "../display/Camara.js";
 import { Canvas } from "../display/Canvas.js";
 import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
 import { Vector2 } from "./Vector2.js";
-export declare type staticPosition = "center";
+export type staticPosition = "center";
 export declare const Util: {
     array: {
         getItem<T>(arr: T[], index: number): T;
@@ -67,8 +67,8 @@ export declare const Util: {
     findAngleLine(startPoint: Vector2, endPoint: Vector2): number;
     calcHypothenuse(side1: number, side2: number): number;
     distance(point1: Vector2, point2: Vector2): number;
-    closestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[] | undefined): Vector2;
-    farthestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[] | undefined): Vector2;
+    closestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[]): Vector2;
+    farthestPoint(mainPoint: Vector2, points: Vector2[], exclude?: Vector2 | Vector2[]): Vector2;
     moveDirection(start: Vector2, direction: number, distance: number): Vector2;
     rotateAroundCenter(center: Vector2, point: Vector2, angle: number): Vector2;
 };

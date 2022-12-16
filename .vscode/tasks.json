@@ -1,118 +1,15 @@
 {
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Build All",
-      "dependsOn": [
-        "tsc: watch – Lib",
-        "tsc: watch – Game: TicTacToe",
-        "tsc: watch - Games: Tetris",
-        "tsc: watch - Games: MineSweepers",
-        "tsc: watch - School: Collision2d",
-        "tsc: watch - Simulation: Universe",
-        "tsc: watch - Simulation: Ants"
-      ],
-      "problemMatcher": []
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/games/TicTacToe/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch – Game: TicTacToe"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/games/Tetris/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - Game: Tetris"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "lib/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch – Lib"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/school/Facharbeit/collision2d/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - School: Collision2d"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/simulations/universe/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - Simulation: Universe"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/games/MineSweepers/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - Game: MineSweepers"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/simulations/ants/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - Simulation: Ants"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/work/bin-packing-2d/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - Work: Bin-Packing-2d"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "web/content/games/Chess/ts/tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - Game: Chess"
-    },
-    {
-      "type": "typescript",
-      "tsconfig": "tsconfig.json",
-      "option": "watch",
-      "problemMatcher": [
-        "$tsc-watch"
-      ],
-      "group": "build",
-      "label": "tsc: watch - tsconfig.json"
-    }
-  ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "typescript",
+			"tsconfig": "old/lib/tsconfig.json",
+			"option": "watch",
+			"problemMatcher": [
+				"$tsc-watch"
+			],
+			"group": "build",
+			"label": "tsc: watch - old/lib/tsconfig.json"
+		}
+	]
 }

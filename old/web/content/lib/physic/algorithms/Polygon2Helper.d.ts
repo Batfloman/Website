@@ -1,6 +1,6 @@
 import { Vector2 } from "../../util/Vector2.js";
 import { Polygon2 } from "../boundingBox/Polygon2.js";
-declare type PolygonWinding = "clockwise" | "counterclockwise";
+type PolygonWinding = "clockwise" | "counterclockwise";
 export declare class Polygon2Helper {
     static testConvex(polygon: Polygon2): boolean;
     static isConvex(windung: PolygonWinding, crossProduct: number): boolean;

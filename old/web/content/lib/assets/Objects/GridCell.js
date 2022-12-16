@@ -2,6 +2,9 @@ import { Rectangle } from "../../physic/boundingBox/Rectangle.js";
 import { Vector2 } from "../../util/Vector2.js";
 import { WorldObject } from "./WorldObject.js";
 export class GridCell extends WorldObject {
+    update(dt) {
+        this.pos = this.getWorldPos();
+    }
     constructor(grid, gridPos) {
         super(new Vector2(), new Rectangle(10, 10), 0);
         this.gridPos = new Vector2();
@@ -12,9 +15,6 @@ export class GridCell extends WorldObject {
         if (grid && gridPos) {
             this.pos = this.getWorldPos();
         }
-    }
-    update(dt) {
-        this.pos = this.getWorldPos();
     }
     testMoveInGrid(x, y) {
         return this.isInGrid(this.gridPos.x + x, this.gridPos.y + y);
