@@ -1,6 +1,6 @@
 import { Util } from "../../util/Util.js";
 import { Vector2 } from "../../util/Vector2.js";
-import { Polygon2 } from "../boundingBox/Polygon2.js";
+import { Polygon2 } from "../geometry/Polygon2.js";
 
 type PolygonWinding = "clockwise" | "counterclockwise";
 

@@ -60,6 +60,8 @@ export class Input {
 
   static mPos = new Vector2();
 
+  private Input() {};
+
   /** updates the most important changes for easier access */
   static staticConstructor() {
     // Mouse
@@ -163,14 +165,3 @@ class Listener {
 
 // call static Constructor
 Input.staticConstructor();
-
-// ===================
-
-
-const input = {
-  listener: new Map(),
-
-  pressedKey: [],
-
-  mPos: new Vector2(),
-}

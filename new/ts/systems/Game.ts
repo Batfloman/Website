@@ -1,10 +1,9 @@
-import { System } from "./System";
+import { GameObject } from "../objects/GameObject.js";
+import { System } from "./System.js";
 
 export class Game extends System {
-  gameObjects: GameObject[] = [];
-  htmlCanvas: HTMLCanvasElement;
+  private gameObjects: GameObject[] = [];
 
-  constructor(canvas: HTMLCanvasElement) {
-    this.canvas = canvas;
+  override loop() {
   }
 }

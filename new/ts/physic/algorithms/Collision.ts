@@ -1,5 +1,5 @@
-import { Camara } from "../../display/Camara.js";
-import { Circle } from "../boundingBox/Circle.js";
+import { Camara } from "../../display/Camera.js";
+import { Circle } from "../geometry/Circle.js";
 import { ICollideable } from "../properties/ICollideable.js";
 import { CircleCollision } from "./CircleCollision.js";
 import { SAT } from "./SAT.js";

@@ -1,4 +1,4 @@
-import { Circle } from "../boundingBox/Circle.js";
+import { Circle } from "../geometry/Circle.js";
 import { ICollideable } from "../properties/ICollideable.js";
 
 // Separating Axis Theorem

@@ -1,4 +1,4 @@
-import { Camara } from "../../display/Camara.js";
+import { Camara } from "../../display/Camera.js";
 import { Util } from "../../util/Util.js";
 import { Vector2 } from "../../util/Vector2.js";
 import { ICollideable } from "../properties/ICollideable.js";

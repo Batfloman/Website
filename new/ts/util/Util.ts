@@ -1,7 +1,7 @@
-import { Camara } from "../display/Camara.js";
+import { Camara } from "../display/Camera.js";
 import { Canvas } from "../display/Canvas.js";
 import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
-import { Polygon2 } from "../physic/boundingBox/Polygon2.js";
+import { Polygon2 } from "../physic/geometry/Polygon2.js";
 import { Vector2 } from "./Vector2.js";
 
 export type staticPosition = "center";
@@ -81,18 +81,27 @@ export const Util = {
 
         return (percent / 100) * value;
       },
-    },
-    // uses degree instead of the Math. functions
-    trigonomitry: {
-      cos(degree: number): number {
-        // Math.cos uses radian not degree
-        return Math.cos(Util.math.convert.DegToRad(degree));
+      dtToSecValue(dt: number, perSecValue: number): number {
+        let value = (perSecValue * dt) / 1000;
+        return Number.isNaN(value) ? 0 : value;
       },
+    },
+    // uses degree instead of the Math.* functions
+    trigonomitry: {
+      cos: (deg: number): number => Math.cos(Util.math.convert.DegToRad(deg)),
+      sin: (deg: number): number => Math.sin(Util.math.convert.DegToRad(deg)),
+      tan: (deg: number): number => Math.tan(Util.math.convert.DegToRad(deg)),
       arccos(num: number): number {
         return Util.math.convert.RadToDeg(Math.acos(num));
       },
+      arcsin(num: number): number {
+        return Util.math.convert.RadToDeg(Math.asin(num));
+      },
+      arctan(num: number): number {
+        return Util.math.convert.RadToDeg(Math.atan(num));
+      },
     },
-    round(number: number, num_decimals: number = 0): number {
+    round(number: number, num_decimals: number = 0,): number {
       const factor = Math.pow(10, num_decimals);
       return Math.round(number * factor) / factor;
     },
@@ -190,10 +199,7 @@ export const Util = {
 
       const distance = worldPos.subtract(camaraPos).scale(camaraScale);
 
-      const staticPos = new Vector2(
-        Util.math.round(distance.x, 5),
-        Util.math.round(-distance.y, 5)
-      ).add(camaraOffset);
+      const staticPos = new Vector2(Util.math.round(distance.x, 5), Util.math.round(-distance.y, 5)).add(camaraOffset);
 
       return staticPos;
     },
@@ -204,9 +210,7 @@ export const Util = {
 
       const distance = staticPos.subtract(camaraCenter).scale(1 / camaraScale);
 
-      const worldPos = camara.pos.add(
-        new Vector2(Util.math.round(distance.x, 5), Util.math.round(-distance.y, 5))
-      );
+      const worldPos = camara.pos.add(new Vector2(Util.math.round(distance.x, 5), Util.math.round(-distance.y, 5)));
       return worldPos;
     },
     convertStaticPosInValue(pos: staticPosition, camara: Camara): Vector2 {
