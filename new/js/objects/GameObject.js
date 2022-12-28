@@ -1,20 +1,11 @@
-import { SystemObject } from "./SystemObject";
+import { SystemObject } from "./SystemObject.js";
 export class GameObject extends SystemObject {
-    geometry;
-    constructor(geometry) {
+    mesh;
+    constructor(mesh) {
         super();
-        this.geometry = geometry;
+        this.mesh = mesh;
     }
     update(dt) {
-        throw new Error("Method not implemented.");
-    }
-    render() {
-        throw new Error("Method not implemented.");
-    }
-    shouldUpdate() {
-        throw new Error("Method not implemented.");
-    }
-    shouldRender() {
         throw new Error("Method not implemented.");
     }
 }

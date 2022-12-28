@@ -1,5 +1,4 @@
 import { Util } from "../util/Util.js";
-import { Vector2 } from "../util/Vector2.js";
 const keys = new Map([
     ["a", "a"],
     ["b", "b"],
@@ -54,9 +53,8 @@ const keys = new Map([
 export class Input {
     static eventListener = new Map();
     static pressedKeys = new Array();
-    static mPos = new Vector2();
+    static mPos = { x: 0, y: 0 };
     Input() { }
-    ;
     /** updates the most important changes for easier access */
     static staticConstructor() {
         // Mouse
@@ -107,7 +105,7 @@ export class Input {
         if (!listener)
             return;
         if (event instanceof MouseEvent)
-            Input.mPos = new Vector2(event.offsetX, event.offsetY);
+            Input.mPos = { x: event.offsetX, y: event.offsetY };
         listener.forEach((listener) => {
             listener.func.call(listener.obj, event);
         });

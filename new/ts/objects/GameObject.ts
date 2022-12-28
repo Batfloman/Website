@@ -1,26 +1,16 @@
-import { SystemObject } from "./SystemObject";
-import { Geometry } from "../physic/geometry/Geometry";
+import { SystemObject } from "./SystemObject.js";
 import * as THREE from "three";
 
 export class GameObject extends SystemObject {
-  geometry: Geometry | THREE.BufferGeometry;
+  mesh: THREE.Mesh;
 
-  constructor(geometry: Geometry) {
+  constructor(mesh: THREE.Mesh) {
     super();
     
-    this.geometry = geometry;
+    this.mesh = mesh;
   }
 
   update(dt: number): void {
-    throw new Error("Method not implemented.");
-  }
-  render(): void {
-    throw new Error("Method not implemented.");
-  }
-  shouldUpdate(): boolean {
-    throw new Error("Method not implemented.");
-  }
-  shouldRender(): boolean {
     throw new Error("Method not implemented.");
   }
 }

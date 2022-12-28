@@ -1,7 +1,10 @@
 export declare class Input {
     static eventListener: Map<string, Listener[]>;
     static pressedKeys: inputKey[];
-    static mPos: any;
+    static mPos: {
+        x: number;
+        y: number;
+    };
     private Input;
     /** updates the most important changes for easier access */
     static staticConstructor(): void;

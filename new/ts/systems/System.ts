@@ -1,8 +1,9 @@
-import { Renderer } from "../display/Renderer.js";
+import { Clock } from "three";
 
 export class System {
-  private static instance: System;
+  static instance: System;
 
+  private clock: Clock = new Clock();
   private isPlaying: boolean = false;
 
   public constructor() {
@@ -12,7 +13,7 @@ export class System {
 
   // handles loop relevant stuff
   private innerLoop() {
-    if (this.isPlaying) this.loop();
+    if (this.isPlaying) this.loop(this.clock.getDelta());
 
     requestAnimationFrame(() => {
       this.innerLoop();
@@ -20,14 +21,10 @@ export class System {
   }
 
   // can be changed for situation
-  loop() {
+  loop(dt: number) {
     console.warn(`loop has nothing to do`);
   }
 
   public start = () => (this.isPlaying = true);
   public stop = () => (this.isPlaying = false);
-
-  public static getSystem(): System {
-    return System.instance;
-  }
 }

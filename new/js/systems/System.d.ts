@@ -1,10 +1,10 @@
 export declare class System {
-    private static instance;
+    static instance: System;
+    private clock;
     private isPlaying;
     constructor();
     private innerLoop;
-    loop(): void;
+    loop(dt: number): void;
     start: () => boolean;
     stop: () => boolean;
-    static getSystem(): System;
 }

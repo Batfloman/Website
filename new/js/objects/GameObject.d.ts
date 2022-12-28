@@ -1,11 +1,7 @@
-import { SystemObject } from "./SystemObject";
-import { Geometry } from "../physic/geometry/Geometry";
+import { SystemObject } from "./SystemObject.js";
 import * as THREE from "three";
 export declare class GameObject extends SystemObject {
-    geometry: Geometry | THREE.BufferGeometry;
-    constructor(geometry: Geometry);
+    mesh: THREE.Mesh;
+    constructor(mesh: THREE.Mesh);
     update(dt: number): void;
-    render(): void;
-    shouldUpdate(): boolean;
-    shouldRender(): boolean;
 }
