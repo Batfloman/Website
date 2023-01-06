@@ -1,14 +1,14 @@
-import { ControllableObject } from "../../../../../lib/assets/objects/ControllableObject.js";
-import { WorldObject } from "../../../../../lib/assets/objects/WorldObject.js";
-import { Canvas } from "../../../../../lib/display/Canvas.js";
-import { Renderer } from "../../../../../lib/display/Renderer.js";
-import { Game } from "../../../../../lib/games/Game.js";
-import { Polygon2Helper } from "../../../../../lib/physic/algorithms/Polygon2Helper.js";
-import { Triangulation } from "../../../../../lib/physic/algorithms/Triangulation.js";
-import { HitBox } from "../../../../../lib/physic/boundingBox/HitBox.js";
-import { Polygon2 } from "../../../../../lib/physic/boundingBox/Polygon2.js";
-import { Color } from "../../../../../lib/util/Color.js";
-import { Vector2 } from "../../../../../lib/util/Vector2.js";
+import { ControllableObject } from "../../../../old/web/content/lib/assets/objects/ControllableObject.js";
+import { WorldObject } from "../../../../old/web/content/lib/assets/objects/WorldObject.js";
+import { Canvas } from "../../../../old/web/content/lib/display/Canvas.js";
+import { Renderer } from "../../../../old/web/content/lib/display/Renderer.js";
+import { Game } from "../../../../old/web/content/lib/games/Game.js";
+import { Polygon2Helper } from "../../../../old/web/content/lib/physic/algorithms/Polygon2Helper.js";
+import { Triangulation } from "../../../../old/web/content/lib/physic/algorithms/Triangulation.js";
+import { HitBox } from "../../../../old/web/content/lib/physic/boundingBox/HitBox.js";
+import { Polygon2 } from "../../../../old/web/content/lib/physic/boundingBox/Polygon2.js";
+import { Color } from "../../../../old/web/content/lib/util/Color.js";
+import { Vector2 } from "../../../../old/web/content/lib/util/Vector2.js";
 import { FormObject } from "./FormObject.js";
 import { System } from "./System.js";
 

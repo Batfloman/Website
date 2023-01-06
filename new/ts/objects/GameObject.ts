@@ -1,16 +1,12 @@
-import { SystemObject } from "./SystemObject.js";
 import * as THREE from "three";
+import { Geometry } from "./geometry/Geometry.js";
 
-export class GameObject extends SystemObject {
-  mesh: THREE.Mesh;
+export abstract class GameObject {
+  mesh: THREE.Mesh | Geometry;
 
-  constructor(mesh: THREE.Mesh) {
-    super();
-    
+  constructor(mesh: THREE.Mesh | Geometry) {
     this.mesh = mesh;
   }
 
-  update(dt: number): void {
-    throw new Error("Method not implemented.");
-  }
+  abstract update(dt: number): void;
 }

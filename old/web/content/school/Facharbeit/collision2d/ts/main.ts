@@ -1,11 +1,11 @@
-import { Canvas } from "../../../../lib/display/Canvas.js";
+import { Canvas } from "../../../old/web/content/lib/display/Canvas.js";
 import { FormObject, selectDistance } from "./src/FormObject.js";
 import { System } from "./src/System.js";
-import { Util } from "../../../../lib/util/Util.js";
-import { Vector2 } from "../../../../lib/util/Vector2.js";
+import { Util } from "../../../old/web/content/lib/util/Util.js";
+import { Vector2 } from "../../../old/web/content/lib/util/Vector2.js";
 import { Form } from "./src/Form.js";
-import { UISimpleButton } from "../../../../lib/assets/objects/ui/UISimpleButton.js";
-import { Input } from "../../../../lib/input/Input.js";
+import { UISimpleButton } from "../../../old/web/content/lib/assets/objects/ui/UISimpleButton.js";
+import { Input } from "../../../old/web/content/lib/input/Input.js";
 
 // settings
 const amountShapes = 750;

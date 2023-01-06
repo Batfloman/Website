@@ -1,14 +1,14 @@
-import { ControllableObject } from "../../../../../lib/assets/objects/ControllableObject.js";
-import { Color } from "../../../../../lib/util/Color.js";
-import { Vector2 } from "../../../../../lib/util/Vector2.js";
-import { Triangulation } from "../../../../../lib/physic/algorithms/Triangulation.js";
-import { Util } from "../../../../../lib/util/Util.js";
-import { Polygon2Helper } from "../../../../../lib/physic/algorithms/Polygon2Helper.js";
-import { WorldObject } from "../../../../../lib/assets/objects/WorldObject.js";
-import { Renderer } from "../../../../../lib/display/Renderer.js";
-import { Polygon2 } from "../../../../../lib/physic/boundingBox/Polygon2.js";
+import { ControllableObject } from "../../../../old/web/content/lib/assets/objects/ControllableObject.js";
+import { Color } from "../../../../old/web/content/lib/util/Color.js";
+import { Vector2 } from "../../../../old/web/content/lib/util/Vector2.js";
+import { Triangulation } from "../../../../old/web/content/lib/physic/algorithms/Triangulation.js";
+import { Util } from "../../../../old/web/content/lib/util/Util.js";
+import { Polygon2Helper } from "../../../../old/web/content/lib/physic/algorithms/Polygon2Helper.js";
+import { WorldObject } from "../../../../old/web/content/lib/assets/objects/WorldObject.js";
+import { Renderer } from "../../../../old/web/content/lib/display/Renderer.js";
+import { Polygon2 } from "../../../../old/web/content/lib/physic/boundingBox/Polygon2.js";
 import { System } from "./System.js";
-import { Input } from "../../../../../lib/input/Input.js";
+import { Input } from "../../../../old/web/content/lib/input/Input.js";
 
 export const selectDistance = 10;
 

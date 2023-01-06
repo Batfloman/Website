@@ -1,5 +1,5 @@
-import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
-import { Polygon2 } from "../physic/geometry/Polygon2.js";
+import { Polygon2Helper } from "../algorithms/Polygon2Helper.js";
+import { Polygon2 } from "../objects/geometry/Polygon2.js";
 
 export const Util = {
   array: {

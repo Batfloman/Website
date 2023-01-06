@@ -1,7 +1,7 @@
-import { SystemObject } from "./SystemObject.js";
 import * as THREE from "three";
-export declare class GameObject extends SystemObject {
-    mesh: THREE.Mesh;
-    constructor(mesh: THREE.Mesh);
-    update(dt: number): void;
+import { Geometry } from "../physic/geometry/Geometry.js";
+export declare abstract class GameObject {
+    mesh: THREE.Mesh | Geometry;
+    constructor(mesh: THREE.Mesh | Geometry);
+    abstract update(dt: number): void;
 }
