@@ -1,0 +1,188 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rechnen | Florian</title>
+
+  <link href="./css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="grid">
+    <div id="math-problem" class="math-problem">10 + 10</div>
+    <div id="stats" class="stats">Test</div>
+    <div class="input-block">
+      <form onsubmit="return test()">
+        <input id="input" class="input" type="text" autocomplete="off">
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const startPoints = 2;
+    const pointsPerLevel = 5;
+
+    let activeOperators = ["+"];
+
+    let currentOperator;
+    let answer;
+
+    let level = 0;
+    let points = startPoints;
+
+    let lockInput = false;
+
+    let lastNumbers;
+
+
+    function test() {
+      checkAnswer();
+      return false;
+    }
+
+    function newMathProblem() {
+      input.style.background = "white";
+      input.value = "";
+      lockInput = false;
+
+      updateActiveOperators();
+      currentOperator = activeOperators[Math.floor(Math.random() * activeOperators.length)];
+
+      const numbers = getRandomNumbers();
+      lastNumbers = numbers;
+      const problemText = `${numbers.num1} ${currentOperator} ${numbers.num2}`;
+
+      answer = findAnswer(numbers.num1, numbers.num2);
+
+      updateProblemText(problemText);
+      updateStats();
+    }
+
+    function getRandomNumbers() {
+      let numbers = {
+        "num1": 0,
+        "num2": 0
+      };
+
+      switch (currentOperator) {
+        case "+":
+          numbers.num1 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
+          numbers.num2 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
+          break;
+        case "-":
+          n1 = randomBetween(level * 3, Math.pow(1.2, level), Math.round(level / 20));
+          n2 = randomBetween(level / 2, Math.pow(1.1, level), Math.round(level / 20));
+          numbers.num1 = Math.max(n1, n2);
+          numbers.num2 = Math.min(n1, n2);
+          break;
+        case "*":
+          numbers.num1 = randomBetween(level / 5, level / 2, Math.round(level / 50));
+          numbers.num2 = randomBetween(level / 5, level / 2, Math.round(level / 50));
+          break;
+        case "/":
+          numbers.num2 = randomBetween(level * 2, level * 5, Math.round(level / 50));
+          numbers.num1 = round(numbers.num2 * randomBetween(level / 2, level * 5), Math.round(level / 50));
+          break;
+        case "^":
+          numbers.num1 = randomBetween(level, level, Math.round(level / 50));
+          numbers.num2 = randomBetween(1, level / 10, 1);
+          break;
+      }
+
+      if (!lastNumbers) return numbers;
+
+      if (numbers.num1 == lastNumbers.num1 && numbers.num2 == lastNumbers.num2) return getRandomNumbers();
+      else return numbers;
+    }
+
+    function randomBetween(start, end, amountDeciamls) {
+      return round((Math.random() * (end - start)) + start, amountDeciamls);
+    }
+
+    function updateActiveOperators() {
+      activeOperators = [];
+      activeOperators.push("+");
+      if (level >= 4) activeOperators.push("-");
+      if (level >= 10) activeOperators.push("*");
+      if (level >= 20) activeOperators.push("/");
+      if (level >= 30) activeOperators.push("^");
+    }
+
+    function round(number, amountDeciamls = 0) {
+      const factor = Math.pow(10, amountDeciamls);
+      return Math.round(number * factor) / factor;
+    }
+
+    function findAnswer(num1, num2) {
+      switch (currentOperator) {
+        case "+":
+          return round(num1 + num2, Math.round(level / 20));
+        case "-":
+          return round(num1 - num2, Math.round(level / 20));
+        case "*":
+          return round(num1 * num2, Math.round(level / 50));
+        case "/":
+          return round(num1 / num2, Math.round(level / 50));
+        case "^":
+          return round(Math.pow(num1, num2), Math.round(level / 50));
+      }
+    }
+
+    const input = document.getElementById("input");
+
+    function checkAnswer() {
+      if (lockInput) return;
+
+      const guessed = Number.parseFloat(input.value.replace(",", "."));
+
+      if (Number.isNaN(guessed)) return;
+
+      if (answer == guessed) {
+        input.style.background = "green";
+        points++;
+        if (points >= pointsPerLevel) {
+          level++;
+          points = startPoints;
+        }
+        lockInput = true;
+        setTimeout(() => {
+          newMathProblem();
+        }, 1000)
+      } else {
+        input.style.background = "red";
+        mathProblem.innerText = answer;
+        points--;
+        if (points < 0) {
+          level--;
+          if (level < 0) {
+            level = 0;
+            points = 0;
+          }
+          else points = startPoints;
+        }
+        lockInput = true;
+        setTimeout(() => {
+          newMathProblem();
+        }, 3000);
+      }
+    }
+
+    const mathProblem = document.getElementById("math-problem");
+
+    function updateProblemText(text) {
+      mathProblem.innerText = text;
+    }
+
+    const stats = document.getElementById("stats");
+
+    function updateStats() {
+      stats.innerText = `Level: ${level}  Points: ${points}`;
+    }
+
+    newMathProblem();
+  </script>
+</body>
+
+</html>

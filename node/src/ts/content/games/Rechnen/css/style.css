@@ -1,0 +1,53 @@
+html,
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(45, 45, 45);
+
+  font-family: Consolas;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  place-content: center;
+  grid-template-rows: 50%, 50%;
+  height: 100%;
+  width: 100%;
+}
+
+.math-problem {
+  font-size: 5em;
+  margin-top: -20vh;
+  text-align: center;
+}
+
+.stats {
+  text-align: center;
+  margin-top: -7vh;
+  font-size: 2em;
+}
+
+.input-block {
+  display: grid;
+  place-content: center;
+}
+
+.input {
+  text-align: center;
+  aspect-ratio: 10 / 3;
+  font-size: 5em;
+}
+
+@media screen and (orientation: portrait) {
+  .input {
+    width: 75vw;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .input {
+    width: 30vw;
+  }
+}
