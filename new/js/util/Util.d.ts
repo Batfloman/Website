@@ -1,4 +1,4 @@
-import { Polygon2 } from "../physic/geometry/Polygon2.js";
+import { Polygon2 } from "../objects/geometry/Polygon2.js";
 export declare const Util: {
     array: {
         addItem: <T>(arr: T[], item: T) => T[];

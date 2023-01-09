@@ -2,20 +2,20 @@ import { GameObject } from "../objects/GameObject.js";
 import { Util } from "../util/Util.js";
 import { System } from "./System.js";
 import * as THREE from "three";
-import { Input } from "../input/Input.js";
-import { Scene } from "../display/Scene.js";
-import { Camera } from "../display/Camera.js";
-import { Renderer } from "../display/Renderer.js";
 
 export class Game extends System {
   private gameObjects: GameObject[] = [];
 
-  private scene: THREE.Scene | Scene;
-  private camera: THREE.Camera | Camera;
-  private renderer: THREE.Renderer | Renderer;
+  private renderer: THREE.WebGLRenderer;
+  private camera: THREE.Camera;
+  private scene: THREE.Scene;
 
-  constructor(canvas: HTMLCanvasElement, useThree = true) {
+  constructor(canvas: HTMLCanvasElement) {
     super();
+
+    this.renderer = new THREE.WebGLRenderer();
+    this.camera = new THREE.Camera();
+    this.scene = new THREE.Scene();
   }
 
   override loop(dt: number) {

@@ -7,6 +7,8 @@ export class Renderer {
     this.domElement = canvas;
   }
   render(scene: Scene, camera: Camera) {
-    scene.meshes.forEach((mesh) => {});
+    scene.meshes.forEach((mesh) => {
+        
+    });
   }
 }

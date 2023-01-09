@@ -1,4 +1,4 @@
-import { Polygon2Helper } from "../physic/algorithms/Polygon2Helper.js";
+import { Polygon2Helper } from "../algorithms/Polygon2Helper.js";
 export const Util = {
     array: {
         addItem: (arr, item) => {

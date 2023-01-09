@@ -1,10 +1,9 @@
 import * as THREE from "three";
-import { Geometry } from "./geometry/Geometry.js";
 
 export abstract class GameObject {
-  mesh: THREE.Mesh | Geometry;
+  mesh: THREE.Mesh;
 
-  constructor(mesh: THREE.Mesh | Geometry) {
+  constructor(mesh: THREE.Mesh) {
     this.mesh = mesh;
   }
 

@@ -1,7 +1,6 @@
-import { Geometry } from "../physic/geometry/Geometry.js";
-import * as THREE from "three";
+import { Geometry } from "../objects/geometry/Geometry.js";
 export declare class Scene {
-    meshes: Geometry[] | THREE.Mesh[];
-    add: (mesh: Geometry | THREE.Mesh) => (Geometry | THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]>)[];
-    remove: (mesh: Geometry | THREE.Mesh) => Geometry | THREE.Mesh<THREE.BufferGeometry, THREE.Material | THREE.Material[]> | undefined;
+    meshes: THREE.Mesh[] | Geometry[];
+    add: (mesh: THREE.Mesh | Geometry) => (Geometry | import("three").Mesh<import("three").BufferGeometry, import("three").Material | import("three").Material[]>)[];
+    remove: (mesh: THREE.Mesh | Geometry) => Geometry | import("three").Mesh<import("three").BufferGeometry, import("three").Material | import("three").Material[]> | undefined;
 }
