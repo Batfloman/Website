@@ -19,7 +19,6 @@ export class Game extends LoopingSystem {
     }
     object = {
         add: (obj) => {
-            console.log("add", obj);
             Util.array.addItem(this.gameObjects, obj);
             this.scene.add(obj.mesh);
         },
