@@ -1,55 +1,75 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { Util } from "../../../myLib/util/Util.js";
+import { Satellite } from "./Satellite.js";
+import { Game } from "../../../myLib/system/Game.js";
 
-window.onresize = resize;
+/*
+          y
+          |
+          |
+          |  z
+          | /
+x_________|/__________x
+         /|
+        / |
+      /   |
+      z   |
+          y
+*/
+const xAxis = new THREE.Vector3(1, 0, 0);
+const yAxis = new THREE.Vector3(0, 1, 0);
+const zAxis = new THREE.Vector3(0, 0, 1);
+
+// ======
 
 const canvas = document.querySelector("canvas") || document.createElement("canvas");
 
-const renderer = new THREE.WebGLRenderer({ canvas });
-const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 100);
 camera.translateZ(10);
-const controls = new OrbitControls(camera, renderer.domElement);
+const loader = new THREE.TextureLoader();
 
+const game = new Game(canvas, { camera });
+game.start();
+
+const axis = new THREE.Vector3(1.5, 1.5, 1.5).normalize();
 {
-  const light = new THREE.AmbientLight(0xffffff, 0.2);
-  scene.add(light);
-}
-{
-  const light = new THREE.PointLight(0xffffff, 1);
-  scene.add(light);
-}
-{
-  const sun = new THREE.Mesh(new THREE.SphereGeometry(1, 100, 100), new THREE.MeshBasicMaterial({ color: 0xffff00 }));
-  scene.add(sun);
-}
-{
-  const planet = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5),
-    new THREE.MeshPhongMaterial({ color: 0xffffff * Math.random() })
+  const sunTexture = loader.load("./src/ts/content/pages/index/8k_sun.jpg");
+  const sun = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 100, 100),
+    // new THREE.MeshBasicMaterial({ color: 0xffff00 })
+    new THREE.MeshBasicMaterial({ map: sunTexture, color: 0xffff00 })
   );
-  planet.translateX(5);
-  scene.add(planet);
+  const obj = new Satellite(sun, axis, 10000);
+  game.object.add(obj);
 }
+{
+  const group = new THREE.Group();
 
-resize();
-loop();
+  const plane = new THREE.Plane(axis);
 
-// =====
-
-function loop() {
-  renderer.render(scene, camera);
-
-  controls.update();
-
-  requestAnimationFrame(loop);
+  const planet = new THREE.Mesh(
+    new THREE.SphereGeometry(0.5, 100, 100),
+    new THREE.MeshBasicMaterial({ color: 0xffffff * Math.random() })
+  );
+  group.add(planet);
+  const obj = new Satellite(group, axis, 10000);
+  game.object.add(obj);
 }
-
-function resize() {
-  const w = renderer.domElement.clientWidth;
-  const h = renderer.domElement.clientHeight;
-
-  renderer.setSize(w, h, false);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
+{
+}
+// ====
+{
+  const points = [
+    new THREE.Vector3(axis.x * 1000, axis.y * 1000, axis.z * 1000),
+    new THREE.Vector3(axis.x * -1000, axis.y * -1000, axis.z * -1000),
+  ];
+  const line = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(points),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  game.get.scene().add(line);
+}
+{
+  const plane = new THREE.PlaneHelper(new THREE.Plane(axis), 10, 0xffffff);
+  game.get.scene().add(plane);
 }

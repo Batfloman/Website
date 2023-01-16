@@ -1,33 +1,35 @@
-import { GameObject } from "./GameObject.js";
+import { SystemObject } from "./SystemObject.js";
 import { Input } from "../input/Input.js";
-export class ControllableObject extends GameObject {
-    controlles = new Map();
-    keyTimeOuts = new Map();
+export class ControllableObject extends SystemObject {
+    controls = new Map();
     update(dt) {
-        const keys = Array.from(this.controlles.keys());
-        keys.forEach(key => {
-            const timeout = this.keyTimeOuts.get(key);
-            if (!timeout)
-                throw new Error("Timeout not defined for key " + key);
-            timeout.timeElapsed += dt;
-            if (timeout.timeElapsed < timeout.timeOut)
-                return;
+        const keys = Array.from(this.controls.keys());
+        keys.forEach((key) => {
             if (!Input.isPressed(key))
                 return;
-            timeout.timeElapsed -= timeout.timeOut;
-            const func = this.controlles.get(key);
-            if (!func)
-                throw new Error("Function not definded for key " + key);
-            func.call(this, dt);
+            this.controls.get(key)?.forEach((action) => action.perform(dt));
         });
         // normal update
         this.update2(dt);
     }
-    addControll(key, func, timeout = 0) {
-        this.controlles.set(key, func);
-        this.keyTimeOuts.set(key, {
-            timeOut: timeout,
-            timeElapsed: 0,
-        });
+    addControll(key, func, cooldownTime = 0) {
+        const control = new Action(func, cooldownTime);
+        const array = this.controls.get(key) ?? [];
+        array.push(control);
+        this.controls.set(key, array);
+    }
+}
+class Action {
+    func;
+    cooldown;
+    elapsedTime = 0;
+    constructor(func, cooldownTime = 0) {
+        this.func = func;
+        this.cooldown = cooldownTime;
+    }
+    perform(dt) {
+        if ((this.elapsedTime += dt) > this.cooldown) {
+            this.func(dt);
+        }
     }
 }

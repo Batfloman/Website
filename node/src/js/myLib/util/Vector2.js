@@ -3,8 +3,8 @@ export class Vector2 {
     x;
     y;
     constructor(x, y) {
-        this.x = !x ? 0 : x;
-        this.y = !y ? 0 : y;
+        this.x = x ?? 0;
+        this.y = y ?? 0;
     }
     add(vec2) {
         return new Vector2(this.x + vec2.x, this.y + vec2.y);
@@ -22,7 +22,7 @@ export class Vector2 {
         return this.x * vec2.y - vec2.x * this.y;
     }
     vectorTo(point) {
-        return new Vector2(Math.round(point.x - this.x), Math.round(point.y - this.y));
+        return new Vector2(point.x - this.x, point.y - this.y);
     }
     getNormal() {
         return new Vector2(-this.y, this.x);

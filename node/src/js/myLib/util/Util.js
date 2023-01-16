@@ -1,4 +1,4 @@
-import { Polygon2Helper } from "../algorithms/Polygon2Helper.js";
+// import { Polygon2 } from "../objects/geometry/Polygon2.js";
 export const Util = {
     array: {
         addItem: (arr, item) => {
@@ -123,9 +123,9 @@ export const Util = {
             },
         },
         polygon: {
-            area(polygon) {
-                return Polygon2Helper.findArea(polygon);
-            },
+        // area(polygon: Polygon2): number {
+        //   return Polygon2Helper.findArea(polygon);
+        // },
         },
     },
     object: {

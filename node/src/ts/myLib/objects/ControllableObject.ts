@@ -1,29 +1,17 @@
-import { GameObject } from "./GameObject.js";
+import { SystemObject } from "./SystemObject.js";
 import { Input } from "../input/Input.js";
 
-export abstract class ControllableObject extends GameObject {
-  private controlles: Map<inputKey, Function> = new Map();
-  private keyTimeOuts: Map<inputKey, { timeOut: number; timeElapsed: number }> = new Map();
+export abstract class ControllableObject extends SystemObject {
+  private controls: Map<inputKey, Action[]> = new Map();
 
   update(dt: number): void {
-    const keys = Array.from(this.controlles.keys());
+    const keys = Array.from(this.controls.keys());
 
-    keys.forEach(key => {
-      const timeout = this.keyTimeOuts.get(key);
-      if (!timeout) throw new Error("Timeout not defined for key " + key);
-
-      timeout.timeElapsed += dt;
-
-      if (timeout.timeElapsed < timeout.timeOut) return;
+    keys.forEach((key) => {
       if (!Input.isPressed(key)) return;
 
-      timeout.timeElapsed -= timeout.timeOut;
-
-      const func = this.controlles.get(key);
-
-      if (!func) throw new Error("Function not definded for key " + key);
-      func.call(this, dt);
-    })
+      this.controls.get(key)?.forEach((action) => action.perform(dt));
+    });
 
     // normal update
     this.update2(dt);
@@ -31,11 +19,28 @@ export abstract class ControllableObject extends GameObject {
 
   abstract update2(dt: number): void;
 
-  addControll(key: inputKey, func: Function, timeout: number = 0) {
-    this.controlles.set(key, func);
-    this.keyTimeOuts.set(key, {
-      timeOut: timeout,
-      timeElapsed: 0,
-    });
+  addControll(key: inputKey, func: Function, cooldownTime: number = 0) {
+    const control = new Action(func, cooldownTime);
+
+    const array = this.controls.get(key) ?? [];
+    array.push(control);
+    this.controls.set(key, array);
+  }
+}
+
+class Action {
+  private func: Function;
+  private cooldown: number;
+  private elapsedTime: number = 0;
+
+  constructor(func: Function, cooldownTime: number = 0) {
+    this.func = func;
+    this.cooldown = cooldownTime;
+  }
+
+  perform(dt: number) {
+    if ((this.elapsedTime += dt) > this.cooldown) {
+      this.func(dt);
+    }
   }
 }

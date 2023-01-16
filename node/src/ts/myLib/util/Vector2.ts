@@ -5,8 +5,8 @@ export class Vector2 {
   y: number;
 
   constructor(x?: number, y?: number) {
-    this.x = !x ? 0 : x;
-    this.y = !y ? 0 : y;
+    this.x = x ?? 0;
+    this.y = y ?? 0;
   }
 
   add(vec2: Vector2): Vector2 {
@@ -30,7 +30,7 @@ export class Vector2 {
   }
 
   vectorTo(point: Vector2): Vector2 {
-    return new Vector2(Math.round(point.x - this.x), Math.round(point.y - this.y));
+    return new Vector2(point.x - this.x, point.y - this.y);
   }
 
   getNormal(): Vector2 {
