@@ -1,7 +1,7 @@
-import { SystemObject } from "./SystemObject.js";
 import { Input } from "../input/Input.js";
+import { WorldObject } from "./WorldObject.js";
 
-export abstract class ControllableObject extends SystemObject {
+export abstract class ControllableObject extends WorldObject {
   private controls: Map<inputKey, Action[]> = new Map();
 
   update(dt: number): void {

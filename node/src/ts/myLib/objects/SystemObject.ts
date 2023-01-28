@@ -1,9 +1,9 @@
 import * as THREE from "three";
 
 export abstract class SystemObject {
-  mesh: THREE.Mesh | THREE.Group;
+  mesh: THREE.Mesh;
 
-  constructor(mesh: THREE.Mesh | THREE.Group) {
+  constructor(mesh: THREE.Mesh) {
     this.mesh = mesh;
   }
 

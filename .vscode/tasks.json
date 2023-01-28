@@ -1,15 +1,26 @@
 {
-	"version": "2.0.0",
-	"tasks": [
-		{
-			"type": "typescript",
-			"tsconfig": "node/src/ts/tsconfig.json",
-			"option": "watch",
-			"problemMatcher": [
-				"$tsc-watch"
-			],
-			"group": "build",
-			"label": "tsc: watch - node/src/ts/tsconfig.json"
-		}
-	],
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "dependsOrder": "sequence",
+      "dependsOn": ["tsc: watch - node/src/ts/tsconfig.json", "npm: dev - node"],
+      "group": "build"
+    },
+    {
+      "type": "typescript",
+      "tsconfig": "node/src/ts/tsconfig.json",
+      "option": "watch",
+      "problemMatcher": ["$tsc-watch"],
+      "label": "tsc: watch - node/src/ts/tsconfig.json"
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "path": "node",
+      "problemMatcher": [],
+      "label": "npm: dev - node",
+      "detail": "nodemon server.js"
+    }
+  ]
 }

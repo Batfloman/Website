@@ -1,6 +1,6 @@
-import { SystemObject } from "./SystemObject.js";
 import { Input } from "../input/Input.js";
-export class ControllableObject extends SystemObject {
+import { WorldObject } from "./WorldObject.js";
+export class ControllableObject extends WorldObject {
     controls = new Map();
     update(dt) {
         const keys = Array.from(this.controls.keys());

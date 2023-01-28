@@ -3,13 +3,18 @@ import { Util } from "../util/Util.js";
 import { LoopingSystem } from "./LoopingSystem.js";
 import * as THREE from "three";
 import { Clock } from "../util/Clock.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 export class Game extends LoopingSystem {
+  static override instance: Game;
+
   protected gameObjects: SystemObject[] = [];
+  protected sortedObjects: Map<string, SystemObject[]> = new Map();
 
   protected renderer: THREE.WebGLRenderer;
   protected camera: THREE.Camera;
   protected scene: THREE.Scene;
+  protected controls: OrbitControls | undefined;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -20,27 +25,48 @@ export class Game extends LoopingSystem {
     }
   ) {
     super();
+    Game.instance = this;
 
     this.renderer = elements?.renderer ?? new THREE.WebGLRenderer({ canvas });
     this.camera = elements?.camera ?? new THREE.Camera();
     this.scene = elements?.scene ?? new THREE.Scene();
 
-    window.addEventListener("resize", this.resize);
+    window.addEventListener("resize", this.resize.bind(this));
     this.resize();
   }
 
   loop(dt: number) {
     this.renderer.render(this.scene, this.camera);
+    this.gameObjects.forEach((obj) => {
+      obj.update(dt);
+    });
   }
 
   public object = {
-    add: (obj: SystemObject) => {
+    add: (obj: SystemObject): void => {
       Util.array.addItem(this.gameObjects, obj);
       this.scene.add(obj.mesh);
+
+      const sortedObjects = Game.instance.get.sortedObjects();
+      const classes = Util.object.findAllClassNames(obj);
+      classes.forEach((clas) => {
+        Util.map.addItem(sortedObjects, clas, obj);
+      });
     },
-    remove: (obj: SystemObject) => {
+    remove: (obj: SystemObject): void => {
       Util.array.removeItem(this.gameObjects, obj);
       this.scene.remove(obj.mesh);
+
+      const sortedObjects = Game.instance.get.sortedObjects();
+      const classes = Util.object.findAllClassNames(obj);
+      classes.forEach((clas) => {
+        Util.map.removeItem(sortedObjects, clas, obj);
+      });
+    },
+    getAll<K>(className: string): K[] {
+      const sortedObjects = Game.instance.get.sortedObjects();
+
+      return (sortedObjects.get(className) as K[]) ?? [];
     },
   };
 
@@ -51,6 +77,7 @@ export class Game extends LoopingSystem {
     renderer: (): THREE.WebGLRenderer => this.renderer,
     camera: (): THREE.Camera => this.camera,
     scene: (): THREE.Scene => this.scene,
+    sortedObjects: (): Map<string, SystemObject[]> => this.sortedObjects,
   };
 
   private resize() {
@@ -58,6 +85,7 @@ export class Game extends LoopingSystem {
     const h = this.renderer.domElement.clientHeight;
 
     this.renderer.setSize(w, h, false);
+    this.renderer.setPixelRatio(window.devicePixelRatio);
 
     if (this.camera instanceof THREE.PerspectiveCamera) {
       this.camera.aspect = w / h;

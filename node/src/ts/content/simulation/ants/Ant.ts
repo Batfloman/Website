@@ -1,22 +1,15 @@
-import { WorldObject } from "../../../../lib/assets/objects/WorldObject.js";
-import { Renderer } from "../../../../lib/display/Renderer.js";
-import { Circle } from "../../../../lib/physic/boundingBox/Circle.js";
-import { Color } from "../../../../lib/util/Color.js";
-import { Util } from "../../../../lib/util/Util.js";
-import { Vector2 } from "../../../../lib/util/Vector2.js";
 import { Hive } from "./Hive.js";
 import { Food } from "./Food.js";
 import { Pheromon, Message } from "./Pheromon.js";
+import { SystemObject } from "../../../myLib/objects/SystemObject.js";
+import { settings } from "./main.js";
+import { Util } from "../../../myLib/util/Util.js";
+import { Game } from "../../../myLib/system/Game.js";
+import * as THREE from "three";
+import { WorldObject } from "../../../myLib/objects/WorldObject.js";
 
 type Task = "searchFood" | "bringFoodHome" | "runHome";
 
-const taskColors = new Map<Task, Color>([
-  ["searchFood", Color.get("white")],
-  ["bringFoodHome", Color.get("green")],
-  ["runHome", Color.get("yellow")],
-]);
-
-const antSize = 3.5;
 const antOrientationChange = 5;
 const timeBetweenPheromon = 150;
 
@@ -25,25 +18,103 @@ const foodLoss = 3;
 const foodPercentageLeftRunsHome = 50;
 const panicSpeedBoost = 1.5;
 
-const sensoryDistance = 33;
 const senseAngle = 65;
-
-const carryAmount = 150;
 
 const antSpeed = 75;
 const maxRotationAngle = 33;
 
-export class Ant extends WorldObject<Circle> {
+export class Ant extends WorldObject {
+  private currentTask: Task = "searchFood";
+  private food: number;
+  private carriedFood: number;
+
+  constructor(pos: THREE.Vector3 | THREE.Vector2, color = 0xffffff * Math.random()) {
+    const geo = new THREE.CircleGeometry(settings.ant.size);
+    const mat = new THREE.MeshBasicMaterial({ color });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    const position = pos instanceof THREE.Vector3 ? pos : new THREE.Vector3(pos.x, pos.y, 0);
+    super(mesh, position);
+
+    this.food = settings.ant.maxFoodMeter;
+    this.carriedFood = 0;
+  }
+
+  update(dt: number) {
+    switch (this.currentTask) {
+      case "bringFoodHome":
+        this.bringFoodHome(dt);
+        break;
+      case "runHome":
+        this.runHome(dt);
+        break;
+      case "searchFood":
+      default:
+        this.searchFood(dt);
+    }
+  }
+
+  private bringFoodHome(dt: number) {}
+
+  private runHome(dt: number) {
+    const moveDistance = Util.math.convert.dtToSecValue(dt, settings.ant.speed);
+    const hives = Game.instance.object.getAll<Hive>("Hive");
+
+    hives.forEach((hive) => {
+      const distance = new THREE.Vector3().subVectors(this.pos, hive.get.pos()).length();
+      const radius = this.mesh.geometry.parameters.radius || 0.15;
+
+      const canSee = distance < radius + settings.ant.sensoryDistance;
+      const canPickUp = distance < radius / 2;
+
+      if (canSee) {
+        this.moveTowards(hive, moveDistance);
+      } else {
+        this.rotateAroundZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
+        this.move(moveDistance);
+        console.log(this.pos);
+      }
+    });
+  }
+
+  private searchFood(dt: number) {
+    const moveDistance = Util.math.convert.dtToSecValue(dt, settings.ant.speed);
+    const foods = Game.instance.object.getAll<Food>("Food");
+
+    let foundFood = false;
+    foods.forEach((food) => {
+      const distance = new THREE.Vector3().subVectors(this.pos, food.get.pos()).length();
+      const radius = this.mesh.geometry.parameters.radius || 0.15;
+
+      const canSee = distance < radius + settings.ant.sensoryDistance;
+      const canPickUp = distance < radius / 2;
+
+      if (canPickUp) {
+        food.takeFood(settings.ant.maxCarryAmount - this.carriedFood);
+        foundFood = true;
+        return;
+      } else if (canSee) {
+        this.moveTowards(food, moveDistance);
+        foundFood = true;
+        return;
+      }
+    });
+
+    if (!foundFood) {
+      this.rotateAroundZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
+      this.move(moveDistance);
+    }
+  }
+}
+
+export class Test {
   task: Task = "searchFood";
   food: number;
   carry: number = 0;
 
   taskColors = Util.map.copyOf(taskColors);
 
-  constructor(pos: Vector2 = new Vector2(), task: Task = "searchFood") {
-    super(pos, new Circle(antSize), Util.math.random.between(0, 360, 2));
-
-    this.zIndex = 50;
+  constructor(task: Task = "searchFood") {
     this.food = maxFood;
     this.task = task;
   }
@@ -208,9 +279,9 @@ export class Ant extends WorldObject<Circle> {
   // #region movement
 
   rotate(angle: number): void {
-    if(angle == 0) return;
+    if (angle == 0) return;
 
-    const rotation = Math.min( Math.abs(angle), Math.abs(maxRotationAngle));
+    const rotation = Math.min(Math.abs(angle), Math.abs(maxRotationAngle));
     super.rotate(angle <= 0 ? -rotation : rotation);
   }
 
@@ -260,11 +331,7 @@ export class Ant extends WorldObject<Circle> {
     let rotation = this.followPhermons(pheromonType);
 
     if (rotation == undefined) {
-      let returnValue = this.pheromonsFoundBefore
-        ? shouldTurnAround
-          ? Util.math.random.between(160, 200, 2)
-          : 0
-        : 0;
+      let returnValue = this.pheromonsFoundBefore ? (shouldTurnAround ? Util.math.random.between(160, 200, 2) : 0) : 0;
       this.pheromonsFoundBefore = false;
       return returnValue;
     } else {

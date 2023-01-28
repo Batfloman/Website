@@ -1,4 +1,3 @@
-// import { Polygon2 } from "../objects/geometry/Polygon2.js";
 export const Util = {
     array: {
         addItem: (arr, item) => {
@@ -41,11 +40,21 @@ export const Util = {
     },
     map: {
         copyOf(map) {
-            var newMap = new Map();
+            const newMap = new Map();
             for (let [key, value] of map.entries()) {
                 newMap.set(key, value);
             }
             return newMap;
+        },
+        addItem(map, key, value) {
+            const array = map.get(key) ?? [];
+            Util.array.addItem(array, value);
+            map.set(key, array);
+        },
+        removeItem(map, key, value) {
+            const array = map.get(key) ?? [];
+            Util.array.removeItem(array, value);
+            map.set(key, array);
         },
     },
     math: {
@@ -60,7 +69,7 @@ export const Util = {
                 const num = Math.random() * (++end - start) + start;
                 return Util.math.floor(num, num_decimals);
             },
-            sign: () => Math.random() > 0.5 ? 1 : -1
+            sign: () => (Math.random() > 0.5 ? 1 : -1),
         },
         convert: {
             DegToRad(degree) {
@@ -78,8 +87,8 @@ export const Util = {
                 return (percent / 100) * value;
             },
             dtToSecValue(dt, perSecValue) {
-                let value = (perSecValue * dt) / 1000;
-                return Number.isNaN(value) ? 0 : value;
+                const value = (perSecValue * dt) / 1000;
+                return value;
             },
         },
         // uses degree instead of the Math.* functions

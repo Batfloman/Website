@@ -1,6 +1,3 @@
-import { Polygon2Helper } from "../algorithms/Polygon2Helper.js";
-// import { Polygon2 } from "../objects/geometry/Polygon2.js";
-
 export const Util = {
   array: {
     addItem: <T>(arr: T[], item: T) => {
@@ -43,11 +40,21 @@ export const Util = {
   },
   map: {
     copyOf<K, V>(map: Map<K, V>): Map<K, V> {
-      var newMap = new Map<K, V>();
+      const newMap = new Map<K, V>();
       for (let [key, value] of map.entries()) {
         newMap.set(key, value);
       }
       return newMap;
+    },
+    addItem<K, V>(map: Map<K, V[]>, key: K, value: V) {
+      const array = map.get(key) ?? [];
+      Util.array.addItem(array, value);
+      map.set(key, array);
+    },
+    removeItem<K, V>(map: Map<K, V[]>, key: K, value: V) {
+      const array = map.get(key) ?? [];
+      Util.array.removeItem(array, value);
+      map.set(key, array);
     },
   },
   math: {
@@ -59,10 +66,10 @@ export const Util = {
       },
       // includes end
       between(start: number, end: number, num_decimals: number = 0): number {
-        const num = Math.random() * (++end-start) + start;
+        const num = Math.random() * (++end - start) + start;
         return Util.math.floor(num, num_decimals);
       },
-      sign: (): number => Math.random() > 0.5 ? 1 : -1
+      sign: (): number => (Math.random() > 0.5 ? 1 : -1),
     },
     convert: {
       DegToRad(degree: number) {
@@ -80,8 +87,8 @@ export const Util = {
         return (percent / 100) * value;
       },
       dtToSecValue(dt: number, perSecValue: number): number {
-        let value = (perSecValue * dt) / 1000;
-        return Number.isNaN(value) ? 0 : value;
+        const value = (perSecValue * dt) / 1000;
+        return value;
       },
     },
     // uses degree instead of the Math.* functions
