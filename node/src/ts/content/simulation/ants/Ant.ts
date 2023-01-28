@@ -8,7 +8,7 @@ import { Game } from "../../../myLib/system/Game.js";
 import * as THREE from "three";
 import { WorldObject } from "../../../myLib/objects/WorldObject.js";
 
-type Task = "searchFood" | "bringFoodHome" | "runHome";
+type TaskIdentifier = "searchFood" | "bringFoodHome" | "runHome";
 
 const antOrientationChange = 5;
 const timeBetweenPheromon = 150;
@@ -54,57 +54,111 @@ export class Ant extends WorldObject {
     }
   }
 
-  private bringFoodHome(dt: number) {}
+  private bringFoodHome(dt: number) {
+    const moveDistance = Util.math.convert.dtToSecValue(dt, settings.ant.speed);
+    const hives = Game.instance.object.getAll<Hive>("Hive");
+
+    if (Util.array.isEmpty(hives)) {
+      this.moveRandom(moveDistance);
+      return;
+    }
+
+    const closest = this.findClosest(hives);
+
+    const hiveRadius = settings.hive.size;
+
+    const canSee = closest.distance < hiveRadius + settings.ant.sensoryDistance;
+    const canInteract = closest.distance < hiveRadius;
+
+    if (canInteract) {
+      closest.obj.addFood(this.carriedFood);
+      this.carriedFood = 0;
+      this.food = settings.ant.maxFoodMeter;
+      this.currentTask = "searchFood";
+    } else if (canSee) {
+      this.moveTowards(closest.obj, moveDistance);
+    }
+  }
 
   private runHome(dt: number) {
     const moveDistance = Util.math.convert.dtToSecValue(dt, settings.ant.speed);
     const hives = Game.instance.object.getAll<Hive>("Hive");
 
-    hives.forEach((hive) => {
-      const distance = new THREE.Vector3().subVectors(this.pos, hive.get.pos()).length();
-      const radius = this.mesh.geometry.parameters.radius || 0.15;
+    if (Util.array.isEmpty(hives)) {
+      this.moveRandom(moveDistance);
+      return;
+    }
 
-      const canSee = distance < radius + settings.ant.sensoryDistance;
-      const canPickUp = distance < radius / 2;
+    const closest = this.findClosest(hives);
 
-      if (canSee) {
-        this.moveTowards(hive, moveDistance);
-      } else {
-        this.rotateAroundZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
-        this.move(moveDistance);
-        console.log(this.pos);
-      }
-    });
+    const hiveRadius = settings.hive.size;
+
+    const canSee = closest.distance < hiveRadius + settings.ant.sensoryDistance;
+    const canInteract = closest.distance < hiveRadius;
+
+    if (canInteract) {
+      closest.obj.addFood(this.carriedFood);
+      this.carriedFood = 0;
+    } else if (canSee) {
+      this.moveTowards(closest.obj, moveDistance);
+    } else {
+      this.moveRandom(moveDistance);
+    }
   }
 
   private searchFood(dt: number) {
     const moveDistance = Util.math.convert.dtToSecValue(dt, settings.ant.speed);
     const foods = Game.instance.object.getAll<Food>("Food");
 
-    let foundFood = false;
-    foods.forEach((food) => {
-      const distance = new THREE.Vector3().subVectors(this.pos, food.get.pos()).length();
-      const radius = this.mesh.geometry.parameters.radius || 0.15;
+    if (Util.array.isEmpty(foods)) {
+      this.moveRandom(moveDistance);
+      return;
+    }
 
-      const canSee = distance < radius + settings.ant.sensoryDistance;
-      const canPickUp = distance < radius / 2;
+    const closest = this.findClosest(foods);
 
-      if (canPickUp) {
-        food.takeFood(settings.ant.maxCarryAmount - this.carriedFood);
-        foundFood = true;
-        return;
-      } else if (canSee) {
-        this.moveTowards(food, moveDistance);
-        foundFood = true;
-        return;
-      }
-    });
+    const foodGeo = closest.obj.mesh.geometry;
+    const scaleFactor = closest.obj.mesh.getWorldScale(new THREE.Vector3()).x;
+    const foodRadius = foodGeo instanceof THREE.CircleGeometry ? foodGeo.parameters.radius * scaleFactor : 0.15;
 
-    if (!foundFood) {
-      this.rotateAroundZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
-      this.move(moveDistance);
+    const canSee = closest.distance < foodRadius + settings.ant.sensoryDistance;
+    const canPickUp = closest.distance < Math.max(foodRadius, 0.05); // min 0.05 to avoid very small radius
+
+    if (canPickUp) {
+      this.carriedFood += closest.obj.takeFood(settings.ant.maxCarryAmount - this.carriedFood);
+      if (this.carriedFood === settings.ant.maxCarryAmount) this.currentTask = "bringFoodHome";
+    } else if (canSee) {
+      this.moveTowards(closest.obj, moveDistance);
+    } else {
+      this.moveRandom(moveDistance);
     }
   }
+
+  private moveRandom(distance: number) {
+    this.rotateAroundZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
+    this.move(distance);
+  }
+
+  private findClosest<K extends WorldObject>(objects: K[]): { obj: K; distance: number } {
+    if (Util.array.isEmpty(objects)) throw new Error("Array is Empty");
+
+    let closest = {
+      obj: objects[0],
+      distance: Infinity,
+    };
+
+    for (let obj of objects) {
+      const distance = new THREE.Vector3().subVectors(this.pos, obj.get.pos()).length();
+      const isCloser = closest.distance > distance;
+      closest = isCloser ? { obj, distance } : closest;
+    }
+
+    return closest;
+  }
+}
+
+class AntTask {
+  private name: TaskIdentifier;
 }
 
 export class Test {

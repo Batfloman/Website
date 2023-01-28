@@ -21,8 +21,8 @@ export class Food extends WorldObject {
 
   update(dt: number): void {}
 
-  public takeFood(amout: number): void {
-    this.amountFood -= amout;
+  public takeFood(amount: number): number {
+    this.amountFood -= amount;
 
     const radius = (1 / settings.food.maxValue) * this.amountFood;
     const factor = radius / this.maxRadius;
@@ -30,5 +30,7 @@ export class Food extends WorldObject {
     this.setScale(factor);
 
     if (this.amountFood <= 0) Game.instance.object.remove(this);
+
+    return amount;
   }
 }

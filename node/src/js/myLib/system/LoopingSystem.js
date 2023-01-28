@@ -6,11 +6,14 @@ export class LoopingSystem {
     constructor() {
         LoopingSystem.instance = this;
         this.innerLoop();
+        window.addEventListener("blur", this.stop.bind(this));
+        window.addEventListener("focus", this.start.bind(this));
     }
     // handles loop relevant stuff
     innerLoop() {
+        const dt = this.clock.getDt();
         if (this.isRunning)
-            this.loop(this.clock.getDt());
+            this.loop(dt);
         requestAnimationFrame(() => this.innerLoop());
     }
     start = () => (this.isRunning = true);

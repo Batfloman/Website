@@ -5,6 +5,7 @@ import { Game } from "../../../myLib/system/Game.js";
 import { settings } from "./main.js";
 import { WorldObject } from "../../../myLib/objects/WorldObject.js";
 import { Util } from "../../../myLib/util/Util.js";
+import { ReinhardToneMapping } from "three";
 
 export class Hive extends WorldObject {
   private foodStored: number;
@@ -36,9 +37,13 @@ export class Hive extends WorldObject {
     this.spawnAnt();
   }
 
+  public addFood(amount: number): void {
+    this.foodStored += amount;
+  }
+
   private spawnAnt() {
     const ant = new Ant(this.pos, this.color);
-    // ant.rotateAroundZ(Util.math.random.between(0, 360));
+    ant.rotateAroundZ(Util.math.random.between(0, 360));
     Game.instance.object.add(ant);
   }
 

@@ -3,6 +3,7 @@ import * as THREE from "three";
 import { Game } from "../../../myLib/system/Game.js";
 import { settings } from "./main.js";
 import { WorldObject } from "../../../myLib/objects/WorldObject.js";
+import { Util } from "../../../myLib/util/Util.js";
 export class Hive extends WorldObject {
     foodStored;
     timeSinceLastAntSpawn = 0;
@@ -25,9 +26,12 @@ export class Hive extends WorldObject {
         this.foodStored -= settings.hive.antCost;
         this.spawnAnt();
     }
+    addFood(amount) {
+        this.foodStored += amount;
+    }
     spawnAnt() {
         const ant = new Ant(this.pos, this.color);
-        // ant.rotateAroundZ(Util.math.random.between(0, 360));
+        ant.rotateAroundZ(Util.math.random.between(0, 360));
         Game.instance.object.add(ant);
     }
     set = {

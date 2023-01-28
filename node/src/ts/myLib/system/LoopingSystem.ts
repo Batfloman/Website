@@ -9,11 +9,15 @@ export abstract class LoopingSystem {
   public constructor() {
     LoopingSystem.instance = this;
     this.innerLoop();
+
+    window.addEventListener("blur", this.stop.bind(this));
+    window.addEventListener("focus", this.start.bind(this));
   }
 
   // handles loop relevant stuff
   private innerLoop() {
-    if (this.isRunning) this.loop(this.clock.getDt());
+    const dt = this.clock.getDt();
+    if (this.isRunning) this.loop(dt);
 
     requestAnimationFrame(() => this.innerLoop());
   }

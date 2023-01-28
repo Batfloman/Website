@@ -6,12 +6,12 @@ import { Hive } from "./Hive.js";
 export const settings = {
     board: {
         size: 50,
-        initialFoodSpawns: 0,
+        initialFoodSpawns: 75,
         foodSpawnCooldown: Infinity,
     },
     hive: {
-        size: 0.05,
-        startFood: 10000,
+        size: 2,
+        startFood: 2500,
         antCost: 250,
         spawnCooldown: 250,
     },
@@ -37,7 +37,7 @@ camera.position.set(settings.board.size / 2, settings.board.size / 2, settings.b
 const game = new Game(canvas, { camera });
 game.start();
 const center = new THREE.Vector2(settings.board.size / 2, settings.board.size / 2);
-game.object.add(createHive(center, 250));
+game.object.add(createHive(center, settings.hive.startFood));
 for (let i = 0; i < settings.board.initialFoodSpawns; i++) {
     game.object.add(createFood());
 }

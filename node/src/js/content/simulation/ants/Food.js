@@ -15,12 +15,13 @@ export class Food extends WorldObject {
         this.amountFood = amountFood;
     }
     update(dt) { }
-    takeFood(amout) {
-        this.amountFood -= amout;
+    takeFood(amount) {
+        this.amountFood -= amount;
         const radius = (1 / settings.food.maxValue) * this.amountFood;
         const factor = radius / this.maxRadius;
         this.setScale(factor);
         if (this.amountFood <= 0)
             Game.instance.object.remove(this);
+        return amount;
     }
 }
