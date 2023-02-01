@@ -5,12 +5,14 @@ export abstract class ControllableObject extends WorldObject {
   private controls: Map<inputKey, Action[]> = new Map();
 
   update(dt: number): void {
-    const keys = Array.from(this.controls.keys());
-
-    keys.forEach((key) => {
+    this.controls.forEach((actions, key) => {
       if (!Input.isPressed(key)) return;
 
-      this.controls.get(key)?.forEach((action) => action.perform(dt));
+      actions.forEach((action) => {
+        if (action.isReady(dt)) {
+          action.perform(dt);
+        }
+      });
     });
 
     // normal update
@@ -38,9 +40,12 @@ class Action {
     this.cooldown = cooldownTime;
   }
 
+  isReady(dt: number) {
+    return (this.elapsedTime += dt) > this.cooldown;
+  }
+
   perform(dt: number) {
-    if ((this.elapsedTime += dt) > this.cooldown) {
-      this.func(dt);
-    }
+    this.func(dt);
+    this.elapsedTime = 0;
   }
 }

@@ -13,12 +13,12 @@ export class Hive extends WorldObject {
 
   private color: number;
 
-  constructor(pos: THREE.Vector2, foodStorage: number = 0, color: number = 0xffffff * Math.random()) {
+  constructor(pos: THREE.Vector3 | THREE.Vector2, foodStorage: number = 0, color: number = 0xffffff * Math.random()) {
     const geo = new THREE.CircleGeometry(settings.hive.size);
     const mat = new THREE.MeshBasicMaterial({ color });
     const mesh = new THREE.Mesh(geo, mat);
 
-    super(mesh, new THREE.Vector3(pos.x, pos.y, 0));
+    super(mesh, pos);
 
     this.color = color;
     this.foodStored = foodStorage;

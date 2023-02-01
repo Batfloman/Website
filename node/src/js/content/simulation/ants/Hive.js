@@ -12,7 +12,7 @@ export class Hive extends WorldObject {
         const geo = new THREE.CircleGeometry(settings.hive.size);
         const mat = new THREE.MeshBasicMaterial({ color });
         const mesh = new THREE.Mesh(geo, mat);
-        super(mesh, new THREE.Vector3(pos.x, pos.y, 0));
+        super(mesh, pos);
         this.color = color;
         this.foodStored = foodStorage;
     }

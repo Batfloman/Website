@@ -10,8 +10,8 @@ export abstract class LoopingSystem {
     LoopingSystem.instance = this;
     this.innerLoop();
 
-    window.addEventListener("blur", this.stop.bind(this));
-    window.addEventListener("focus", this.start.bind(this));
+    window.addEventListener("blur", this.stop);
+    window.addEventListener("focus", this.start);
   }
 
   // handles loop relevant stuff
@@ -24,7 +24,11 @@ export abstract class LoopingSystem {
 
   public abstract loop(dt: number): void;
 
-  public start = () => (this.isRunning = true);
+  // public start = () => (this.isRunning = true);
+  public start = (): void => {
+    this.clock.start();
+    this.isRunning = true;
+  };
   public stop = () => (this.isRunning = false);
 
   public get = {

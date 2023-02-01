@@ -1,16 +1,19 @@
 import { SystemObject } from "./SystemObject.js";
 import * as THREE from "three";
-import { Euler } from "three";
 import { Util } from "../util/Util.js";
 
 export abstract class WorldObject extends SystemObject {
   protected pos: THREE.Vector3;
-  protected front: THREE.Euler;
+  protected facing: THREE.Vector3;
 
-  constructor(mesh: THREE.Mesh, pos: THREE.Vector3 | THREE.Vector2, front: THREE.Euler = new THREE.Euler()) {
+  constructor(
+    mesh: THREE.Mesh,
+    pos: THREE.Vector3 | THREE.Vector2,
+    facing: THREE.Vector3 = new THREE.Vector3(0, 1, 0)
+  ) {
     super(mesh);
 
-    this.front = front;
+    this.facing = facing.normalize();
     this.pos = pos instanceof THREE.Vector3 ? new THREE.Vector3().copy(pos) : new THREE.Vector3(pos.x, pos.y, 0);
     this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
   }
@@ -51,24 +54,39 @@ export abstract class WorldObject extends SystemObject {
     this.translate(movement.x, movement.y, movement.z);
   }
   move(distance: number) {
-    const moveX = distance * Math.sin(this.front.z);
-    const moveY = distance * Math.cos(this.front.z);
-    const moveZ = distance * 0;
-
-    this.translate(moveX, moveY, moveZ);
+    const vec = new THREE.Vector3().copy(this.facing).multiplyScalar(distance);
+    this.translate(vec.x, vec.y, vec.z);
   }
 
   rotateAroundX(deg: number) {
     const rad = Util.math.convert.DegToRad(deg);
-    this.front.set(this.front.x + rad, this.front.y, this.front.z);
+
+    this.facing.applyEuler(new THREE.Euler(rad, 0, 0));
   }
   rotateAroundY(deg: number) {
     const rad = Util.math.convert.DegToRad(deg);
-    this.front.set(this.front.x, this.front.y + rad, this.front.z);
+    this.facing.applyEuler(new THREE.Euler(0, rad, 0));
   }
   rotateAroundZ(deg: number) {
     const rad = Util.math.convert.DegToRad(deg);
-    this.front.set(this.front.x, this.front.y, this.front.z + rad);
+    this.facing.applyEuler(new THREE.Euler(0, 0, rad));
+  }
+
+  rotateTowards(vec: THREE.Vector3, maxRotation = Infinity) {
+    const direction = new THREE.Vector3().subVectors(vec, this.pos);
+    const cross = new THREE.Vector3().crossVectors(this.facing, direction).normalize();
+
+    if (cross.length() === 0) {
+      console.warn("Directly Behind check not implemented yet");
+    }
+
+    const angle = Math.min(this.facing.angleTo(direction), Util.math.convert.DegToRad(maxRotation));
+
+    this.facing.applyAxisAngle(cross, angle);
+  }
+
+  faceTowards(vec: THREE.Vector3) {
+    this.facing.subVectors(vec, this.pos);
   }
 
   public get = {

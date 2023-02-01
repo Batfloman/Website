@@ -6,8 +6,8 @@ export class LoopingSystem {
     constructor() {
         LoopingSystem.instance = this;
         this.innerLoop();
-        window.addEventListener("blur", this.stop.bind(this));
-        window.addEventListener("focus", this.start.bind(this));
+        window.addEventListener("blur", this.stop);
+        window.addEventListener("focus", this.start);
     }
     // handles loop relevant stuff
     innerLoop() {
@@ -16,7 +16,11 @@ export class LoopingSystem {
             this.loop(dt);
         requestAnimationFrame(() => this.innerLoop());
     }
-    start = () => (this.isRunning = true);
+    // public start = () => (this.isRunning = true);
+    start = () => {
+        this.clock.start();
+        this.isRunning = true;
+    };
     stop = () => (this.isRunning = false);
     get = {
         clock: () => this.clock,

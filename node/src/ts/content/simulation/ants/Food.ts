@@ -7,6 +7,8 @@ export class Food extends WorldObject {
   private maxRadius: number;
   private amountFood: number;
 
+  private radius: number;
+
   constructor(pos: THREE.Vector2, amountFood: number) {
     const radius = (1 / settings.food.maxValue) * amountFood;
 
@@ -15,7 +17,7 @@ export class Food extends WorldObject {
     const mesh = new THREE.Mesh(geo, mat);
     super(mesh, new THREE.Vector3(pos.x, pos.y, 0));
 
-    this.maxRadius = radius;
+    this.maxRadius = this.radius = radius;
     this.amountFood = amountFood;
   }
 
@@ -26,6 +28,7 @@ export class Food extends WorldObject {
 
     const radius = (1 / settings.food.maxValue) * this.amountFood;
     const factor = radius / this.maxRadius;
+    this.radius = this.maxRadius * factor;
 
     this.setScale(factor);
 
@@ -33,4 +36,9 @@ export class Food extends WorldObject {
 
     return amount;
   }
+
+  override get = {
+    pos: () => this.pos,
+    radius: () => this.radius,
+  };
 }

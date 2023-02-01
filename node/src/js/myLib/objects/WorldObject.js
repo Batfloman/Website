@@ -3,10 +3,10 @@ import * as THREE from "three";
 import { Util } from "../util/Util.js";
 export class WorldObject extends SystemObject {
     pos;
-    front;
-    constructor(mesh, pos, front = new THREE.Euler()) {
+    facing;
+    constructor(mesh, pos, facing = new THREE.Vector3(0, 1, 0)) {
         super(mesh);
-        this.front = front;
+        this.facing = facing.normalize();
         this.pos = pos instanceof THREE.Vector3 ? new THREE.Vector3().copy(pos) : new THREE.Vector3(pos.x, pos.y, 0);
         this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
     }
@@ -46,22 +46,32 @@ export class WorldObject extends SystemObject {
         this.translate(movement.x, movement.y, movement.z);
     }
     move(distance) {
-        const moveX = distance * Math.sin(this.front.z);
-        const moveY = distance * Math.cos(this.front.z);
-        const moveZ = distance * 0;
-        this.translate(moveX, moveY, moveZ);
+        const vec = new THREE.Vector3().copy(this.facing).multiplyScalar(distance);
+        this.translate(vec.x, vec.y, vec.z);
     }
     rotateAroundX(deg) {
         const rad = Util.math.convert.DegToRad(deg);
-        this.front.set(this.front.x + rad, this.front.y, this.front.z);
+        this.facing.applyEuler(new THREE.Euler(rad, 0, 0));
     }
     rotateAroundY(deg) {
         const rad = Util.math.convert.DegToRad(deg);
-        this.front.set(this.front.x, this.front.y + rad, this.front.z);
+        this.facing.applyEuler(new THREE.Euler(0, rad, 0));
     }
     rotateAroundZ(deg) {
         const rad = Util.math.convert.DegToRad(deg);
-        this.front.set(this.front.x, this.front.y, this.front.z + rad);
+        this.facing.applyEuler(new THREE.Euler(0, 0, rad));
+    }
+    rotateTowards(vec, maxRotation = Infinity) {
+        const direction = new THREE.Vector3().subVectors(vec, this.pos);
+        const cross = new THREE.Vector3().crossVectors(this.facing, direction).normalize();
+        if (cross.length() === 0) {
+            console.warn("Directly Behind check not implemented yet");
+        }
+        const angle = Math.min(this.facing.angleTo(direction), Util.math.convert.DegToRad(maxRotation));
+        this.facing.applyAxisAngle(cross, angle);
+    }
+    faceTowards(vec) {
+        this.facing.subVectors(vec, this.pos);
     }
     get = {
         pos: () => this.pos,

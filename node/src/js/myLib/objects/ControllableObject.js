@@ -3,11 +3,14 @@ import { WorldObject } from "./WorldObject.js";
 export class ControllableObject extends WorldObject {
     controls = new Map();
     update(dt) {
-        const keys = Array.from(this.controls.keys());
-        keys.forEach((key) => {
+        this.controls.forEach((actions, key) => {
             if (!Input.isPressed(key))
                 return;
-            this.controls.get(key)?.forEach((action) => action.perform(dt));
+            actions.forEach((action) => {
+                if (action.isReady(dt)) {
+                    action.perform(dt);
+                }
+            });
         });
         // normal update
         this.update2(dt);
@@ -27,9 +30,11 @@ class Action {
         this.func = func;
         this.cooldown = cooldownTime;
     }
+    isReady(dt) {
+        return (this.elapsedTime += dt) > this.cooldown;
+    }
     perform(dt) {
-        if ((this.elapsedTime += dt) > this.cooldown) {
-            this.func(dt);
-        }
+        this.func(dt);
+        this.elapsedTime = 0;
     }
 }

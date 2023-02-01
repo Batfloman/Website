@@ -4,6 +4,8 @@ import { Food } from "./Food.js";
 import { Util } from "../../../myLib/util/Util.js";
 import { Hive } from "./Hive.js";
 import { formatDiagnostic } from "typescript";
+import { Ant } from "./Ant.js";
+import { Pheromon } from "./Pheromon.js";
 
 export const settings = {
   board: {
@@ -22,15 +24,18 @@ export const settings = {
     maxValue: 10000,
   },
   ant: {
-    speed: 2,
+    walkSpeed: 2,
+    runSpeed: 5,
     maxFoodMeter: 100,
     size: 0.15,
-    sensoryDistance: 1,
+    sensoryDistance: 2,
     maxCarryAmount: 50,
     maxRotation: 5,
   },
   pheromon: {
+    size: 0.1,
     duration: 35000,
+    spawnCooldown: 250,
   },
 };
 
@@ -39,6 +44,42 @@ const camera = new THREE.PerspectiveCamera();
 camera.position.set(settings.board.size / 2, settings.board.size / 2, settings.board.size * 1.1);
 const game = new Game(canvas, { camera });
 game.start();
+
+window.addEventListener("wheel", (e) => {
+  if (e.deltaY < 100) {
+    camera.translateZ(-1);
+  } else {
+    camera.translateZ(1);
+  }
+});
+let leftMouseDown = false;
+let lastMPos = { x: 0, y: 0 };
+window.addEventListener("mousedown", (e) => {
+  if (e.button === 0) leftMouseDown = true;
+  lastMPos = {
+    x: e.clientX,
+    y: e.clientY,
+  };
+});
+window.addEventListener("mouseup", (e) => {
+  if (e.button === 0) leftMouseDown = false;
+});
+window.addEventListener("mousemove", (e) => {
+  if (leftMouseDown) {
+    let mPos = {
+      x: e.clientX,
+      y: e.clientY,
+    };
+    let diff = {
+      x: lastMPos.x - mPos.x,
+      y: lastMPos.y - mPos.y,
+    };
+    lastMPos = mPos;
+
+    camera.translateX(diff.x / 20);
+    camera.translateY(-diff.y / 20);
+  }
+});
 
 const center = new THREE.Vector2(settings.board.size / 2, settings.board.size / 2);
 
