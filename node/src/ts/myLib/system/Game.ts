@@ -4,6 +4,7 @@ import { LoopingSystem } from "./LoopingSystem.js";
 import * as THREE from "three";
 import { Clock } from "../util/Clock.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { Thread } from "../multiThreading/Thread.js";
 
 export class Game extends LoopingSystem {
   static override instance: Game;
@@ -36,26 +37,30 @@ export class Game extends LoopingSystem {
   }
 
   loop(dt: number) {
-    this.renderer.render(this.scene, this.camera);
     this.gameObjects.forEach((obj) => {
       obj.update(dt);
     });
+    this.renderer.render(this.scene, this.camera);
   }
 
   public object = {
-    add: (obj: SystemObject): void => {
-      Util.array.addItem(this.gameObjects, obj);
-      this.scene.add(obj.mesh);
+    add: (...objects: SystemObject[]): void => {
+      objects.forEach((obj) => {
+        // add to game
+        Util.array.addItem(this.gameObjects, obj);
+        if (!obj.threeObj.parent) this.scene.add(obj.threeObj);
 
-      const sortedObjects = Game.instance.get.sortedObjects();
-      const classes = Util.object.findAllClassNames(obj);
-      classes.forEach((clas) => {
-        Util.map.addItem(sortedObjects, clas, obj);
+        // add to sorted Map
+        const sortedObjects = Game.instance.get.sortedObjects();
+        const classes = Util.object.findAllClassNames(obj);
+        classes.forEach((clas) => {
+          Util.map.addItem(sortedObjects, clas, obj);
+        });
       });
     },
     remove: (obj: SystemObject): void => {
       Util.array.removeItem(this.gameObjects, obj);
-      this.scene.remove(obj.mesh);
+      this.scene.remove(obj.threeObj);
 
       const sortedObjects = Game.instance.get.sortedObjects();
       const classes = Util.object.findAllClassNames(obj);

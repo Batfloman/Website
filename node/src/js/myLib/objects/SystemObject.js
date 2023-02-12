@@ -1,6 +1,6 @@
 export class SystemObject {
-    mesh;
-    constructor(mesh) {
-        this.mesh = mesh;
+    threeObj;
+    constructor(obj) {
+        this.threeObj = obj;
     }
 }

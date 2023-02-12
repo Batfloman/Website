@@ -86,8 +86,13 @@ export const Util = {
                 }
                 return (percent / 100) * value;
             },
-            dtToSecValue(dt, perSecValue) {
-                const value = (perSecValue * dt) / 1000;
+            // dtToSecValue(dt: number, perSecValue: number): number {
+            //   const value = (perSecValue * dt) / 1000;
+            //   return value;
+            // },
+            dtToValue(dt, maxValue, timeNeededForMax = 1000) {
+                const perSecond = (maxValue / timeNeededForMax) * 1000;
+                const value = (perSecond * dt) / 1000;
                 return value;
             },
         },

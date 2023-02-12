@@ -117,7 +117,7 @@ export class Ant extends WorldObject {
         Game.instance.object.add(pheromon);
     }
     moveRandom(distance) {
-        this.rotateAroundZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
+        this.rotateAboutZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
         this.move(distance);
     }
     findClosest(objects) {

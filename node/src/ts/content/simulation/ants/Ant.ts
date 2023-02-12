@@ -148,7 +148,7 @@ export class Ant extends WorldObject {
   }
 
   private moveRandom(distance: number) {
-    this.rotateAroundZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
+    this.rotateAboutZ(Util.math.random.between(-settings.ant.maxRotation, settings.ant.maxRotation));
     this.move(distance);
   }
 

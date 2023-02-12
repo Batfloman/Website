@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+main {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+main > * {
+  position: absolute;
+}
+
+.aufgabe {
+  margin-top: -30vh;
+  font-size: 10vmin;
+  font-family: Consolas;
+  display: flex;
+  flex-direction: row;
+}
+
+.button-container {
+  width: 75vmin;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.button-container > label {
+  width: 15vmin;
+  font-size: 5vmin;
+}
+.button-container > form {
+  width: 60vmin;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.button-container > form > button {
+  font-size: 4vmin;
+  aspect-ratio: 1 / 1;
+  font-family: Consolas;
+}
+
+#checkDivision > form > button {
+  width: 10vmin;
+  aspect-ratio: 3 / 1.5;
+}
+
+#number::after {
+  content: ":";
+}
+#divider::after {
+  content: "=";
+}
+
+.hidden {
+  visibility: hidden;
+}

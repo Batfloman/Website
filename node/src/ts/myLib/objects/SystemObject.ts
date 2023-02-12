@@ -1,10 +1,10 @@
 import * as THREE from "three";
 
 export abstract class SystemObject {
-  mesh: THREE.Mesh;
+  threeObj: THREE.Object3D;
 
-  constructor(mesh: THREE.Mesh) {
-    this.mesh = mesh;
+  constructor(obj: THREE.Object3D) {
+    this.threeObj = obj;
   }
 
   abstract update(dt: number): void;

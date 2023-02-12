@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 export const Util = {
   array: {
     addItem: <T>(arr: T[], item: T) => {
@@ -86,8 +88,13 @@ export const Util = {
 
         return (percent / 100) * value;
       },
-      dtToSecValue(dt: number, perSecValue: number): number {
-        const value = (perSecValue * dt) / 1000;
+      // dtToSecValue(dt: number, perSecValue: number): number {
+      //   const value = (perSecValue * dt) / 1000;
+      //   return value;
+      // },
+      dtToValue(dt: number, maxValue: number, timeNeededForMax: number = 1000): number {
+        const perSecond = (maxValue / timeNeededForMax) * 1000;
+        const value = (perSecond * dt) / 1000;
         return value;
       },
     },

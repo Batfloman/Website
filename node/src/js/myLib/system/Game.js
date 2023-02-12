@@ -19,24 +19,29 @@ export class Game extends LoopingSystem {
         this.resize();
     }
     loop(dt) {
-        this.renderer.render(this.scene, this.camera);
         this.gameObjects.forEach((obj) => {
             obj.update(dt);
         });
+        this.renderer.render(this.scene, this.camera);
     }
     object = {
-        add: (obj) => {
-            Util.array.addItem(this.gameObjects, obj);
-            this.scene.add(obj.mesh);
-            const sortedObjects = Game.instance.get.sortedObjects();
-            const classes = Util.object.findAllClassNames(obj);
-            classes.forEach((clas) => {
-                Util.map.addItem(sortedObjects, clas, obj);
+        add: (...objects) => {
+            objects.forEach((obj) => {
+                // add to game
+                Util.array.addItem(this.gameObjects, obj);
+                if (!obj.threeObj.parent)
+                    this.scene.add(obj.threeObj);
+                // add to sorted Map
+                const sortedObjects = Game.instance.get.sortedObjects();
+                const classes = Util.object.findAllClassNames(obj);
+                classes.forEach((clas) => {
+                    Util.map.addItem(sortedObjects, clas, obj);
+                });
             });
         },
         remove: (obj) => {
             Util.array.removeItem(this.gameObjects, obj);
-            this.scene.remove(obj.mesh);
+            this.scene.remove(obj.threeObj);
             const sortedObjects = Game.instance.get.sortedObjects();
             const classes = Util.object.findAllClassNames(obj);
             classes.forEach((clas) => {

@@ -43,7 +43,7 @@ export class Hive extends WorldObject {
 
   private spawnAnt() {
     const ant = new Ant(this.pos, this.color);
-    ant.rotateAroundZ(Util.math.random.between(0, 360));
+    ant.rotateAboutZ(Util.math.random.between(0, 360));
     Game.instance.object.add(ant);
   }
 

@@ -34,9 +34,9 @@ export class Pheromon extends WorldObject {
     this.lifeDuration -= Util.math.convert.dtToSecValue(dt, 1000);
 
     const opacity = this.lifeDuration / settings.pheromon.duration;
-    if (this.mesh.material instanceof THREE.Material) {
-      this.mesh.material.opacity = opacity;
-      this.mesh.material.needsUpdate = true;
+    if (this.threeObj.material instanceof THREE.Material) {
+      this.threeObj.material.opacity = opacity;
+      this.threeObj.material.needsUpdate = true;
     }
 
     if (this.lifeDuration <= 0) {

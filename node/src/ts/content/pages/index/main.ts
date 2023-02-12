@@ -1,7 +1,9 @@
 import * as THREE from "three";
-import { Spinner } from "./Spinner.js";
+import { Orbit } from "./Orbit.js";
 import { Game } from "../../../myLib/system/Game.js";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { Util } from "../../../myLib/util/Util.js";
+import { StarBody } from "./StarBody.js";
 
 /*
           y
@@ -27,7 +29,7 @@ const canvas = document.querySelector("canvas") || document.createElement("canva
 const loader = new THREE.TextureLoader();
 const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 100);
 camera.translateZ(10);
-const controls = new OrbitControls(camera, canvas);
+new OrbitControls(camera, canvas);
 
 // ====
 const game = new Game(canvas, {
@@ -37,16 +39,46 @@ game.start();
 
 //==
 
-const sunTexture = loader.load("./src/ts/content/pages/index/8k_sun.jpg");
-const sun = new THREE.Mesh(new THREE.SphereGeometry(1, 100, 100), new THREE.MeshBasicMaterial({ map: sunTexture }));
-// const sunTurnAxis = new THREE.Vector3().random().normalize();
-const sunTurnAxis = xAxis;
+let sun;
+let planet1;
+let orbit;
+let planet2;
+let orbit2;
 
-const planet = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial({ color: 0xffffff * Math.random() })
-);
-// const planetAxis = new THREE.Vector3().random().normalize();
-const planetAxis = yAxis;
+{
+  // sun
+  const texture = loader.load("./src/ts/content/pages/index/8k_sun.jpg");
+  const mesh = new THREE.Mesh(new THREE.SphereGeometry(1, 100, 100), new THREE.MeshBasicMaterial({ map: texture }));
+  const pos = new THREE.Vector3(0, 0, 0);
+  const spinAxis = new THREE.Vector3().random().normalize();
+  const spinDuration = 10000;
 
+  sun = new StarBody(mesh, pos, spinAxis, spinDuration);
+  game.object.add(sun);
+}
 
+{
+  const mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({ color: 0xffffff * Math.random() })
+  );
+  const pos = new THREE.Vector3(2);
+  const spinAxis = new THREE.Vector3().random().normalize();
+
+  planet1 = new StarBody(mesh, pos);
+  orbit = new Orbit(planet1, new THREE.Vector3(), spinAxis, 10000, 2);
+  game.object.add(orbit, planet1);
+}
+
+{
+  const mesh = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({ color: 0xffffff * Math.random() })
+  );
+  const pos = new THREE.Vector3(2);
+  const spinAxis = new THREE.Vector3().random().normalize();
+
+  planet2 = new StarBody(mesh, pos);
+  orbit2 = new Orbit(planet2, planet1, spinAxis, 1000, 2);
+  game.object.add(orbit2, planet2);
+}
