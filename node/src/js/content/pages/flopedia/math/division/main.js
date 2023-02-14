@@ -1,30 +1,12 @@
 "use strict";
-const numberButtons = document.querySelectorAll(".number-button");
-const checkerButtons = document.querySelectorAll(".checker-button");
-const ergebnisRow = document.querySelector("#ergebnis");
-const checkerRow = document.querySelector("#checkDivision");
-const numberDiv = document.querySelector("#number") ?? document.createElement("div");
-const dividerDiv = document.querySelector("#divider") ?? document.createElement("div");
-const resultDiv = document.querySelector("#result") ?? document.createElement("div");
+const gridWidth = 25; // defined as 25
+const cellSize = window.innerWidth / gridWidth;
+const gridHeight = Math.floor(window.innerHeight / cellSize);
 let number;
-let divider;
 let result;
-let isChecked = false;
-ergebnisRow?.classList.add("hidden");
-checkerRow?.classList.add("hidden");
-for (let i = 0; i < numberButtons.length; i++) {
-    const button = numberButtons[i];
-    button.addEventListener("click", () => {
-        console.log(i);
-    });
-}
-checkerButtons[0].addEventListener("click", () => console.log("yes"));
-checkerButtons[1].addEventListener("click", () => console.log("no"));
-function newProblem(amountOfDigits = 2, biggestDivider = 9) {
-    result = Math.round(Math.pow(10, amountOfDigits) * Math.random());
-    divider = Math.ceil(biggestDivider * Math.random());
+let divider;
+function newProblem(maxDigits = 2, maxDividerValue = 9) {
+    result = Math.floor(Math.pow(10, maxDigits) * Math.random());
+    divider = Math.floor(Math.random() * maxDividerValue) + 1;
     number = result * divider;
-    dividerDiv.textContent = `${divider}`;
-    numberDiv.textContent = `${number}`;
 }
-newProblem();
